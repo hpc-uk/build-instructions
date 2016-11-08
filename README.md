@@ -1,2 +1,5 @@
-# cirrus-packages
-Contains build scripts and instructions for packages on Cirrus
+Cirrus Local Packages
+=====================
+
+Contains build scripts and instructions for software on Cirrus.
+
