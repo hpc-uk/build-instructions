@@ -9,7 +9,7 @@ Download and unpack GCC
 -----------------------
 
 ```bash
-wget wget ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-6.2.0/gcc-6.2.0.tar.gz
+wget ftp://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-6.2.0/gcc-6.2.0.tar.gz
 ```
 ```bash
 tar -xvf gcc-6.2.0.tar.gz
