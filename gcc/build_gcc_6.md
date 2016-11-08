@@ -3,6 +3,8 @@ Instructions for compiling GCC 6.*
 
 These instructions are for compiling GCC 6.2.0 on Cirrus.
 
+**Note:** This GCC build from source takes quite a long time!
+
 Download and unpack GCC
 -----------------------
 
@@ -35,7 +37,7 @@ Build and Install
 -----------------
 
 ```bash
-make
-make install
+make -j 8
+make -j 8 install
 ```
 
