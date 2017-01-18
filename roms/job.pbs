@@ -1,0 +1,18 @@
+#!/bin/bash 
+#PBS -N roms
+#PBS -l select=1080     
+#PBS -l walltime=12:00:00       
+#PBS -A z04
+#PBS -l place=excl
+cd $PBS_O_WORKDIR
+module load mpt
+module load intel-compilers-16
+module load hdf5-parallel
+module load netcdf
+
+export MPI_SHEPHERD=true
+
+mpiexec_mpt -n 480 -ppn 32 ./oceanM Data/INPUT/ne_atl_HC_3.6.in
+
+##32 cores per node requies 15 nodes in totald to have 480 cores in total
+##select = 36*2*15 , as we want all 36 cores,with 2 threads each (not used) time snumber of nodees

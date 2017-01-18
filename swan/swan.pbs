@@ -1,0 +1,17 @@
+#!/bin/bash --login
+#
+#PBS -N swan
+#PBS -l select=576
+#PBS -l walltime=6:00:00
+#PBS -A z04
+ 
+module load mpt
+module load intel-compilers-16
+module load netcdf
+
+cd $PBS_O_WORKDIR
+export MPI_DSM_VERBOSE=1
+ 
+#./swanrun.bat -input INPUT -mpi 232
+mpiexec_mpt -n 232 -ppn 29 ./swan.exe
+
