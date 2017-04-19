@@ -80,57 +80,57 @@ Modify the configure scripts with the third party software locations:
 Edit OpenFOAM-4.1/etc/bashrc:
 
 * Add `export WM_NCOMPPROCS=24`
-* Modify FOAM_INST_DIR=/path/to/your/top/level/OpenFOAM/directory
-* Modify WM_MPLIB=SGIMPI
+* Modify `FOAM_INST_DIR=/path/to/your/top/level/OpenFOAM/directory`
+* Modify `WM_MPLIB=SGIMPI`
 
 Compile within an interactive job
 ---------------------------------
 
 Submit an interactive job
 
-   qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
 
 Load the required modules:
 
-   module load gcc/6.2.0
-   module load mpt/2.14
-   module load zlib-1.2.8-gcc-6.2.0-epathtp
-   module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-   module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-   module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
+    module load gcc/6.2.0
+    module load mpt/2.14
+    module load zlib-1.2.8-gcc-6.2.0-epathtp
+    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
+    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
+    module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
 
 Build Third Party software:
 
-   cd OpenFOAM
-   source OpenFOAM-4.1/etc/bashrc
-   cd $WM_THIRD_PARTY_DIR
-   export QT_SELECT=qt4
-   ./Allwmake -j 24 > log.make 2>&1
-   wmRefresh
+    cd OpenFOAM
+    source OpenFOAM-4.1/etc/bashrc
+    cd $WM_THIRD_PARTY_DIR
+    export QT_SELECT=qt4
+    ./Allwmake -j 24 > log.make 2>&1
+    wmRefresh
 
 Build OpenFOAM 4.1
 
-   cd $WM_PROJECT_DIR
-   ./Allwmake -j 24 > log.make 2>&1
-   wmRefresh
+    cd $WM_PROJECT_DIR
+    ./Allwmake -j 24 > log.make 2>&1
+    wmRefresh
 
 Test build
 ----------
 
 Submit an interactive job
 
-   qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
 
 Load the required modules:
 
-   module load gcc/6.2.0
-   module load mpt/2.14
-   module load zlib-1.2.8-gcc-6.2.0-epathtp
-   module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-   module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-   module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
+    module load gcc/6.2.0
+    module load mpt/2.14
+    module load zlib-1.2.8-gcc-6.2.0-epathtp
+    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
+    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
+    module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
 
 Run the test program:
 
-   icoFoam -help
+    icoFoam -help
 

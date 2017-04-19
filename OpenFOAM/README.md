@@ -1,5 +1,5 @@
-FFTW
-====
+OpenFOAM
+========
 
 This folder contains files and documentation for building and maintaining
 [OpenFOAM](http://www.openfoam.org) on [Cirrus](http://www.cirus.ac.uk).
