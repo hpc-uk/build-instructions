@@ -44,15 +44,9 @@ Download and unpack third party components
 
     cd ThirdParty-4.1
     mkdir download
-    wget -P download http://www.cmake.org/files/v3.2/cmake-3.2.1.tar.gz
     wget -P download https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.8/CGAL-4.8.tar.xz
-    wget -P download ftp://ftp.gnu.org/gnu/gmp/gmp-5.1.2.tar.bz2
-    wget -P download ftp://ftp.gnu.org/gnu/mpfr/mpfr-3.1.2.tar.bz2
     wget -P download http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.bz2
-    tar -xzf download/cmake-3.2.1.tar.gz
     tar -xJf download/CGAL-4.8.tar.xz
-    tar -xjf download/gmp-5.1.2.tar.bz2
-    tar -xjf download/mpfr-3.1.2.tar.bz2
     tar -xjf download/boost_1_55_0.tar.bz2
 
 Move back to top-level directory:
