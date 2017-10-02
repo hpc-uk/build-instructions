@@ -1,6 +1,8 @@
 Building GPAW on Cirrus (Intel 17.0.2.174, Compilers and MPI)
 ===================================================
 
+Provided by Andrew Logsdail, Cardiff University.
+
 These instructions are for a simple build of GPAW on Cirrus (SGI/HPE ICE XA, Intel Broadwell) using the Intel 17.0.2.174 compilers. Parts of this compilation guide are taken from the [GPAW webpages](https://wiki.fysik.dtu.dk/gpaw/install.html), which are an excellent resource if you encounter problems.
 
 Setup your environment
