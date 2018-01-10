@@ -1,0 +1,56 @@
+Download from github: netcdf-c-4.5.0.tar.gz
+
+su cse
+cd /lustre/sw
+tar -xvf netcdf-c-4.5.0.tar.gz
+cd netcdf-c-4.5.0/
+mkdir parallel
+
+  export MPICC_CC=mpicc
+  export MPICC_CC=icc
+  export MPICXX_CXX=icpc
+  export CPPFLAGS=-I/lustre/sw/hdf5parallel/1.10.1-intel17-mpt214/include
+  export LDFLAGS=-L/lustre/sw/hdf5parallel/1.10.1-intel17-mpt214/lib
+  export CC=mpicc 
+  ./configure --disable-dap  --enable-parallel-tests --prefix=/lustre/sw/netcdf-c-4.5.0/parallel
+  (Error if building directory and source directory are the same, e.g. both /lustre/sw/netcdf-c-4.5.0/)
+  make
+  make install
+  
+  Module in /lustre/sw/modulefiles/netcdf-parallel/4.5.0:
+      #%Module
+##
+#
+
+conflict netcdf
+
+set _module_name  [module-info name]
+proc ModulesHelp {} {
+
+  puts stderr "netcdf-c-4.5.0"
+  puts stderr "===============\n"
+
+  puts stderr "This module adds netcdf-parallel to your environment."
+
+  puts stderr "Compilation instructions can be found at:\n"
+
+  puts stderr "\t* https://github.com/EPCCed/cirrus-packages/tree/master/netcdf-c-4.5.0\n"
+
+  puts stderr "\tInstalled: 10 Jan 2018"
+  puts stderr "\tInstalled by: E. Breitmoser, EPCC"
+
+}
+
+set base        /lustre/sw/netcdf-c-4.5.0/
+set ver         parallel
+set path        $base/$ver
+
+    prepend-path    LIBRARY_PATH        $path/lib
+    prepend-path    LD_LIBRARY_PATH     $path/lib
+    prepend-path    PATH                $path/bin
+    prepend-path    C_INCLUDE_PATH      $path/include
+    prepend-path    FPATH               $path/include
+    prepend-path    CPATH               $path/include
+    prepend-path    CPLUS_INCLUDE_PATH  $path/include
+    prepend-path    MANPATH             $path/man
+    prepend-path    NETCDF_DIR          $path
