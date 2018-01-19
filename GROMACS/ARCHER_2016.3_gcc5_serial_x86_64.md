@@ -2,7 +2,7 @@ Instructions for compiling serial GROMACS 2016.3 for ARCHER using GCC 6 compiler
 =================================================================================
 
 These instructions are for compiling serial GROMACS 2016.3 on ARCHER for the post-processing (PP)
-nodes (generic x86_64 processors) using the GCC 6 compilers.
+nodes (generic x86_64 processors) using the GCC 5.x compilers.
 
 Log into a PP node
 ------------------
@@ -31,7 +31,7 @@ Switch to the GNU programming environment:
 
 ```bash
 module swap PrgEnv-cray PrgEnv-gnu
-module swap gcc gcc/6.3.0
+module swap gcc gcc/5.3.0
 module swap craype-ivybridge craype-target-local_host
 module swap craype-network-aries craype-network-none
 ```

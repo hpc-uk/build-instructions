@@ -2,7 +2,7 @@ Instructions for compiling GROMACS 2016.3 for ARCHER using GCC 6 compilers
 ==========================================================================
 
 These instructions are for compiling GROMACS 2016.3 on ARCHER (Intel Ivy Bridge processors)
-using the GCC 6 compilers.
+using the GCC 5.x compilers.
 
 
 Download and Unpack the GROMACS source code
@@ -22,7 +22,7 @@ Switch to the GNU programming environment:
 
 ```bash
 module swap PrgEnv-cray PrgEnv-gnu
-module swap gcc gcc/6.3.0
+module swap gcc gcc/5.3.0
 ```
 
 and load the fftw and CMake modules:
