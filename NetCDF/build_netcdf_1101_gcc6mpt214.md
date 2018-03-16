@@ -1,5 +1,5 @@
 Download from github: netcdf-c-4.5.0.tar.gz  
-Download from github: netcdf-fortran-4.4.0.tar.gz  
+Download from github: netcdf-fortran-4.4.4.tar.gz  
 <br>
 
 su cse  
@@ -22,12 +22,12 @@ export CC=gcc
 ./configure --disable-dap --enable-parallel-tests --enable-fortran --disable-netcdf-4 --prefix=/lustre/sw/netcdfparallel/lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
 
 make all  
-make check install  
+make install  
 <br>
 
 cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
-tar -xvf netcdf-fortran-4.4.0.tar.gz  
-cd netcdf-fortran-4.4.0  
+tar -xvf netcdf-fortran-4.4.4.tar.gz  
+cd netcdf-fortran-4.4.4  
   
 export NCDIR=/lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
 
@@ -43,7 +43,7 @@ export LDFLAGS=-L$NCDIR/lib
 ./configure --prefix=$NFDIR  
 
 make all  
-make check install  
+make install  
 <br>
 
 Module at /lustre/sw/modulefiles/netcdf-parallel/4.5.0-gcc6-mpt214  
