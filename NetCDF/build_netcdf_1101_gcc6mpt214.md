@@ -52,17 +52,12 @@ Configure, make and install NetCDF Fortran 4.4.4
 ------------------------------------------------
 
 ```bash
-cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
-tar -xvf netcdf-fortran-4.4.4.tar.gz  
-cd netcdf-fortran-4.4.4  
+cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214/netcdf-fortran-4.4.4  
   
 export NCDIR=/lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
-
 export CC=gcc  
 export FC=gfortran  
-
 export LD_LIBRARY_PATH=$NCDIR/lib:$LD_LIBRARY_PATH  
-
 export NFDIR=$NCDIR  
 export CPPFLAGS=-I$NCDIR/include  
 export LDFLAGS=-L$NCDIR/lib  
@@ -73,4 +68,8 @@ make all
 make install  
 ```
 
-Module at /lustre/sw/modulefiles/netcdf-parallel/4.5.0-gcc6-mpt214  
+Module file location
+
+```bash
+/lustre/sw/modulefiles/netcdf-parallel/4.5.0-gcc6-mpt214
+```
