@@ -22,7 +22,7 @@ Download and unpack NetCDF archives
 
 Download NetCDF C v4.5.0 source from [NetCDF-C Releases](https://github.com/Unidata/netcdf-c/releases) and then unpack
 ```bash
-tar -xvf netcdf-c-4.5.4.tar.gz
+tar -xvf netcdf-c-4.5.0.tar.gz
 ```
 
 Download NetCDF Fortran v4.4.4 source from [NetCDF-Fortran Releases](https://github.com/Unidata/netcdf-fortran/releases) and then unpack
