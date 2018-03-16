@@ -42,7 +42,7 @@ export CPPFLAGS=-I/lustre/sw/hdf5parallel/1.10.1-gcc6-mpt214/include
 export LDFLAGS=-L/lustre/sw/hdf5parallel/1.10.1-gcc6-mpt214/lib  
 export CC=gcc   
 
-./configure --disable-dap --enable-parallel-tests --enable-fortran --disable-netcdf-4 --prefix=/lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
+./configure --disable-dap --enable-parallel-tests --enable-fortran --enable-netcdf-4 --prefix=/lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
 
 make all  
 make install  
