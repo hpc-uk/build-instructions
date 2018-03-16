@@ -1,17 +1,40 @@
-Download from github: netcdf-c-4.5.0.tar.gz  
-Download from github: netcdf-fortran-4.4.4.tar.gz  
-<br>
+Login and setup module environment
+----------------------------------
 
+```bash
 su cse  
 
 module load mpt/2.14  
 module load gcc/6.2.0  
 module load hdf5parallel/1.10.1-gcc6-mpt214  
-<br>
+```
 
-cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
-tar -xvf netcdf-c-4.5.0.tar.gz  
-cd netcdf-c-4.5.0  
+Make and enter installation folder
+----------------------------------
+
+```bash
+mkdir /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214
+cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214
+```
+
+Download and unpack NetCDF archives
+-----------------------------------
+
+Download NetCDF C v4.5.0 source from [NetCDF-C Releases](https://github.com/Unidata/netcdf-c/releases) and then unpack
+```bash
+tar -xvf netcdf-c-4.5.4.tar.gz
+```
+
+Download NetCDF Fortran v4.4.4 source from [NetCDF-Fortran Releases](https://github.com/Unidata/netcdf-fortran/releases) and then unpack
+```bash
+tar -xvf netcdf-fortran-4.4.4.tar.gz
+```
+
+Configure, make and install NetCDF C 4.5.0
+------------------------------------------
+
+```bash
+cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214/netcdf-c-4.5.0  
 
 export MPICC_CC=gcc  
 export MPICXX_CXX=g++  
@@ -23,8 +46,12 @@ export CC=gcc
 
 make all  
 make install  
-<br>
+```
 
+Configure, make and install NetCDF Fortran 4.4.4
+------------------------------------------------
+
+```bash
 cd /lustre/sw/netcdfparallel/4.5.0-gcc6-mpt214  
 tar -xvf netcdf-fortran-4.4.4.tar.gz  
 cd netcdf-fortran-4.4.4  
@@ -44,6 +71,6 @@ export LDFLAGS=-L$NCDIR/lib
 
 make all  
 make install  
-<br>
+```
 
 Module at /lustre/sw/modulefiles/netcdf-parallel/4.5.0-gcc6-mpt214  
