@@ -21,4 +21,6 @@ Build Instructions
 Notes
 -----
 
+The NetCDF Intel 17 build has been compiled without NetCDF 4 support;
+whereas the NetCDF GCC 6 build has been compiled with NetCDF 4 support.
 
