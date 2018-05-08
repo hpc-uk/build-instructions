@@ -8,7 +8,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2018-05-08 | Andy Turner | Cirrus (EPCC) | 17.2.1, Intel 17 MPI, Broadwell | MPI build instructions for Cirrus
+2018-05-08 | Andy Turner | Cirrus (EPCC) | 16.1.1, Intel 17 MPI, Broadwell | MPI build instructions for Cirrus
 2018-01-19 | Andy Turner | Athena (HPC Mid+) | 18.1.0, GCC 6.x, MPI, Broadwell | MPI build instructions for Athena
 2018-01-19 | Andy Turner | ARCHER (EPCC) | 18.1.0, GCC 6.x, MPI, Ivy Bridge | MPI build instructions for ARCHER
 2017-11-30 | Andy Turner | CSD3-Skylake (Cambridge) | 16.1.2, Intel 17, Skylake | MPI build instructions for CSD3 Skylake
@@ -18,7 +18,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
-* [CASTEP 17.2.1 Cirrus (EPCC) Intel 17 Build Instructions](Cirrus_17.2.1_intel17.md)
+* [CASTEP 16.1.1 Cirrus (EPCC) Intel 17 Build Instructions](Cirrus_16.1.1_intel17_HPEMPT.md)
 * [CASTEP 18.1.0 Athena HPC Mid+ GCC 6.x Build Instructions](Athena_18.1.0_gcc6_IMPI.md)
 * [CASTEP 18.1.0 ARCHER Ivy Bridge GCC 6.x Build Instructions](ARCHER_18.1.0_gcc6_CrayMPT.md)
 * [CASTEP 17.2.1 CSD3-Skylake Intel 17 Build Instructions](CSD3Skylake_17.2.1_intel17_IMPI.md)
