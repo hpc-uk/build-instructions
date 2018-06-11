@@ -13,9 +13,9 @@ Date | Person | System | Version | Notes
 Websites
 --------
 
-https://www.gnu.org/software/libmatheval
+* https://www.gnu.org/software/libmatheval
 
-https://ftp.gnu.org/gnu/libmatheval/
+* https://ftp.gnu.org/gnu/libmatheval/
 
 Build Instructions
 ------------------
