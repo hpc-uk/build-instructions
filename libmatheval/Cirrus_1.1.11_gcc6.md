@@ -24,7 +24,7 @@ page](https://github.com/UWPRG/Plumed/blob/master/compile_plumed_gromacs_matheva
 modified here.
 
 libmatheval also uses yywrap (in libfl) which is not installed on
-Cirrus), so remove that also.
+Cirrus, so remove that also.
 
 
 Download and unpack the libmatheval source code
