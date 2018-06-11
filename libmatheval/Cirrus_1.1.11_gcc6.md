@@ -76,3 +76,25 @@ Configure and build
 make
 make install
 ```
+
+
+Using this with PLUMED
+----------------------
+
+```bash
+export CPPFLAGS=-I/path/to/libmatheval_installation_directory/include
+export LDFLAGS=-L/path/to/libmatheval_installation_directory/lib
+export LD_LIBRARY_PATH=/path/to/libmatheval_installation_directory/lib:$LD_LIBRARY_PATH
+./configure --prefix=/path/to/PLUMED_installation_directory --enable-matheval
+make
+make install
+```
+
+When running, probably
+
+```bash
+export LD_LIBRARY_PATH=/path/to/libmatheval_installation_directory/lib:$LD_LIBRARY_PATH
+```
+
+will be needed.
+
