@@ -6,7 +6,7 @@ These instructions are for compiling libmatheval on Cirrus
 tests, i.e. without Guile.**
 
 libmatheval is used for PLUMED 2.4 and earlier
-(http://www.plumed.org).  PLUMED 2.5 (released in 2018) and later does
+(http://www.plumed.org).  PLUMED 2.5 (released in 2018) and later do
 not need libmatheval.
 
 libmatheval is a small library with few dependencies but it uses Guile
@@ -23,7 +23,7 @@ page](https://github.com/UWPRG/Plumed/blob/master/compile_plumed_gromacs_matheva
 (which also contains information on using libmatheval with PLUMED) and
 modified here.
 
-libmatheval also uses yywrap (in libfl, which is not installed on
+libmatheval also uses yywrap (in libfl) which is not installed on
 Cirrus), so remove that also.
 
 
@@ -64,8 +64,6 @@ sed -i -e '1 i%option noyywrap' lib/scanner.l
 Setup correct modules
 ---------------------
 
-Load the compiler module.
-
 ```bash
 module load gcc/6.3.0 
 ```
@@ -78,22 +76,3 @@ Configure and build
 make
 make install
 ```
-
-
-Using this with PLUMED
-----------------------
-
-```bash
-export CPPFLAGS=-I/path/to/libmatheval_installation_directory/include
-export LDFLAGS=-L/path/to/libmatheval_installation_directory/lib
-./configure --enable-matheval ...
-```
-
-When running, probably
-
-```bash
-LD_LIBRARY_PATH=/path/to/libmatheval_installation_directory/lib:$LD_LIBRARY_PATH
-```
-
-will be needed.
-
