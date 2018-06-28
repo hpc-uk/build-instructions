@@ -4,7 +4,8 @@ Building OpenFOAM 5.0 on Cirrus using GCC 6.x
 These instructions cover the building of OpenFOAM on [Cirrus](http://www.cirrus.ac.uk).
 Cirrus is a SGI ICE XA system with Intel Xeon "Broadwell" processors.
 
-These instructions cover using GCC 6.x to compile OpenFOAM.
+These instructions cover using GCC 6.x to compile OpenFOAM.<br>
+It is assumed that you are logged in as use cse.
 
 Setup your environment
 ----------------------
@@ -107,23 +108,3 @@ Build OpenFOAM 5.0
     cd $WM_PROJECT_DIR
     ./Allwmake -j 36 > log.make 2>&1
     wmRefresh
-
-Test build
-----------
-
-Submit an interactive job
-
-    qsub -IX -N OpenFOAM_5.0 -l walltime=24:0:0 -l select=1 -A [your budget code]
-
-Load the required modules:
-
-    module load gcc/6.2.0
-    module load mpt/2.14
-    module load zlib-1.2.8-gcc-6.2.0-epathtp
-    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-    module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
-
-Run the test program:
-
-    icoFoam -help
