@@ -14,7 +14,8 @@ Date | Person | Version | Notes
 Build Instructions
 ------------------
 
-* [OpenFOAM Build Instructions for GCC 6 Compilers](build_openfoam_4.1_gcc6.md)
+* [OpenFOAM 4.1 Build Instructions for GCC 6 Compilers](build_openfoam_4.1_gcc6.md)
+* [OpenFOAM 5.0 Build Instructions for GCC 6 Compilers](build_openfoam_5.0_gcc6.md)
 
 Notes
 -----
