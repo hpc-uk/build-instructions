@@ -41,7 +41,7 @@ Unpack mail OpenFOAM software:
     mv OpenFOAM-5.x-version-5.0 OpenFOAM-5.0
     mv ThirdParty-5.x-version-5.0 ThirdParty-5.0
 
-Download and unpack third party components
+Download and unpack third party components:
 
     cd ThirdParty-5.0
     mkdir download
@@ -81,7 +81,7 @@ Edit OpenFOAM-5.0/etc/bashrc:
 Compile within an interactive job
 ---------------------------------
 
-Submit an interactive job
+Submit an interactive job:
 
     qsub -IX -N OpenFOAM_5.0 -l walltime=24:0:0 -l select=1 -A y07
 
@@ -103,7 +103,7 @@ Build Third Party software:
     ./Allwmake -j 36 > log.make 2>&1
     wmRefresh
 
-Build OpenFOAM 5.0
+Build OpenFOAM 5.0:
 
     cd $WM_PROJECT_DIR
     ./Allwmake -j 36 > log.make 2>&1
@@ -112,17 +112,21 @@ Build OpenFOAM 5.0
 Test build
 ----------
 
-Login using your own account
+Login using your own account.
 
-Submit an interactive job
+Submit an interactive job:
 
-    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    qsub -IX -N OpenFOAM_5.0 -l walltime=24:0:0 -l select=72 -A [your budget code]
 
 Load the required modules:
 
     module load openfoam/foundation/5.0
 
 Setup the environment:
+
+    source $OPENFOAM_CURPATH/etc/bashrc
+    
+Create the test folder and input files: 
 
     mkdir -p test-icoFoam-${WM_PROJECT_VERSION}
     cp -pr $FOAM_TUTORIALS/incompressible/icoFoam/cavity test-icoFoam-${WM_PROJECT_VERSION}
