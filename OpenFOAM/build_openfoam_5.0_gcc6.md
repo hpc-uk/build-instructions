@@ -5,7 +5,7 @@ These instructions cover the building of OpenFOAM on [Cirrus](http://www.cirrus.
 Cirrus is a SGI ICE XA system with Intel Xeon "Broadwell" processors.
 
 These instructions cover using GCC 6.x to compile OpenFOAM.<br>
-It is assumed that you are logged in as use cse.
+It is assumed that you are logged in as user cse.
 
 Setup your environment
 ----------------------
