@@ -25,8 +25,8 @@ Download and extract source code
 
 Setup the top level directory:
 
-    mkdir OpenFOAM
-    cd OpenFOAM
+    mkdir /lustre/sw/openfoam/foundation
+    cd /lustre/sw/openfoam/foundation
 
 Download main OpenFOAM software:
 
@@ -35,10 +35,10 @@ Download main OpenFOAM software:
 
 Unpack mail OpenFOAM software:
 
-    tar -xzf OpenFOAM-5.0.tgz &
+    tar -xzf OpenFOAM-5.0.tgz
     tar -xzf ThirdParty-5.0.tgz
-    mv OpenFOAM-4.x-version-5.0 OpenFOAM-5.0
-    mv ThirdParty-4.x-version-5.0 ThirdParty-5.0
+    mv OpenFOAM-5.x-version-5.0 OpenFOAM-5.0
+    mv ThirdParty-5.x-version-5.0 ThirdParty-5.0
 
 Download and unpack third party components
 
@@ -73,7 +73,7 @@ Modify the configure scripts with the third party software locations:
 
 Edit OpenFOAM-5.0/etc/bashrc:
 
-* Add `export WM_NCOMPPROCS=24`
+* Add `export WM_NCOMPPROCS=36`
 * Modify `FOAM_INST_DIR=/path/to/your/top/level/OpenFOAM/directory`
 * Modify `WM_MPLIB=SGIMPI`
 
@@ -82,7 +82,7 @@ Compile within an interactive job
 
 Submit an interactive job
 
-    qsub -IX -N OpenFOAM_5.0 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    qsub -IX -N OpenFOAM_5.0 -l walltime=24:0:0 -l select=1 -A y07
 
 Load the required modules:
 
@@ -95,17 +95,17 @@ Load the required modules:
 
 Build Third Party software:
 
-    cd OpenFOAM
+    cd /lustre/sw/openfoam/foundation/
     source OpenFOAM-5.0/etc/bashrc
     cd $WM_THIRD_PARTY_DIR
     export QT_SELECT=qt4
-    ./Allwmake -j 24 > log.make 2>&1
+    ./Allwmake -j 36 > log.make 2>&1
     wmRefresh
 
 Build OpenFOAM 5.0
 
     cd $WM_PROJECT_DIR
-    ./Allwmake -j 24 > log.make 2>&1
+    ./Allwmake -j 36 > log.make 2>&1
     wmRefresh
 
 Test build
