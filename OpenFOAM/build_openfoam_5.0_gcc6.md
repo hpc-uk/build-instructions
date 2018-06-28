@@ -108,3 +108,29 @@ Build OpenFOAM 5.0
     cd $WM_PROJECT_DIR
     ./Allwmake -j 36 > log.make 2>&1
     wmRefresh
+    
+Test build
+----------
+
+Login using your own account
+
+Submit an interactive job
+
+    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+
+Load the required modules:
+
+    module load openfoam/foundation/5.0
+
+Setup the environment:
+
+    mkdir -p test-icoFoam-${WM_PROJECT_VERSION}
+    cp -pr $FOAM_TUTORIALS/incompressible/icoFoam/cavity test-icoFoam-${WM_PROJECT_VERSION}
+    cd test-icoFoam-${WM_PROJECT_VERSION}/cavity/cavity
+    blockMesh > test-blockMesh.log 2>&1
+    cp $FOAM_UTILITIES/parallelProcessing/decomposePar/decomposeParDict system
+    decomposePar > test-decomposePar.log 2>&1
+
+Run the test program:
+
+    mpiexec_mpt -np 2 icoFoam -parallel > test-icoFoam.log 2>&1
