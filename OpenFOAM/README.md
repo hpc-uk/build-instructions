@@ -2,14 +2,14 @@ OpenFOAM
 ========
 
 This folder contains files and documentation for building and maintaining
-[OpenFOAM](http://www.openfoam.org) on [Cirrus](http://www.cirus.ac.uk).
+[OpenFOAM](http://www.openfoam.org) on various HPC facilities.
 
 History
 -------
 
-Date | Person | Version | Notes
----- | -------|---------|------
-2017-04-19 | Andy Turner | 4.1 | Buidl instructions for GCC 6.2.0
+Date | Person | System | Version | Notes
+---- | -------|--------|---------|------
+2017-04-19 | Andy Turner | Cirrus | 4.1 | 
 
 Build Instructions
 ------------------
@@ -20,9 +20,9 @@ Build Instructions
 Notes
 -----
 
-### MPI Support
+### Cirrus MPI Support
 
-All versions of OpenFOAM are compiled against SGI MPI.
+All versions of OpenFOAM are compiled against HPE MPI.
 
 To use OpenFOAM with MPI you must load the `mpt` module in your scripts.
 
