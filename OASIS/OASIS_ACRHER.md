@@ -123,7 +123,7 @@ cp bin/xios_server.exe $UMDIR/bin
 ````
 
 Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job.
-That's usually not the case, if the library get re-compiled.
+That's usually not the case, if the library gets re-compiled.
 
 ## Build nemo executable
 
