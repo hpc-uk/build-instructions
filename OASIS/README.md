@@ -1,6 +1,7 @@
 # OASIS
  
 This folder contains files and documentation for building OASIS on UK HPC systems.
+We use ```HadGEM3-GC31_benchmark.tar```.
 
 ## History
 
