@@ -108,6 +108,7 @@ SYSTEM_NAME="UKMO_CRAY_XC40"
 NCPUS=4
 
 cd code/XIOS
+export TMPDIR=/work/z01/z01/elena/OASIS/HadGEM3-GC31_benchmark/tmp
 
 . ./mk_arch_files.sh $SYSTEM_NAME
 cp arch-$SYSTEM_NAME.* extract/xios/arch
@@ -122,8 +123,9 @@ cp inc/*.mod $UMDIR/include
 cp bin/xios_server.exe $UMDIR/bin
 ````
 
-Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job.
-That's usually not the case, if the library gets re-compiled.
+* Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job. That's usually not the case, if the library gets re-compiled.
+* In ```extract/xios/bld.cfg``` replace ```-I/${PWD}`` with the full PATH, it doesn't resolve otherwise.
+* Set a temporary directory in the batch script`
 
 ## Build nemo executable
 
