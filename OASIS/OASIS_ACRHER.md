@@ -1,6 +1,6 @@
 # Instructions for compiling OASIS for ARCHER
 
-Follow the ```README``` in the top level directory. In the following only specific choices for the runs on ARCHER are shown, the complete content of the ````README``` is NOT reproduced here.
+Follow the ```README``` in the top level directory. In the following only specific choices for the runs on ARCHER are shown, the complete content of the ```README``` is NOT reproduced here.
 
 ## The ```setvar```-file:
 
