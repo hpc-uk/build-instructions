@@ -120,7 +120,6 @@ cd extract/xios
 
 ./make_xios --arch $SYSTEM_NAME --use_oasis oasis3_mct  --job $NCPUS || exit
 
-echo "Afterwards "
 cp lib/* $UMDIR/lib
 cp inc/*.mod $UMDIR/include
 cp bin/xios_server.exe $UMDIR/bin
