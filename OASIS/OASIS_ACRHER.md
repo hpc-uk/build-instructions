@@ -2,6 +2,8 @@
 
 Follow the ```README``` in the top level directory. In the following only specific choices for the runs on ARCHER are shown, the complete content of the ```README``` is NOT reproduced here.
 
+We are using ```HadGEM3-GC31_benchmark.tar```.
+
 ## The ```setvar```-file:
 
 ````
