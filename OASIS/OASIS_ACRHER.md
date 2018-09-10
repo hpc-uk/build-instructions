@@ -113,9 +113,6 @@ cd code/XIOS
 cp arch-$SYSTEM_NAME.* extract/xios/arch
 
 cd extract/xios
-#export TMPDIR=/work/z01/z01/elena/OASIS_Benchamrk/HadGEM3-GC31_benchmark/tmp
-#echo "Tmpdir is: "
-#echo $TMPDIR
 
 ./make_xios --arch $SYSTEM_NAME --use_oasis oasis3_mct  --job $NCPUS || exit
 
@@ -124,6 +121,8 @@ cp lib/* $UMDIR/lib
 cp inc/*.mod $UMDIR/include
 cp bin/xios_server.exe $UMDIR/bin
 ````
+
+Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job.
 
 ## Build nemo executable
 
