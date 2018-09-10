@@ -124,8 +124,8 @@ cp bin/xios_server.exe $UMDIR/bin
 ````
 
 * Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job. That's usually not the case, if the library gets re-compiled.
-* In ```extract/xios/bld.cfg``` replace ```-I/${PWD}`` with the full PATH, it doesn't resolve otherwise.
-* Set a temporary directory in the batch script`
+* In ```extract/xios/bld.cfg``` replace ```-I/${PWD}``` with the full PATH, it doesn't resolve otherwise.
+* Set a temporary directory in the batch script`.
 
 ## Build nemo executable
 
