@@ -125,7 +125,7 @@ cp inc/*.mod $UMDIR/include
 cp bin/xios_server.exe $UMDIR/bin
 ````
 
-* Make sure the directories ```XIOS/extract/xios/tmp``` and ```XIOS/extract/xios/obj``` are empty before submitting the batch job. That's usually not the case, if the library gets re-compiled.
+* Make sure the directory ```XIOS/extract/xios/obj``` is empty before submitting the batch job when you want to start from scratch. That's usually not the case, if the library gets re-compiled.
 * In ```extract/xios/bld.cfg``` replace ```-I/${PWD}``` with the full PATH, it doesn't resolve otherwise.
 * Set a temporary directory in the batch script`.
 * Use striping on the temporary directory.
