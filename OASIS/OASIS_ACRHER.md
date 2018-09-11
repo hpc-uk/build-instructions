@@ -179,9 +179,9 @@ Edit ```compile_um.job```:
 ````
 #!/bin/ksh
 #
-#PBS -N nemo_compile
+#PBS -N um_compile
 #PBS -l select=serial=true:ncpus=4
-#PBS -l walltime=01:00:00
+#PBS -l walltime=06:00:00
 #PBS -j oe
 #PBS -W umask=0022
 #PBS -A z19-cse
@@ -194,22 +194,9 @@ module load cray-hdf5-parallel/1.8.13
 module load cray-netcdf-hdf5parallel/4.3.2
 module list
 
-# Executable needs recompiling if processor decomposition changes
-export NEMO_IPROC=12
-export NEMO_JPROC=18
+cd code/um
 
-export CICE_COL=1440
-export CICE_ROW=1205
-export CICE_BLKX=$(( (CICE_COL + NEMO_IPROC - 1)/NEMO_IPROC ))
-export CICE_BLKY=$(( (CICE_ROW + NEMO_JPROC - 1)/NEMO_JPROC ))
-export CICE_MAXBK=1
-
-cd code/nemo
-
-fcm make --new -v -j 4 -f fcm-make2.cfg || exit
-
-cd build-ocean/bin
-cp nemo-cice.exe nemo-cice-${NEMO_IPROC}x${NEMO_JPROC}.exe
+fcm make --new -v -j 4 -f fcm-make2.cfg
 ````
 
 
