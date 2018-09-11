@@ -7,7 +7,7 @@ We use ```HadGEM3-GC31_benchmark.tar```.
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2018-09-10 | E Breitmoser | ARCHER |  | 
+2018-09-10 | E Breitmoser | ARCHER | Model Version 10.6 | 
  
 
 ## Build Instructions
