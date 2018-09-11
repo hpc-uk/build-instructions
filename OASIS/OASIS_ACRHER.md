@@ -4,7 +4,7 @@ Follow the ```README``` in the top level directory. In the following only specif
 
 We are using ```HadGEM3-GC31_benchmark.tar```. Note that
 * XIOS needs to call the oasis libraries
-* UM calls OASIS, but not XIOS
+* UM calls oasis, but not XIOS
 * NEMO calls both oasis + XIOS
 
 ## The ```setvar```-file:
