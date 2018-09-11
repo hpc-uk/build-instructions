@@ -2,7 +2,10 @@
 
 Follow the ```README``` in the top level directory. In the following only specific choices for the runs on ARCHER are shown, the complete content of the ```README``` is NOT reproduced here.
 
-We are using ```HadGEM3-GC31_benchmark.tar```.
+We are using ```HadGEM3-GC31_benchmark.tar```. Note that
+* XIOS needs to call the oasis libraries
+* UM calls OASIS, but not XIOS
+* NEMO calls both oasis + XIOS
 
 ## The ```setvar```-file:
 
