@@ -132,6 +132,7 @@ cp bin/xios_server.exe $UMDIR/bin
 * In ```extract/xios/bld.cfg``` replace ```-I/${PWD}``` with the full PATH, it doesn't resolve otherwise.
 * Set a temporary directory in the batch script`.
 * Use striping on the temporary directory.
+* It might be necessary to specify a longer walltime.
 
 ## Build nemo executable
 
