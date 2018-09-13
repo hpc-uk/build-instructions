@@ -1,0 +1,14 @@
+#!/bin/bash --login
+ 
+#PBS -N libgrid
+#PBS -l select=1
+#PBS -l walltime=24:00:00
+#PBS -A z19-cse
+ 
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)               
+ 
+cd $PBS_O_WORKDIR
+ 
+export OMP_NUM_THREADS=1
+ 
+make all_run
