@@ -1,7 +1,7 @@
 Instructions for compiling NWChem 6.8.1 for Cirrus
 ====================================================
 
-These instructions are for compiling NWChem on Cirrus (SGI ICE XA, Broadwell) using the GCC 6.3.0 compilers. Intel MKL 17 library, and HPE MPT 2.16 MPI library.
+These instructions are for compiling NWChem on Cirrus (SGI ICE XA, Broadwell) using the GCC 6.3.0 compilers, Intel MKL 17 library, and HPE MPT 2.16 MPI library.
 
 Download NWChem
 ---------------
@@ -18,9 +18,9 @@ Run the [build.bash](build.bash) script.  Optionally, modify the scipt to replac
 Run the QA tests
 ----------------
 
-Change the account code in the [QA job script](QA.pbs) and submit the script.
-The tests take about 4 hours to run.  Many tests have 'rounding'
-errors, some tests have old validation results that don't match newer
-versions of NWChem, some tests have too little memory specified in the
-input file, some tests give incorrect results, some tests fail and
-NWChem reports this, and some tests just fail.
+Set `your_account` and `NWCHEM_TOP` in the [QA job script](QA.pbs) and
+submit the script.  The tests take about 4 hours to run.  Many tests
+have 'rounding' errors, some tests have old validation results that
+don't match newer versions of NWChem, some tests have too little
+memory specified in the input file, some tests give incorrect results,
+some tests fail and NWChem reports this, and some tests just fail.

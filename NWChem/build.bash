@@ -26,7 +26,7 @@ module load intel-cmkl-17/17.0.2.174
 module load mpt/2.16
 module load anaconda/python2
 
-export NWCHEM_TOP=$PWD #/lustre/home/z04/mjf/test/Q1053685/nwchem-6.8.1
+export NWCHEM_TOP=$PWD
 export NWCHEM_TARGET=LINUX64
 
 # MPI-PR is recommended for ARMCI (over OPENIB also?).

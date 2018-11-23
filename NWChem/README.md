@@ -1,4 +1,4 @@
-NwChem
+NWChem
 ======
 
 This folder contains files and documentation for building and maintaining NWChem on Cirrus.
