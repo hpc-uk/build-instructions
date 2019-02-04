@@ -25,6 +25,27 @@ module load intel-tools-18
 module load intel-mpi-18
 ```
 
+Create the arch file for Intel MPI
+----------------------------------
+
+CASTEP 18.1.0 does not contain a configuration file for using Intel MPI so this
+needs to be created. Switch to the platform files directory and copy the base
+Linux Intel 17 file:
+
+```bash
+cd CASTEP-18.1/obj/platforms
+cp linux_x86_64_ifort17.mk linux_x86_64_ifort18-IMPI.mk
+```
+
+Edit `linux_x86_64_ifort18-IMPI.mk` to set the MPI compilers to pick up the 
+Intel compilers rather than GCC::
+
+```
+ifeq ($(COMMS_ARCH),mpi)
+CC  = mpiicc
+F90 = mpiifort
+```
+
 Edit the Makefile to set options
 --------------------------------
 
@@ -56,8 +77,8 @@ Build CASTEP using the following commands:
 
 ```bash
 unset CPU
-make -j8 ARCH=linux_x86_64_ifort18 clean
-make -j8 ARCH=linux_x86_64_ifort18
+make -j8 ARCH=linux_x86_64_ifort18-IMPI clean
+make -j8 ARCH=linux_x86_64_ifort18-IMPI
 ```
 
 The install process will ask for the path to the BLAS and LAPACK libraries. Use the path
@@ -76,7 +97,7 @@ To install into the `bin/` directory in the CASTEP source
 tree you use:
 
 ```bash
-make -j8 ARCH=linux_x86_64_ifort18 install
+make -j8 ARCH=linux_x86_64_ifort18-IMPI install
 ```
 
 The built binary is called `castep.mpi`.
