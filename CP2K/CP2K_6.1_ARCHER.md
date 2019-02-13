@@ -72,14 +72,13 @@ $ cd elpa-2015.05.001
 Now run
 ```
 $ ./configure --prefix=/work/[project]/[project]/[username]/CP2K/libs/elpa --enable-openmp --enable-shared=no
-$ export CRAYPE_LINK_TYPE=dynamic
 $ make
 $ make install
 $ export CRAYPE_LINK_TYPE=static
 ```
 
-Note: if you encounter linking problems then use `export CRAYPE_LINK_TYPE=static` and reissue the `make`
-command (**without** `make clean`).
+Note: if you encounter linking problems then use `export CRAYPE_LINK_TYPE=dynamic` and reissue the `make`
+command (**without** `make clean`) remembering to issue the `export CRAYPE_LINK_TYPE=static` at the end of the build.
 
 ## libint
 Download libint, extract the tarball and `cd` into the libint directory:
