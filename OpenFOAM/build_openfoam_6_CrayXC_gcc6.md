@@ -41,7 +41,7 @@ export WM_ARCH_OPTION=cray
 Change
 
 ```bash
-WM_MPLIB=OPENMPI
+WM_MPLIB=SYSTEMOPENMPI
 ```
 
 to
@@ -61,13 +61,13 @@ export FOAM_INST_DIR=$HOME/$WM_PROJECT
 with
 
 ```bash
-export FOAM_INST_DIR=/work/path/to/OpenFOAM-6
+export FOAM_INST_DIR=/work/path/to/dir/above_OpenFOAM-6
 ```
 
-e.g. for the central install we used `export FOAM_INST_DIR=/work/y07/y07/cse/openfoam/v6/build64/OpenFOAM-6`.
+e.g. for the central install we used `export FOAM_INST_DIR=/work/y07/y07/cse/openfoam/v6/build64`.
 
 
-#### Modify `etc/config.sh/setting`
+#### Modify `etc/config.sh/settings`
 
 Add `cray` option to the architecture section (since we set `WM_ARCH_OPTION=cray`). The final fragment should
 look like:
@@ -151,7 +151,7 @@ CRAYMPICH)
 
 #### Create and modify `wmake/rules`
 
-Create `crayxcGcc` folder under `wmake` (since we set `WM_ARCH=crayxc` in `setting` and
+Create `crayxcGcc` folder under `wmake` (since we set `WM_ARCH=crayxc` in `settings` and
 `WM_COMPILER=Gcc` in `bashrc`) by copying `linux64Gcc` folder:
 
 ```bash
@@ -208,7 +208,7 @@ LINKLIBSO   = $(CC) $(c++FLAGS) -shared -Xlinker --add-needed -Xlinker --no-as-n
 LINKEXE     = $(CC) $(c++FLAGS) -Xlinker --add-needed -Xlinker --no-as-needed
 ```
 
-Create wmake/rules/crayxcGcc/mplibCRAYMPICH file containing:
+Create `wmake/rules/crayxcGcc/mplibCRAYMPICH` file containing:
 
 ```bash
 PFLAGS = -DMPICH_SKIP_MPICXX
@@ -262,6 +262,7 @@ and set the required environment variables
 ```bash
 export CRAYPE_LINK_TYPE=dynamic
 export CRAY_ADD_RPATH=yes
+```
 
 ### Build OpenFOAM
 
