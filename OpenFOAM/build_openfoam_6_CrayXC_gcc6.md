@@ -8,7 +8,7 @@ which are, in turn, based on notes at:
 
 https://support.pawsey.org.au/documentation/display/US/OpenFOAM
 
-## Download OpenFOAM and Third Party v6
+## Download OpenFOAM and Third Party v6
 
 The download options can be found at:
 
@@ -19,7 +19,7 @@ Extract both repositories and rename the directories to:
 * `OpenFOAM-6`
 * `ThirdParty-6`
 
-## Modify the source for Cray XC
+## Modify the source for Cray XC
 
 ### OpenFOAM
 
@@ -247,6 +247,8 @@ RANLIB = echo
 YACC = bison -pscotchyy -y -b y
 ```
 
+## Compile OpenFOAM
+
 ### Setup compile environment
 
 Load the required modules
@@ -264,7 +266,7 @@ export CRAYPE_LINK_TYPE=dynamic
 export CRAY_ADD_RPATH=yes
 ```
 
-### Build OpenFOAM
+### Build OpenFOAM
 
 Build with:
 
@@ -299,7 +301,7 @@ source etc/bashrc
 ./Allwmake > openfoam-build.log 2> openfoam-err.log
 ```
 
-## Testing OpenFOAM
+## Testing OpenFOAM
 
 We use the following script to minimally test that the OpenFOAM compilation has produced
 working binaries. This job is submitted from the directory containing the OpenFOAM-6 and
@@ -324,9 +326,6 @@ WM_PROJECT=OpenFOAM
 WM_PROJECT_VERSION=6
 
 source $WM_PROJECT-$WM_PROJECT_VERSION/etc/bashrc
-
-# Standard test
-foamInstallationTest > test-OpenFOAM-${WM_PROJECT_VERSION}.log 2>&1
 
 # Full test of icoFoam cavity
 mkdir -p test-icoFoam-${WM_PROJECT_VERSION}
