@@ -14,7 +14,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
-* [GROMACS 2018.6 ARCHER GCC Build Instructions](buikd_gromacs_2018.6.md)
+* [GROMACS 2018.6 & 2019.1 ARCHER GCC Build Instructions](build_gromacs_2018.6.md)
 * [GROMACS 2016.3 ARCHER GCC 6 Build Instructions](build_gromacs_2016.3_gcc6_ivybrg.md)
 * [GROMACS 2016.3 serial ARCHER GCC 6 Build Instructions](build_gromacs_2016.3_gcc6_serial_x86-64.md)
 * [GROMACS 5.1.4 ARCHER GCC 6 Build Instructions](build_gromacs_5.1.4_gcc6_ivybrg.md)
