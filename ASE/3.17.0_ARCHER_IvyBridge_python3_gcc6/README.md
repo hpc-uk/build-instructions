@@ -6,10 +6,10 @@ user in the `y07` group, with the `y07` budget - change these to your
 username and group and budget, and change directory and file names as
 desired.  The installation directory must be on `/work`.
 
-### Build and test
-
 Change directory to the build directory, here
 `/home/y07/y07/cse/ase/3.17.0_build2` and copy and edit [these scripts]()
+
+### Build and test
 
 There is no need to download and build, just use `pip3`; see
 [`build.bash`](build.bash)
