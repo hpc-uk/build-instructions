@@ -9,13 +9,13 @@ desired.  The installation directory must be on `/work`.
 ### Build and test
 
 Change directory to the build directory, here
-`/home/y07/y07/cse/ase/3.17.0_build2` and copy [these scripts]()
+`/home/y07/y07/cse/ase/3.17.0_build2` and copy and edit [these scripts]()
 
-There is no need to download and build, just use `pip`; see
+There is no need to download and build, just use `pip3`; see
 [`build.bash`](build.bash)
 
-There are certificate errors if [`build.bash`](build.bash) is run, but sourcing it
-works:
+There are certificate errors if [`build.bash`](build.bash) is run, but
+sourcing it works:
 
 ```bash
 . ./build.bash &> build.log
