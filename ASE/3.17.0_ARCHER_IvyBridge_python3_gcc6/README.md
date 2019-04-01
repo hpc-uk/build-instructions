@@ -50,6 +50,8 @@ chmod -R +rX /work/y07/y07/cse/ase/3.17.0_build2
 (For CSE use, but you can set up a module in your own project
 similarly.)
 
+Copy the [`modulefile`](modulefile)
+
 ```bash
 su - packmods
 cd modulefiles-archer/pc-ase
