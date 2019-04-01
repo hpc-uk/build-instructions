@@ -1,10 +1,10 @@
 
-Instructions for compiling GROMACS 2016.3 for ARCHER using GCC 6 compilers
+Instructions for compiling GROMACS 2018.6 and 2019.1 for ARCHER using GCC 6 compilers
 ==========================================================================
 
-These instructions are for compiling GROMACS 2018.6 on ARCHER (Intel Ivy Bridge processors)
+These instructions are for compiling GROMACS 2018.6 and 2019.1 on ARCHER (Intel Ivy Bridge processors)
 using the GCC 6 compilers.
-
+Below only 2018.6 is mentioned, the process for version 2019.1 is the same.
 
 Download and Unpack the GROMACS source code
 -------------------------------------------
