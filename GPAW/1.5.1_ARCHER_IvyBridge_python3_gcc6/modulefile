@@ -1,0 +1,38 @@
+#%Module
+#
+# Modulefile for GPAW 1.5.1
+#
+# Installed by Mark Filipiak, EPCC
+#
+# March 2019
+
+proc ModulesHelp { } {
+    puts stderr "GPAW 1.5.1"
+    puts stderr "==========\n"
+    puts stderr "Sets up your environment to use GPAW 1.5.1\n"
+    puts stderr "If you want to make use of PAW atomic setups you should"
+    puts stderr "load one of the available gpaw-setups modules.\n"
+}
+
+# python-compute/3.6.0_gcc6.1.0 switches to PrgEnv-gnu
+module load python-compute/3.6.0_gcc6.1.0
+module load numpy
+module load scipy
+module load cray-fftw
+# FFTW_DIR is not set if the module is not loaded, so fudge the output
+# for module show or display.
+if { [module-info mode display] } {
+    puts stderr {prepend-path     LD_LIBRARY_PATH $env(FFTW_DIR)}
+} else {
+    prepend-path LD_LIBRARY_PATH $env(FFTW_DIR)
+}
+module load libxc
+module load pc-ase/3.17.0_build2
+
+setenv CRAYPE_LINK_TYPE dynamic
+
+setenv OMP_NUM_THREADS 1
+
+set GPAW_DIR /work/y07/y07/cse/gpaw/1.5.1_build2
+prepend-path PATH $GPAW_DIR/bin
+prepend-path PYTHONPATH $GPAW_DIR/lib/python3.6/site-packages

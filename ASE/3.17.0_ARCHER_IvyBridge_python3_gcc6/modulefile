@@ -2,6 +2,9 @@
 #
 # Modulefile for ASE 3.17.0
 #
+# Installed by Mark Filipiak, EPCC
+#
+# March 2019
 
 proc ModulesHelp { } {
     puts stderr "ASE 3.17.0"
