@@ -59,7 +59,7 @@ prefix to somewhere you have permission to write to.
 ```bash
 cmake ../ -DGMX_MPI=ON -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_X11=OFF -DGMX_DOUBLE=OFF \
           -DCMAKE_C_FLAGS="$FLAGS" -DCMAKE_CXX_FLAGS="$FLAGS" -DGMX_BUILD_MDRUN_ONLY=ON  \
-          -DCMAKE_INSTALL_PREFIX=/work/y07/y07/gmx/2018.6
+          -DCMAKE_INSTALL_PREFIX=/work/y07/y07/cse/gmx/gromacs-2018.6
 make -j 8 install
 ```
 
@@ -90,7 +90,7 @@ prefix to somewhere you have permission to write to.
 ```bash
 cmake ../ -DGMX_MPI=ON -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_X11=OFF -DGMX_DOUBLE=ON \
           -DCMAKE_C_FLAGS="$FLAGS" -DCMAKE_CXX_FLAGS="$FLAGS" -DGMX_BUILD_MDRUN_ONLY=ON  \
-          -DCMAKE_INSTALL_PREFIX=/work/y07/y07/gmx/2018.6
+          -DCMAKE_INSTALL_PREFIX=/work/y07/y07/cse/gmx/gromacs=2018.6
 make -j 8 install
 ```
 
