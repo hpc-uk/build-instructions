@@ -15,6 +15,8 @@ Use [`download.bash`](download.bash) and [`unpack.bash`](unpack.bash)
 
 ### Build and test
 
+Run [`build.bash`](build.bash)
+
 ```bash
 ./build.bash &> build.log
 ```
