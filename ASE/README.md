@@ -7,8 +7,8 @@ HPC systems.
 History
 -------
 
-Date | Person | System |Version | Notes
----- | -------|---------|------
+Date | Person | System | Version | Notes
+---- | ------ | ------ | ------- | -----
 2019-04-01 | Mark Filipiak | ARCHER (EPCC), Xeon Ivy Bridge | 3.17.0 | With Python 3.6, GCC 6.
 
 Build Instructions
