@@ -1,0 +1,26 @@
+#!/bin/bash --login
+
+# This script needs to be qsubbed in the build directory.
+
+#PBS -A A99-xacc
+
+#PBS -N build
+#PBS -l select=serial=true:ncpus=8
+# Sometimes the link step takes forever (Lustre problem?)
+#PBS -l walltime=4:00:00
+
+#PBS -V
+
+# Make sure any symbolic links are resolved to absolute path
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Change to the directory that the job was submitted from
+cd $PBS_O_WORKDIR
+
+# The configuration has to be done already, on the login nodes, and
+# the PBS -V directive (see above) gets the environment that has been
+# set up.  The compilation takes about 1 hour 30 minutes ('make -j 8')
+# on a serial node.
+
+make -j 8 &> ../build.log
+make -j 8 install >> ../build.log 2>&1

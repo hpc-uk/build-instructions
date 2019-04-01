@@ -33,7 +33,7 @@ $ module swap PrgEnv-cray PrgEnv-gnu
 At this point, it is also a good idea to load the fftw module:
 
 ```
-$ module add fftw
+$ module add cray-fftw
 ```
 
 Finally we can set environment variables to tell `make` to use the compiler wrappers:
@@ -71,12 +71,15 @@ $ cd elpa-2015.05.001
 
 Now run
 ```
-$ export CRAYPE_LINK_TYPE=dynamic
 $ ./configure --prefix=/work/[project]/[project]/[username]/CP2K/libs/elpa --enable-openmp --enable-shared=no
+$ export CRAYPE_LINK_TYPE=dynamic
 $ make
 $ make install
 $ export CRAYPE_LINK_TYPE=static
 ```
+
+Note: if you encounter linking problems then use `export CRAYPE_LINK_TYPE=static` and reissue the `make`
+command (**without** `make clean`).
 
 ## libint
 Download libint, extract the tarball and `cd` into the libint directory:
