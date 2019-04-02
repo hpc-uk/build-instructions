@@ -1,0 +1,111 @@
+# Linux
+#-----------------------------------------------------------------------------
+#
+# Comments:
+#
+# 2019-01-09, Mark Filipiak,   EPCC : Remove clutter, Archer only
+#
+#-----------------------------------------------------------------------------
+
+#===============================================
+# some common settings
+
+LIBS        = -L../lib -lsupport $LIBS
+load_modules=
+
+#===============================================
+# Define compiler settings
+#
+
+# Cray XC30 (ARCHER)
+
+NETCDFROOT = $NETCDF_DIR
+HDF5ROOT   = $HDF5_DIR
+SZIPROOT   = $SZIP_DIR
+ZLIBROOT   = $ZLIB_DIR
+MPIROOT    = $MPICH_DIR
+## libxml2 is in the normal place and should be found by configure, but
+## XML2ROOT may need to be set.
+#XML2ROOT   = /usr/lib64/libxml2.so
+
+# Use the compiler wrappers, regardless of the real compiler
+CC                  = cc
+FC                  = ftn
+F77                 = $FC
+
+# Appropriate BLAS and LAPACK libraries are automatically linked
+# in under the default programming environments; don't explicitly
+# override this with the bundled ones.
+LAPACKROOT =
+LAPACK_LIB =
+SRCDIRS = ${SRCDIRS/blas/}
+SRCDIRS = ${SRCDIRS/lapack/}
+
+#-----------------------------------------------------------------------------
+
+CFLAGS = -dynamic -std=gnu99 -O2 -DHAVE_LIBNETCDF -DHAVE_NETCDF4 -D__XE6__
+
+case "$fortran_compiler" in
+    default|gcc)
+        config_compiler  = gcc
+        compiler_version = $(gfortran --version | awk 'NR==1{split($NF,v,"."); printf("gcc%1d%1d", v[1], v[2])}')
+        CFLAGS      = $CFLAGS -DgFortran
+        FCPP        = -cpp
+        FLANG       = -std=f2008 -fmodule-private -fimplicit-none -fmax-identifier-length=63 -ffree-line-length-132
+        FWARN       = -Wall -Wcharacter-truncation -Wconversion -Wunderflow -Wunused-parameter -Wno-surprising
+        FDEBUG      = -g -fbacktrace
+        FCHECK      = -finit-real=nan -finit-integer=-2147483648 -finit-character=127
+        FOPTIONS    = $FCPP $FLANG $FWARN $FDEBUG $FCHECK
+        FOTPTIM     = -O3 -ffast-math -D__LOOP_EXCHANGE
+
+        DEBUG_FLAGS = -g -O -fbacktrace -fbounds-check -fstack-protector-all $FCHECK -DDEBUG_MVSTREAM
+        STD_FLAGS   = -g    -fbacktrace -fbounds-check -fstack-protector-all $FCHECK -O2 -mpc64 -D__LOOP_EXCHANGE
+        HIOPT_FLAGS = -O3 -ffast-math -mpc64 -D__LOOP_EXCHANGE -g
+
+        FFLAGS      = -dynamic $FCPP $FLANG $FWARN $INCLUDES
+        F77FLAGS    = -dynamic -O0 -ffast-math -mpc64
+        LDFLAGS     = -dynamic $FOTPTIM
+        OMPFLAG     = -fopenmp
+        CC_OMPFLAG  = -fopenmp
+        DEFOPT      = -D
+        DEFCOPT     = -D
+        MODOPT      = -I
+        MODDIR      = -J
+        WLFLAG      = -Wl
+        ;;
+# Cray compiler does not work - probably non-standard Fortradn in ICON-AES.
+    cray)
+        config_compiler  = cray
+        compiler_version = $(ftn -V 2>&1 > /dev/null | awk -F" " '{split($5,v,"."); printf("cray%1d%1d", v[1], v[2])}')
+        FFLAGS      = -dynamic -D__LOOP_EXCHANGE -D__MIXED_PRECISION -D__MIXED_PRECISION_2 -e Z -em -hflex_mp=conservative -hfp1 -hadd_paren -hnoacc  -O cache0 -r am -Ktrap=divz,ovf,inv
+        CFLAGS      = -dynamic -DHAVE_LIBNETCDF -DHAVE_NETCDF4 -O3
+        F77FLAGS    = -dynamic $FFLAGS
+        LDFLAGS     = -dynamic -hflex_mp=conservative -Ktrap=divz,ovf,inv
+        FCLIBS      =
+        GEN_FLAGS   =
+        FDEBUG      = -g -R abc
+        DEFOPT      = -D
+        DEFCOPT     = -D
+        MODOPT      = -I
+        MODDIR      = -J
+        ;;
+# Intel compiler is untested.
+    intel*)
+        config_compiler  = intel
+        compiler_version = $(ifort -V 2>&1 | awk -F "," 'NR==1{split($2,v," "); printf("intel%d",v[2])}')
+        CFLAGS      = -dynamic $CFLAGS -DgFortran
+        AR          = xiar
+        DEBUG_FLAGS = -check bounds -check pointers -check uninit -debug -O0 -g
+        STD_FLAGS   = -O2 -fltconsistency -g -pc64 -fpp -traceback  -D__LOOP_EXCHANGE
+        FFLAGS      = -dynamic -g -pc64 -fpp -D__LOOP_EXCHANGE -assume realloc_lhs
+        F77FLAGS    = -dynamic $FFLAGS $STD_FLAGS
+        LDFLAGS     = -dynamic
+        OMPFLAG     = -qopenmp
+        CC_OMPFLAG  = -qopenmp
+        DEFOPT      = -D
+        DEFCOPT     = -D
+        MODOPT      = -I
+        MODDIR      = -module
+        WLFLAG      = -Wl
+        ;;
+esac

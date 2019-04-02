@@ -1,14 +1,14 @@
 LAMMPS
 ======
 
-This folder contains files and documentation for building and maintaining LAMMPS on Cirrus.
+This folder contains files and documentation for building and maintaining LAMMPS on various HPC facilities.
 
 History
 -------
 
-Date | Person | Version | Notes
----- | -------|---------|------
-2017-06-05 | Andy Turner | 31Mar2017 | Build instructions for Cirrus using GCC 6 compilers and MPT 2.14
+Date | Person | System | Version | Notes
+---- | -------|--------|---------|------
+2017-06-05 | Andy Turner | Cirrus | 31Mar2017 | Build instructions for Cirrus using GCC 6 compilers and MPT 2.14
 
 Build Instructions
 ------------------

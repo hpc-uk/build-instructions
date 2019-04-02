@@ -1,0 +1,37 @@
+#!/bin/bash --login
+
+# This script needs to be qsubbed in the deal II root directory.
+
+#PBS -A A99-xacc
+
+#PBS -N test
+#PBS -l select=1
+#PBS -l walltime=00:20:00
+# short is available M-F 0800-2000, use
+# qsub -q standard test.pbs
+# at other times
+#PBS -q short
+
+# Make sure any symbolic links are resolved to absolute path
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+
+# Change to the directory that the job was submitted from
+cd $PBS_O_WORKDIR
+
+# The configuration and build have to be done already.
+. env.sh &> test_env.log
+. modules.sh &> test_modules.log
+module list >> test_modules.log 2>&1
+cd $build_dir
+
+# Use 1 thread (OpenMP probably does not matter, DEAL II makes no
+# difference to the failing affinity test).
+export OMP_NUM_THREADS=1
+export DEAL_II_NUM_THREADS=1
+
+# The affinity test will fail.  This is run using 'aprun -n 1' and
+# thus gets one core of the node and the affinity is to one CPU: this
+# is the desired behaviour for MPI programs, you don't want processes
+# to migrate around the cores.  DEAL II counts there are 48 cores
+# available (24 * 2 hyperthreads) and fails the test.
+make test &> ../test.log

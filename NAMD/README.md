@@ -6,9 +6,9 @@ This folder contains files and documentation for building and maintaining NAMD o
 History
 -------
 
-Date | Person | Version | Notes
----- | -------|---------|------
-2017-05-25 | Andy Turner | 2.12 | Build instructions for Cirrus using GCC 6 compilers and Intel MPI 17
+Date | Person | System | Version | Notes
+---- | -------|--------|---------|------
+2017-05-25 | Andy Turner | Cirrus | 2.12 | Build instructions for Cirrus using GCC 6 compilers and Intel MPI 17
 
 Build Instructions
 ------------------

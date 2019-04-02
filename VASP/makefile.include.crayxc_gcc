@@ -1,0 +1,58 @@
+#
+# Make options for VASP 5.4.1 using GCC compiler suite on Cray XC30
+#
+# A. R. Turner, EPCC, University of Edinburgh
+#
+
+# Precompiler options
+CPP_OPTIONS= -DMPI -DHOST=\"CrayXC-GNU\" \
+             -DIFC \
+             -DCACHE_SIZE=2000 \
+             -Davoidalloc \
+             -DMPI_BLOCK=8000 \
+             -DscaLAPACK \
+             -Duse_collective \
+             -DnoAugXCmeta \
+             -Duse_bse_te \
+             -Duse_shmem \
+             -Dtbdyn
+
+CPP        = gcc -cpp -E -P -C $(CPP_OPTIONS) -o $*$(SUFFIX) $*$(FUFFIX)
+
+FC         = ftn
+FCL        = ftn
+
+FREE       = -ffree-form -ffree-line-length-none
+
+FFLAGS     = 
+OFLAG      = -O2
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+BLAS       =
+LAPACK     =
+BLACS      =
+SCALAPACK  =
+
+OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o
+INCS       =
+
+LLIBS      = 
+
+OBJECTS_O1 += fft3dfurth.o fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = cc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB= linpack_double.o getshmem.o
+
+# Normally no need to change this
+SRCDIR     = ../../src
+BINDIR     = ../../bin
+

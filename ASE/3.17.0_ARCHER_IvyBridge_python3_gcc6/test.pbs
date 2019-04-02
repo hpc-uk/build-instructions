@@ -1,0 +1,18 @@
+#!/bin/bash --login
+#
+#PBS -N test-ase
+#PBS -l select=1
+#PBS -l walltime=00:20:00
+#PBS -A y07
+#PBS -q short
+
+prefix=/work/y07/y07/cse/ase/3.17.0_build2
+mkdir -p $prefix/test
+(
+    cd $prefix/test
+    
+    module load $HOME/ase/3.17.0_build2/modulefile
+    module list &> module.log
+    
+    aprun -n 1 ase test &> ase_test.log
+)
