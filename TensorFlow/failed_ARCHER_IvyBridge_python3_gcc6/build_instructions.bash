@@ -62,8 +62,10 @@ install=/work/z01/shared/Q1176696
     # default.
     PATH=$INSTALL_DIR/bin:$PATH
     
-    # Then, install Bazel.  Hard to believe it is possible to have a build
-    # system worse than CMake, but Bazel is it!
+    # Then, install Bazel.  Hard to believe it is possible to have a
+    # build system worse than CMake, but Bazel is it!  It is not
+    # promising when the build system for a package is itself unstable
+    # and difficult to build.
     
     # Bazel 0.19.0 or 0.21.0 is needed for Tensorflow - thanks
     # Tensorflow for not telling us this on your web page.
@@ -73,7 +75,8 @@ install=/work/z01/shared/Q1176696
     # Bazel 0.21.0 does not build:  an 'env -' is used, so the
     # enviroment is empty and LD_LIBRARY_PATH is unset, so the GCC
     # 6.1.0 libstdc++ is not found, and the system libstdc++ is too
-    # old.  What complete rubbish Bazel is.
+    # old.  One would hope that a build system would be properly
+    # tested before release.
     #
     # Bazel 0.22.0 does not work for Tensorflow.
     #
@@ -135,8 +138,9 @@ install=/work/z01/shared/Q1176696
 	echo MPICH_DIR = $MPICH_DIR
 	export MPI_HOME=$MPICH_DIR
 	
-	# The configure script (badly written) is expecting to find
-	# libmpi.so but we have libmpich.so.  Edit script.
+	# The configure script is expecting to find libmpi.so but we
+	# have libmpich.so (i.e., the script is badly written).  Edit
+	# the script.
 	sed -i -e 's#lib/libmpi.so#lib/libmpich.so#g' configure.py
 
 	# Even worse, in 1.13.1 it edits a Bazel file
