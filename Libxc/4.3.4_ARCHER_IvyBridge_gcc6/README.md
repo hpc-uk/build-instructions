@@ -7,7 +7,7 @@ username and group and budget, and change directory and file names as
 desired.
 
 The build needs to be done on `/work`, since the test suite is not
-easiliy changeable to use `aprun`.
+easily changeable to use `aprun`.
 
 The installation directory must be on `/work`.
 
@@ -21,8 +21,6 @@ mkdir -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/build
 mkdir -p /home/y07/y07/cse/libxc/4.3.4_build1/GNU
 
 ```
-
-Change directory to the copy directory and copy and edit [this file](README.md).
 
 Change directory to the build directory and copy and edit [these scripts]()
 
@@ -50,8 +48,8 @@ Run [`install.bash`](install.bash)
 ### Change permissions
 
 ```bash
-chmod -R +rX /home/y07/y07/cse/libxc/4.3.4_build1
-chmod -R +rX /work/y07/y07/cse/libxc/4.3.4_build1
+chmod -R a+rX /home/y07/y07/cse/libxc/4.3.4_build1/GNU
+chmod -R a+rX /work/y07/y07/cse/libxc/4.3.4_build1/GNU
 ```
 
 ### Set up the module
@@ -65,7 +63,7 @@ Copy the [`modulefile`](modulefile)
 su - packmods
 cd modulefiles-archer/libxc
 mkdir -p 4.3.4_build1
-cp -p /work/y07/y07/cse/libxc/4.3.4_build1/modulefile 4.3.4_build1/GNU
+cp -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/modulefile 4.3.4_build1/GNU
 ```
 
 ### Make a backup
@@ -75,7 +73,7 @@ cp -p /work/y07/y07/cse/libxc/4.3.4_build1/modulefile 4.3.4_build1/GNU
 
 ```bash
 tar czf /home/y07/y07/cse/libxc/4.3.4_build1/GNU/copy_of_work.tgz .
-chmod +r /home/y07/y07/cse/libxc/4.3.4_build1/GNU/copy_of_work.tgz
+chmod a+r /home/y07/y07/cse/libxc/4.3.4_build1/GNU/copy_of_work.tgz
 ```
 
 Restore using
@@ -84,7 +82,7 @@ Restore using
 mkdir -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU
 cd /work/y07/y07/cse/libxc/4.3.4_build1/GNU
 tar xf /home/y07/y07/cse/libxc/4.3.4_build1/GNU/copy_of_work.tgz
-chmod -R +rX /work/y07/y07/cse/libxc/4.3.4_build1/GNU
+chmod -R a+rX /work/y07/y07/cse/libxc/4.3.4_build1/GNU
 ```
 
 ### Help improve these instructions

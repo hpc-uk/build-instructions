@@ -39,8 +39,8 @@ clear why this fails.
 ### Change permissions
 
 ```bash
-chmod -R +rX /home/y07/y07/cse/gpaw/1.5.1_build3
-chmod -R +rX /work/y07/y07/cse/gpaw/1.5.1_build3
+chmod -R a+rX /home/y07/y07/cse/gpaw/1.5.1_build3
+chmod -R a+rX /work/y07/y07/cse/gpaw/1.5.1_build3
 ```
 
 ### Set up the module
@@ -63,7 +63,7 @@ cp -p /home/y07/y07/cse/gpaw/1.5.1_build3/modulefile 1.5.1_build3
 
 ```bash
 tar czf /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz .
-chmod +r /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz
+chmod a+r /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz
 ```
 
 Restore using
@@ -72,7 +72,7 @@ Restore using
 mkdir -p /work/y07/y07/cse/gpaw/1.5.1_build3
 cd /work/y07/y07/cse/gpaw/1.5.1_build3
 tar xf /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz
-chmod -R +rX /work/y07/y07/cse/gpaw/1.5.1_build3
+chmod -R a+rX /work/y07/y07/cse/gpaw/1.5.1_build3
 ```
 
 ### Help improve these instructions
