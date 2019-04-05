@@ -33,11 +33,16 @@ module-whatis "A library of exchange-correlation functionals."
 prereq PrgEnv-gnu
 conflict libxc
 
-if { [ info exists env(PE_ENV) ] } {
-       set PRGENV $env(PE_ENV)
-} else {
-       set PRGENV "GNU"
-}
+## This is only useful for a modulefile that handles all the
+## programming enviroments.
+#if { [ info exists env(PE_ENV) ] } {
+#       set PRGENV $env(PE_ENV)
+#} else {
+#       set PRGENV "GNU"
+#}
+
+# This modulefile is for GNU only
+set PRGENV "GNU"
 
 set LIBXC_DIR /work/y07/y07/cse/libxc/4.3.4_build1/${PRGENV}
 setenv LIBXC_DIR $LIBXC_DIR

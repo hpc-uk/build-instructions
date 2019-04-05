@@ -63,7 +63,7 @@ Copy the [`modulefile`](modulefile)
 su - packmods
 cd modulefiles-archer/libxc
 mkdir -p 4.3.4_build1
-cp -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/modulefile 4.3.4_build1/GNU
+cp -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/modulefile 4.3.4_build1/GNU
 ```
 
 ### Make a backup
