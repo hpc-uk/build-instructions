@@ -5,13 +5,13 @@
 #PBS -l walltime=24:00:00
 #PBS -A y07
 
-prefix=/work/y07/y07/cse/gpaw/1.5.1_build2
+prefix=/work/y07/y07/cse/gpaw/1.5.1_build3
 mkdir -p $prefix/test
 (
     cd $prefix/test
 
     module load gpaw-setups
-    module load $HOME/gpaw/1.5.1_build2/modulefile
+    module load $HOME/gpaw/1.5.1_build3/modulefile
 
     aprun -n 1 gpaw info &> gpaw_info.log
     aprun -n 1 gpaw-python -m gpaw info &> gpaw-python_info.log

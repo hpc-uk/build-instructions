@@ -4,7 +4,7 @@
 #
 # Installed by Mark Filipiak, EPCC
 #
-# March 2019
+# April 2019
 
 proc ModulesHelp { } {
     puts stderr "GPAW 1.5.1"
@@ -26,13 +26,13 @@ if { [module-info mode display] } {
 } else {
     prepend-path LD_LIBRARY_PATH $env(FFTW_DIR)
 }
-module load libxc
-module load pc-ase/3.17.0_build2
+module load libxc/4.3.4
+module load pc-ase/3.17.0_build3
 
 setenv CRAYPE_LINK_TYPE dynamic
 
 setenv OMP_NUM_THREADS 1
 
-set GPAW_DIR /work/y07/y07/cse/gpaw/1.5.1_build2
+set GPAW_DIR /work/y07/y07/cse/gpaw/1.5.1_build3
 prepend-path PATH $GPAW_DIR/bin
 prepend-path PYTHONPATH $GPAW_DIR/lib/python3.6/site-packages
