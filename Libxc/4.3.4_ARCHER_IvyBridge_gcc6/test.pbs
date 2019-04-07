@@ -13,4 +13,4 @@ cd $PBS_O_WORKDIR
 
 mkdir -p tmp
 aprun -n 1 make check &> check.log
-rmdir -rf tmp
+rm -rf tmp

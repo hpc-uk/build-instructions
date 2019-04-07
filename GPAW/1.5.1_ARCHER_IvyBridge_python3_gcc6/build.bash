@@ -4,7 +4,7 @@ module load python-compute/3.6.0_gcc6.1.0
 module load numpy
 module load scipy
 module load cray-fftw
-module load libxc/4.3.4
+module load libxc/4.3.4_build1/GNU
 module load pc-ase/3.17.0_build2
 module list &> module.log
 which python3

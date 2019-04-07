@@ -15,14 +15,15 @@ The installation directory must be on `/work`.
 
 Make a build directory on `work` and directory for a copy on `/home`
 
-
 ```bash
 mkdir -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/build
 mkdir -p /home/y07/y07/cse/libxc/4.3.4_build1/GNU
 
 ```
 
-Change directory to the build directory and copy and edit [these scripts]()
+Change directory to the build directory and copy and edit [these scripts]().
+
+Make a copy of this README in `/home/y07/y07/cse/libxc/4.3.4_build1/GNU`.
 
 ### Download and unpack
 
@@ -38,13 +39,19 @@ Run [`build.bash`](build.bash)
 
 Wait several hours and check the logs (`module.log`, `configure.log`,
 `make.log`, `check.log`) in
-`/work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/libxc-4.3.4`
+`/work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/libxc-4.3.4`.  There
+are some `libtool` errors in `make.log` for unknown F77 tags but these
+do not prevent compilation, nor affect the tests.
 
 Run [`install.bash`](install.bash)
 
 ```bash
 ./install.bash
 ```
+
+and check `install.log` in
+`/work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/libxc-4.3.4`
+
 ### Change permissions
 
 ```bash
@@ -69,7 +76,8 @@ cp -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/modulefile 4.3.4_build1/GNU
 ### Make a backup
 
 `/work` is not backed up, `tar` everything safely on `/home`.  In
-`/work/y07/y07/cse/libxc/4.3.4_build1/GNU` do
+`/work/y07/y07/cse/libxc/4.3.4_build1/GNU` (i.e., one up from the
+build directory) do
 
 ```bash
 tar czf /home/y07/y07/cse/libxc/4.3.4_build1/GNU/copy_of_work.tgz .
