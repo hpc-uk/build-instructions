@@ -27,7 +27,7 @@ if { [module-info mode display] } {
     prepend-path LD_LIBRARY_PATH $env(FFTW_DIR)
 }
 module load libxc/4.3.4_build1/GNU
-module load pc-ase/3.17.0_build3
+module load pc-ase/3.17.0_build2
 
 setenv CRAYPE_LINK_TYPE dynamic
 
