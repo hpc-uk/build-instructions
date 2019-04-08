@@ -18,7 +18,6 @@ Make a build directory on `work` and directory for a copy on `/home`
 ```bash
 mkdir -p /work/y07/y07/cse/libxc/4.3.4_build1/GNU/build
 mkdir -p /home/y07/y07/cse/libxc/4.3.4_build1/GNU
-
 ```
 
 Change directory to the build directory and copy and edit [these scripts]().
@@ -37,8 +36,8 @@ Run [`build.bash`](build.bash)
 ./build.bash
 ```
 
-Wait several hours and check the logs (`module.log`, `configure.log`,
-`make.log`, `check.log`) in
+Wait several hours (queue time plus 8 hours run time) and check the
+logs (`module.log`, `configure.log`, `make.log`, `check.log`) in
 `/work/y07/y07/cse/libxc/4.3.4_build1/GNU/build/libxc-4.3.4`.  There
 are some `libtool` errors in `make.log` for unknown F77 tags but these
 do not prevent compilation, nor affect the tests.

@@ -27,7 +27,7 @@ Check `module.log` and `build.log`, then run [`test.pbs`](test.pbs)
 qsub test.pbs
 ```
 
-Wait several hours and check the logs in
+Wait several hours (queue time plus 4 hours run time) and check the logs in
 `/work/y07/y07/cse/gpaw/1.5.1_build3/test`
 
 Using Python 2 many tests fail - possibly a problem with ASE.
