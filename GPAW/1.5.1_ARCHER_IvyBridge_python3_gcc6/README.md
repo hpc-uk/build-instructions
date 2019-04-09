@@ -33,8 +33,10 @@ Wait several hours (queue time plus 4 hours run time) and check the logs in
 Using Python 2 many tests fail - possibly a problem with ASE.
 
 Using Python 3 the serial tests fail - an error in the test script.
-The parallel tests pass except the atoms_too_close test - it is not
-clear why this fails.
+The parallel tests pass except the atoms_too_close test.  numpy on
+Archer is 1.12.0, which is too old to have divmod, which is used in
+ase.neighborlist.neighbor_list, which is used in
+gpaw.utilities.check_atoms_too_close
 
 ### Change permissions
 
