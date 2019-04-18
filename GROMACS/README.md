@@ -19,6 +19,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
+* [GROMACS 2018.6 & 2019.1 ARCHER GCC Build Instructions](build_gromacs_2018.6.md)
 * [GROMACS 2018.2 ARCHER (EPCC) GCC 6.* Build Instructions](ARCHER_2018.2_gcc6_ivybrg.md)
 * [GROMACS 2018.2 Isambard (GW4), Arm Cavium ThunderX2 GCC 7 Build Instructions](Isambard_2018.2_gcc7.md)
 * [GROMACS 2016.4 Cirrus (EPCC) GCC 6 Build Instructions](Cirrus_2016.3_gcc6.md)
