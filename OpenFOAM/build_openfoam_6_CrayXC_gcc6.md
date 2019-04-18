@@ -325,9 +325,6 @@ WM_PROJECT_VERSION=6
 
 source $WM_PROJECT-$WM_PROJECT_VERSION/etc/bashrc
 
-# Standard test
-foamInstallationTest > test-OpenFOAM-${WM_PROJECT_VERSION}.log 2>&1
-
 # Full test of icoFoam cavity
 mkdir -p test-icoFoam-${WM_PROJECT_VERSION}
 cp -pr $FOAM_TUTORIALS/incompressible/icoFoam/cavity/cavity test-icoFoam-${WM_PROJECT_VERSION}
