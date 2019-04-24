@@ -2,7 +2,7 @@
 #
 #PBS -N test-GPAW
 #PBS -l select=1
-#PBS -l walltime=24:00:00
+#PBS -l walltime=6:00:00
 #PBS -A y07
 
 prefix=/work/y07/y07/cse/gpaw/1.5.1_build3
@@ -12,12 +12,13 @@ mkdir -p $prefix/test
 
     module load gpaw-setups
     module load $HOME/gpaw/1.5.1_build3/modulefile
+    module list &> $PBS_O_WORKDIR/test_module.log
 
-    aprun -n 1 gpaw info &> gpaw_info.log
-    aprun -n 1 gpaw-python -m gpaw info &> gpaw-python_info.log
-    aprun -n 1 -d 24 gpaw test -j 24 &> gpaw_test.log
-    aprun -n 1 gpaw-python -m gpaw test &> gpaw-python_test_1.log
-    aprun -n 2 gpaw-python -m gpaw test &> gpaw-python_test_2.log
-    aprun -n 4 gpaw-python -m gpaw test &> gpaw-python_test_4.log
-    aprun -n 8 gpaw-python -m gpaw test &> gpaw-python_test_8.log
+    aprun -n 1 gpaw info &> $PBS_O_WORKDIR/gpaw_info.log
+    aprun -n 1 gpaw-python -m gpaw info &> $PBS_O_WORKDIR/gpaw-python_info.log
+    aprun -n 1 -d 24 gpaw test -j 24 &> $PBS_O_WORKDIR/gpaw_test.log
+    aprun -n 1 gpaw-python -m gpaw test &> $PBS_O_WORKDIR/gpaw-python_test_1.log
+    aprun -n 2 gpaw-python -m gpaw test &> $PBS_O_WORKDIR/gpaw-python_test_2.log
+    aprun -n 4 gpaw-python -m gpaw test &> $PBS_O_WORKDIR/gpaw-python_test_4.log
+    aprun -n 8 gpaw-python -m gpaw test &> $PBS_O_WORKDIR/gpaw-python_test_8.log
 )

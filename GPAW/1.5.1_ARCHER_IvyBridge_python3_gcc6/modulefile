@@ -16,8 +16,8 @@ proc ModulesHelp { } {
 
 # python-compute/3.6.0_gcc6.1.0 switches to PrgEnv-gnu
 module load python-compute/3.6.0_gcc6.1.0
-module load numpy
-module load scipy
+module load numpy/1.16.2-libsci_build1
+module load scipy/1.2.1-libsci_build1
 module load cray-fftw
 # FFTW_DIR is not set if the module is not loaded, so fudge the output
 # for module show or display.
@@ -27,7 +27,7 @@ if { [module-info mode display] } {
     prepend-path LD_LIBRARY_PATH $env(FFTW_DIR)
 }
 module load libxc/4.3.4_build1/GNU
-module load pc-ase/3.17.0_build2
+module load pc-ase/441bb707d_build1
 
 setenv CRAYPE_LINK_TYPE dynamic
 

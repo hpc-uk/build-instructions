@@ -58,4 +58,3 @@ if 'blas' in libraries:
     libraries.remove('blas')
 if 'lapack' in libraries:
     libraries.remove('lapack')
-
