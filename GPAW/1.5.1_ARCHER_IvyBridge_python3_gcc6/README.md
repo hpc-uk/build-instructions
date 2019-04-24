@@ -7,7 +7,7 @@ username and group and budget, and change directory and file names as
 desired.  The installation directory must be on `/work`.
 
 Change directory to the build directory, here
-`/home/y07/y07/cse/gpaw/1.5.1_build2` and copy and edit [these scripts]()
+`/home/y07/y07/cse/gpaw/1.5.1_build3` and copy and edit [these scripts]()
 
 ### Download and unpack
 
@@ -27,20 +27,19 @@ Check `module.log` and `build.log`, then run [`test.pbs`](test.pbs)
 qsub test.pbs
 ```
 
-Wait several hours and check the logs in
-`/work/y07/y07/cse/gpaw/1.5.1_build2/test`
+Wait several hours (queue time plus 4 hours run time) and check the
+info and test logs.
 
 Using Python 2 many tests fail - possibly a problem with ASE.
 
 Using Python 3 the serial tests fail - an error in the test script.
-The parallel tests pass except the atoms_too_close test - it is not
-clear why this fails.
+The parallel tests pass.
 
 ### Change permissions
 
 ```bash
-chmod -R +rX /home/y07/y07/cse/gpaw/1.5.1_build2
-chmod -R +rX /work/y07/y07/cse/gpaw/1.5.1_build2
+chmod -R a+rX /home/y07/y07/cse/gpaw/1.5.1_build3
+chmod -R a+rX /work/y07/y07/cse/gpaw/1.5.1_build3
 ```
 
 ### Set up the module
@@ -53,26 +52,26 @@ Copy the [`modulefile`](modulefile)
 ```bash
 su - packmods
 cd modulefiles-archer/gpaw
-cp -p /home/y07/y07/cse/gpaw/1.5.1_build2/modulefile 1.5.1_build2
+cp -p /home/y07/y07/cse/gpaw/1.5.1_build3/modulefile 1.5.1_build3
 ```
 
 ### Make a backup
 
-`/work` is not backed up, `tar` everything safely on `/home`.  In
-`/work/y07/y07/cse/gpaw/1.5.1_build2` do
+`/work` is not backed up, `tar` everything safely on `/home`
 
 ```bash
-tar czf /home/y07/y07/cse/gpaw/1.5.1_build2/copy_of_work.tgz .
-chmod +r /home/y07/y07/cse/gpaw/1.5.1_build2/copy_of_work.tgz
+cd /work/y07/y07/cse/gpaw/1.5.1_build3
+tar czf /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz .
+chmod a+r /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz
 ```
 
 Restore using
 
 ```bash
-mkdir -p /work/y07/y07/cse/gpaw/1.5.1_build2
-cd /work/y07/y07/cse/gpaw/1.5.1_build2
-tar xf /home/y07/y07/cse/gpaw/1.5.1_build2/copy_of_work.tgz
-chmod -R +rX /work/y07/y07/cse/gpaw/1.5.1_build2
+mkdir -p /work/y07/y07/cse/gpaw/1.5.1_build3
+cd /work/y07/y07/cse/gpaw/1.5.1_build3
+tar xf /home/y07/y07/cse/gpaw/1.5.1_build3/copy_of_work.tgz
+chmod -R a+rX /work/y07/y07/cse/gpaw/1.5.1_build3
 ```
 
 ### Help improve these instructions

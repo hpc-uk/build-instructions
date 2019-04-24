@@ -1,0 +1,23 @@
+#%Module
+#
+# Modulefile for ASE 3.17.0
+#
+# Installed by Mark Filipiak, EPCC
+#
+# April 2019
+
+proc ModulesHelp { } {
+    puts stderr "ASE 3.17.0"
+    puts stderr "==========\n"
+    puts stderr "Sets up your environment to use ASE 3.17.0\n"
+}
+
+# python-compute/3.6.0_gcc6.1.0 switches to PrgEnv-gnu
+module load python-compute/3.6.0_gcc6.1.0
+module load numpy/1.16.2-libsci_build1
+module load scipy/1.2.1-libsci_build1
+
+set CURPATH /work/y07/y07/cse/ase/441bb707d_build1
+
+prepend-path PATH $CURPATH/bin
+prepend-path PYTHONPATH $CURPATH/lib/python3.6/site-packages
