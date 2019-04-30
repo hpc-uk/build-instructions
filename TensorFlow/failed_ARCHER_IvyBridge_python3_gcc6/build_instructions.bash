@@ -111,10 +111,13 @@ install=/work/z01/shared/Q1176696
     #
     # Tensorflow 1.7.1, 1.8.0, 1.9.0, 1.10.1, 1.11.0, 1.12.0, 1.13.1 need pthread_setname_np which is
     # available in glibc 2.12 and Archer has glibc 2.11.3
-    wget https://github.com/tensorflow/tensorflow/archive/v1.5.1.tar.gz
-    tar xf v1.5.1.tar.gz
+    #
+    # 1.13 is not stable, try with 1.12.2, the latest 1.12
+    #
+    wget https://github.com/tensorflow/tensorflow/archive/v1.12.2.tar.gz
+    tar xf v1.12.2.tar.gz
     (
-	cd tensorflow-1.5.1
+	cd tensorflow-1.12.2
 	
 	# install requirements
 	pip3 install --upgrade --prefix=$INSTALL_DIR mock &> mock.log
@@ -162,7 +165,7 @@ install=/work/z01/shared/Q1176696
 	# File System support, Amazon AWS Platform, Apache Kafka
 	# Platform.
 	#
-	# Enable MPI build.
+	# Build with MPI support.
 	#
 	# Use -march=corei7-avx for the optimisation, for the compute
 	# nodes.
@@ -172,7 +175,19 @@ install=/work/z01/shared/Q1176696
 	
 	# Build a TensorFlow pip package.  Use --batch to not have an
 	# unconnected process - these are killed off.
-	bazel --batch build --config=opt --cxxopt=-D_GLIBCXX_USE_CXX11_ABI=0 //tensorflow/tools/pip_package:build_pip_package &> build.log
+	#
+	# Using a non-system glibc (e.g., /work/z01/shared/glibc_test)
+	# in theory could be done using CFLAGS, CPPFLAGS, CXXFLAGS,
+	# LDFLAGS, but some programs are run on the host and these
+	# variables have no effect when those are being built (and
+	# yes, they do need a later version of glibc).  The more
+	# correct way is to give the various --copt, --host_copt,
+	# --cxxopt, etc. options to bazel build.  But even this is not
+	# enough:  Bazel does not like files from "outside of the
+	# execution root".  You will have to create new BUILD files (I
+	# think) to use the non-standard glibc.  So, immerse yourself
+	# in Bazel!	
+	bazel --batch build --config=opt --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" //tensorflow/tools/pip_package:build_pip_package &> build.log
 	./bazel-bin/tensorflow/tools/pip_package/build_pip_package $TMPDIR/tensorflow_pkg &> build_pip_package.log
 	pip3 install --prefix=$INSTALL_DIR $TMPDIR/tensorflow_pkg/tensorflow-version-tags.whl &> pip3_install.log
 
