@@ -38,14 +38,16 @@ assert_equal(fpos64(0.5**(1022 + 52), unique=False, precision=1074), ...)
 
 E       OverflowError: (34, 'Numerical result out of range')
 
-This is an error in the test.  `numpy.float64(0.5)` should be used
-instead of `0.5` which is an ordinary Python `float`, which has the
-following limits:
-
-```python
->>> sys.float_info
-sys.float_info(max=1.7976931348623157e+308, max_exp=1024, max_10_exp=308, min=2.2250738585072014e-308, min_exp=-1021, min_10_exp=-307, dig=15, mant_dig=53, epsilon=2.220446049250313e-16, radix=2, rounds=1)
-```
+Python (not Numpy) uses C pow for exponentiation.  Although gcc has
+builtins for pow, for the cases that Python provides (arbitrary
+doubles), the libm function is used.  In the version of libm (2.11.3)
+on Archer, pow sets the underflow flag for denormal results (such as
+0.5**1074) and errno to ERANGE.  In more recent versions, pow sets the
+flag and errno only for a zero result.  Python only allows ERANGE and
+zero result, and thus, for Archer, reports the ERANGE error (as an
+Overflow), and thus the test fails.  It may be possible to use a newer
+libm (i.e., glibc) version but this has not been tested for Python
+(nor even for programs that use dlopen).  We accept this test failure.
 
 ### Change permissions
 
