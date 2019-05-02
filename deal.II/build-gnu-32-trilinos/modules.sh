@@ -6,8 +6,6 @@ module unload PrgEnv-gnu
 module unload PrgEnv-intel
 module load PrgEnv-gnu
 
-module switch gcc/5.3.0
-
 module unload cmake
 module load cmake
 

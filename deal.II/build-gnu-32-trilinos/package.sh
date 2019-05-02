@@ -41,8 +41,6 @@ if {[is-loaded PrgEnv-gnu]} {
     module load PrgEnv-gnu
 }
 
-module switch gcc/5.3.0
-
 module unload cmake
 module load cmake
 
