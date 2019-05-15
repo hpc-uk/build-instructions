@@ -1,0 +1,31 @@
+#!/bin/bash --login
+#
+#PBS -N test-glibc
+#PBS -l select=1
+#PBS -l walltime=00:20:00
+#PBS -A z19-cse
+#PBS -q short
+
+glibc_dir=/work/z01/shared/glibc_test
+mkdir -p $glibc_dir/test
+(
+    cd $glibc_dir/test
+
+    # With 2.6.4, the only method that works appears to be
+
+    #LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$glibc_dir/lib
+    #$glibc_dir/lib/ld-linux-x86-64.so.2 the_program_pathname
+
+    # Other attempts (without setting LD_LIBRARY_PATH, or setting
+    # LD_LIBRARY_PATH and using the system /lib64/ld-linux-x86-64.so,
+    # i.e., just running the program, give segmentation faults).
+
+    module unload xalt
+    aprun -n 1 $glibc_dir/lib/ld-linux-x86-64.so.2 /bin/ls -la &> test.log
+    
+    # possibly that should be
+    #$glibc_dir/lib/ld-linux-x86-64.so.2 $(which aprun) -n 1 /bin/ls
+
+    # The pathname (absolute or relative) of the executable needs to be
+    # used.  xalt needs to be unloaded - as usual it interferes.
+)
