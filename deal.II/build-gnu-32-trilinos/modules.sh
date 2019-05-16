@@ -21,3 +21,6 @@ module unload cray-tpsl
 module load cray-tpsl
 module unload cray-trilinos
 module load cray-trilinos
+
+# Make sure that Cray's libraries are seen.
+export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
