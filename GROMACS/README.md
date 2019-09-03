@@ -8,6 +8,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
+2019-09-03 | Andy Turner | AMD Rome | 2019.3 | 
 2018-09-21 | Andy Turner | ARCHER (EPCC), Xeon Ivy Bridge | 2018.2 | 
 2018-09-07 | Andy Turner | Ismabard (GW4), Arm Cavium ThunderX2 | 2018.2 | 
 2018-05-08 | Andy Turner | Cirrus (EPCC), Xeon Broadwell | 2016.3 | 
@@ -19,6 +20,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
+* [GROMACS 2019.3 AMD Rome, AOCC 2 Build Instructions](AMD_Rome_2019.3_aocc2.md)
 * [GROMACS 2018.6 & 2019.1 ARCHER GCC Build Instructions](build_gromacs_2018.6.md)
 * [GROMACS 2018.2 ARCHER (EPCC) GCC 6.* Build Instructions](ARCHER_2018.2_gcc6_ivybrg.md)
 * [GROMACS 2018.2 Isambard (GW4), Arm Cavium ThunderX2 GCC 7 Build Instructions](Isambard_2018.2_gcc7.md)
