@@ -41,8 +41,6 @@ if {[is-loaded PrgEnv-gnu]} {
     module load PrgEnv-gnu
 }
 
-module switch gcc/5.3.0
-
 module unload cmake
 module load cmake
 
@@ -91,6 +89,7 @@ module-whatis "C++ software library supporting the creation of finite element co
 
 EOF
 
+echo "prepend-path LD_LIBRARY_PATH \$env(CRAY_LD_LIBRARY_PATH)" >> $modulefile
 echo "prepend-path LD_LIBRARY_PATH {$install_dir/lib}" >> $modulefile
 echo "prepend-path PATH {$install_dir/p4est/FAST/bin}" >> $modulefile
 
