@@ -1,5 +1,5 @@
 Instructions for compiling NAMD 2.13 + Plumed for ARCHER XC30
-=============================================================
+1=============================================================
 
 These instructions are for compiling NAMD 2.13 on ARCHER XC30 (Xeon) using the Intel compilers.
 
@@ -72,10 +72,14 @@ Submit an interactve job on the short queue
 ```bash
 qsub -IVl select=1,walltime=0:20:0 -q short -A budget
 ```
-
+You must set $TMPDIR to point to a location on /work so that the plumed executable can create files:
+```bash
+TMPDIR=/work/y07/y07/cse
+```
 Apply the PLUMED patch to Gromacs
 
 ```bash
+cd NAMD_2.13_Source
 aprun -n 1 plumed_mpi-patch -p
 ```
 Once the patch has been applied, NAMD needs to be recompiled.
