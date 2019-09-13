@@ -1,5 +1,5 @@
 Instructions for compiling NAMD 2.13 + Plumed for ARCHER XC30
-1=============================================================
+=============================================================
 
 These instructions are for compiling NAMD 2.13 on ARCHER XC30 (Xeon) using the Intel compilers.
 
