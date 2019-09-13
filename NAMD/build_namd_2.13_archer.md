@@ -89,5 +89,7 @@ Recompiling NAMD after applying PLUMED2 patch
 ---------------------------------------------
 ```bash
 export CRAYPE_LINK_TYPE=dynamic
+
+cd CRAY-XC-intel
 gmake -j 4
 ```
