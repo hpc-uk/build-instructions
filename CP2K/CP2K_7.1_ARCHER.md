@@ -33,62 +33,199 @@ FURTHER DETAILS ON THE TOOLCHAIN ROUTE PENDING
 Following https://www.cp2k.org/howto:compile we have the following
 depencencies
 
+CP2K | Name         | Optional | Build?    | Comment
+---- | ----         | -------- | ------    | -------
+2a.  | Gnu make     | No       | Available |
+2b.  | Python       | No       | Available | `module load anaconda/python2`
+2c.  | Fortran/C/C++| No       | Available | via module `gcc/6.3.0`
+2d.  | BLAS/LAPACK  | No       | Available | via module `cray-libsci/16.11.1`
+2e.  | MPI?SCLAPACK | Yes      | Available | 
+2f.  | FFTW         | Yes      | Avaialble | `module load fftw/3.3.6.1`
+2g.  | libint       | Yes      | Build     | 
+2h.  | libsmm       | Yes      | No        | Using libxsmm
+2i.  | libxsmm      | Yes      | Build     |
+2j.  | CUDA         | Yes      | --        | Not relevant
+2k.  | libxc        | Yes      | Build     |
+2l.  | ELPA         | Yes      | Build     |
+2m.  | PEXSI        | Yes      | No        | Why not?
+2n.  | QUIP         | Yes      | No        | Why not?
+2o.  | PLUMED       | Yes      | Build     |
+2p.  | spglib       | Yes      | No        | Why not?
+2q.  | SIRIUS       | Yes      | No        | Holly is trying this
+2r.  | FPGA         | Yes      | --        | Not relevant
 
-Dependency | Name         | Optional | Build?    | Comment
----------- | ----         | -------- | ------    | -------
-2a.        | Gnu make     | No       | Available |
-2b.        | Python       | No       | Available | `module load anaconda/python2`
-2c.        | Fortran/C/C++| No       | Available | via module `gcc/6.3.0`
-2d.        | BLAS/LAPACK  | No       | Available | via module `cray-libsci/16.11.1`
-2e.        | MPI?SCLAPACK | Yes      | Available | 
-2f.        | FFTW         | Yes      | Avaialble | `module load fftw/3.3.6.1`
-2g.        | libint       | Yes      | Build     | 
-2h.        | libsmm       | Yes      | No        |
-2i.        | libxsmm      | Yes      | Build     |
-2j.        | CUDA         | Yes      | --        | Not relevant
-2k.        | libxc        | Yes      | Build     |
-2l.        | ELPA         | Yes      | Build     |
-2m.        | PEXSI        | Yes      | No        |
-2n.        | QUIP         | Yes      | No        |
-2o.        | PLUMED       | Yes      | Build     |
-2p.        | spglib       | Yes      | No        |
-2q.        | SIRIUS       | Yes      | No        |
-2r.        | FPGA         | Yes      | --        | Not relevant
 
-
-# Downloading CP2K and basic setup
+# Preliminaries
 
 ## Setup
+
 First of all, we need to switch to the GNU compiler suite:
 
 ```
 $ module swap PrgEnv-cray PrgEnv-gnu
 ```
 
-## Download CP2K
 
-
-# Building third-party libraries
+# Compile, hope, and be thankful
 
 ## libint
 
-CP2K releases versions of libint appropirate for CP2K at https://github.com/cp2k/libint-cp2k
+CP2K releases versions of `libint` appropirate for CP2K at https://github.com/cp2k/libint-cp2k
 so a download can be selected. A choice is required on the highest `lmax` supported: we choose
-`lmax = 4`.
+`lmax = 4` to limit the size of the static executable.
 
 ```
 $ wget https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.0-cp2k-lmax-4.tgz
+$ tar zxvf libint-v2.6.0-cp2k-lmax-4.tgz
+$ cd libint-v2.6.0-cp2k-lmax-4
 ```
 
+Here we use a standard `make` approach (libint suggest `cmake` should be standard SEE ABOVE)
 
+```
+$ module swap PrgEnv-cray PrgEnv-gnu
+$ module load gcc/6.3.0
+$ module load anaconda/python2
 
-## libxc
+$ CC=cc CXX=CC FC=ftn ./configure --enable-fortran --with-cxx-optflags=-O \
+                                  --prefix=${CP2K_ROOT}/libs/libint
+$ make
+$ make install
+```
+
+If you wish to run the `libint` tests, a dynamically linked test executable is required:
+
+```
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic LIBS=-lstdc++ \
+        ./configure --enable-fortran --with-cxx-optflags=-O --enable-shared \
+                    --prefix=${CP2K_ROOT}/libs/libint
+$ make
+$ make check
+$ make install
+```
+
+### Notes
+
+* The `lmax=4` version gives a static archive of about 30 MB in size
+* The `lmax=6` version gives a static archive of around 130 MB in size
 
 
 ## libxsmm
 
+From https://github.com/hfp/libxsmm/ download version 1.13
+
+```
+$ wget https://github.com/hfp/libxsmm/archive/1.13.tar.gz
+$ tar zxvf 1.13.tar.gz
+$ cd libxsmm-1.13
+```
+
+Compile and install in one go
+```
+$  make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
+```
+
+If the `libxsmm` tests are required, avoid generating a `-lblas` at link stage via
+```
+$ make CC=cc CXX=CC FC-ftn INTRINSICS=1 BLAS=0 tests
+```
+
+### Notes
+
+* Version 1.14 is known to be problematic on ARCHER
+* It is recommended to do the "compile and install in one go" approach, as
+  separate stages is somewhat confusing.
+
+
+## libxc
+
+From https://www.tddft.org/programs/libxc/ download a version, e.g.,
+
+```
+$ wget http://www.tddft.org/programs/libxc/down.php?file=4.3.4/libxc-4.3.4.tar.gz
+$ tar zxvf ...
+$ cd libxc-4.3.4
+```
+COULD WE HAVE A BETTER LINK PLEASE
+
+
+Compilation and tests may be treated conveniently
+
+```
+$ CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
+$ make
+$ make check
+$ make install
+```
+
+## ELPA
+
+From https://elpa.mpcdf.mpg.de/software download e.g.,
+
+```
+$ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.gz
+$ tar zxvf elpa-2019.11.001.tar.gz
+$ cd elpa-2019.11.001
+```
+We need separate builds for serial and OpenMP implementations; these can be managed
+by making separate build sub-directories.
+
+### Serial
+
+```
+$ mkdir build-serial
+$ cd build-serial
+$ CC=cc CXX=CC FC=ftn ../configure --enable-openmp=no --enable-shared=no \
+                                   --disable-avx2 --disable-avx512 \
+                                   --prefix=${CP2K_ROOT}/libs/elpa
+$ export CRAYPE_LINK_TYPE=dynamic
+$ make
+$ make install
+$ unset CRAYPE_LINK_TYPE
+```
+
+### OpenMP
+
+Just set the OpenMP configure switch
+```
+$ mkdir build-openmp
+$ cd build-openmp
+$ CC=cc CXX=CC FC=ftn ../configure --enable-openmp=yes --enable-shared=no \
+                                   --disable-avx2 --disable-avx512 \
+                                   --prefix=${CP2K_ROOT}/libs/elpa
+```
+and then as above.
+
+#### Notes
+
+* Note that the prefix location is the same in each case.
+* The `--disable-avx2` and `--disable-avx512` prevent compilation failure.
+* Don't try the tests.
+
 
 ## Plumed
+
+From  https://github.com/plumed/plumed2 download, e.g.,
+
+```
+$ wget https://github.com/plumed/plumed2/releases/download/v2.6.0/plumed-2.6.0.tgz
+$ tar zxvf plumed-2.6.0.tgz
+$ cd plumed-2.6.0.tgz
+```
+
+Compile
+```
+$ export CRAYPE_LINK_TYPE=dynamic
+$ CC=cc CXX=CC FC=ftn MPIEXEC=aprun ./configure --disable-openmp \
+                                                --prefix=${CP2K_ROOT}/libs/plumed
+$ make
+$ make install
+$ unset CRAYPE_LINK_TYPE
+```
+
+Currently problematic. Back off to 2.5 something?
+
+
 
 
 
@@ -96,6 +233,9 @@ $ wget https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.
 
 ## libgrid autotuning
 
+Currently problematic
+
 ## CP2K
 
+## Regression tests
 `
