@@ -142,12 +142,10 @@ $ make CC=cc CXX=CC FC-ftn INTRINSICS=1 BLAS=0 tests
 From https://www.tddft.org/programs/libxc/ download a version, e.g.,
 
 ```
-$ wget http://www.tddft.org/programs/libxc/down.php?file=4.3.4/libxc-4.3.4.tar.gz
-$ tar zxvf ...
+$ wget https://gitlab.com/libxc/libxc/-/archive/4.3.4/libxc-4.3.4.tar.gz
+$ tar zxvf libxc-4.3.4.tar.gz
 $ cd libxc-4.3.4
 ```
-COULD WE HAVE A BETTER LINK PLEASE
-
 
 Compilation and tests may be treated conveniently
 
