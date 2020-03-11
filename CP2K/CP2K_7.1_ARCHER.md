@@ -235,6 +235,12 @@ $ make install
 
 # Compile CP2K itself
 
+General
+
+* `-ffast-math` is not supported and will fail in main compilation
+  with a message saying this may cause errors/instability.
+* Remove `-g` from final version to remove about 100MB from the executable
+
 ## libgrid autotuning
 
 Currently problematic
@@ -249,7 +255,6 @@ FC       = ftn
 LD       = ftn 
 AR       = ar -r
 
-DATA_DIR   = /work/z01/z01/kevin/cp2k/7.1/data
 CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
 
 # Provides PLUMED_DEPENDENCIES
@@ -287,6 +292,11 @@ And compile
 $ cd ${CP2K_ROOT}
 $ make ARCH=ARCHER VERSION=sopt
 ```
+
+## CP2K psmp
+
+## CP2K popt
+
 
 ## Regression tests
 `
