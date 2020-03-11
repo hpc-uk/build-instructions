@@ -173,9 +173,10 @@ by making separate build sub-directories.
 ```
 $ mkdir build-serial
 $ cd build-serial
-$ CC=cc CXX=CC FC=ftn ../configure --enable-openmp=no --enable-shared=no \
-                                   --disable-avx2 --disable-avx512 \
-                                   --prefix=${CP2K_ROOT}/libs/elpa
+$ CC=cc CXX=CC FC=ftn ../configure      \
+  --enable-openmp=no --enable-shared=no \
+  --disable-avx2 --disable-avx512       \
+  --prefix=${CP2K_ROOT}/libs/elpa
 $ export CRAYPE_LINK_TYPE=dynamic
 $ make
 $ make install
@@ -188,9 +189,10 @@ Just set the OpenMP configure switch
 ```
 $ mkdir build-openmp
 $ cd build-openmp
-$ CC=cc CXX=CC FC=ftn ../configure --enable-openmp=yes --enable-shared=no \
-                                   --disable-avx2 --disable-avx512 \
-                                   --prefix=${CP2K_ROOT}/libs/elpa
+$ CC=cc CXX=CC FC=ftn ../configure       \
+  --enable-openmp=yes --enable-shared=no \
+  --disable-avx2 --disable-avx512        \
+  --prefix=${CP2K_ROOT}/libs/elpa
 ```
 and then as above.
 
@@ -198,7 +200,7 @@ and then as above.
 
 * Note that the prefix location is the same in each case.
 * The `--disable-avx2` and `--disable-avx512` prevent compilation failure.
-* Don't try the tests.
+* Don't try the tests until figure out where the request for a password is coming from.
 
 
 ## Plumed
@@ -213,16 +215,20 @@ $ cd plumed-2.6.0.tgz
 
 Compile
 ```
-$ export CRAYPE_LINK_TYPE=dynamic
-$ CC=cc CXX=CC FC=ftn MPIEXEC=aprun ./configure --disable-openmp \
-                                                --prefix=${CP2K_ROOT}/libs/plumed
+$ CC=cc CXX=CC FC=ftn MPIEXEC=aprun ./configure      \
+  --disable-openmp --disable-shared --disable-dlopen \
+  --prefix=${CP2K_ROOT}/libs/plumed
 $ make
 $ make install
-$ unset CRAYPE_LINK_TYPE
 ```
 
-Currently problematic. Back off to 2.5 something?
+### Notes
 
+* The `--disable-openmp` is for the serial build
+* The `--disable-shared --disable-dlopen` avoid SEGV at CP2K run time in
+  the plumed initialisation. This is caused by a call to `dlopen()`.
+* One can also avoid this problem at run time by setting the environment
+  variable `PLUMED_LOAD_SKIP_REGISTRATION`, but we choose to avoid it completely.
 
 
 
@@ -233,7 +239,11 @@ Currently problematic. Back off to 2.5 something?
 
 Currently problematic
 
-## CP2K
+## CP2K sopt
+
+
+
+
 
 ## Regression tests
 `
