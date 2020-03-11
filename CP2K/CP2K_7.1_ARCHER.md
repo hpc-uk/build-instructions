@@ -57,16 +57,38 @@ CP2K | Name         | Optional | Build?    | Comment
 
 # Preliminaries
 
-## Setup
+## Set GNU programming environment
 
 First of all, we need to switch to the GNU compiler suite:
 
 ```
 $ module swap PrgEnv-cray PrgEnv-gnu
 ```
+which is relevant to all of waht follows.
 
+### Set `CP2K_ROOT`
+
+From the CP2K web site, download the appropriate release of the code: 
+
+```
+$ wget https://github.com/cp2k/cp2k/archive/v7.1.0.tar.gz
+```
+ Untar this into a location on the `/work` file system:
+ ```
+ $ tar zxvf v7.1.0.tar.gz
+ $ cd cp2k-7.1.0
+ $ ls
+ COPYRIGHT   LICENSE   README.md  arch        data  src    tools
+ INSTALL.md  Makefile  REVISION   benchmarks  exts  tests
+ $ export CP2K_ROOT=`pwd`
+```
+Note we have set the environment variable `CP2K_ROOT` to be the top-level
+CP2K directory. We will refer to this in what follows.
 
 # Compile, hope, and be thankful
+
+The following may be downloaded to a location of choice, but they will all be installed
+in `${CP2K_ROOT}/libs`.
 
 ## libint
 
