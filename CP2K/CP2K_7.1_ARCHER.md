@@ -241,9 +241,52 @@ Currently problematic
 
 ## CP2K sopt
 
+The arch file is `$CP2K_ROOT/arch/ARCHER.sopt`: JUST CHECK IN THE FILE!?
 
+```
+CC       = cc
+FC       = ftn
+LD       = ftn 
+AR       = ar -r
 
+DATA_DIR   = /work/z01/z01/kevin/cp2k/7.1/data
+CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
 
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+# Options
+
+DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
+           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
+           -D__STATM_RESIDENT
+
+CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
+           -ffree-form -ffree-line-length-512
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/elpa
+
+LDFLAGS  = $(FCFLAGS)
+
+LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
+           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
+           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
+           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa \
+           $(PLUMED_DEPENDENCIES) -lfftw3 -lz -ldl -lstdc++
+```
+
+And compile
+
+```
+$ cd ${CP2K_ROOT}
+$ make ARCH=ARCHER VERSION=sopt
+```
 
 ## Regression tests
 `
