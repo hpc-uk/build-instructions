@@ -64,7 +64,10 @@ First of all, we need to switch to the GNU compiler suite:
 ```
 $ module swap PrgEnv-cray PrgEnv-gnu
 ```
-which is relevant to all of waht follows.
+which is relevant to all of waht follows. In an attempt to make clear
+which modules are relevant for which parts of the build, the relevant
+module commands are repeated in each section. They don't need to be
+repeated in practice.
 
 ### Set `CP2K_ROOT`
 
@@ -190,22 +193,27 @@ $ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.g
 $ tar zxvf elpa-2019.11.001.tar.gz
 $ cd elpa-2019.11.001
 ```
+
+ELPA install instructions are at https://gitlab.mpcdf.mpg.de/elpa/elpa/blob/master/INSTALL.md
+
 We need separate builds for serial and OpenMP implementations; these can be managed
 by making separate build sub-directories.
+
+```
+$ module swap PrgEnv-cray PrgEnv-gnu
+```
 
 ### Serial
 
 ```
 $ mkdir build-serial
 $ cd build-serial
-$ CC=cc CXX=CC FC=ftn ../configure      \
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure      \
   --enable-openmp=no --enable-shared=no \
   --disable-avx2 --disable-avx512       \
   --prefix=${CP2K_ROOT}/libs/elpa
-$ export CRAYPE_LINK_TYPE=dynamic
 $ make
 $ make install
-$ unset CRAYPE_LINK_TYPE
 ```
 
 ### OpenMP
@@ -214,17 +222,19 @@ Just set the OpenMP configure switch
 ```
 $ mkdir build-openmp
 $ cd build-openmp
-$ CC=cc CXX=CC FC=ftn ../configure       \
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
   --enable-openmp=yes --enable-shared=no \
   --disable-avx2 --disable-avx512        \
   --prefix=${CP2K_ROOT}/libs/elpa
+$ make
+$ make install
 ```
-and then as above.
 
 #### Notes
 
 * Note that the prefix location is the same in each case.
 * The `--disable-avx2` and `--disable-avx512` prevent compilation failure.
+* The install stage wants to link a dynamic object hence `LDFLAGS=-dynamic`
 * Don't try the tests until figure out where the request for a password is coming from.
 
 
