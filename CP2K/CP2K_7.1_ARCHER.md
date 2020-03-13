@@ -164,7 +164,7 @@ $ make CC=cc CXX=CC FC-ftn INTRINSICS=1 BLAS=0 tests
 From https://www.tddft.org/programs/libxc/ download a version, e.g.,
 
 ```
-$ wget https://gitlab.com/libxc/libxc/-/archive/4.3.4/libxc-4.3.4.tar.gz
+$ wget -O libxc-4.3.4.tar.gz https://www.tddft.org/programs/libxc/down.php?file=4.3.4/libxc-4.3.4.tar.gz
 $ tar zxvf libxc-4.3.4.tar.gz
 $ cd libxc-4.3.4
 ```
@@ -172,6 +172,7 @@ $ cd libxc-4.3.4
 Compilation and tests may be treated conveniently
 
 ```
+$ module swap PrgEnv-cray PrgEnv-gnu
 $ CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
 $ make
 $ make check
