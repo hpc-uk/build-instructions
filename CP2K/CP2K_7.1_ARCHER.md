@@ -328,9 +328,211 @@ $ cd ${CP2K_ROOT}
 $ make ARCH=ARCHER VERSION=sopt
 ```
 
+### Regression tests
+
+We require a test configuration file based `${CP2K_ROOT}/arch/ARCHER-regtest.sopt.conf`
+
+```
+# Name of the Fortran compiler used
+export FORT_C_NAME=gnu
+
+# Base directory of CP2K
+dir_base=$PWD
+
+# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
+ther (debug...)
+cp2k_version=sopt
+
+# Do not rebuild should be the default
+quick="quick"
+nobuild="nobuild"
+
+# Arch 
+# dir_triplet=ARCHER-${FORT_C_NAME}
+dir_triplet=ARCHER
+export ARCH=ARCHER
+
+# CP2K directory in the base directory
+cp2k_dir=
+
+# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
+s
+numprocs=1
+
+# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
+numthreads=1
+
+# Maximum number of tasks (CPU cores assigned) for compilation and execution
+# Set maxtasks greater than numprocs*numthreads or to a multiple of it
+# Allocate all CPU cores for the regtest run
+
+maxtasks=24
+
+# Turn YES if a memory leak checker is used
+leakcheck="NO"
+
+# Default error tolerance
+default_err_tolerance="1.0E-14"
+
+# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
+# Leave empty for serial, add path to mpirun for parallel execution
+cp2k_run_prefix="aprun -n ${numprocs}"
+
+# Allow the config file to set the maximum allowed time. Useful for valgrind runs
+job_max_time="600"
+```
+
+This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
+
+```
+#!/bin/bash --login
+
+#PBS -l select=1
+#PBS -l walltime=00:20:00
+#PBS -A z19-cse
+
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)               
+
+cd $PBS_O_WORKDIR
+
+export OMP_NUM_THREADS=1
+
+./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.sopt.conf
+```
+
 ## CP2K psmp
 
+We require an arch file `${CP2K_ROOT}/arch/ARCHER.psmp`
+
+```
+# CP2K arch file for ARCHER psmp
+
+CC       = cc
+FC       = ftn -fopenmp
+LD       = ftn -fopenmp
+AR       = ar -r
+
+CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
+
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+# Options
+
+DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
+           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
+           -D__parallel -D__SCALAPACK -D__MPI_VERSION=3 \
+           -D__STATM_RESIDENT
+CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
+           -ffree-form -ffree-line-length-512
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/elpa
+
+LDFLAGS  = $(FCFLAGS)
+
+LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
+           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
+           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
+           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa_openmp \
+           $(PLUMED_DEPENDENCIES) -lfftw3 -lfftw3_threads -lz -ldl -lstdc++
+```
+
+And compile
+
+```
+$ cd ${CP2K_ROOT}
+$ make ARCH=ARCHER VERSION=psmp
+```
+
+### Regression tests
+
+The test config file is `${CP2K_ROOT}/arch/ARCHER-regtest.psmp.conf`
+
+```
+# Name of the Fortran compiler used
+export FORT_C_NAME=gnu
+
+# Base directory of CP2K
+dir_base=$PWD
+
+# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
+ther (debug...)
+cp2k_version=psmp
+
+# Do not rebuild should be the default
+quick="quick"
+nobuild="nobuild"
+
+# Arch 
+# dir_triplet=ARCHER-${FORT_C_NAME}
+dir_triplet=ARCHER
+export ARCH=ARCHER
+
+# CP2K directory in the base directory
+cp2k_dir=
+
+# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
+s
+numprocs=2
+
+# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
+numthreads=2
+export OMP_STACKSIZE=65000
+
+# Maximum number of tasks (CPU cores assigned) for compilation and execution
+# Set maxtasks greater than numprocs*numthreads or to a multiple of it
+# Allocate all CPU cores for the regtest run
+
+maxtasks=24
+
+# Turn YES if a memory leak checker is used
+leakcheck="NO"
+
+# Default error tolerance
+default_err_tolerance="1.0E-14"
+
+# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
+# Leave empty for serial, add path to mpirun for parallel execution
+cp2k_run_prefix="aprun -n ${numprocs} -S ${numprocs} -d ${numthreads}"
+
+# Allow the config file to set the maximum allowed time. Useful for valgrind run
+s
+job_max_time="600"
+```
+
+And run from `${CP2K_ROOT}` via a PBS script
+
+```
+#!/bin/bash --login
+
+#PBS -l select=1
+#PBS -l walltime=12:00:00
+#PBS -A z19-cse
+
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)               
+
+cd $PBS_O_WORKDIR
+
+export OMP_NUM_THREADS=2
+
+./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.psmp.conf
+```
+
+
+
 ## CP2K popt
+
+
+
+### Regression tests
+
+
 
 
 ## Regression tests
