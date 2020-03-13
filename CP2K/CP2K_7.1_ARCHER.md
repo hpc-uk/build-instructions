@@ -102,7 +102,8 @@ $ tar zxvf libint-v2.6.0-cp2k-lmax-4.tgz
 $ cd libint-v2.6.0-cp2k-lmax-4
 ```
 
-Here we use a standard `make` approach (libint suggest `cmake` should be standard SEE ABOVE)
+The `libint` web site suggests that `cmake` should be the standard build approach,
+but here we use standard `make`.
 
 ```
 $ module swap PrgEnv-cray PrgEnv-gnu
@@ -128,9 +129,9 @@ $ make install
 
 ### Notes
 
+* Anaconda python is required
 * The `lmax=4` version gives a static archive of about 30 MB in size
 * The `lmax=6` version gives a static archive of around 130 MB in size
-
 
 ## libxsmm
 
@@ -144,6 +145,7 @@ $ cd libxsmm-1.13
 
 Compile and install in one go
 ```
+$ module swap PrgEnv-cray PrgEnv-gnu
 $  make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
 ```
 
@@ -154,9 +156,9 @@ $ make CC=cc CXX=CC FC-ftn INTRINSICS=1 BLAS=0 tests
 
 ### Notes
 
-* Version 1.14 is known to be problematic on ARCHER
+* At the time of writing, the latest version 1.14 does not compile on ARCHER under gcc/6.3.0
 * It is recommended to do the "compile and install in one go" approach, as
-  separate stages is somewhat confusing.
+  separate stages of make are somewhat opaque in libxsmm.
 
 
 ## libxc
