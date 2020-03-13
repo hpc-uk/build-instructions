@@ -74,12 +74,16 @@ repeated in practice.
 From the CP2K web site, download the appropriate release of the code: 
 
 ```
-$ wget https://github.com/cp2k/cp2k/archive/v7.1.0.tar.gz
+$ wget https://github.com/cp2k/cp2k/releases/download/v7.1.0/cp2k-7.1.tar.bz2
 ```
+Note: here we get the `.bz2` bundle as it contains the DBCSR submodule
+(the `.tar.gz` does not for some reason).
+
  Untar this into a location on the `/work` file system:
  ```
- $ tar zxvf v7.1.0.tar.gz
- $ cd cp2k-7.1.0
+ $ bunzip2 cp2k-7.1.tar.bz2
+ $ tar xvf cp2k-7.1.tar
+ $ cd cp2k-7.1
  $ ls
  COPYRIGHT   LICENSE   README.md  arch        data  src    tools
  INSTALL.md  Makefile  REVISION   benchmarks  exts  tests
@@ -113,7 +117,8 @@ $ module swap PrgEnv-cray PrgEnv-gnu
 $ module load gcc/6.3.0
 $ module load anaconda/python2
 
-$ CC=cc CXX=CC FC=ftn ./configure --enable-fortran --with-cxx-optflags=-O \
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ./configure \
+                                  --enable-fortran --with-cxx-optflags=-O \
                                   --prefix=${CP2K_ROOT}/libs/libint
 $ make
 $ make install
