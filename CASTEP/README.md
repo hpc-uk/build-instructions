@@ -22,7 +22,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
-* [CASTEP 18.1.0 A64FX, Fujitsu Flang 1.2.19 Build Instructions](Fujitsu-A64fx__18.1.0_tcsds1.2.19.md)
+* [CASTEP 18.1.0 A64FX, Fujitsu Flang 1.2.19 Build Instructions](Fujitsu-A64fx_18.1.0_tcsds1.2.19.md)
 * [CASTEP 18.1.0 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) GCC 6.x Build Instructions](ARCHER_18.1.0_gcc6_CrayMPT.md)
 * [CASTEP 16.1.2 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) Intel 16 Build Instructions](ARCHER_16.1.2_intel16_CrayMPT.md)
 * [CASTEP 16.1.2 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) serial x86_64 Intel 16 Build Instructions](ARCHER_16.1.2_serial_intel16.md)
