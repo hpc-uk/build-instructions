@@ -33,150 +33,367 @@ FURTHER DETAILS ON THE TOOLCHAIN ROUTE PENDING
 Following https://www.cp2k.org/howto:compile we have the following
 depencencies
 
+CP2K | Name         | Optional | Build?    | Comment
+---- | ----         | -------- | ------    | -------
+2a.  | Gnu make     | No       | Available |
+2b.  | Python       | No       | Available | `module load anaconda/python2`
+2c.  | Fortran/C/C++| No       | Available | via module `gcc/6.3.0`
+2d.  | BLAS/LAPACK  | No       | Available | via module `cray-libsci/16.11.1`
+2e.  | MPI?SCLAPACK | Yes      | Available | 
+2f.  | FFTW         | Yes      | Avaialble | `module load fftw/3.3.6.1`
+2g.  | libint       | Yes      | Build     | 
+2h.  | libsmm       | Yes      | No        | Using libxsmm
+2i.  | libxsmm      | Yes      | Build     |
+2j.  | CUDA         | Yes      | --        | Not relevant
+2k.  | libxc        | Yes      | Build     |
+2l.  | ELPA         | Yes      | Build     |
+2m.  | PEXSI        | Yes      | No        | Why not?
+2n.  | QUIP         | Yes      | No        | Why not?
+2o.  | PLUMED       | Yes      | Build     |
+2p.  | spglib       | Yes      | No        | Why not?
+2q.  | SIRIUS       | Yes      | No        | Holly is trying this
+2r.  | FPGA         | Yes      | --        | Not relevant
 
-Dependency | Name         | Optional | Build?    | Comment
----------- | ----         | -------- | ------    | -------
-2a.        | Gnu make     | No       | Available |
-2b.        | Python       | No       | Available | `module load anaconda/python2`
-2c.        | Fortran/C    | No       | Available | Use wrapper ftn, cc, CC
-2d.        | BLAS/LAPACK  | No       | Available | via 
-2e.        | MPI?SCLAPACK | Yes      | Available | via compiler wrappers
-2f.        | FFTW         | Yes      | Avaialble | `module load fftw/3.3.6.1`
-2g.        | libint       | Yes      | Build     | 
-2h.        | libsmm       | Yes      | No        |
-2i.        | libxsmm      | Yes      | Build     |
-2j.        | CUDA         | Yes      | --        | Not relevant
-2k.        | libxc        | Yes      | Build     |
-2l.        | ELPA         | Yes      | Build     |
-2m.        | PEXSI        | Yes      | No        |
-2n.        | QUIP         | Yes      | No        |
-2o.        | PLUMED       | Yes      | Build     |
-2p.        | spglib       | Yes      | No        |
-2q.        | SIRIUS       | Yes      | No        |
-2r.        | FPGA         | Yes      | No        | Not relevant
 
+# Preliminaries
 
-# Downloading CP2K and basic setup
-## Setup
+## Set GNU programming environment
+
 First of all, we need to switch to the GNU compiler suite:
 
 ```
 $ module swap PrgEnv-cray PrgEnv-gnu
 ```
+which is relevant to all of waht follows. In an attempt to make clear
+which modules are relevant for which parts of the build, the relevant
+module commands are repeated in each section. They don't need to be
+repeated in practice.
 
-At this point, it is also a good idea to load the fftw module:
+### Set `CP2K_ROOT`
 
-```
-$ module add cray-fftw
-```
-
-Finally we can set environment variables to tell `make` to use the compiler wrappers:
-
-```
-$ export FC=ftn CC=cc CXX=CC
-```
-
-## Download CP2K
-We must choose a directory to build CP2K in. Typically this would be in `/work`. Say we have chosen to build it in `/work/[project]/[project]/[username]/CP2K`. We `cd` to this directory, then download CP2K 6.1 using
+From the CP2K web site, download the appropriate release of the code: 
 
 ```
-$ svn checkout http://svn.code.sf.net/p/cp2k/code/branches/cp2k-6_1-branch cp2k
+$ wget https://github.com/cp2k/cp2k/releases/download/v7.1.0/cp2k-7.1.tar.bz2
 ```
+Note: here we get the `.bz2` bundle as it contains the DBCSR submodule
+(the `.tar.gz` does not for some reason).
 
-We will now go on to download and build all of the third party libraries we will link to CP2K.
-
-# Building third-party libraries
-In the CP2K build directory, create a `libs` directory:
-
+ Untar this into a location on the `/work` file system:
+ ```
+ $ bunzip2 cp2k-7.1.tar.bz2
+ $ tar xvf cp2k-7.1.tar
+ $ cd cp2k-7.1
+ $ ls
+ COPYRIGHT   LICENSE   README.md  arch        data  src    tools
+ INSTALL.md  Makefile  REVISION   benchmarks  exts  tests
+ $ export CP2K_ROOT=`pwd`
 ```
-$ mkdir /work/[project]/[project]/[username]/CP2K/libs
-```
+Note we have set the environment variable `CP2K_ROOT` to be the top-level
+CP2K directory. We will refer to this in what follows.
 
-that we will install the libraries into. We can now proceed to build the libraries:
+# Compile, hope, and be thankful
 
-## ELPA
-Download ELPA, extract the tarball and `cd` into the ELPA directory:
-
-```
-$ wget https://elpa.mpcdf.mpg.de/html/Releases/2015.05.001/elpa-2015.05.001.tar.gz
-$ tar -xzf elpa-2015.05.001.tar.gz
-$ cd elpa-2015.05.001
-```
-
-Now run
-```
-$ ./configure --prefix=/work/[project]/[project]/[username]/CP2K/libs/elpa --enable-openmp --enable-shared=no
-$ make
-$ make install
-$ export CRAYPE_LINK_TYPE=static
-```
-
-Note: if you encounter linking problems then use `export CRAYPE_LINK_TYPE=dynamic` and reissue the `make`
-command (**without** `make clean`) remembering to issue the `export CRAYPE_LINK_TYPE=static` at the end of the build.
+The following may be downloaded to a location of choice, but they will all be installed
+in `${CP2K_ROOT}/libs`.
 
 ## libint
-Download libint, extract the tarball and `cd` into the libint directory:
+
+CP2K releases versions of `libint` appropirate for CP2K at https://github.com/cp2k/libint-cp2k
+so a download can be selected. A choice is required on the highest `lmax` supported: we choose
+`lmax = 4` to limit the size of the static executable.
+
 ```
-$ wget https://downloads.sourceforge.net/project/libint/v1-releases/libint-1.1.4.tar.gz
-$ tar -xzf libint-1.1.4.tar.gz
-$ cd libint-1.1.4
+$ wget https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.0-cp2k-lmax-4.tgz
+$ tar zxvf libint-v2.6.0-cp2k-lmax-4.tgz
+$ cd libint-v2.6.0-cp2k-lmax-4
 ```
-Now create a directory where the object files will be put, and build libint
+
+The `libint` web site suggests that `cmake` should be the standard build approach,
+but here we use standard `make`.
+
 ```
-$ mkdir obj
-$ cd obj
-$ ../configure --prefix=/work/[project]/[project]/[username]/CP2K/libs/libint
+$ module swap PrgEnv-cray PrgEnv-gnu
+$ module load gcc/6.3.0
+$ module load anaconda/python2
+
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ./configure \
+                                  --enable-fortran --with-cxx-optflags=-O \
+                                  --prefix=${CP2K_ROOT}/libs/libint
 $ make
 $ make install
 ```
 
-## libxc
+If you wish to run the `libint` tests, a dynamically linked test executable is required:
+
 ```
-$ wget http://www.tddft.org/programs/octopus/down.php?file=libxc/4.2.3/libxc-4.2.3.tar.gz
-$ tar -xzf libxc-4.2.3.tar.gz
-$ cd libxc-4.2.3
-$ ./configure --prefix=/work/[project]/[project]/[username]/CP2K/build/libs/libxc
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic LIBS=-lstdc++ \
+        ./configure --enable-fortran --with-cxx-optflags=-O --enable-shared \
+                    --prefix=${CP2K_ROOT}/libs/libint
 $ make
+$ make check
 $ make install
 ```
+
+### Notes
+
+* Anaconda python is required
+* The `lmax=4` version gives a static archive of about 30 MB in size
+* The `lmax=6` version gives a static archive of around 130 MB in size
 
 ## libxsmm
+
+From https://github.com/hfp/libxsmm/ download version 1.13
+
 ```
-$ git clone https://github.com/hfp/libxsmm.git
-$ cd libxsmm
-$ make INTRINSICS=1 PREFIX=/work/[project]/[project]/[username]/CP2K/build/libs/libxsmm install
+$ wget https://github.com/hfp/libxsmm/archive/1.13.tar.gz
+$ tar zxvf 1.13.tar.gz
+$ cd libxsmm-1.13
 ```
 
-## libgrid
-This is not actually a third party library, but rather a component of CP2K itself. This step runs some autotuning to determine the optimum compile parameters for this component, and produces a static library `libgrid.a` containing the optimised routines.
-
-To do this, we first compile the various different versions of test code, then run a job on ARCHER to determine the runtimes for each. Finally we build the library.
-
-First `cd` into the `autotune_grid` directory in the CP2K source directory:
+Compile and install in one go
 ```
-$ cd  /work/[project]/[project]/[username]/CP2K/cp2k/cp2k/tools/autotune_grid
+$ module swap PrgEnv-cray PrgEnv-gnu
+$  make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
 ```
 
-Next we want to extract the data files
+If the `libxsmm` tests are required, avoid generating a `-lblas` at link stage via
 ```
-$ tar -xzf data.tgz
-```
-
-We now edit `generate_makefile.sh`, changing the parts that say `./out_${l}_${iopt}/test.x` to `aprun -n 1 ./out_${l}_${iopt}/test.x` so that the script knows to use `aprun` to launch executables.
-
-Now we build the executables
-```
-$ make all_gen
+$ make CC=cc CXX=CC FC-ftn INTRINSICS=1 BLAS=0 tests
 ```
 
-We now need to submit a job to benchmark the executables. To do this we use the following batch script, `submit_libgrid.pbs`:
+### Notes
+
+* At the time of writing, the latest version 1.14 does not compile on ARCHER under gcc/6.3.0
+* It is recommended to do the "compile and install in one go" approach, as
+  separate stages of make are somewhat opaque in libxsmm.
+
+
+## libxc
+
+From https://www.tddft.org/programs/libxc/ download a version, e.g.,
+
+```
+$ wget -O libxc-4.3.4.tar.gz https://www.tddft.org/programs/libxc/down.php?file=4.3.4/libxc-4.3.4.tar.gz
+$ tar zxvf libxc-4.3.4.tar.gz
+$ cd libxc-4.3.4
+```
+
+Compilation and tests may be treated conveniently
+
+```
+$ module swap PrgEnv-cray PrgEnv-gnu
+$ CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
+$ make
+$ make check
+$ make install
+```
+
+## ELPA
+
+From https://elpa.mpcdf.mpg.de/software download e.g.,
+
+```
+$ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.gz
+$ tar zxvf elpa-2019.11.001.tar.gz
+$ cd elpa-2019.11.001
+```
+
+ELPA install instructions are at https://gitlab.mpcdf.mpg.de/elpa/elpa/blob/master/INSTALL.md
+
+We need separate builds for serial and OpenMP implementations; these can be managed
+by making separate build sub-directories.
+
+```
+$ module swap PrgEnv-cray PrgEnv-gnu
+```
+
+### Serial
+
+```
+$ mkdir build-serial
+$ cd build-serial
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure      \
+  --enable-openmp=no --enable-shared=no \
+  --disable-avx2 --disable-avx512       \
+  --prefix=${CP2K_ROOT}/libs/elpa
+$ make
+$ make install
+```
+
+### OpenMP
+
+Just set the OpenMP configure switch
+```
+$ mkdir build-openmp
+$ cd build-openmp
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
+  --enable-openmp=yes --enable-shared=no \
+  --disable-avx2 --disable-avx512        \
+  --prefix=${CP2K_ROOT}/libs/elpa
+$ make
+$ make install
+```
+
+#### Notes
+
+* Note that the prefix location is the same in each case.
+* The `--disable-avx2` and `--disable-avx512` prevent compilation failure.
+* The install stage wants to link a dynamic object hence `LDFLAGS=-dynamic`
+* Don't try the tests until figure out where the request for a password is coming from.
+
+
+## Plumed
+
+From  https://github.com/plumed/plumed2 download, e.g.,
+
+```
+$ wget https://github.com/plumed/plumed2/releases/download/v2.6.0/plumed-2.6.0.tgz
+$ tar zxvf plumed-2.6.0.tgz
+$ cd plumed-2.6.0.tgz
+```
+
+Compile
+```
+$ CC=cc CXX=CC FC=ftn MPIEXEC=aprun ./configure      \
+  --disable-openmp --disable-shared --disable-dlopen \
+  --prefix=${CP2K_ROOT}/libs/plumed
+$ make
+$ make install
+```
+
+### Notes
+
+* The `--disable-openmp` is for the serial build
+* The `--disable-shared --disable-dlopen` avoid SEGV at CP2K run time in
+  the plumed initialisation. This is caused by a call to `dlopen()`.
+* One can also avoid this problem at run time by setting the environment
+  variable `PLUMED_LOAD_SKIP_REGISTRATION`, but we choose to avoid it completely.
+
+
+
+
+# Compile CP2K itself
+
+General
+
+* `-ffast-math` is not supported and will fail in main compilation
+  with a message saying this may cause errors/instability.
+* Remove `-g` from final version to remove about 100MB from the executable
+
+## libgrid autotuning
+
+Currently problematic
+
+## CP2K sopt
+
+The arch file is `$CP2K_ROOT/arch/ARCHER.sopt`: JUST CHECK IN THE FILE!?
+
+```
+CC       = cc
+FC       = ftn
+LD       = ftn 
+AR       = ar -r
+
+CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
+
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+# Options
+
+DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
+           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
+           -D__STATM_RESIDENT
+
+CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
+           -ffree-form -ffree-line-length-512
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/elpa
+
+LDFLAGS  = $(FCFLAGS)
+
+LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
+           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
+           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
+           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa \
+           $(PLUMED_DEPENDENCIES) -lfftw3 -lz -ldl -lstdc++
+```
+
+And compile
+
+```
+$ cd ${CP2K_ROOT}
+$ make ARCH=ARCHER VERSION=sopt
+```
+
+### Regression tests
+
+We require a test configuration file based `${CP2K_ROOT}/arch/ARCHER-regtest.sopt.conf`
+
+```
+# Name of the Fortran compiler used
+export FORT_C_NAME=gnu
+
+# Base directory of CP2K
+dir_base=$PWD
+
+# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
+ther (debug...)
+cp2k_version=sopt
+
+# Do not rebuild should be the default
+quick="quick"
+nobuild="nobuild"
+
+# Arch 
+# dir_triplet=ARCHER-${FORT_C_NAME}
+dir_triplet=ARCHER
+export ARCH=ARCHER
+
+# CP2K directory in the base directory
+cp2k_dir=
+
+# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
+s
+numprocs=1
+
+# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
+numthreads=1
+
+# Maximum number of tasks (CPU cores assigned) for compilation and execution
+# Set maxtasks greater than numprocs*numthreads or to a multiple of it
+# Allocate all CPU cores for the regtest run
+
+maxtasks=24
+
+# Turn YES if a memory leak checker is used
+leakcheck="NO"
+
+# Default error tolerance
+default_err_tolerance="1.0E-14"
+
+# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
+# Leave empty for serial, add path to mpirun for parallel execution
+cp2k_run_prefix="aprun -n ${numprocs}"
+
+# Allow the config file to set the maximum allowed time. Useful for valgrind runs
+job_max_time="600"
+```
+
+This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 
 ```
 #!/bin/bash --login
 
-#PBS -N libgrid
 #PBS -l select=1
-#PBS -l walltime=24:00:00
+#PBS -l walltime=00:20:00
 #PBS -A z19-cse
 
 export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)               
@@ -185,68 +402,143 @@ cd $PBS_O_WORKDIR
 
 export OMP_NUM_THREADS=1
 
-make all_run
+./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.sopt.conf
 ```
 
-This is now submitted to the queue (__remember to change the charging code to your own code__):
-```
-$ qsub submit_libgrid.pbs
-```
+## CP2K psmp
 
-NOTE: the job can take several hours to complete.
-
-Now determine the optimum compile flags/options and create the static library:
+We require an arch file `${CP2K_ROOT}/arch/ARCHER.psmp`
 
 ```
-$ make gen_best
-$ make libgrid.a
+# CP2K arch file for ARCHER psmp
+
+CC       = cc
+FC       = ftn -fopenmp
+LD       = ftn -fopenmp
+AR       = ar -r
+
+CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
+
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+# Options
+
+DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
+           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
+           -D__parallel -D__SCALAPACK -D__MPI_VERSION=3 \
+           -D__STATM_RESIDENT
+CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
+           -ffree-form -ffree-line-length-512
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/elpa
+
+LDFLAGS  = $(FCFLAGS)
+
+LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
+           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
+           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
+           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa_openmp \
+           $(PLUMED_DEPENDENCIES) -lfftw3 -lfftw3_threads -lz -ldl -lstdc++
 ```
 
-Finally, create a directory for libgrid and copy the library into this directory
+And compile
 
 ```
-$ mkdir /work/[project]/[project]/[username]/CP2K/build/libs/libgrid
-$ cp libgrid.a /work/[project]/[project]/[username]/CP2K/build/libs/libgrid/
+$ cd ${CP2K_ROOT}
+$ make ARCH=ARCHER VERSION=psmp
 ```
 
-## Plumed
+### Regression tests
 
-Download plumed 2.3.6 from [here](http://www.plumed.org/get-it) and copy the tarball onto ARCHER. Once it is on ARCHER, extract the tarball, `cd` into the directory and build:
-
-```
-$ tar -xzf plumed-2.3.6.tgz
-$ cd plumed-2.3.6
-$ export CRAYPE_LINK_TYPE=dynamic
-$ ./configure --prefix=/work/[project]/[project]/[username]/CP2K/build/libs/plumed
-$ make
-$ make install
-```
-
-# Building CP2K
-
-We are now in a position where we can build CP2K. To do this we need an _arch_ file, which is used to set environment variables and compile options for the machine we are compiling CP2K on. We will use the file `ARCHER.psmp` as the _arch_ file. We wish to place this file in the `arch` directory in the CP2K source directory:
+The test config file is `${CP2K_ROOT}/arch/ARCHER-regtest.psmp.conf`
 
 ```
-$ cp ARCHER.psmp /work/[project]/[project]/[username]/CP2K/cp2k/cp2k/arch/
+# Name of the Fortran compiler used
+export FORT_C_NAME=gnu
+
+# Base directory of CP2K
+dir_base=$PWD
+
+# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
+ther (debug...)
+cp2k_version=psmp
+
+# Do not rebuild should be the default
+quick="quick"
+nobuild="nobuild"
+
+# Arch 
+# dir_triplet=ARCHER-${FORT_C_NAME}
+dir_triplet=ARCHER
+export ARCH=ARCHER
+
+# CP2K directory in the base directory
+cp2k_dir=
+
+# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
+s
+numprocs=2
+
+# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
+numthreads=2
+export OMP_STACKSIZE=65000
+
+# Maximum number of tasks (CPU cores assigned) for compilation and execution
+# Set maxtasks greater than numprocs*numthreads or to a multiple of it
+# Allocate all CPU cores for the regtest run
+
+maxtasks=24
+
+# Turn YES if a memory leak checker is used
+leakcheck="NO"
+
+# Default error tolerance
+default_err_tolerance="1.0E-14"
+
+# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
+# Leave empty for serial, add path to mpirun for parallel execution
+cp2k_run_prefix="aprun -n ${numprocs} -S ${numprocs} -d ${numthreads}"
+
+# Allow the config file to set the maximum allowed time. Useful for valgrind run
+s
+job_max_time="600"
 ```
 
-__IMPORTANT:__ You will need to edit the lines
-```
-DATA_DIR = /work/z01/z01/gpsgibb/CP2K/build/cp2k/cp2k/data
-LIB_LOC  = /work/z01/z01/gpsgibb/CP2K/build/libs
-```
-to point to your CP2K directory.
+And run from `${CP2K_ROOT}` via a PBS script
 
-We then move into the makefiles directory:
 ```
-$ cd /work/[project]/[project]/[username]/CP2K/cp2k/cp2k/makefiles/
+#!/bin/bash --login
+
+#PBS -l select=1
+#PBS -l walltime=12:00:00
+#PBS -A z19-cse
+
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)               
+
+cd $PBS_O_WORKDIR
+
+export OMP_NUM_THREADS=2
+
+./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.psmp.conf
 ```
 
-And make CP2K with:
-```
-$ make -j4 ARCH=ARCHER VERSION=psmp cp2k
-```
 
-If successful, the CP2K executable `cp2k.psmp` should be located at `
- /work/[project]/[project]/[username]/CP2K/cp2k/cp2k/exe/ARCHER/cp2k.psmp
+
+## CP2K popt
+
+
+
+### Regression tests
+
+
+
+
+## Regression tests
 `
