@@ -97,6 +97,7 @@ $ make install
 ```
 
 Notes
+
 * At the install stage the link of a Fortran example may fail with "undefined
 reference to main". The link should be carried out with `ifort`, not `icpc`.
 
@@ -115,8 +116,8 @@ $ make CC=icc CXX=icpc FC=ifort INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm in
 ## libxc
 
 ```
-$ wget -O libxc-4.3.4.tar.gz https://www.tddft.org/programs/libxc/down.php?file=
-4.3.4/libxc-4.3.4.tar.gz
+$ wget -O libxc-4.3.4.tar.gz \
+      https://www.tddft.org/programs/libxc/down.php?file=4.3.4/libxc-4.3.4.tar.gz
 $ tar zxvf libxc-4.3.4.tar.gz
 $ cd libxc-4.3.4/
 
@@ -129,8 +130,7 @@ $ make install
 ## elpa
 
 ```
-$ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.g
-z
+$ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.gz
 $ tar zxvf elpa-2019.11.001.tar.gz 
 $ cd elpa-2019.11.001/
 
