@@ -1,8 +1,8 @@
 Instructions for compiling CASTEP 18.1.0 for Tesseract using Intel 18 compilers
 ============================================================================
 
-These instructions are for compiling CASTEP 18.1.0 on Tesseract (http://www.cirrus.ac.uk) using the Intel 17 compilers
-and HPE MPT.
+These instructions are for compiling CASTEP 18.1.0 on Tesseract using the Intel 18 compilers
+and Intel MPI 18
 
 We assume that you have obtained the CASTEP source code from the UKCP developers.
 

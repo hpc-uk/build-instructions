@@ -8,6 +8,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
+2020-03-23 | Andy Turner | A64FX | 18.1.0, Fujitsu Flang 1.2.19, A64FX | MPI build instructions for A64FX
 2019-02-04 | Andy Turner | Tesseract (EPCC) | 18.1.0, Intel 18, Intel Skylake Silver | MPI build instructions for Tessearct
 2019-02-04 | Andy Turner | Cirrus (EPCC) | 18.1.0, Intel 17, Intel Broadwell | MPI build instructions for Cirrus
 2018-08-09 | Andy Turner | Isambard (GW4) | 18.1.0, Cray CCE 8, Arm ThunderX2 | MPI build instructions for Isambard
@@ -21,6 +22,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
+* [CASTEP 18.1.0 A64FX, Fujitsu Flang 1.2.19 Build Instructions](Fujitsu-A64fx_18.1.0_tcsds1.2.19.md)
 * [CASTEP 18.1.0 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) GCC 6.x Build Instructions](ARCHER_18.1.0_gcc6_CrayMPT.md)
 * [CASTEP 16.1.2 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) Intel 16 Build Instructions](ARCHER_16.1.2_intel16_CrayMPT.md)
 * [CASTEP 16.1.2 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) serial x86_64 Intel 16 Build Instructions](ARCHER_16.1.2_serial_intel16.md)
