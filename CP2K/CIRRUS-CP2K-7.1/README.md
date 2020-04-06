@@ -103,16 +103,18 @@ reference to main". The link should be carried out with `ifort`, not `icpc`.
 
 ## libxsmm
 
+```
 $ wget https://github.com/hfp/libxsmm/archive/1.14.tar.gz
 $ tar zxvf 1.14.tar.gz 
 $ cd libxsmm-1.14/
 
 $ make CC=icc CXX=icpc FC=ifort INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
-
+```
 
 
 ## libxc
 
+```
 $ wget -O libxc-4.3.4.tar.gz https://www.tddft.org/programs/libxc/down.php?file=
 4.3.4/libxc-4.3.4.tar.gz
 $ tar zxvf libxc-4.3.4.tar.gz
@@ -122,6 +124,7 @@ $ CC=gcc CXX=g++ FC=gfortran ./configure --prefix=${CP2K_ROOT}/libs/libxc
 $ make
 $ make check
 $ make install
+```
 
 ## elpa
 
@@ -149,7 +152,7 @@ Notes:
  for MKL blacs and scalapack. Set the "link explicitly" option.
  https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor
 * `--disable-avx512` is required to prevent illegal instructions in tests
-* make check. [make -j to run more quckly] PASS 41 SKIP 56 FAIL 7; of
+* `make check`. [`make -j` to run more quckly] PASS 41 SKIP 56 FAIL 7; of
   the fails, the log shows these are small tolerance failures so
   assume acceptable.
 * `--enable-scalapack-tests` may be responsible for skips, but does not
