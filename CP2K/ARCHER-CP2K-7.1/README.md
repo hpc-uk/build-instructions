@@ -14,8 +14,6 @@ way to install prerequisites is via te toolchain script.
 For historical reasons, the ARCHER build instructions will use the "manual"
 route which builds each relevant prerequisite independently.
 
-FURTHER DETAILS ON THE TOOLCHAIN ROUTE PENDING
-
 ## General
 
 * We will use the GNU programming environment
@@ -23,7 +21,7 @@ FURTHER DETAILS ON THE TOOLCHAIN ROUTE PENDING
   it is useful to build some of the prerequisites both with an without
   OpenMP.
 * Note that if the autotuned version of libgrid is required, this can
-  take some time to runm so you might want to do this first. See the
+  take some time to run so you might want to do this first. See the
   LIBGRID SECTION.
 
 
@@ -47,11 +45,11 @@ CP2K | Name         | Optional | Build?    | Comment
 2j.  | CUDA         | Yes      | --        | Not relevant
 2k.  | libxc        | Yes      | Build     |
 2l.  | ELPA         | Yes      | Build     |
-2m.  | PEXSI        | Yes      | No        | Why not?
-2n.  | QUIP         | Yes      | No        | Why not?
+2m.  | PEXSI        | Yes      | No        | Not required
+2n.  | QUIP         | Yes      | No        | Not required
 2o.  | PLUMED       | Yes      | Build     |
-2p.  | spglib       | Yes      | No        | Why not?
-2q.  | SIRIUS       | Yes      | No        | Holly is trying this
+2p.  | spglib       | Yes      | No        | Not required
+2q.  | SIRIUS       | Yes      | No        | Not required
 2r.  | FPGA         | Yes      | --        | Not relevant
 
 
@@ -68,6 +66,10 @@ which is relevant to all of waht follows. In an attempt to make clear
 which modules are relevant for which parts of the build, the relevant
 module commands are repeated in each section. They don't need to be
 repeated in practice.
+
+Note that at the time of writing the Gnu programming environment
+supplies gcc/6.3.0 as the default.
+
 
 ### Set `CP2K_ROOT`
 
@@ -264,11 +266,14 @@ $ make install
 
 ### Notes
 
-* The `--disable-openmp` is for the serial build
+* The `--disable-openmp` is for the serial build. We do not use an OpenMP
+  as this has proved problematic elsewhere [SEE CIRRUS] and there is no
+  suggestion that it is required.
 * The `--disable-shared --disable-dlopen` avoid SEGV at CP2K run time in
   the plumed initialisation. This is caused by a call to `dlopen()`.
 * One can also avoid this problem at run time by setting the environment
-  variable `PLUMED_LOAD_SKIP_REGISTRATION`, but we choose to avoid it completely.
+  variable `PLUMED_LOAD_SKIP_REGISTRATION`, but we choose to avoid it
+  completely via the configuration.
 
 
 
@@ -279,113 +284,44 @@ General
 
 * `-ffast-math` is not supported and will fail in main compilation
   with a message saying this may cause errors/instability.
-* Remove `-g` from final version to remove about 100MB from the executable
+* One can remove `-g` from final version to remove about 100MB from the
+  executable, but it may be desirable to retain it to provide some
+  information in the case of failures.
+
+* CP2K requires a python to work out the dependencies, and a reminder
+  we are in `PrgENV-gnu`
+
+```
+$ module load anaconda/python2
+$ module swap PrgEnv-cray PrgEnv-gnu
+$ module load fftw
+```
+
 
 ## libgrid autotuning
 
-Currently problematic
+The build from the autotuning stage is currently problematic on ARCHER
+apparently owing to various non-standard python packages required.
 
-## CP2K sopt
 
-The arch file is `$CP2K_ROOT/arch/ARCHER.sopt`: JUST CHECK IN THE FILE!?
+## CP2K popt
 
-```
-CC       = cc
-FC       = ftn
-LD       = ftn 
-AR       = ar -r
-
-CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
-
-# Provides PLUMED_DEPENDENCIES
-
-include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
-
-# Options
-
-DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
-           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
-           -D__STATM_RESIDENT
-
-CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
-           -ffree-form -ffree-line-length-512
-
-FCFLAGS  = $(DFLAGS) $(CFLAGS) \
-           -I$(CP2K_ROOT)/libs/libint/include  \
-           -I$(CP2K_ROOT)/libs/libxsmm/include \
-           -I$(CP2K_ROOT)/libs/libxc/include   \
-           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/modules \
-           -I$(CP2K_ROOT)/libs/elpa/include/elpa-2019.11.001/elpa
-
-LDFLAGS  = $(FCFLAGS)
-
-LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
-           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
-           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
-           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa \
-           $(PLUMED_DEPENDENCIES) -lfftw3 -lz -ldl -lstdc++
-```
+The arch file is `$CP2K_ROOT/arch/ARCHER.popt` a copy of which is
+supplied HERE
 
 And compile
 
 ```
 $ cd ${CP2K_ROOT}
-$ make ARCH=ARCHER VERSION=sopt
+$ make ARCH=ARCHER VERSION=popt
 ```
 
 ### Regression tests
 
-We require a test configuration file based `${CP2K_ROOT}/arch/ARCHER-regtest.sopt.conf`
-
-```
-# Name of the Fortran compiler used
-export FORT_C_NAME=gnu
-
-# Base directory of CP2K
-dir_base=$PWD
-
-# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
-ther (debug...)
-cp2k_version=sopt
-
-# Do not rebuild should be the default
-quick="quick"
-nobuild="nobuild"
-
-# Arch 
-# dir_triplet=ARCHER-${FORT_C_NAME}
-dir_triplet=ARCHER
-export ARCH=ARCHER
-
-# CP2K directory in the base directory
-cp2k_dir=
-
-# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
-s
-numprocs=1
-
-# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
-numthreads=1
-
-# Maximum number of tasks (CPU cores assigned) for compilation and execution
-# Set maxtasks greater than numprocs*numthreads or to a multiple of it
-# Allocate all CPU cores for the regtest run
-
-maxtasks=24
-
-# Turn YES if a memory leak checker is used
-leakcheck="NO"
-
-# Default error tolerance
-default_err_tolerance="1.0E-14"
-
-# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
-# Leave empty for serial, add path to mpirun for parallel execution
-cp2k_run_prefix="aprun -n ${numprocs}"
-
-# Allow the config file to set the maximum allowed time. Useful for valgrind runs
-job_max_time="600"
-```
+We require a test configuration file based
+`${CP2K_ROOT}/arch/ARCHER-regtest.popt.conf`
+a copy of which we supply in the current directory as
+`ARCHER-regtest.popt.conf`
 
 This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 
@@ -402,51 +338,19 @@ cd $PBS_O_WORKDIR
 
 export OMP_NUM_THREADS=1
 
-./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.sopt.conf
+./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.popt.conf
 ```
+
+Notes
+
+* Don't forget the `-nobuild`!
+* Significantly longer than 20 minutes will actually be required.
+
 
 ## CP2K psmp
 
 We require an arch file `${CP2K_ROOT}/arch/ARCHER.psmp`
-
-```
-# CP2K arch file for ARCHER psmp
-
-CC       = cc
-FC       = ftn -fopenmp
-LD       = ftn -fopenmp
-AR       = ar -r
-
-CP2K_ROOT  = /work/z01/z01/kevin/cp2k/cp2k-7.1
-
-# Provides PLUMED_DEPENDENCIES
-
-include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
-
-# Options
-
-DFLAGS   = -D__FFTW3 -D__LIBXC -D__LIBXSMM  -D__PLUMED2 \
-           -D__ELPA=201911 -D__LIBINT -D__MAX_CONTR=4   \
-           -D__parallel -D__SCALAPACK -D__MPI_VERSION=3 \
-           -D__STATM_RESIDENT
-CFLAGS   = -O3 -funroll-loops -ftree-vectorize -mavx \
-           -ffree-form -ffree-line-length-512
-
-FCFLAGS  = $(DFLAGS) $(CFLAGS) \
-           -I$(CP2K_ROOT)/libs/libint/include  \
-           -I$(CP2K_ROOT)/libs/libxsmm/include \
-           -I$(CP2K_ROOT)/libs/libxc/include   \
-           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/modules \
-           -I$(CP2K_ROOT)/libs/elpa/include/elpa_openmp-2019.11.001/elpa
-
-LDFLAGS  = $(FCFLAGS)
-
-LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
-           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
-           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
-           -L$(CP2K_ROOT)/libs/elpa/lib -lelpa_openmp \
-           $(PLUMED_DEPENDENCIES) -lfftw3 -lfftw3_threads -lz -ldl -lstdc++
-```
+a copy of which `ARCHER.psmp` can be found in this directory.
 
 And compile
 
@@ -458,58 +362,9 @@ $ make ARCH=ARCHER VERSION=psmp
 ### Regression tests
 
 The test config file is `${CP2K_ROOT}/arch/ARCHER-regtest.psmp.conf`
+a copy of which is HERE
 
-```
-# Name of the Fortran compiler used
-export FORT_C_NAME=gnu
 
-# Base directory of CP2K
-dir_base=$PWD
-
-# CP2K version: sopt (serial), popt (MPI), ssmp (OpenMP), psmp (MPI+OpenMP) or o
-ther (debug...)
-cp2k_version=psmp
-
-# Do not rebuild should be the default
-quick="quick"
-nobuild="nobuild"
-
-# Arch 
-# dir_triplet=ARCHER-${FORT_C_NAME}
-dir_triplet=ARCHER
-export ARCH=ARCHER
-
-# CP2K directory in the base directory
-cp2k_dir=
-
-# Number of MPI processes per task: should be 1 for serial or 2 for parallel run
-s
-numprocs=2
-
-# Number of threads per process: should be 2 or more for OpenMP runs otherwise 1
-numthreads=2
-export OMP_STACKSIZE=65000
-
-# Maximum number of tasks (CPU cores assigned) for compilation and execution
-# Set maxtasks greater than numprocs*numthreads or to a multiple of it
-# Allocate all CPU cores for the regtest run
-
-maxtasks=24
-
-# Turn YES if a memory leak checker is used
-leakcheck="NO"
-
-# Default error tolerance
-default_err_tolerance="1.0E-14"
-
-# *** how to execute an input file [ cp2k_prefix input cp2k_postfix ]
-# Leave empty for serial, add path to mpirun for parallel execution
-cp2k_run_prefix="aprun -n ${numprocs} -S ${numprocs} -d ${numthreads}"
-
-# Allow the config file to set the maximum allowed time. Useful for valgrind run
-s
-job_max_time="600"
-```
 
 And run from `${CP2K_ROOT}` via a PBS script
 
@@ -529,16 +384,5 @@ export OMP_NUM_THREADS=2
 ./tools/regtesting/do_regtest -nobuild -c arch/ARCHER-regtest.psmp.conf
 ```
 
+### Test results
 
-
-## CP2K popt
-
-
-
-### Regression tests
-
-
-
-
-## Regression tests
-`
