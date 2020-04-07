@@ -267,8 +267,8 @@ $ make install
 ### Notes
 
 * The `--disable-openmp` is for the serial build. We do not use an OpenMP
-  as this has proved problematic elsewhere [SEE CIRRUS] and there is no
-  suggestion that it is required.
+  as this has proved problematic elsewhere ([see ../CIRRUS-CP2k-7.1](../CIRRUS-CP2K-7.1))
+  and there is no suggestion that it is required.
 * The `--disable-shared --disable-dlopen` avoid SEGV at CP2K run time in
   the plumed initialisation. This is caused by a call to `dlopen()`.
 * One can also avoid this problem at run time by setting the environment
@@ -307,7 +307,7 @@ apparently owing to various non-standard python packages required.
 ## CP2K popt
 
 The arch file is `$CP2K_ROOT/arch/ARCHER.popt` a copy of which is
-supplied HERE
+supplied here [./ARCHER.popt](./ARCHER.popt)
 
 And compile
 
@@ -321,7 +321,7 @@ $ make ARCH=ARCHER VERSION=popt
 We require a test configuration file based
 `${CP2K_ROOT}/arch/ARCHER-regtest.popt.conf`
 a copy of which we supply in the current directory as
-`ARCHER-regtest.popt.conf`
+[./ARCHER-regtest.popt.conf](./ARCHER-regtest.popt.conf)
 
 This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 
@@ -350,7 +350,7 @@ Notes
 ## CP2K psmp
 
 We require an arch file `${CP2K_ROOT}/arch/ARCHER.psmp`
-a copy of which `ARCHER.psmp` can be found in this directory.
+a copy of which [./ARCHER.psmp](./ARCHER.psmp) can be found in this directory.
 
 And compile
 
@@ -362,7 +362,7 @@ $ make ARCH=ARCHER VERSION=psmp
 ### Regression tests
 
 The test config file is `${CP2K_ROOT}/arch/ARCHER-regtest.psmp.conf`
-a copy of which is HERE
+a copy of which is supplied here: [./ARCHER-regtest.psmp.conf](./ARCHER-regtest.psmp.conf)
 
 
 
