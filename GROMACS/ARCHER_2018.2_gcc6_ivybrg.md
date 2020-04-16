@@ -24,11 +24,12 @@ Switch to the GNU programming environment:
 module swap PrgEnv-cray PrgEnv-gnu
 ```
 
-and load the fftw and CMake modules:
+and load the CMake module:
 
 ```bash
 module load cmake/3.5.2
 ```
+Please note that the FFTW library will be built in the GROMACS compilation step.
 
 Configure and build the parallel, single-precision build
 --------------------------------------------------------
