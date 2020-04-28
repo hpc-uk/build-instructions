@@ -15,6 +15,7 @@ library MKL.
 In particular, at the time of writing, we do not have a sufficiently
 up-to-date Intel 19 to use (cf. the above list).
 
+Note that this build does not consider autotuning of libgrid.
 
 
 ## Dependencies
@@ -127,7 +128,7 @@ $ make check
 $ make install
 ```
 
-## elpa
+## ELPA
 
 ```
 $ wget http://elpa.mpcdf.mpg.de/html/Releases/2019.11.001/elpa-2019.11.001.tar.gz
@@ -160,7 +161,7 @@ Notes:
   Would have to try gitlab pull of 2019.11.001 branch.
 
 
-### elpa OpenMP version
+### ELPA OpenMP version
 
 ```
 $ mkdir build-open
@@ -183,7 +184,7 @@ Notes
 * `make check` gives same pass/skip/fail as the serial version
 
 
-##  plumed
+##  PLUMED
 
 ```
 $ CC=mpiicc CXX=mpiicpc FC=mpiifort MPIEXEC=mpirun ./configure \
@@ -246,4 +247,18 @@ Notes
 
 # Compile CP2K
 
+The following modules are loaded
+```
+$ module load intel-mpi-18 intel-compilers-18 intel-cmkl-18/18.0.5.274
+$ module load anaconda/python2
+$ module load fftw/3.3.8-intel18
+$ module load gcc/6.3.0
+```
+Note the addition of an appropriate `FFTW`, and `gcc` for the standard C++ library
+via `-lstdc++` used by Intel.
 
+With the associated Cirrus-intel.popt arch file
+
+```
+$ make ARCH=Cirrus-intel VERSION=popt
+```
