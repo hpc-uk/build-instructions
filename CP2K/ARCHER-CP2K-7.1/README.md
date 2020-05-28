@@ -17,12 +17,11 @@ route which builds each relevant prerequisite independently.
 ## General
 
 * We will use the GNU programming environment
-* We will target the sopt, psmp, and popt builds for CP2K and so
-  it is useful to build some of the prerequisites both with an without
-  OpenMP.
-* Note that if the autotuned version of libgrid is required, this can
-  take some time to run so you might want to do this first. See the
-  LIBGRID SECTION.
+* We will only consider the popt and psmp builds for CP2K.
+  It is useful to build some of the prerequisites both with an without
+  OpenMP for popt.
+* The autotuned version of libgrid was not built as there were some
+  residual problems with the automatic code generation on Archer.
 
 
 
@@ -386,3 +385,29 @@ export OMP_NUM_THREADS=2
 
 ### Test results
 
+Regression tests pass with the exception of a small number of marginal tolerance
+failures. These are currently a feature of the  compiler/architecture.
+
+The reported test failures are (6/3276):
+
+```
+tests/QS/regtest-hybrid-2/CH3-hybrid-b3lyp-lsd-g03.inp.out :
+Total energy: : ref = -39.83352464728438 new = -39.83352436483239
+relative error : 7.09081081e-09 > numerical tolerance = 1e-13
+tests/QS/regtest-hybrid-2/CH3-hybrid-handh-lsd.inp.out :
+Total energy: : ref = -39.50416074421513 new = -39.50416003831647
+relative error : 1.78689702e-08 > numerical tolerance = 1e-13
+tests/QS/regtest-hybrid-2/CH3-hybrid-pbe0-lsd.inp.out :
+Total energy: : ref = -39.78004291303353 new = -39.78004255992182
+relative error : 8.87660478e-09 > numerical tolerance = 1e-13
+tests/QS/regtest-hybrid-2/CH3-hybrid-handhlyp-lsd.inp.out :
+Total energy: : ref = -39.82374963535707 new = -39.82374892888216
+relative error : 1.77400402e-08 > numerical tolerance = 1e-13
+
+tests/QS/regtest-hybrid-1/H2O-hybrid-bhandh.inp.out :
+Total energy: : ref = -75.90482120088629 new = -75.90481977644626
+relative error : 1.87661341e-08 > numerical tolerance = 2E-14
+tests/QS/regtest-hybrid-1/H2O-hybrid-bhandhlyp.inp.out :
+Total energy: : ref = -76.33558053104207 new = -76.33557910553009
+relative error : 1.86742801e-08 > numerical tolerance = 2e-14
+```
