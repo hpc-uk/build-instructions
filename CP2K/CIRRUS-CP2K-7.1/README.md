@@ -15,7 +15,8 @@ library MKL.
 In particular, at the time of writing, we do not have a sufficiently
 up-to-date Intel 19 to use (cf. the above list).
 
-Note that this build does not consider autotuning of libgrid.
+Note that this build does not consider autotuning of libgrid, and only
+discusses the CP2K popt build.
 
 
 ## Dependencies
@@ -257,8 +258,12 @@ $ module load gcc/6.3.0
 Note the addition of an appropriate `FFTW`, and `gcc` for the standard C++ library
 via `-lstdc++` used by Intel.
 
-With the associated Cirrus-intel.popt arch file
+With the associated [./Cirrus-intel.popt](./Cirrus-intel.popt) arch file
 
 ```
 $ make ARCH=Cirrus-intel VERSION=popt
 ```
+
+# Tests
+
+All the regression tests pass to the default tolerance.
