@@ -1,0 +1,49 @@
+
+CC = mpiicc
+FC = mpiifort
+LD = mpiifort
+AR = ar -r
+
+CP2K_ROOT=/lustre/home/z04/kevin/src/cp2k-7.1-intel
+
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+DFLAGS   = -D__MKL -D__FFTW3 \
+	   -D__parallel -D__SCALAPACK \
+	   -D__ELPA=201911 -D__LIBXSMM -D__PLUMED2 -D__SPGLIB \
+	   -D__LIBXC -D__LIBINT -D__MAX_CONTR=4
+
+CFLAGS   = $(DFLAGS) -O2 -funroll-loops -fpp -free -fp-model precise \
+           -g -traceback
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(CP2K_ROOT)/libs/elpa-serial/include/elpa-2019.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa-serial/include/elpa-2019.11.001/elpa
+
+LDFLAGS  =  -static-intel
+LDFLAGS_C = -static-intel -nofor_main
+
+MKL_LIB  = ${MKLROOT}/lib/intel64
+
+LIBS    = -L$(CP2K_ROOT)/libs/libint/lib -lint2     \
+          -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm -lxsmmext \
+          -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc       \
+          -L$(CP2K_ROOT)/libs/elpa-serial/lib -lelpa               \
+          $(CP2K_ROOT)/libs/spglib/lib/libsymspg.a                 \
+          $(PLUMED_DEPENDENCIES) -lfftw3 -lz -ldl -lstdc++         \
+          $(MKL_LIB)/libmkl_scalapack_lp64.a -Wl,--start-group \
+	  $(MKL_LIB)/libmkl_intel_lp64.a ${MKL_LIB}/libmkl_sequential.a \
+	  $(MKL_LIB)/libmkl_core.a \
+	  ${MKL_LIB}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group \
+	  -lpthread -lm
+
+
+
+# Required due to memory leak that occurs if high optimisations are used
+mp2_optimize_ri_basis.o: mp2_optimize_ri_basis.F
+			 $(FC) -c $(subst O2,O0,$(FCFLAGS)) $<
