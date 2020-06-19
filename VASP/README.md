@@ -15,7 +15,7 @@ Date | Person | Version | Notes
 Build Instructions
 ------------------
 
-* [VASP 6.1.0 ARCHER Intel Build Instructions](build_vasp_6.1.0_ARCHER_intel.md)
+* [VASP 6.1.0 ARCHER Intel Build Instructions](build_vasp_6.1.0_ARCHER_Intel.md)
 * [VASP 5.4.4 ARCHER Intel Build Instructions](build_vasp_5.4.4_ivybrg.md)
 * [VASP 5.4.1 ARCHER GCC Build Instructions](build_vasp_5.4.1_ivybrg.md)
 
