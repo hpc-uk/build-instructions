@@ -1,0 +1,31 @@
+# This is OpenFOAM version 7 (release version 8 July 2019)
+# See https://openfoam.org/version/7/
+#
+# Create a suitable directory in /work and obtain this material
+# including the contents of the ./site directory:
+#
+#
+# Download and unpack source and thridparty stuff
+#
+#  $ source ./site/install.sh
+#
+# after which you should see...
+#
+#  $ ls
+#  OpenFOAM-7                   README        ThirdParty-7-version-7.tar.gz
+#  OpenFOAM-7-version-7.tar.gz  ThirdParty-7  site
+#
+#
+# We need to make some adjustments
+#
+#  $ source ./site/pre-configure.sh
+#
+# The dependencies must be run interactively; they will fail in the
+# serial queue. Allow 10 minutes.
+#
+#  $ source ./site/modules.sh
+#  $ source ./site/make-dep.sh
+#
+# A job is submitted for the main compilation (e.g., overnight).
+#
+#  $ qsub ./site/q-compile.sh
