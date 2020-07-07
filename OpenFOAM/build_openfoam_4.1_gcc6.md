@@ -11,13 +11,14 @@ Setup your environment
 
 Load the required modules:
 
-    module load gcc/6.2.0
-    module load mpt/2.14
-    module load zlib-1.2.8-gcc-6.2.0-epathtp
-    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-    module load flex-2.6.1-gcc-6.2.0-sywhrx4
-    module load cmake-3.7.1-gcc-6.2.0-75ivp2c 
+    module load gcc/6.3.0
+    module load mpt/2.22
+    module load zlib/1.2.11
+    module load gmp/6.2.0-mpt
+    module load mpfr/4.0.2-mpt
+    module load spack/2020
+    module load flex-2.6.4-gcc-8.2.0-zlwjqca
+    module load cmake/3.17.3 
 
 
 Download and extract source code
@@ -58,9 +59,9 @@ MPI configuration
 
 Link the OpenFOAM MPI compilers to the binaries on Cirrus:
 
-    ln -s /opt/sgi/mpt/mpt-2.14/bin/mpicc  OpenFOAM-4.1/bin/mpicc
-    ln -s /opt/sgi/mpt/mpt-2.14/bin/mpicxx OpenFOAM-4.1/bin/mpixx
-    ln -s /opt/sgi/mpt/mpt-2.14/bin/mpirun OpenFOAM-4.1/bin/mpirun
+    ln -s $MPI_ROOT/bin/mpicc  OpenFOAM-4.1/bin/mpicc
+    ln -s $MPI_ROOT/bin/mpicxx OpenFOAM-4.1/bin/mpixx
+    ln -s $MPI_ROOT/bin/mpirun OpenFOAM-4.1/bin/mpirun
 
 Configure scripts
 -----------------
@@ -73,39 +74,38 @@ Modify the configure scripts with the third party software locations:
 
 Edit OpenFOAM-4.1/etc/bashrc:
 
-* Add `export WM_NCOMPPROCS=24`
-* Modify `FOAM_INST_DIR=/path/to/your/top/level/OpenFOAM/directory`
-* Modify `WM_MPLIB=SGIMPI`
+    echo "export WM_NCOMPPROCS=32" >>     OpenFOAM-4.1/etc/bashrc
+    sed -i -e 's/=SYSTEMOPENMPI/=SGIMPI/' OpenFOAM-4.1/etc/bashrc
+
+Update OpenFOAM to the latest GNU C library:
+
+    sed -i -e '/^#include <unistd.h>/a #include <sys/sysmacros.h>' OpenFOAM-4.1/src/OSspecific/POSIX/fileStat.C
+    
+Update SCOTCH Makefile to find a parallel environment:
+
+    sed -i -e 's@./dummysizes@srun --ntasks=1 &@' ThirdParty-4.1/scotch_6.0.3/src/libscotch/Makefile
+    sed -i -e 's@./ptdummysizes@srun --ntasks=1 &@' ThirdParty-4.1/scotch_6.0.3/src/libscotch/Makefile
 
 Compile within an interactive job
 ---------------------------------
 
 Submit an interactive job
 
-    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    srun --time=4:0:0 --exclusive --nodes=1 --partition=standard --qos=standard --account=[your budget code] --pty bash 
 
-Load the required modules:
-
-    module load gcc/6.2.0
-    module load mpt/2.14
-    module load zlib-1.2.8-gcc-6.2.0-epathtp
-    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-    module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
-
-Build Third Party software:
+Build Third Party software (estimated duration 2 1/2 minutes):
 
     cd OpenFOAM
-    source OpenFOAM-4.1/etc/bashrc
+    source $PWD/OpenFOAM-4.1/etc/bashrc
     cd $WM_THIRD_PARTY_DIR
     export QT_SELECT=qt4
-    ./Allwmake -j 24 > log.make 2>&1
+    ./Allwmake -j 32 > log.make 2>&1
     wmRefresh
 
-Build OpenFOAM 4.1
+Build OpenFOAM 4.1 (estimated duration 30 minutes):
 
     cd $WM_PROJECT_DIR
-    ./Allwmake -j 24 > log.make 2>&1
+    ./Allwmake -j 32 > log.make 2>&1
     wmRefresh
 
 Test build
@@ -113,7 +113,7 @@ Test build
 
 Submit an interactive job
 
-    qsub -IX -N OpenFOAM_4.1 -l walltime=24:0:0 -l select=1 -A [your budget code]
+    srun --time=4:0:0 --exclusive --nodes=1 --partition=standard --qos=standard --account=[your budget code] --pty bash
 
 Load the required modules:
 
@@ -124,7 +124,12 @@ Load the required modules:
     module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
     module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
 
+Setup the environment:
+
+    cd OpenFOAM
+    source $PWD/OpenFOAM-4.1/etc/bashrc
+
 Run the test program:
 
-    icoFoam -help
+    srun --ntasks=1 icoFoam -help
 
