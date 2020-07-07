@@ -1,4 +1,4 @@
-Building OpenFOAM 4.1 on Cirrus using GCC 6.x
+Building OpenFOAM 4.0 on Cirrus using GCC 6.x
 =============================================
 
 These instructions cover the building of OpenFOAM on [Cirrus](http://www.cirrus.ac.uk).
@@ -31,19 +31,19 @@ Setup the top level directory:
 
 Download main OpenFOAM software:
 
-    wget http://dl.openfoam.org/source/4-1 -O OpenFOAM-4.1.tgz
-    wget http://dl.openfoam.org/third-party/4-1 -O ThirdParty-4.1.tgz
+    wget http://dl.openfoam.org/source/4-0 -O OpenFOAM-4.0.tgz
+    wget http://dl.openfoam.org/third-party/4-0 -O ThirdParty-4.0.tgz
 
 Unpack mail OpenFOAM software:
 
-    tar -xzf OpenFOAM-4.1.tgz &
-    tar -xzf ThirdParty-4.1.tgz
-    mv OpenFOAM-4.x-version-4.1 OpenFOAM-4.1
-    mv ThirdParty-4.x-version-4.1 ThirdParty-4.1
+    tar -xzf OpenFOAM-4.0.tgz &
+    tar -xzf ThirdParty-4.0.tgz
+    mv OpenFOAM-4.x-version-4.0 OpenFOAM-4.0
+    mv ThirdParty-4.x-version-4.0 ThirdParty-4.0
 
 Download and unpack third party components
 
-    cd ThirdParty-4.1
+    cd ThirdParty-4.0
     mkdir download
     wget -P download https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.8/CGAL-4.8.tar.xz
     wget -P download http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.bz2
@@ -59,32 +59,32 @@ MPI configuration
 
 Link the OpenFOAM MPI compilers to the binaries on Cirrus:
 
-    ln -s $MPI_ROOT/bin/mpicc  OpenFOAM-4.1/bin/mpicc
-    ln -s $MPI_ROOT/bin/mpicxx OpenFOAM-4.1/bin/mpixx
-    ln -s $MPI_ROOT/bin/mpirun OpenFOAM-4.1/bin/mpirun
+    ln -s $MPI_ROOT/bin/mpicc  OpenFOAM-4.0/bin/mpicc
+    ln -s $MPI_ROOT/bin/mpicxx OpenFOAM-4.0/bin/mpixx
+    ln -s $MPI_ROOT/bin/mpirun OpenFOAM-4.0/bin/mpirun
 
 Configure scripts
 -----------------
 
 Modify the configure scripts with the third party software locations:
 
-    sed -i -e 's/\(boost_version=\)boost-system/\1boost_1_55_0/' OpenFOAM-4.1/etc/config.sh/CGAL
-    sed -i -e 's/\(cgal_version=\)cgal-system/\1CGAL-4.8/' OpenFOAM-4.1/etc/config.sh/CGAL
-    sed -i -e 's=\-lmpfr=-lmpfr -lboost_thread=' OpenFOAM-4.1/wmake/rules/General/CGAL
+    sed -i -e 's/\(boost_version=\)boost-system/\1boost_1_55_0/' OpenFOAM-4.0/etc/config.sh/CGAL
+    sed -i -e 's/\(cgal_version=\)cgal-system/\1CGAL-4.8/'       OpenFOAM-4.0/etc/config.sh/CGAL
+    sed -i -e 's=\-lmpfr=-lmpfr -lboost_thread='                 OpenFOAM-4.0/wmake/rules/General/CGAL
 
-Edit OpenFOAM-4.1/etc/bashrc:
+Edit OpenFOAM-4.0/etc/bashrc:
 
-    echo "export WM_NCOMPPROCS=32" >>     OpenFOAM-4.1/etc/bashrc
-    sed -i -e 's/=SYSTEMOPENMPI/=SGIMPI/' OpenFOAM-4.1/etc/bashrc
+    echo "export WM_NCOMPPROCS=32" >>     OpenFOAM-4.0/etc/bashrc
+    sed -i -e 's/=SYSTEMOPENMPI/=SGIMPI/' OpenFOAM-4.0/etc/bashrc
 
 Update OpenFOAM to the latest GNU C library:
 
-    sed -i -e '/^#include <unistd.h>/a #include <sys/sysmacros.h>' OpenFOAM-4.1/src/OSspecific/POSIX/fileStat.C
+    sed -i -e '/^#include <unistd.h>/a #include <sys/sysmacros.h>' OpenFOAM-4.0/src/OSspecific/POSIX/fileStat.C
     
 Update SCOTCH Makefile to find a parallel environment:
 
-    sed -i -e 's@./dummysizes@srun --ntasks=1 &@' ThirdParty-4.1/scotch_6.0.3/src/libscotch/Makefile
-    sed -i -e 's@./ptdummysizes@srun --ntasks=1 &@' ThirdParty-4.1/scotch_6.0.3/src/libscotch/Makefile
+    sed -i -e 's@./dummysizes@srun --ntasks=1 &@'   ThirdParty-4.0/scotch_6.0.3/src/libscotch/Makefile
+    sed -i -e 's@./ptdummysizes@srun --ntasks=1 &@' ThirdParty-4.0/scotch_6.0.3/src/libscotch/Makefile
 
 Compile within an interactive job
 ---------------------------------
@@ -96,13 +96,13 @@ Submit an interactive job
 Build Third Party software (estimated duration 2 1/2 minutes):
 
     cd OpenFOAM
-    source $PWD/OpenFOAM-4.1/etc/bashrc
+    source $PWD/OpenFOAM-4.0/etc/bashrc
     cd $WM_THIRD_PARTY_DIR
     export QT_SELECT=qt4
     ./Allwmake -j 32 > log.make 2>&1
     wmRefresh
 
-Build OpenFOAM 4.1 (estimated duration 30 minutes):
+Build OpenFOAM 4.0 (estimated duration 30 minutes):
 
     cd $WM_PROJECT_DIR
     ./Allwmake -j 32 > log.make 2>&1
@@ -127,7 +127,7 @@ Load the required modules:
 Setup the environment:
 
     cd OpenFOAM
-    source $PWD/OpenFOAM-4.1/etc/bashrc
+    source $PWD/OpenFOAM-4.0/etc/bashrc
 
 Run the test program:
 
