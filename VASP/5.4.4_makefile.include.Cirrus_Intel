@@ -1,0 +1,80 @@
+# Precompiler options
+CPP_OPTIONS= -DHOST=\"SGIICEXA-Intel19-HMPT220\" \
+             -DMPI \
+             -DIFC \
+             -DCACHE_SIZE=2000 \
+             -Davoidalloc \
+             -DMPI_BLOCK=8000 \
+             -DscaLAPACK \
+             -Duse_collective \
+             -Duse_bse_te \
+             -Duse_shmem \
+             -Dtbdyn
+
+CPP        = fpp -f_com=no -free -w0  $*$(FUFFIX) $*$(SUFFIX) $(CPP_OPTIONS)
+
+FC         = mpif90 
+FCL        = mpif90 
+
+FREE       = -free -names lowercase
+
+FFLAGS     = -assume byterecl -w
+OFLAG      = -O3 -ip -fno-alias -unroll-aggressive -qopt-prefetch -use-intel-optimized-headers -no-prec-div
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+MKL_PATH   = $(MKLROOT)/lib/intel64
+BLAS       =
+LAPACK     =
+BLACS      =
+SCALAPACK  =
+
+OBJECTS    = fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d.o
+
+INCS       = -I$(MKLROOT)/include/fftw
+
+LLIBS      = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_sgimpt_lp64 -lpthread -lm -ldl
+
+OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = mpicc -cc=icc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB= linpack_double.o getshmem.o
+
+# For the parser library
+CXX_PARS   = mpicxx -cxx=icpc
+
+LIBS       += parser
+LLIBS      += -Lparser -lparser -lstdc++
+
+# Normally no need to change this
+SRCDIR     = ../../src
+BINDIR     = ../../bin
+
+#================================================
+# GPU Stuff
+
+CPP_GPU    = -DCUDA_GPU -DRPROMU_CPROJ_OVERLAP -DUSE_PINNED_MEMORY -DCUFFT_MIN=28 -UscaLAPACK
+
+OBJECTS_GPU = fftmpiw.o fftmpi_map.o fft3dlib.o fftw3d_gpu.o fftmpiw_gpu.o
+
+CC         = icc
+CXX        = icpc
+CFLAGS     = -fPIC -DADD_ -Wall -openmp -DMAGMA_WITH_MKL -DMAGMA_SETAFFINITY -DGPUSHMEM=300 -DHAVE_CUBLAS
+
+CUDA_ROOT  ?= /usr/local/cuda/
+NVCC       := $(CUDA_ROOT)/bin/nvcc -ccbin=icc
+CUDA_LIB   := -L$(CUDA_ROOT)/lib64 -lnvToolsExt -lcudart -lcuda -lcufft -lcublas
+
+GENCODE_ARCH    := -gencode=arch=compute_30,code=\"sm_30,compute_30\" \
+                   -gencode=arch=compute_35,code=\"sm_35,compute_35\" \
+                   -gencode=arch=compute_60,code=\"sm_60,compute_60\"
+
+MPI_INC    = $(I_MPI_ROOT)/include64/
