@@ -37,7 +37,7 @@ source distribution.
 
 The makefile.include used for the Intel 19 compilers on Cirrus can be downloaded from:
 
-* [5.4.4_makefile.include.Cirrus_Intel19](5.4.4_makefile.include.Cirrus_Intel19)
+* [5.4.4_makefile.include.Cirrus_Intel](5.4.4_makefile.include.Cirrus_Intel)
 
 The  build on Cirrus uses:
 
@@ -48,7 +48,7 @@ You should copy this file to the root directory of the VASP source distribution
 and then rename it to "makefile.include":
 
 ```bash
-mv 5.4.4_makefile.include.Cirrus_Intel19 makefile.include
+mv 5.4.4_makefile.include.Cirrus_Intel makefile.include
 ```
 
 Build VASP
