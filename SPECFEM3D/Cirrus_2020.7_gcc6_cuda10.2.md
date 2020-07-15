@@ -10,7 +10,7 @@ Download and Unpack the latest version of SPECFEM3D source code
 Download and unpack the source
 
 ```bash
-git clone --recursive --branch devel
+git clone --recursive --branch devel https://github.com/geodynamics/specfem3d.git
 ```
 
 Setup correct modules
