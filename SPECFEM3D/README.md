@@ -6,7 +6,7 @@ This folder contains files and documentation for building SPECFEM3d on UK HPC sy
 Build Instructions
 ------------------
 
-* [SPECFEM3D 2020.7 Cirrus (EPCC) GCC 6 Build Instructions](Cirrus2_2020.7_gcc6_cuda10.2.md)
+* [SPECFEM3D 2020.7 Cirrus (EPCC) GCC 6 and CUDA 10.2 Build Instructions](Cirrus_2020.7_gcc6_cuda10.2.md)
 
 Notes
 -----
