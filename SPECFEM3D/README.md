@@ -1,7 +1,7 @@
-GROMACS
-=======
+SPECFEM3D
+========
 
-This folder contains files and documentation for building SPECFEM3d on UK HPC systems.
+This folder contains files and documentation for building SPECFEM3D Cartesian on UK HPC systems.
 
 Build Instructions
 ------------------
