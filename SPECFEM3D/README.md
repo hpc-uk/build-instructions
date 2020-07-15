@@ -1,5 +1,5 @@
-SPECFEM3D
-========
+SPECFEM3D Cartesian
+===================
 
 This folder contains files and documentation for building SPECFEM3D Cartesian on UK HPC systems.
 
