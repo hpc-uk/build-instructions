@@ -15,7 +15,7 @@ Setup your environment
 
 Load the correct modules:
 
-   ```
+   ```bash
    module switch PrgEnv-cray/7.0.0 PrgEnv-gnu/7.0.0
    module load cray-fftw
    ```
@@ -33,7 +33,7 @@ Create MAKE/MACHINE/Makefile.archer2-tds
 
 Edit the following in MAKE/MACHINE/Makefile.archer2-tds
 
-   ```
+   ```bash
    CC =		CC
    CCFLAGS =	-O3 -Wrestrict
    ```
@@ -59,7 +59,7 @@ Edit the following in MAKE/MACHINE/Makefile.archer2-tds
 
 Add the packages:
 
-   ```
+   ```bash
    make yes-asphere yes-body yes-class2 \
         yes-colloid yes-compress \
         yes-coresphere yes-dipole yes-granular \
