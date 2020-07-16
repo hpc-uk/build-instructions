@@ -281,13 +281,13 @@ YACC        = bison -pscotchyy -y -b y
 ## Compile OpenFOAM
 
 Please note, that the compile takes a long time (9h+) and so we usually use a batch job running
-on the ARCHER compile nodes (`ppn` queue). The compile script we use is given below.
+on the ARCHER compile nodes (`serial` queue). The compile script we use is given below.
 
 ```bash
 #!/bin/bash --login
 #
 #PBS -N FOAMcompile
-#PBS -l select=1
+#PBS -l select=serial=true:ncpus=1
 #PBS -l walltime=24:0:0
 #PBS -A z19-cse
 
@@ -303,6 +303,7 @@ module list
 export CRAYPE_LINK_TYPE=dynamic
 export CRAY_ADD_RPATH=yes
 
+cd OpenFOAM-7/
 source etc/bashrc
 
 ./Allwmake > openfoam-build.log 2> openfoam-err.log
