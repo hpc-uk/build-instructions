@@ -9,6 +9,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
+2020-07-07 | Iakovos Panourgias | Cirrus | 4.0 |
 2019-03-21 | Andy Turner | ARCHER (Cray XC30) | v6 | 
 2017-04-19 | Andy Turner | Cirrus | 4.1 | 
 
@@ -18,6 +19,7 @@ Build Instructions
 * [OpenFOAM v7 Build Instructions for GCC 6 Compilers on Cray XC30](build_openfoam_7_CrayXC_gcc6.md)
 * [OpenFOAM v6 Build Instructions for GCC 6 Compilers on Cray XC30](build_openfoam_6_CrayXC_gcc6.md)
 * [OpenFOAM 4.1 Build Instructions for GCC 6 Compilers](build_openfoam_4.1_gcc6.md)
+* [OpenFOAM 4.0 Build Instructions for GCC 6 Compilers](build_openfoam_4.0_gcc6.md)
 * [OpenFOAM 5.0 Build Instructions for GCC 6 Compilers](build_openfoam_5.0_gcc6.md)
 
 Notes

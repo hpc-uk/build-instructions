@@ -3,26 +3,10 @@ GROMACS
 
 This folder contains files and documentation for building GROMACS on UK HPC systems.
 
-History
--------
-
-Date | Person | System | Version | Notes
----- | -------|--------|---------|------
-2020-04-16 | Juan Herrera | ARCHER (EPCC), Xeon Ivy Bridge | 2020.1 |
-2020-01-29 | Andy Turner | Isambard (GW4), Marvell Arm ThunderX2 | 2019.3 | 
-2019-10-11 | Andy Turner | Tesseract (DiRAC ES, Xeon Skylake Silver) | 2019.3 | 
-2019-09-03 | Andy Turner | AMD Rome | 2019.3 | 
-2018-09-21 | Andy Turner | ARCHER (EPCC), Xeon Ivy Bridge | 2018.2 | 
-2018-09-07 | Andy Turner | Isambard (GW4), Arm Cavium ThunderX2 | 2018.2 | 
-2018-05-08 | Andy Turner | Cirrus (EPCC), Xeon Broadwell | 2016.3 | 
-2018-01-19 | Andy Turner | CSD3 Skylake (Cambridge), Xeon Skylake Gold | 2016.4 | 
-2018-01-19 | Andy Turner | Athena (HPC Mid+), Xeon Broadwell | 2016.3 | 
-2017-05-16 | Andy Turner | ARCHER (EPCC), Xeon Ivy Bridge | 2016.3 | 
-2017-01-12 | Andy Turner | ARCHER (EPCC), Xeon Ivy Bridge | 5.1.4 | 
-
 Build Instructions
 ------------------
 
+* [GROMACS 2020.2 ARCHER2 (EPCC) GCC 9 Build Instructions](ARCHER2_2020.2_gcc6.md)
 * [GROMACS 2019.3 Isambard (GW4), Marvell Arm ThunderX2 GCC 8 Build Instructions](Isambard_2019.3_gcc8.md)
 * [GROMACS 2019.3 Tesseract (DiRAC Extreme Scaling) GCC 7 Build Instructions](Tesseract_2019.3_gcc7.md)
 * [GROMACS 2019.3 AMD Rome, AOCC 2 Build Instructions](AMD_Rome_2019.3_aocc2.md)
