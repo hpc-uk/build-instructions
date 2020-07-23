@@ -34,11 +34,23 @@ cd build-intel
 
 module swap PrgEnv-cray PrgEnv-intel
 module swap intel intel/17.0.3.191
-module swap gcc gc/6.3.0
+module swap gcc gcc/6.3.0
 module load cmake
 module load cray-libsci
 
+cat >> initial_cache.cmake << EOF
+set(CMAKE_Fortran_COMPILER ftn CACHE STRING "")
+set(CMAKE_Fortran_FLAGS "-O3 -ip -fp-model precise" CACHE STRING "")
+set(Fortran_MIN_FLAGS "-O0 -ip -fp-model precise" CACHE STRING "")
+set(CMAKE_C_COMPILER cc CACHE STRING "")
+set(CMAKE_C_FLAGS "-O3 -ip -fp-model precise" CACHE STRING "")
+EOF
+
+cmake -C initial_cache.cmake ..
+make -j 6
 ```
+
+See the accompanying script `install-intel.sh`.
 
 ## PrgEnv-gnu (option)
 
@@ -66,6 +78,8 @@ EOF
 cmake -C intial_cache.cmake
 make -j 6
 ```
+
+See the accompanying script `install-gnu.sh`.
 
 ## Test job submission
 
@@ -110,7 +124,7 @@ cp ${FHI_AIMS_ROOT}/benchmarks/Ac-Lys-Ala19-H/geometry.in .
 aprun -n 48 -N 24 ${FHI_AIMS_ROOT}/build-intel/aims.$aims_version.x < /dev/null
 ```
 
-The script is available as a separate file.
+See the accompanying submission script `submit-48.sh`.
 
 
 
