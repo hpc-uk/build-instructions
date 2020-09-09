@@ -1,0 +1,64 @@
+# Precompiler options
+CPP_OPTIONS= -DHOST=\"CrayXC_GCC_OMP\" \
+             -DMPI -DMPI_BLOCK=8000 -Duse_collective \
+             -DscaLAPACK \
+             -DCACHE_SIZE=4000 \
+             -Davoidalloc \
+             -Dvasp6 \
+             -Duse_bse_te \
+             -Dtbdyn \
+             -Dfock_dblbuf \
+             -D_OPENMP
+
+CPP        = gcc -E -P -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
+
+FC         = ftn -fopenmp
+FCL        = ftn -fopenmp
+
+FREE       = -ffree-form -ffree-line-length-none
+
+MKL_PATH   = /opt/intel/parallel_studio_xe_2017_ce/compilers_and_libraries_2017.3.191/linux/mkl
+
+FFLAGS     = -w -march=native  -m64 -I$(MKL_PATH)/include
+OFLAG      = -O2
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+BLAS       = 
+LAPACK     = 
+BLACS      = 
+SCALAPACK  =
+
+LLIBS      = $(MKL_PATH)/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group $(MKL_PATH)/lib/intel64/libmkl_gf_lp64.a $(MKL_PATH)/lib/intel64/libmkl_gnu_thread.a $(MKL_PATH)/lib/intel64/libmkl_core.a $(MKL_PATH)/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lgomp -lpthread -lm -ldl
+
+INCS       = -I$(MKL_PATH)/include/fftw
+
+OBJECTS    = fftmpiw.o fftmpi_map.o  fftw3d.o  fft3dlib.o
+
+OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = cc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB= linpack_double.o getshmem.o
+
+# For the parser library
+CXX_PARS   = CC
+LLIBS      += -lstdc++
+
+### For the fft library
+##CXX_FFTLIB = g++ -fopenmp -std=c++11 -DFFTLIB_THREADSAFE 
+##INCS_FFTLIB= -I./include -I$(FFTW)/include
+##LIBS       += fftlib
+##LLIBS      += -ldl
+
+# Normally no need to change this
+SRCDIR     = ../../src
+BINDIR     = ../../bin
+
