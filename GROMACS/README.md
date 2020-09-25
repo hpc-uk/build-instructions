@@ -6,7 +6,7 @@ This folder contains files and documentation for building GROMACS on UK HPC syst
 Build Instructions
 ------------------
 
-* [GROMACS 2020.2 ARCHER2 (EPCC) GCC 9 Build Instructions](ARCHER2_2020.2_gcc6.md)
+* [GROMACS 2020.3 ARCHER2 (EPCC) GCC 10 Build Instructions](ARCHER2_2020.3_gcc10.md)
 * [GROMACS 2019.3 Isambard (GW4), Marvell Arm ThunderX2 GCC 8 Build Instructions](Isambard_2019.3_gcc8.md)
 * [GROMACS 2019.3 Tesseract (DiRAC Extreme Scaling) GCC 7 Build Instructions](Tesseract_2019.3_gcc7.md)
 * [GROMACS 2019.3 AMD Rome, AOCC 2 Build Instructions](AMD_Rome_2019.3_aocc2.md)
