@@ -2,7 +2,7 @@
 
 You need to fill in the web form at
 https://ambermd.org/GetAmber.php#ambertools
-to download the source code bundle AmberTools20.tar.bz2.
+to download the source code bundle `AmberTools20.tar.bz2`.
 
 You also need the two accompanying bash scripts from this
 directory. See comments in the scripts for details.
@@ -11,6 +11,7 @@ Arrange the three files is a suitable location in the Cirrus filesystem
 
 ```
 $ ls
+AmberTools20.tar.bz2  build-ambertools-gnu.sh  build-parallel-netcdf-gnu.sh
 ```
 
 From the same directory, run the script to install parallel netcdf:
