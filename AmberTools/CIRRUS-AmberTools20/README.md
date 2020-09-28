@@ -29,6 +29,8 @@ $ bash ./build-ambertools-gnu.sh
 This takes about 30 minutes and will build, in turn, the serial version and
 then the parallel version using MPI.
 
+## Run time
+
 On success, you may need to source the amber.sh script:
 
 ```
@@ -36,8 +38,6 @@ $ source ./amber20_src/amber.sh
 ```
 
 to set the relevant environment variables to use AmberTools.
-
-## Run time
 
 At run time, a consistent set of modules is required so that dynamic
 libraries can be located:
@@ -48,3 +48,4 @@ module load gcc/6.3.0
 module load anaconda/python3
 ```
 
+or you could place these commands in the `amber.sh` script.
