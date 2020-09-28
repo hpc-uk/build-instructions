@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # AmberTools (not Amber)
 # See https://ambermd.org/AmberTools.php
 
@@ -7,25 +9,19 @@
 # https://ambermd.org/GetAmber.php#ambertools
 # There's no automatic way to get at this (apparently).
 
-# Pre-requisites
-# - As the Ambertools configure stage does not want to build the
-#   bundled pnetcdf, build our own. As it's not entirely clear what
-#   the bundled version is, I have plummed for 1.6.1 (based on date,
-#   more than anything).
-
-# See ./build-parallel-netcdf-gnu.sh
+# 1. Unpack the the source code
+# 2. build serial version
+# 3. build mpi version
 
 top_level=`pwd`
-pnetcdf=${top_level}/parallel-netcdf-1.6.1
 amber=amber20
 
-# Unpack Ambertools
+# 1. Unpack Ambertools
 # Note that I have not set AMBERTOOLS: it defaults to top_level/amber20_src
 
 tar xjf AmberTools20.tar.bz2
 cd ${amber}_src
 
-module load mpt/2.22
 module load gcc/6.3.0
 module load anaconda/python3
 
@@ -40,13 +36,29 @@ module load bison-3.4.2-gcc-8.2.0-saivm44
 
 python ./update_amber --update
 
+# 2. Build Serial version first.
+
 # Configure
 # The configure state builds various bundled packages: netcdf, boost, fftw
 # ./configure --full-help
 
-# Kludge
-# Fix mpif90 / C++ cross linking in the configure script via
-# fc_cxx_link_flags="-lstdc++ -lmpi++"
+./configure --with-python `which python` -nomklfftw -verbose -j 6 gnu
+
+# "make install" does the compilation and install of the tools
+
+make -j 8 install
+
+
+# 3. MPI version
+
+module load mpt/2.22
+
+# See ./build-parallel-netcdf-gnu.sh
+
+pnetcdf=${top_level}/parallel-netcdf-1.6.1
+
+# Kludge:
+# Fix mpif90 / C++ cross linking before configure by adding -lmpi++ here
 
 sed -i 's/fc_cxx_link_flag="-lstdc++"/fc_cxx_link_flag="-lstdc++ -lmpi++"/' \
     ./AmberTools/src/configure2
@@ -54,14 +66,16 @@ sed -i 's/fc_cxx_link_flag="-lstdc++"/fc_cxx_link_flag="-lstdc++ -lmpi++"/' \
 ./configure --with-python `which python` -nomklfftw -mpi -verbose \
 	    --with-pnetcdf ${pnetcdf} -j 6 gnu
 
-# "make install" does the compilation and install of the tools
-
 # Kludge:
 # The "-lstdc++" is to allow mpif90 to resolve fully boost classes
 # required in building "sander".
-# Force this into AmberTools/src/config.h produced by configure
+# Force these into AmberTools/src/config.h produced by configure
 # (as there does not appear to be an official route...)
 
 sed -i "s/AMBERLDFLAGS=/AMBERLDFLAGS= -lstdc++ /" AmberTools/src/config.h
 
-make -j 6 install
+# "make install" does the compilation and install of the tools
+
+make -j 8 install
+
+
