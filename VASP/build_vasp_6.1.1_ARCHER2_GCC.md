@@ -16,7 +16,11 @@ Unpack the source
 tar -xvf vasp.6.1.1.tar.gz
 ```
 
-Apply any patches according to the instructions on the VASP website.
+Apply any patches according to the instructions on the VASP website. In particular
+the `reader_base_2020-06-29.patch` is required on ARCHER2. For convenience, this 
+patch file is available at:
+
+   - [reader_base_2020-06-29.patch](reader_base_2020-06-29.patch)
 
 Setup correct modules
 ---------------------

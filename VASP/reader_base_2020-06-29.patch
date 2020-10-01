@@ -1,0 +1,85 @@
+diff --git a/src/reader_base.F b/src/reader_base.F
+index ce4ea393..a9aa886c 100644
+--- a/src/reader_base.F
++++ b/src/reader_base.F
+@@ -93,7 +93,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    logical, intent(out) :: flag_value
++    logical, intent(inout) :: flag_value
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+     integer, optional :: foundnumber
+@@ -149,7 +149,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    logical, dimension(:), intent(out) :: flag_value
++    logical, dimension(:), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+@@ -206,7 +206,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    integer, intent(out) :: flag_value
++    integer, intent(inout) :: flag_value
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+     integer, optional :: foundnumber
+@@ -264,7 +264,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    integer, dimension(:), intent(out) :: flag_value
++    integer, dimension(:), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+@@ -321,7 +321,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    real(q), intent(out) :: flag_value
++    real(q), intent(inout) :: flag_value
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+     integer, optional :: foundnumber
+@@ -378,7 +378,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    real(q), dimension(:), intent(out) :: flag_value
++    real(q), dimension(:), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+@@ -433,7 +433,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    real(q), dimension(:,:), intent(out) :: flag_value
++    real(q), dimension(:,:), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+@@ -490,7 +490,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    real(q), dimension(:,:,:), intent(out) :: flag_value
++    real(q), dimension(:,:,:), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
+@@ -547,7 +547,7 @@ contains
+     logical, intent(in) :: lopen
+     integer, intent(in) :: iu0, iu5
+     character(len=*), intent(in)  :: flag_name
+-    character(len=*), intent(out) :: flag_value
++    character(len=*), intent(inout) :: flag_value
+     integer, intent(in) :: numb
+     logical, optional :: lwritexml
+     logical, optional :: lcontinue
