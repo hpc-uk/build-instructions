@@ -2,7 +2,8 @@ Instructions for compiling CASTEP 19.11 for ARCHER2 using GCC compilers
 =========================================================================
 
 These instructions are for compiling CASTEP 19.11 on [ARCHER2](https://www.archer2.ac.uk)
-using the GCC compilers.
+using the GCC compilers. ARCHER2 is an HPE Cray EX supercomputer with two AMD 7742 64-core
+processors per node and the HPE Cray Slingshot interconnect.
 
 We assume that you have obtained the CASTEP source code from the UKCP developers.
 
@@ -41,6 +42,18 @@ COMMS_ARCH := mpi
 FFT := fftw3
 BUILD := fast
 MATHLIBS := scilib
+```
+
+Edit the arch build options to remove static
+--------------------------------------------
+
+ARCHER2 does not currently support building applications statically so the option
+to set this must be removed from the `obj/platforms/linux_x86_64_gfortran9.0-XT`
+file. Open the file in an editor and remove the `-static` flag from the `LD_FLAGS`
+variable. After modification, it should look like:
+
+```
+LD_FLAGS = $(OPT) -fopenmp
 ```
 
 Build CASTEP
