@@ -16,8 +16,7 @@ Load the required modules:
     module load zlib/1.2.11
     module load gmp/6.2.0-mpt
     module load mpfr/4.0.2-mpt
-    module load spack/2020
-    module load flex-2.6.4-gcc-8.2.0-zlwjqca
+    module load flex/2.6.4
     module load cmake/3.17.3 
 
 
@@ -117,12 +116,13 @@ Submit an interactive job
 
 Load the required modules:
 
-    module load gcc/6.2.0
-    module load mpt/2.14
-    module load zlib-1.2.8-gcc-6.2.0-epathtp
-    module load gmp-6.1.2-gcc-6.2.0-2skcnwh
-    module load mpfr-3.1.4-gcc-6.2.0-thlrxaq 
-    module load flex-2.6.1-gcc-6.2.0-sywhrx4 cmake-3.7.1-gcc-6.2.0-75ivp2c 
+    module load gcc/6.3.0
+    module load mpt/2.22
+    module load zlib/1.2.11
+    module load gmp/6.2.0-mpt
+    module load mpfr/4.0.2-mpt
+    module load flex/2.6.4
+    module load cmake/3.17.3 
 
 Setup the environment:
 
