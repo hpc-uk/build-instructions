@@ -23,6 +23,7 @@ Setup the GCC compilers and load the FFTW library module:
 
 ```bash
 module restore PrgEnv-gnu
+module swap gcc gcc/9.3.0
 module load cray-fftw
 ```
 
@@ -48,7 +49,7 @@ Edit the arch build options to remove static
 --------------------------------------------
 
 ARCHER2 does not currently support building applications statically so the option
-to set this must be removed from the `obj/platforms/linux_x86_64_gfortran9.0-XT`
+to set this must be removed from the `obj/platforms/linux_x86_64_gfortran9.0-XT.mk`
 file. Open the file in an editor and remove the `-static` flag from the `LD_FLAGS`
 variable. After modification, it should look like:
 
