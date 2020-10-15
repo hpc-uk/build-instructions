@@ -1,0 +1,47 @@
+# This is OpenFOAM v6 release version 10 July 2018 
+# See https://openfoam.org/version/6/
+#
+# Here using gcc (default gcc/6.3.0) and mpt (default mpt/2.22)
+#
+# Create a directory FOAM_INST_DIR with an apprropriate location.
+# Copy the site directory (herewith) to FOAM_INST_DIR.
+#
+# This README is assumed to be in FOAM_INST_DIR (this directory)
+# which contains
+# ./site/install.sh
+# ./site/modules.sh
+# ./site/compile.sh
+# ./site/prefs.sh
+# ./site/q-compile.sh
+# ./site/q-test.sh
+#
+# Downloads
+#
+# From this directory
+#  $ source ./site/install.sh
+# to download and unpack the source and third party packages.
+#
+# You should see, e.g.,
+#  $ ls
+#  OpenFOAM-6
+#  OpenFOAM-6-version-6.tar.gz
+#  site
+#  ThirdParty-6
+#  ThirdParty-6-version-6.tar.gz
+#
+# Compilation
+#
+# ./site/prefs.sh sets WM_MPILIB=SGIMPI to pick up mpt, and everything
+# else is unchanged.
+#
+# Submit a batch job for compilation
+#  $ sbatch ./site/q-compile.sh
+# to compile (takes 40 minutes or so).
+#
+# Test
+#
+# The file q-test.sh contains a smoke test, which may wish to include
+# any local module details.
+#
+#  $ sbatch ./site/q-test.sh
+#
