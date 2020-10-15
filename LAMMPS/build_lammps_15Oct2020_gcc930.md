@@ -16,7 +16,7 @@ Setup your environment
 Load the correct modules:
 
    ```bash
-   module switch PrgEnv-cray/7.0.0 PrgEnv-gnu/7.0.0
+   module restore PrgEnv-gnu
    module load cray-fftw
    ```
 
