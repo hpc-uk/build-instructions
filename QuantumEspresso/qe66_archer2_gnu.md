@@ -4,7 +4,7 @@ Build Instructions for QE 6.6 on ARCHER2
 For version 6.6 on ARCHER using the GCC compilers
 
 ```bash
-module swap PrgEnv-cray PrgEnv-gnu
+module restore PrgEnv-gnu
 module load cray-libsci
 module load cray-fftw
 tar -xvf qe-6.6.tar.gz
