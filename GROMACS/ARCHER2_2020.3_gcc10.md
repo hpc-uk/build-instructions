@@ -11,7 +11,7 @@ Download and unpack the source
 
 ```bash
 wget http://ftp.gromacs.org/pub/gromacs/gromacs-2020.3.tar.gz
-tar -xvf gromacs-2020.2.tar.gz
+tar -xvf gromacs-2020.3.tar.gz
 ```
 
 Setup correct modules
@@ -47,7 +47,7 @@ prefix to somewhere you have permission to write to.
 ```bash
 cmake ../ -DGMX_MPI=ON -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_X11=OFF -DGMX_DOUBLE=OFF \
           -DGMX_BUILD_OWN_FFTW=ON \
-          -DCMAKE_INSTALL_PREFIX=/work/t01/t01/auser/software/GROMACS/2020.3-gcc10
+          -DCMAKE_INSTALL_PREFIX=/path/to/gromacs-2020.3
 make -j 8 install
 ```
 
@@ -77,7 +77,7 @@ prefix to somewhere you have permission to write to.
 ```bash
 cmake ../ -DGMX_MPI=OFF -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_X11=OFF -DGMX_DOUBLE=OFF \
           -DGMX_BUILD_OWN_FFTW=ON \
-          -DCMAKE_INSTALL_PREFIX=/work/t01/t01/auser/software/GROMACS/2020.3-gcc10
+          -DCMAKE_INSTALL_PREFIX=/path/to/gromacs-2020.3
 make -j 8 install
 ```
 
