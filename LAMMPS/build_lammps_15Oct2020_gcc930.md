@@ -8,7 +8,7 @@ Download LAMMPS
 
 Clone the latest stable version of LAMMPS from the GitHub repository:
 
-   `git clone -b stable https://github.com/lammps/lammps.git lammps-20200713`
+   `git clone -b stable https://github.com/lammps/lammps.git mylammps`
 
 Setup your environment
 ----------------------
@@ -25,13 +25,13 @@ MPI Version
 
 Move to the `src/` directory:
 
-   `cd lammps_20200713/src`
+   `cd mylammps/src`
 
 Create MAKE/MACHINE/Makefile.archer2
 
-   `cp MAKE/Makefile.mpi MAKE/MACHINE/Makefile.archer2`
+   `cp MAKE/Makefile.mpi MAKE/MACHINES/Makefile.archer2`
 
-Edit the following in MAKE/MACHINE/Makefile.archer2
+Edit the following in MAKE/MACHINES/Makefile.archer2
 
    ```bash
    CC =		CC
@@ -72,6 +72,6 @@ Add the packages:
 
 Compile and link:
 
-   `make archer2`
+   `make -j 8 archer2`
 
 This will create the `lmp_archer2` executable.
