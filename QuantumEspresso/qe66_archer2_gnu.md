@@ -7,6 +7,7 @@ For version 6.6 on ARCHER using the GCC compilers
 module restore PrgEnv-gnu
 module load cray-libsci
 module load cray-fftw
+wget https://github.com/QEF/q-e/archive/qe-6.6.tar.gz
 tar -xvf qe-6.6.tar.gz
 cd q-e-qe-6.6
 export CC=cc
