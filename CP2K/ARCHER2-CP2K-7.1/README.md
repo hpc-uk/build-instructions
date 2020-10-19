@@ -251,7 +251,7 @@ $ make install
 From  https://github.com/plumed/plumed2 download, e.g.,
 
 ```
-$ wget https://github.com/plumed/plumed2/releases/download/v2.6.0/plumed-2.6.1.tgz
+$ wget https://github.com/plumed/plumed2/releases/download/v2.6.1/plumed-2.6.1.tgz
 $ tar zxvf plumed-2.6.1.tgz
 $ cd plumed-2.6.1.tgz
 ```
