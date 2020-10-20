@@ -4,7 +4,7 @@
 # I make the dependencies first.
 
 cd OpenFOAM-v2006
-source ./site/modules.sh
+source ../site/modules.sh
 source ./etc/bashrc
 
 
