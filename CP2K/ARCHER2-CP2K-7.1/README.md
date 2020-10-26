@@ -56,18 +56,19 @@ CP2K | Name         | Optional | Build?    | Comment
 
 ## Set GNU programming environment
 
-First of all, we need to switch to the GNU compiler suite:
+First of all, we need to switch to the GNU compiler suite and swap to
+gcc/9.3.0
 
 ```
 $ module restore PrgEnv-gnu
+$ module swap gcc/10.1.0 gcc/9.3.0
 ```
-which is relevant to all of waht follows. In an attempt to make clear
+which is relevant to all of what follows. In an attempt to make clear
 which modules are relevant for which parts of the build, the relevant
 module commands are repeated in each section. They don't need to be
 repeated in practice.
 
-Note that at the time of writing the Gnu programming environment
-supplies gcc/9.3.0 as the default.
+Note that we use gcc 9.3.0 as currently the libint build fails with gcc 10.1.0
 
 
 ### Set `CP2K_ROOT`
@@ -115,7 +116,7 @@ but here we use standard `make`.
 
 ```
 $ module restore PrgEnv-gnu
-$ module swap gcc gcc/9.3.0
+$ module swap gcc/10.1.0 gcc/9.3.0
 $ module load cray-python
 
 $ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ./configure \
@@ -155,7 +156,7 @@ $ cd libxsmm-1.16.1
 Compile and install in one go
 ```
 $ module restore PrgEnv-gnu
-$ module swap gcc gcc/9.3.0
+$ module swap gcc/10.1.0 gcc/9.3.0
 $  make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
 ```
 
@@ -184,7 +185,7 @@ Compilation and tests may be treated conveniently
 
 ```
 $ module restore PrgEnv-gnu
-$ module swap gcc gcc/9.3.0
+$ module swap gcc/10.1.0 gcc/9.3.0
 $ CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
 $ make
 $ make check
@@ -208,7 +209,7 @@ by making separate build sub-directories.
 
 ```
 $ module restore PrgEnv-gnu
-$ module swap gcc gcc/9.3.0
+$ module swap gcc/10.1.0 gcc/9.3.0
 ```
 
 ### Serial
@@ -295,6 +296,7 @@ General
 ```
 $ module load cray-python
 $ module restore PrgEnv-gnu
+$ module swap gcc/10.1.0 gcc/9.3.0
 $ module load cray-fftw
 ```
 
