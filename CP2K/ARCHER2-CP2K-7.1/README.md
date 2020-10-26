@@ -211,6 +211,19 @@ $ module restore PrgEnv-gnu
 $ module swap gcc gcc/9.3.0
 ```
 
+### Serial
+
+```
+$ mkdir build-openmp
+$ cd build-openmp
+$ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
+  --enable-openmp=no --enable-shared=no \
+  --disable-avx512        \
+  --prefix=${CP2K_ROOT}/libs/elpa-openmp
+$ make
+$ make install
+```
+
 ### OpenMP
 
 Just set the OpenMP configure switch
@@ -238,7 +251,7 @@ $ make install
 From  https://github.com/plumed/plumed2 download, e.g.,
 
 ```
-$ wget https://github.com/plumed/plumed2/releases/download/v2.6.0/plumed-2.6.1.tgz
+$ wget https://github.com/plumed/plumed2/releases/download/v2.6.1/plumed-2.6.1.tgz
 $ tar zxvf plumed-2.6.1.tgz
 $ cd plumed-2.6.1.tgz
 ```
@@ -291,6 +304,17 @@ $ module load cray-fftw
 The build from the autotuning stage is currently problematic on ARCHER
 apparently owing to various non-standard python packages required.
 
+## CP2K popt
+
+The arch file is `$CP2K_ROOT/arch/ARCHER2.popt` a copy of which is
+supplied here [./ARCHER2.popt](./ARCHER2.popt)
+
+And compile
+
+```
+$ cd ${CP2K_ROOT}
+$ make ARCH=ARCHER2 VERSION=popt
+```
 
 ## CP2K psmp
 
@@ -321,17 +345,18 @@ This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 #SBATCH --time=2:00:0
 #SBATCH --exclusive
 #SBATCH --nodes=1
+#SBATCH --ntasks=2
 #SBATCH --tasks-per-node=2
 #SBATCH --cpus-per-task=2
+#SBATCH --qos=standard
+#SBATCH --partition=standard
 
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --account=z19
 
 
 
-
 export OMP_NUM_THREADS=2
-export OMP_PLACES=cores
 
 ./tools/regtesting/do_regtest -nobuild -c arch/ARCHER2-regtest.psmp.conf
 ```
