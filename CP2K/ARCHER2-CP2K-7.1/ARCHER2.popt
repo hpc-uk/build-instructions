@@ -4,7 +4,7 @@ LD       = ftn
 AR       = ar -r
 
 DATA_DIR   = /work/z19/z19/hjudge/CP2K/cp2k-7.1/data
-CP2K_ROOT  = /work/z19/z19/hjudge/CP2K
+CP2K_ROOT  = /work/z19/z19/hjudge/CP2K/cp2k-7.1
 
 # Provides PLUMED_DEPENDENCIES
 
