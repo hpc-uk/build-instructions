@@ -11,7 +11,8 @@ $  git clone https://aims-git.rz-berlin.mpg.de/aims/FHIaims.git
 
 However, here we discuss a bundled release version downloaded as `fhi-aims.200112_2.tgz`.
 
-Untar the bundle (or clone the git) a suitable location on `/work`. Note that we will refer
+Untar the bundle (or clone the git) a suitable location in e.g., your home directory
+. Note that we will refer
 to the top-level directory as `FHI_AIMS_ROOT`. E.g.,
 ```
 tar xf fhi-aims.200112_2.tgz
@@ -23,6 +24,8 @@ At the time of writing, compilation with `intel-mpi-19/19.0.0.117` should be
 avoided. Use `intel-18` or `mpt` as described in the following.
 
 ## Intel (may give slightly better performance)
+
+Note the use of the Intel Fortran MPI compiler wrapper `mpiifort` and C equivalent `mpiicc`.
 
 ```
 tar xf fhi-aims.200112_2.tgz
@@ -60,6 +63,7 @@ See the accompanying script `install-intel.sh`.
 ## Gnu/mpt (option)
 
 At the time of writing we have as default `gcc/6.3.0` and `cmake/3.17.3`.
+Use compiler wrappers `mpif90` and `mpicc`.
 
 ```
 module load mpt/2.22
@@ -80,6 +84,7 @@ EOF
 
 cmake -C initial_cache.cmake ..
 
+make -j 8
 ```
 
 See the accompanying script `install-gnu.sh`.
