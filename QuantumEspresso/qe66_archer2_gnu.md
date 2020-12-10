@@ -16,10 +16,10 @@ export FC=ftn
 export F77=ftn
 export F90=ftn
 
-export BLAS_LIBS=/opt/cray/pe/libsci/20.10.1.2/gnu/9.1/x86_64/lib/libsci_gnu_mpi.a
-export LAPACK_LIBS=/opt/cray/pe/libsci/20.10.1.2/gnu/9.1/x86_64/lib/libsci_gnu_mpi.a
-export SCALAPACK_LIBS=/opt/cray/pe/libsci/20.10.1.2/gnu/9.1/x86_64/lib/libsci_gnu_mpi.a
-export FFT_LIBS=/opt/cray/pe/fftw/3.3.8.8/x86_rome/lib/libfftw3_mpi.a
+export BLAS_LIBS=" "
+export LAPACK_LIBS=" "
+export SCALAPACK_LIBS=" "
+export FFT_LIBS=" "
 
 ./configure --prefix=${PATH_TO}/q-e-qe-6.6 --enable-parallel --with-scalapack=yes
 ```
