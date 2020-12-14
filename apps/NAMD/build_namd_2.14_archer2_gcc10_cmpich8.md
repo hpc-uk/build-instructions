@@ -23,7 +23,7 @@ Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2
 Download and unpack NAMD
 ------------------------
 
-Next, download the NAMD source from: http://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD
+Next, download the NAMD 2.14 source from: http://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD
 and transfer to the ARCHER2 system at the path indicated by `$NAMD_ROOT/arc`.
 
 Unpack the source.
