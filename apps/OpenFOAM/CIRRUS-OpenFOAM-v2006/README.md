@@ -25,8 +25,7 @@ $ bash ./site/install.sh
 ```
 which will download and unpack the source and third-party packages to the
 current location. The `install` script will also copy the local
-preferences `prefs.sh` to `OpenFOAM-v2006/etc`, and make a small number of
-patches to the third party configuration to allow it to compile. See
+preferences `prefs.sh` to `OpenFOAM-v2006/etc`. See
 the `install.sh` script for details.
 
 ## Compile
