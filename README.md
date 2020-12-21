@@ -4,7 +4,8 @@ HPC Software Build Instructions
 Contains information on building and optimising software for various HPC
 platforms.
 
-This is a community resource and we are keen to have contributions from all. 
+This is a community resource and we are keen to have contributions from all.
+Please open an issue or pull request if you wish to contribute.
 
 How to Contribute
 -----------------
