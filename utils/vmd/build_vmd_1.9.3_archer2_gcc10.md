@@ -74,7 +74,7 @@ export TCLINC=-I/work/y07/shared/utils/tcl/8.5.0-gcc10/include
 export TCLLIB=-L/work/y07/shared/utils/tcl/8.5.0-gcc10/lib
 ```
 
-Edit the following line to the LINUXAMD64 section in the ``Make-arch`` file.
+Add the following line to the LINUXAMD64 section in the ``Make-arch`` file.
 ```bash
 ...
 LINUXAMD64:
@@ -180,8 +180,8 @@ cd ${VMD_ROOT}/${VMD_NAME}
 ```
 
 
-Edit VMD ``configure`` file as shown below
-------------------------------------------
+Edit the VMD ``configure`` file as shown below
+----------------------------------------------
 
 ```bash
 ...
