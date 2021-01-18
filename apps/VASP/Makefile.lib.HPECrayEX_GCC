@@ -1,0 +1,59 @@
+.SUFFIXES: .inc .f .F
+#-----------------------------------------------------------------------
+# Makefile for Portland Group F90/HPF compiler
+# the makefile was tested only under Linux on Intel platforms
+# however it might work on other platforms as well
+#
+# this release of vasp.4.lib contains lapack v2.0
+# this can be compiled with pgf90 compiler if the option -O1 is used
+#
+# Mind: one user reported that he had to copy preclib.F diolib.F
+#  dlexlib.F and drdatab.F to the directory vasp.4.4, compile the files
+#  there and link them directly  into vasp
+#  for no obvious reason these files could not be linked from the library
+#
+#-----------------------------------------------------------------------
+
+# C-preprocessor
+CPP     = gcc -E -P -C $*.F >$*.f
+#FC=pgf90 -Mx,119,0x200000 
+FC=ftn
+
+CFLAGS = -O
+# FFLAGS = -i8 -C
+FFLAGS = -O1 -fallow-argument-mismatch
+FREE   = -ffree-form -ffree-line-length-none
+
+
+DOBJ =  preclib.o timing_.o derrf_.o dclock_.o  diolib.o dlexlib.o drdatab.o
+
+
+#-----------------------------------------------------------------------
+# general rules
+#-----------------------------------------------------------------------
+
+libdmy.a: $(DOBJ) lapack_double.o linpack_double.o lapack_atlas.o
+	-rm libdmy.a
+	ar vq libdmy.a $(DOBJ)
+
+# files which do not require autodouble 
+lapack_double.o: lapack_double.f
+	$(FC) $(FFLAGS) $(NOFREE) -c lapack_double.f
+lapack_single.o: lapack_single.f
+	$(FC) $(FFLAGS) $(NOFREE) -c lapack_single.f
+lapack_atlas.o: lapack_atlas.f
+	$(FC) $(FFLAGS) $(NOFREE) -c lapack_atlas.f
+linpack_double.o: linpack_double.f
+	$(FC) $(FFLAGS) $(NOFREE) -c linpack_double.f
+linpack_single.o: linpack_single.f
+	$(FC) $(FFLAGS) $(NOFREE) -c linpack_single.f
+
+.c.o:
+	$(CC) $(CFLAGS) -c $*.c
+.F.o:
+	$(CPP) 
+	$(FC) $(FFLAGS) $(FREE) $(INCS) -c $*.f
+.F.f:
+	$(CPP) 
+.f.o:
+	$(FC) $(FFLAGS) $(FREE) $(INCS) -c $*.f

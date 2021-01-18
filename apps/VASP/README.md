@@ -6,6 +6,7 @@ This folder contains files and documentation for building VASP on a variety of H
 Build Instructions
 ------------------
 
+* [VASP 4.6.36 ARCHER2 GCC Build Instructions](build_vasp_4.6.36_ARCHER2_GCC.md)
 * [VASP 6.1.1 ARCHER2 GCC Build Instructions](build_vasp_6.1.1_ARCHER2_GCC.md)
 * [VASP 5.4.4 ARCHER2 GCC Build Instructions](build_vasp_6.1.1_ARCHER2_GCC.md)
 * [VASP 5.4.4 Cirrus Intel Build Instructions](build_vasp_5.4.4_Cirrus_Intel.md)

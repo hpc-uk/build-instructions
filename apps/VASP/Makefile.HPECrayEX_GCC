@@ -1,0 +1,320 @@
+.SUFFIXES: .inc .f .f90 .F
+#-----------------------------------------------------------------------
+#
+# VASP 4.6.36 Makefile for GNU compilers on ARCHER2 (HPE Cray EX)
+#
+# Multiple k-point version
+#
+# A. R. Turner, EPCC, University of Edinburgh
+# 18 January 2021
+#
+#-----------------------------------------------------------------------
+
+# all CPP processed fortran files have the extension .f 
+SUFFIX=.f
+
+#-----------------------------------------------------------------------
+# fortran compiler and linker
+#-----------------------------------------------------------------------
+FC=ftn 
+# fortran linker
+FCL=$(FC)
+
+
+#-----------------------------------------------------------------------
+# A. Turner: Changed CPP process to work with standard tools
+# possible options for CPP:
+# possible options for CPP:
+# NGXhalf             charge density   reduced in X direction
+# wNGXhalf            gamma point only reduced in X direction
+# avoidalloc          avoid ALLOCATE if possible
+# IFC                 work around some IFC bugs
+# CACHE_SIZE          1000 for PII,PIII, 5000 for Athlon, 8000 P4
+# RPROMU_DGEMV        use DGEMV instead of DGEMM in RPRO (usually  faster)
+# RACCMU_DGEMV        use DGEMV instead of DGEMM in RACC (faster on P4)
+#  **** definitely use -DRACCMU_DGEMV if you use the mkl library
+#-----------------------------------------------------------------------
+
+CPP_OPTIONS    = -DHOST=\"HPECrayEX_GNU\" \
+          -Dkind8 \
+          -DNGZhalf \
+          -DCACHE_SIZE=8000 \
+          -Davoidalloc \
+          -DRPROMU_DGEMV \
+          -DMPI \
+          -DLONGCHAR \
+          -DscaLAPACK  \
+	      -DMPI_BLOCK=100000 \
+          -Duse_collective \
+          -Drandom_array
+
+	  #-DBLAS_WRAPPERS -I/spin/home/larkin/src/blas_wrappers/ #\
+	  # -Duse_cray_ptr
+# uncomment the -DBLAS_WRAPPERS line for profiling with blas wrappers.
+# use_cray_ptr is disabled because it breaks rmm (not davidson) on the XT3
+
+CPP= gcc -cpp -E -P -C $(CPP_OPTIONS) -o $*$(SUFFIX) $*.F
+
+#-----------------------------------------------------------------------
+# general fortran flags  (there must a trailing blank on this line)
+# the -Mx,119,0x200000 is required if you use older pgf90 versions
+# on a more recent LINUX installation
+# the option will not do any harm on other 3.X pgf90 distributions
+#-----------------------------------------------------------------------
+
+FFLAGS = -ffree-form -ffree-line-length-none -fallow-argument-mismatch
+
+#-----------------------------------------------------------------------
+# optimization,
+# we have tested whether higher optimisation improves
+# the performance, and found no improvements with -O3-5 or -fast
+# (even on Athlon system, Athlon specific optimistation worsens performance)
+#-----------------------------------------------------------------------
+
+OFLAG  = -O3 -fexternal-blas -ffast-math -funroll-loops
+
+OFLAG_HIGH = $(OFLAG)
+OBJ_HIGH = 
+OBJ_NOOPT = 
+#DEBUG  = -g -O0
+INLINE = $(OFLAG)
+
+
+#-----------------------------------------------------------------------
+# the following lines specify the position of BLAS  and LAPACK
+# what you chose is very system dependent
+# P4: VASP works fastest with Intels mkl performance library
+# Athlon: Atlas based BLAS are presently the fastest
+# P3: no clue
+#-----------------------------------------------------------------------
+
+# Atlas based libraries
+#ATLASHOME= $(HOME)/archives/BLAS_OPT/ATLAS/lib/Linux_ATHLONXP_SSE1/
+#BLAS=   -L$(ATLASHOME)  -lf77blas -latlas
+
+# use specific libraries (default library path points to other libraries)
+#BLAS= $(ATLASHOME)/libf77blas.a $(ATLASHOME)/libatlas.a
+
+# use the mkl Intel libraries for p4 (www.intel.com)
+#BLAS=-L/opt/intel/mkl/lib/32 -lmkl_p4  -lpthread
+
+# LAPACK, simplest use vasp.4.lib/lapack_double
+#LAPACK= ../vasp.4.lib/lapack_double.o
+
+# use atlas optimized part of lapack
+#LAPACK= ../vasp.4.lib/lapack_atlas.o  -llapack -lcblas
+
+# use the mkl Intel lapack
+#LAPACK= -lmkl_lapack
+
+# user Cray libsci
+BLAS=
+#BLAS=-L/spin/home/larkin/src/blas_wrappers/ -lblas_wrappers -lsci
+LAPACK=
+
+#-----------------------------------------------------------------------
+
+LIB  = -L../vasp.4.lib -ldmy \
+     ../vasp.4.lib/linpack_double.o $(LAPACK) \
+     $(BLAS) ${FFTW_LIB} #-Mprof=func
+
+# options for linking (none required)
+LINK    = 
+
+#-----------------------------------------------------------------------
+# fft libraries:
+# VASP.4.5 can use FFTW (http://www.fftw.org)
+# since the FFTW is very slow for radices 2^n the fft3dlib is used
+# in these cases
+# if you use fftw3d you need to insert -lfftw in the LIB line as well
+# please do not send us any querries reltated to FFTW (no support)
+# if it fails, use fft3dlib
+#-----------------------------------------------------------------------
+
+#FFT3D   = fft3dfurth.o fft3dlib.o
+#FFT3D   = fftw3d+furth.o fft3dlib.o
+
+
+#=======================================================================
+# MPI section, uncomment the following lines
+# 
+# one comment for users of mpich or lam:
+# You must *not* compile mpi with g77/f77, because f77/g77             
+# appends *two* underscores to symbols that contain already an        
+# underscore (i.e. MPI_SEND becomes mpi_send__).  The pgf90
+# compiler however appends only one underscore.
+# Precompiled mpi version will also not work !!!
+#
+# We found that mpich.1.2.1 and lam-6.5.X are stable
+# mpich.1.2.1 was configured with 
+#  ./configure -prefix=/usr/local/mpich_nodvdbg -fc="pgf77 -Mx,119,0x200000"  \
+# -f90="pgf90 -Mx,119,0x200000" \
+# --without-romio --without-mpe -opt=-O \
+# 
+# lam was configured with the line
+#  ./configure  -prefix /usr/local/lam-6.5.X --with-cflags=-O -with-fc=pgf90 \
+# --with-f77flags=-O --without-romio
+# 
+# lam was generally faster and we found an average communication
+# band with of roughly 160 MBit/s (full duplex)
+#
+# please note that you might be able to use a lam or mpich version 
+# compiled with f77/g77, but then you need to add the following
+# options: -Msecond_underscore (compilation) and -g77libs (linking)
+#
+# !!! Please do not send me any queries on how to install MPI, I will
+# certainly not answer them !!!!
+#=======================================================================
+#-----------------------------------------------------------------------
+# fortran linker for mpi: if you use LAM and compiled it with the options
+# suggested above,  you can use the following lines
+#-----------------------------------------------------------------------
+
+
+#FC=mpif77
+#FCL=$(FC)
+
+#-----------------------------------------------------------------------
+# additional options for CPP in parallel version (see also above):
+# NGZhalf               charge density   reduced in Z direction
+# wNGZhalf              gamma point only reduced in Z direction
+# scaLAPACK             use scaLAPACK (usually slower on 100 Mbit Net)
+#-----------------------------------------------------------------------
+
+#CPP    = $(CPP_) -DMPI  -DHOST=\"LinuxPgi\" \
+#     -Dkind8 -DNGZhalf -DCACHE_SIZE=2000 -DPGF90 -Davoidalloc -DRPROMU_DGEMV 
+
+#-----------------------------------------------------------------------
+# location of SCALAPACK
+# if you do not use SCALAPACK simply uncomment the line SCA
+#-----------------------------------------------------------------------
+
+#BLACS=/usr/local/BLACS_lam
+#SCA_= /usr/local/SCALAPACK_lam
+
+#SCA= $(SCA_)/scalapack_LINUX.a $(SCA_)/pblas_LINUX.a $(SCA_)/tools_LINUX.a \
+ $(BLACS)/LIB/blacsF77init_MPI-LINUX-0.a $(BLACS)/LIB/blacs_MPI-LINUX-0.a $(BLACS)/LIB/blacsF77init_MPI-LINUX-0.a
+
+SCA=-lsci
+
+#-----------------------------------------------------------------------
+# libraries for mpi
+#-----------------------------------------------------------------------
+
+#LIB     = -L../vasp.4.lib -ldmy  \
+#      ../vasp.4.lib/linpack_double.o $(LAPACK) \
+#      $(SCA) $(BLAS)
+
+# FFT: only option  fftmpi.o with fft3dlib of Juergen Furthmueller
+
+FFT3D   = fftmpi.o fftmpi_map.o fft3dlib.o 
+
+#FFT3D   = fftmpiw.o fftmpi_map.o fft3dlib.o 
+
+#-----------------------------------------------------------------------
+# general rules and compile lines
+#-----------------------------------------------------------------------
+BASIC=   symmetry.o symlib.o   lattlib.o  random.o   
+
+SOURCE=  base.o     mpi.o      smart_allocate.o      xml.o  \
+         constant.o jacobi.o   main_mpi.o  scala.o   \
+         asa.o      lattice.o  poscar.o   ini.o      setex.o     radial.o  \
+         pseudo.o   mgrid.o    mkpoints.o wave.o      wave_mpi.o  $(BASIC) \
+         nonl.o     nonlr.o    dfast.o    choleski2.o    \
+         mix.o      charge.o   xcgrad.o   xcspin.o    potex1.o   potex2.o  \
+         metagga.o  constrmag.o pot.o      cl_shift.o force.o    dos.o      elf.o      \
+         tet.o      hamil.o    steep.o    \
+         chain.o    dyna.o     relativistic.o LDApU.o sphpro.o  paw.o   us.o \
+         ebs.o      wavpre.o   wavpre_noio.o broyden.o \
+         dynbr.o    rmm-diis.o reader.o   writer.o   tutor.o xml_writer.o \
+         brent.o    stufak.o   fileio.o   opergrid.o stepver.o  \
+         dipol.o    xclib.o    chgloc.o   subrot.o   optreal.o   davidson.o \
+         edtest.o   electron.o shm.o      pardens.o paircorrection.o  \
+	 optics.o   constr_cell_relax.o   stm.o    finite_diff.o \
+         elpol.o    aedens.o setlocalpp.o 
+ 
+INC=
+
+vasp: $(SOURCE) $(FFT3D) $(INC) main.o 
+	rm -f vasp
+	$(FCL) -o vasp $(LINK) main.o  $(SOURCE)   $(FFT3D) $(LIB) 
+makeparam: $(SOURCE) $(FFT3D) makeparam.o main.F $(INC)
+	$(FCL) -o makeparam  $(LINK) makeparam.o $(SOURCE) $(FFT3D) $(LIB)
+zgemmtest: zgemmtest.o base.o random.o $(INC)
+	$(FCL) -o zgemmtest $(LINK) zgemmtest.o random.o base.o $(LIB)
+dgemmtest: dgemmtest.o base.o random.o $(INC)
+	$(FCL) -o dgemmtest $(LINK) dgemmtest.o random.o base.o $(LIB) 
+ffttest: base.o smart_allocate.o mpi.o mgrid.o random.o ffttest.o $(FFT3D) $(INC)
+	$(FCL) -o ffttest $(LINK) ffttest.o mpi.o mgrid.o random.o smart_allocate.o base.o $(FFT3D) $(LIB)
+kpoints: $(SOURCE) $(FFT3D) makekpoints.o main.F $(INC)
+	$(FCL) -o kpoints $(LINK) makekpoints.o $(SOURCE) $(FFT3D) $(LIB)
+
+clean:	
+	-rm -f *.g *.f *.o *.L *.mod *.lst ; touch *.F
+
+main.o: main$(SUFFIX)
+	$(FC) $(FFLAGS)$(DEBUG)  $(INCS) -c main$(SUFFIX)
+xcgrad.o: xcgrad$(SUFFIX)
+	$(FC) $(FFLAGS) $(INLINE)  $(INCS) -c xcgrad$(SUFFIX)
+xcspin.o: xcspin$(SUFFIX)
+	$(FC) $(FFLAGS) $(INLINE)  $(INCS) -c xcspin$(SUFFIX)
+
+makeparam.o: makeparam$(SUFFIX)
+	$(FC) $(FFLAGS)$(DEBUG)  $(INCS) -c makeparam$(SUFFIX)
+
+makeparam$(SUFFIX): makeparam.F main.F 
+#
+# MIND: I do not have a full dependency list for the include
+# and MODULES: here are only the minimal basic dependencies
+# if one strucuture is changed then touch_dep must be called
+# with the corresponding name of the structure
+#
+base.o: base.inc base.F
+mgrid.o: mgrid.inc mgrid.F
+constant.o: constant.inc constant.F
+lattice.o: lattice.inc lattice.F
+setex.o: setexm.inc setex.F
+pseudo.o: pseudo.inc pseudo.F
+poscar.o: poscar.inc poscar.F
+mkpoints.o: mkpoints.inc mkpoints.F
+wave.o: wave.inc wave.F random.o
+nonl.o: nonl.inc nonl.F
+nonlr.o: nonlr.inc nonlr.F
+#ebs.o: ebs.F derfc_fortran.F
+
+$(OBJ_HIGH):
+	$(CPP)
+	$(FC) $(FFLAGS) $(OFLAG_HIGH) $(INCS) -c $*$(SUFFIX)
+$(OBJ_NOOPT):
+	$(CPP)
+	$(FC) $(FFLAGS) $(INCS) -c $*$(SUFFIX)
+
+fft3dlib_f77.o: fft3dlib_f77.F
+	$(CPP)
+	$(F77) $(FFLAGS_F77) -c $*$(SUFFIX)
+
+.F.o:
+	$(CPP)
+	$(FC) $(FFLAGS) $(OFLAG) $(INCS) -c $*$(SUFFIX)
+.F$(SUFFIX):
+	$(CPP)
+$(SUFFIX).o:
+	$(FC) $(FFLAGS) $(OFLAG) $(INCS) -c $*$(SUFFIX)
+
+
+#-----------------------------------------------------------------------
+# these special rules are cummulative (that is once failed
+#   in one compiler version, stays in the list forever)
+# -tpp5|6|7 P, PII-PIII, PIV
+# -xW use SIMD (does not pay of on PII, since fft3d uses double prec)
+# all other options do no affect the code performance since -O1 is used
+#-----------------------------------------------------------------------
+
+xcgrad.o : xcgrad.F
+	$(CPP)
+	$(FC) $(FFLAGS) -O1 -c $*$(SUFFIX)
+ebs.o: ebs.F
+	$(CPP)
+	$(FC) $(FFLAGS) $(INCS) -c $*$(SUFFIX)
+
+
