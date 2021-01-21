@@ -26,7 +26,6 @@ VASP successfully) and load the FFTW library module:
 
 ```bash
 module restore PrgEnv-gnu
-module swap gcc gcc/9.3.0
 module load cray-fftw
 ```
 
