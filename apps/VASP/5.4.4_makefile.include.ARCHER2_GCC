@@ -9,9 +9,10 @@ CPP_OPTIONS= -DMPI -DHOST=\"HPECrayEX-GNU\" \
              -DIFC \
              -DCACHE_SIZE=2000 \
              -Davoidalloc \
-             -DMPI_BLOCK=8000 \
+             -DMPI_BLOCK=32000 \
              -DscaLAPACK \
              -Duse_collective \
+             -DMPI_INPLACE \
              -DnoAugXCmeta \
              -Duse_bse_te \
              -Duse_shmem \
@@ -24,8 +25,8 @@ FCL        = ftn
 
 FREE       = -ffree-form -ffree-line-length-none
 
-FFLAGS     = 
-OFLAG      = -O2
+FFLAGS     = -fallow-argument-mismatch
+OFLAG      = -Ofast
 OFLAG_IN   = $(OFLAG)
 DEBUG      = -O0
 
