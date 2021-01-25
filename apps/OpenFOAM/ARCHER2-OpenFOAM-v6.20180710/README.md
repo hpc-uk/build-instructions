@@ -5,7 +5,7 @@ See https://openfoam.org/download/6-linux/
 
 This directory contains a subdirectory `site` with the
 following scripts which allow one to install and compile OpenFOAM
-using the Gnu compiler collection on Archer2.
+using the Gnu compiler collection on ARCHER2.
 ```
 ./site/compile.sh
 ./site/etc
