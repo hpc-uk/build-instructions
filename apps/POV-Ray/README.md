@@ -27,7 +27,7 @@ cd ../
 ## Configure 
 
 ```
-./configure --prefix=<directory to install to> COMPILED_BY="<user email address>" --with-boost=/lustre/sw/boost/1.73.0 --with-boost-libdir=/lustre/sw/boost/1.73.0/lib
+./configure --prefix=<directory to install to> COMPILED_BY=<user email address> --with-boost=/lustre/sw/boost/1.73.0 --with-boost-libdir=/lustre/sw/boost/1.73.0/lib
 ```
 
 ## Compile
