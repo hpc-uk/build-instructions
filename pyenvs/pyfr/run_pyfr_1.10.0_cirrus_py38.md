@@ -99,5 +99,5 @@ OMPI_MCA_pml=ucx
 OMPI_MCA_btl_openib_warn_default_gid_prefix=0
 ```
 
-MCA stands for Modular Component Architecture. The settings above ensure that tha openib Byte Transfer Layer (BTL)
+MCA stands for Modular Component Architecture. The settings above ensure that the openib Byte Transfer Layer (BTL)
 is active and that the UCX API is used for the Point-to-point Management Layer (PML).
