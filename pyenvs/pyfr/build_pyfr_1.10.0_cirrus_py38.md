@@ -21,7 +21,7 @@ Create and setup a Miniconda3 virtual environment
 mkdir miniconda3
 cd miniconda3
 wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh
-bash Miniconda3-py38_4.9.2-Linux-x86_64.sh -b -f -p ${WORKDIR}/miniconda3/4.9.2
+bash Miniconda3-py38_4.9.2-Linux-x86_64.sh -b -f -p ${PRFX}/miniconda3/4.9.2
 rm Miniconda3-py38_4.9.2-Linux-x86_64.sh
 MINICONDA3_ROOT=${PRFX}/miniconda3/4.9.2
 cd ${MINICONDA3_ROOT}

@@ -15,7 +15,7 @@ Launch a PyFR job (via srun) that uses 16 GPUs across 4 compute nodes
 
 ```bash
 #!/bin/bash
-# 
+ 
 #SBATCH --job-name=16GPU
 #SBATCH --time=4-00:00:00
 #SBATCH --partition=gpu-cascade
@@ -47,8 +47,8 @@ conda deactivate
 ```
 
 
-Launch a PyFR job (mpirun) that uses 16 GPUs across 4 compute nodes
--------------------------------------------------------------------
+Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 compute nodes
+-----------------------------------------------------------------------
 
 ```bash
 #!/bin/bash
@@ -87,10 +87,8 @@ conda deactivate
 ```
 
 
-Please note, loading the `openmpi/4.1.0-ucx-gcc8` module sets a collection of OpenMPI MCA environment variables.
-
-The OpenMPI MCA environment variables set by `openmpi/4.1.0-ucx-gcc8`
----------------------------------------------------------------------
+Loading the `openmpi/4.1.0-ucx-gcc8` module sets a collection of OpenMPI MCA environment variables
+--------------------------------------------------------------------------------------------------
 
 ```bash
 OMPI_MCA_opal_common_ucx_opal_mem_hooks=1
@@ -100,3 +98,6 @@ OMPI_MCA_btl_openib_if_include=mlx5_0:1,mlx5_1:1
 OMPI_MCA_pml=ucx
 OMPI_MCA_btl_openib_warn_default_gid_prefix=0
 ```
+
+MCA stands for Modular Component Architecture. The settings above ensure that tha openib Byte Transfer Layer (BTL)
+is active and that the UCX API is used for the Point-to-point Management Layer (PML).
