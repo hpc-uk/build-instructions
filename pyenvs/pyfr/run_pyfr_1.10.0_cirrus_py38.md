@@ -101,3 +101,10 @@ OMPI_MCA_btl_openib_warn_default_gid_prefix=0
 
 MCA stands for Modular Component Architecture. The settings above ensure that the openib Byte Transfer Layer (BTL)
 is active and that the UCX API is used for the Point-to-point Management Layer (PML).
+
+The Cirrus GPU nodes each have two Mellanox Infiniband devices, labelled `mlx5_0` and `mlx5_1`. The setting for the
+`btl_openib_if_include` variable ensures that those devices are used for the openib BTL (the number after the colon
+indicates the port).
+
+Note, the openib BTL uses the OpenFabrics Alliance's (OFA) verbs API stack to support InfiniBand devices, see
+https://www.open-mpi.org/faq/?category=openfabrics for further details.
