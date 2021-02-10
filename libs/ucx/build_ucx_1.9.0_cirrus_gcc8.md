@@ -1,7 +1,7 @@
 Instructions for building UCX 1.9.0 on Cirrus
 =============================================
 
-These instructions are for building UCX 1.0.0 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 8.2.0.
+These instructions are for building UCX 1.9.0 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 8.2.0.
 
 
 Setup initial environment

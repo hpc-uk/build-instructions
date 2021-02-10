@@ -29,6 +29,7 @@ Build and install OpenMPI for CPU
 ---------------------------------
 
 ```bash
+module load zlib/1.2.11
 module load gcc/8.2.0
 
 ./configure CC=gcc CXX=g++ FC=gfortran \
