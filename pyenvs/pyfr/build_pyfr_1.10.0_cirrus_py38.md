@@ -102,6 +102,8 @@ PYCUDA_LABEL=pycuda
 PYCUDA_VERSION=2020.1
 PYCUDA_NAME=${PYCUDA_LABEL}-${PYCUDA_VERSION}
 
+CUDA_VERSION=10.2
+
 module load nvidia/cuda-${CUDA_VERSION}
 module load nvidia/mathlibs-${CUDA_VERSION}
 module load boost/1.73.0
@@ -121,7 +123,7 @@ make install
 ```
 
 Notice that the python configure command for pycuda has two anomalous settings, the `py36` suffix used for the boost python library name and the `11.0` version tag used in the path to the CUDA stub libraries.
-These are not mistakes merely workarounds required to get pycuda to build. These settings do not appear to compromise the PyFR installation (i.e., initial scalings have performed as expected).
+These are not mistakes merely workarounds required to get pycuda to build. These settings do not appear to compromise the PyFR installation (e.g., scaling runs perform as expected).
 
 
 Install other python packages required by PyFR
