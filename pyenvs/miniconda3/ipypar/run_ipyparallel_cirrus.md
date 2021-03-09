@@ -50,6 +50,7 @@ function term_processes {
 }
 
 trap 'term_processes' TERM
+trap 'term_processes' SIGUSR1
 
 
 export nodecnt=${SLURM_JOB_NUM_NODES}
@@ -79,13 +80,15 @@ export OMPI_MCA_warn_on_fork=0
 ipython profile create --parallel --profile=mpi
 
 # start mpi engines
-IPCLUSTER_START_OUTPUT=ipcluster_start.out
-ipcluster start --debug --profile=mpi -n $enginecnt &> $IPCLUSTER_START_OUTPUT &
+IPCLUSTER_START_OUTPUT="ipcluster_start.out"
+ipcluster start --debug --profile=mpi -n ${enginecnt} &> ${IPCLUSTER_START_OUTPUT} &
 
 sleepn=0
 while [ : ]; do
-    if grep -q "Engines appear to have started successfully" $IPCLUSTER_START_OUTPUT; then
-        break
+    if [ -f "${IPCLUSTER_START_OUTPUT}" ]; then
+        if grep -q "Engines appear to have started successfully" ${IPCLUSTER_START_OUTPUT}; then
+            break
+        fi
     fi
     if [ $sleepn -lt 10 ]; then
         sleep 10s
@@ -97,20 +100,20 @@ while [ : ]; do
 done
 
 # start jupyter notebook
-JUPYTER_START_OUTPUT=jupyter_start.out
-jupyter notebook --no-browser --port=19888 --ip=0.0.0.0 &> $JUPYTER_START_OUTPUT &
+JUPYTER_START_OUTPUT="jupyter_start.out"
+jupyter notebook --no-browser --port=19888 --ip=0.0.0.0 &> ${JUPYTER_START_OUTPUT} &
 
 
 # sleep until around 5 minutes before end of walltime
 walltime=`squeue -h -j ${SLURM_JOBID} -o "%l"`
 wtlen=${#walltime}
 
-if [ $wtlen -eq 5 ]; then
-    mn=`echo $walltime | cut -d':' -f 1`
+if [ ${wtlen} -eq 5 ]; then
+    mn=`echo ${walltime} | cut -d':' -f 1`
     waittime=$((mn - 5))
 else
-    hr=`echo $walltime | cut -d':' -f 1`
-    mn=`echo $walltime | cut -d':' -f 2`
+    hr=`echo ${walltime} | cut -d':' -f 1`
+    mn=`echo ${walltime} | cut -d':' -f 2`
     waittime=$((hr*60 + mn - 5))
 fi
 
@@ -125,7 +128,7 @@ exit 0
 ```
 
 
-Once the job is running, execute `sacct -j <jobnumber> --format=NodeList%32` with the returned job number
+Once the job is running, execute `sacct -j <jobid> --format=NodeList%32` with the returned job number
 and from the `sacct` output extract the name of the first node assigned to the job.
 
 Now start a second Cirrus login session using the ssh command given below.
@@ -146,6 +149,6 @@ A more interesting example is the `parallelpi.ipynb` notebook, which uses the fu
 visualise how frequently digit pairs (00 - 99) occur within the first billion digits of PI. More information concerning this example can be found
 at [https://ipyparallel.readthedocs.io/en/latest/demos.html](https://ipyparallel.readthedocs.io/en/latest/demos.html).
 
-When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run `scancel` with the
+When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run `scancel -b -s SIGUSR1 <jobid>` with the
 original Slurm job number. This will ensure that all the ipyparallel and Jupyter processes are explicitly shutdown. Finally, the second Cirrus session
 can be shutdown with a simple `exit` command.
