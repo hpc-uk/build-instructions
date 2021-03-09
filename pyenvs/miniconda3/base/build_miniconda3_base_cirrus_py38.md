@@ -131,7 +131,7 @@ make install
 ```
 
 Notice that the python configure command for pycuda has two anomalous settings, the `py36` suffix used for the boost python library name and the `11.0` version tag used in the path to the CUDA stub libraries.
-These are not mistakes merely workarounds required to get pycuda to build. These settings do not appear to compromise the PyFR installation (e.g., scaling runs perform as expected).
+These are not mistakes merely workarounds required to get pycuda to build. These settings do not appear to compromise python code running on the Cirrus compute nodes.
 
 
 Install general purpose python packages

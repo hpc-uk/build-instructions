@@ -1,8 +1,6 @@
 Instructions for setting up an ipyparallel configuration on Cirrus
 ==================================================================
 
-These instructions are for setting up an ipyparallel config on Cirrus
-
 The instructions below start with the loading of the `miniconda3/4.9.2-py38` module
 within the user's account on the Cirrus login node.
 
@@ -59,7 +57,7 @@ exit()
 Create the Jupyter configuration file
 -------------------------------------
 
-Return to your Cirrus login account to run the following command.
+Return to your Cirrus login account and run the following command.
 
 ```bash
 jupyter notebook --generate-config

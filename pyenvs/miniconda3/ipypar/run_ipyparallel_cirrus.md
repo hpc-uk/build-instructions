@@ -1,11 +1,8 @@
 Instructions for running an ipyparallel session on Cirrus
 =========================================================
 
-These instructions are for running an ipyparallel session on Cirrus.
-
 The Slurm submission script below requests a GPU node and loads the machine learning
 specific Miniconda3 module before starting the ipyparallel cluster and Jupyter notebook.
-
 This script is suitable therefore for running pytorch commands interactively on a Cirrus
 GPU node. Obviously, the script may need to be altered to suit a different use case. 
 
@@ -149,6 +146,6 @@ A more interesting example is the `parallelpi.ipynb` notebook, which uses the fu
 visualise how frequently digit pairs (00 - 99) occur within the first billion digits of PI. More information concerning this example can be found
 at [https://ipyparallel.readthedocs.io/en/latest/demos.html](https://ipyparallel.readthedocs.io/en/latest/demos.html).
 
-When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run scancel with the
+When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run `scancel` with the
 original Slurm job number. This will ensure that all the ipyparallel and Jupyter processes are explicitly shutdown. Finally, the second Cirrus session
-can be shutdown with a simple exit command.
+can be shutdown with a simple `exit` command.
