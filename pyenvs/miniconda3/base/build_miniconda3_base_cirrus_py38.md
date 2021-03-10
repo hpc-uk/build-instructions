@@ -146,6 +146,7 @@ pip install pandas
 pip install ipyparallel
 pip install notebook
 pip install sympy
+pip install graphviz
 ```
 
 
