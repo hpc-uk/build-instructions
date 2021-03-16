@@ -26,7 +26,7 @@ rm ${OPENMPI_NAME}.tar.gz
 cd ${OPENMPI_NAME}
 ```
 
-Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
+Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
 
 
 Build and install OpenMPI for OFI
