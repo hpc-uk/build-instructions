@@ -28,11 +28,11 @@ Launch a PyFR job (via srun) that uses 16 GPUs across 4 compute nodes
 module load nvidia/cuda-10.2
 module load nvidia/mathlibs-10.2
 module load boost/1.73.0
-module load openmpi/4.1.0-ucx-gcc8
+module load openmpi/4.1.0-cuda-10.2
 
 PRFX=/path/to/work
 MINICONDA3_ROOT=${PRFX}/miniconda3/4.9.2
-MPI4PY_ROOT=${PRFX}/mpi4py/3.0.3-ompi-ucx
+MPI4PY_ROOT=${PRFX}/mpi4py/3.0.3-ompi-4.1.0
 
 INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/16GPU_3D_11deg_endwalls_z33.pyfrm
@@ -65,11 +65,11 @@ Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 compute nodes
 module load nvidia/cuda-10.2
 module load nvidia/mathlibs-10.2
 module load boost/1.73.0
-module load openmpi/4.1.0-ucx-gcc8
+module load openmpi/4.1.0-cuda-10.2
 
 PRFX=/path/to/work
 MINICONDA3_ROOT=${PRFX}/miniconda3/4.9.2
-MPI4PY_ROOT=${PRFX}/mpi4py/3.0.3-ompi-ucx
+MPI4PY_ROOT=${PRFX}/mpi4py/3.0.3-ompi-4.1.0
 
 INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/16GPU_3D_11deg_endwalls_z33.pyfrm
@@ -87,8 +87,8 @@ conda deactivate
 ```
 
 
-Loading the `openmpi/4.1.0-ucx-gcc8` module sets a collection of OpenMPI MCA environment variables
---------------------------------------------------------------------------------------------------
+Loading the `openmpi/4.1.0-cuda-10.2` module sets a collection of OpenMPI MCA environment variables
+---------------------------------------------------------------------------------------------------
 
 ```bash
 OMPI_MCA_opal_common_ucx_opal_mem_hooks=1
