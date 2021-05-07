@@ -36,7 +36,7 @@ The new build process for VASP (introduced for version 5.4.1) requires the
 correct options to be set in makefile.include in the root directory of the
 source distribution.
 
-The makefile.include used for the GCC compilers on ARCHER can be downloaded from:
+The makefile.include used for the GCC compilers on ARCHER2 can be downloaded from:
 
 * [5.4.4_makefile.include.ARCHER2_GCC](5.4.4_makefile.include.ARCHER2_GCC)
 
