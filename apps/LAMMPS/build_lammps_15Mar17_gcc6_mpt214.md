@@ -16,8 +16,8 @@ Setup your environment
 
 Load the correct modules:
 
-   module load gcc/6.2.0
    module load mpt
+   module load gcc/6.2.0
    module load fftw-3.3.5-gcc-6.2.0-6tqf43m 
 
 MPI Version
@@ -67,3 +67,64 @@ Clean, compile and link:
    make -j8 serial
 
 This will create the `lmp_serial` executable.
+
+GPU Version
+-----------
+
+Tested version was compiled with:
+
+   module load mpt
+   module load intel-compilers/19
+   module load fftw/3.3.8-intel19
+   module load nvidia/cuda-10.2
+   module load nvidia/mathlibs-10.2
+   
+Move to the `lib/gpu/` directory:
+
+   cd lammps_20170315/lib/gpu
+   
+Edit `Makefile.linux` as follows:
+ - Make sure that `CUDA_ARCH = -arch=sm_70` and nothing else
+ - In `CUDA_OPTS`, add `-march=skylake-avx512`
+ - In `CUDA_OPTS` and `CUDR_CPP`, remove `-fPIC`
+
+Begin an interactive session on a GPU node
+
+   srun --nodes=1 --time=0:20:0 --partition=gpu --qos=gpu-cascade \
+        --gres=gpu:1 --account=<budget_code> --pty /bin/bash --login
+        
+You should be in the `lammps_20170315/lib/gpu` directory. Run:
+
+   make -f Makefile.linux
+
+Once this is complete, move to the src directory:
+
+   cd ../../src
+   
+Make a copy of MAKE/Makefile.mpi:
+
+   cp MAKE/Makefile.mpi MAKE/Makefile.gpu
+   
+Edit MAKE/Makefile.gpu to set the following
+
+   FFT_INC= -DFFT_FFTW3
+   FFT_LIB= -lfftw3
+
+Add the packages:
+
+   make yes-kspace yes-manybody yes-molecule \
+        yes-asphere yes-body yes-class2 \
+        yes-colloid yes-compress yes-coreshell \
+        yes-dipole yes-granular yes-mc yes-misc \
+        yes-mpiio yes-opt yes-peri yes-qeq \
+        yes-shock yes-snap yes-srd \
+        yes-user-reaxc yes-misc yes-rigid \
+        yes-replica yes-gpu
+
+Compile and link:
+
+   make -j8 mpi
+
+This will create the `lmp_gpu` executable.
+
+Exit the interactive session.
