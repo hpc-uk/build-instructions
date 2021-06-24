@@ -41,11 +41,11 @@ The new build process for VASP (introduced from version 5.4.1) requires the
 correct options to be set in makefile.include in the root directory of the
 source distribution.
 
-The makefile.include used for the Intel compilers on ARCHER can be downloaded from:
+The makefile.include used for the Intel compilers on ARCHER2 can be downloaded from:
 
 * [6.1.1_makefile.include.ARCHER2_GCC_omp](6.1.1_makefile.include.ARCHER2_GCC_omp)
 
-The  build on ARCHER uses:
+The  build on ARCHER2 uses:
 
 * HPE Cray LibSci for linear algebra
 * FFTW for FFT's

@@ -20,8 +20,13 @@ Load the correct modules:
    module load cray-fftw
    ```
 
-MPI Version
------------
+Compile with make
+-----------------
+
+.. note::
+
+  Compiling with make does not seem to work with most recent version of LAMMPS.
+  We recommend using the cmake method if using newer versions of LAMMPS.
 
 Move to the `src/` directory:
 
@@ -75,3 +80,34 @@ Compile and link:
    `make -j 8 archer2`
 
 This will create the `lmp_archer2` executable.
+
+Compile with CMake
+------------------
+Create and move into the build directory:
+
+  `mkdir mylammps/build ; cd mylammps/build`
+
+Load the CMake module:
+
+  `module load cmake`
+
+Run CMake:
+
+  ```
+  cmake -DCMAKE_CXX_COMPILER=CC -DBUILD_MPI=on -D FFT=FFTW3                   \
+        -D FFTW3_INCLUDE_DIR=${FFTW_INC}                                      \
+        -D FFTW3_LIBRARY=${FFTW_DIR}/libfftw3_mpi.so                          \
+        -D PKG_ASPHERE=yes -D PKG_BODY=yes -D PKG_CLASS2=yes                  \
+        -D PKG_COLLOID=yes -D PKG_COMPRESS=yes -D PKG_CORESHELL=yes           \
+        -D PKG_DIPOLE=yes -D PKG_GRANULAR=yes -D PKG_MC=yes -D PKG_MISC=yes   \
+        -D PKG_KSPACE=yes -D PKG_MANYBODY=yes -D PKG_MOLECULE=yes             \
+        -D PKG_MPIIO=yes -D PKG_OPT=yes -D PKG_PERI=yes -D PKG_QEQ=yes        \
+        -D PKG_SHOCK=yes -D PKG_SNAP=yes -D PKG_SRD=yes -D PKG_USER-REAXC=yes \
+        -D PKG_RIGID=yes ../cmake/
+  make -j 8
+  ```
+  
+If using a version compiled with CMake, you will need to include the following 
+in your Slurm submission scripts at runtime:
+
+  `module restore /etc/cray-pe.d/PrgEnv-gnu`

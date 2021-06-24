@@ -1,0 +1,40 @@
+CC       = cc -fopenmp
+FC       = ftn -fopenmp
+LD       = ftn -fopenmp
+AR       = ar -r
+
+DATA_DIR   = /work/y07/shared/cp2k/cp2k-8.1/data
+CP2K_ROOT  = /work/y07/shared/cp2k/cp2k-8.1
+
+# Provides PLUMED_DEPENDENCIES
+
+include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+
+FFTW_INC = /opt/cray/pe/fftw/3.3.8.8/x86_rome/include
+FFTW_LIB = /opt/cray/pe/fftw/3.3.8.8/x86_rome/lib
+
+# Options
+
+DFLAGS   = -D__FFTW3 -D__LIBXC -D__PLUMED2  \
+           -D__ELPA=202005 -D__LIBINT \
+           -D__parallel -D__SCALAPACK -D__MPI_VERSION=3
+
+
+CFLAGS   = -O3 -mtune=native -funroll-loops -ftree-vectorize 
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxc/include  \
+           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-2020.05.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-2020.05.001/elpa \
+           -I$(FFTW_INC) -ffree-form -std=f2008 -ffree-line-length-none
+
+LDFLAGS  = $(FCFLAGS)  
+
+LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
+           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
+           -L$(CP2K_ROOT)/libs/elpa-openmp/lib -lelpa_openmp \
+           $(PLUMED_DEPENDENCIES) -lz \
+           -L$(FFTW_LIB) -lfftw3 -lfftw3_threads \
+           -ldl -lstdc++ -lpthread
+

@@ -1,8 +1,8 @@
-Instructions for compiling VASP 5.4.4 for ARCHER2 using GCC compilers
-====================================================================
+Instructions for compiling VASP 6.2.0 for ARCHER2 using GCC compilers
+=====================================================================
 
-These instructions are for compiling VASP 5.4.4 on [ARCHER2](https://www.archer2.ac.uk)
-using the GCC compilers and using HPE Cray LibSci for BLAS/LAPACK/ScaLAPACK.
+These instructions are for compiling VASP 6.2.0 on [ARCHER2](https://www.archer2.ac.uk)
+using the GCC compilers including the use of OpenMP
 
 We assume that you have obtained the VASP source code from the VASP website along
 with any relevant patches.
@@ -13,10 +13,8 @@ Unpack the VASP source code and apply patches
 Unpack the source
 
 ```bash
-tar -xvf vasp.5.4.4.pl2.tar.gz
+tar -xvf vasp.6.2.0.tar.gz
 ```
-
-Apply any patches according to the instructions on the VASP website.
 
 Setup correct modules
 ---------------------
@@ -27,7 +25,7 @@ environment variable to ensure that the right versions of libraries are used.
 The two commands to do this are:
 
 ```bash
-module restore /work/y07/shared/vasp5/vasp.5.4.4.pl2-gcc10-cpe2103/collection/vasp544-gcc10-cpe2103
+module restore /work/y07/shared/vasp6/vasp.6.2.0-gcc10-cpe2103/collection/vasp.6.2.0-gcc10-cpe2103
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 ```
 
@@ -89,24 +87,24 @@ Currently Loaded Modulefiles:
 Create makefile.include
 -----------------------
 
-The new build process for VASP (introduced for version 5.4.1) requires the
+The new build process for VASP (introduced from version 5.4.1) requires the
 correct options to be set in makefile.include in the root directory of the
 source distribution.
 
-The makefile.include used for the GCC compilers on ARCHER2 can be downloaded from:
+The makefile.include used for the Intel compilers on ARCHER2 can be downloaded from:
 
-* [5.4.4_makefile.include.ARCHER2_GCC](5.4.4_makefile.include.ARCHER2_GCC)
+* [6.2.0_makefile.include.ARCHER2_GCC_omp](6.2.0_makefile.include.ARCHER2_GCC_omp)
 
-The GCC build on ARCHER2 uses:
+The build on ARCHER2 uses:
 
-* HPE Cray LibSci for BLAS/LAPACK/ScaLAPACK
+* HPE Cray LibSci for linear algebra
 * FFTW 3 for FFT's
 
 You should copy this file to the root directory of the VASP source distribution
 and then rename it to "makefile.include":
 
 ```bash
-mv 5.4.4_makefile.include.ARCHER2_GCC_MKL makefile.include
+cp 6.2.0_makefile.include.ARCHER2_GCC_omp makefile.include
 ```
 
 Build VASP
@@ -130,7 +128,6 @@ All versions include the additional MD algorithms accessed via the MDALGO keywor
 script to ensure that the correct versions of libraries are used at runtime:
 
 ```bash
-module restore /work/y07/shared/vasp5/vasp.5.4.4.pl2-gcc10-cpe2103/collection/vasp544-gcc10-cpe2103
+module restore /work/y07/shared/vasp6/vasp.6.2.0-gcc10-cpe2103/collection/vasp.6.2.0-gcc10-cpe2103
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 ```
-
