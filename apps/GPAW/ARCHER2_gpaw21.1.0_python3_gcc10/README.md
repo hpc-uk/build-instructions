@@ -30,7 +30,7 @@ git clone -b 21.1.0 https://gitlab.com/gpaw/gpaw.git
 cd gpaw
 ```
 
-Create the following siteconfig.py file making sure to edit the path to libxc to where 
+Create the following ``siteconfig.py`` file making sure to edit the path to libxc to where 
 it was installed
 
 ```
@@ -69,7 +69,7 @@ python setup.py install --prefix=/work/group/group/username/path/to/gpaw
 ## Set up the environment for running GPAW
 
 Add the following to you job script to run GPAW, setting the GPAW_DIR
-and LIBXC_DIR to your install location.
+and LIBXC_DIR to your install locations.
 
 ```
 export GPAW_DIR=/path/to/gpaw/install
