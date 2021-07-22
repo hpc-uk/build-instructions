@@ -9,7 +9,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2021-03-09 | Michael Bareford | Cirrus | 4.9.7 | Miniconda3 Build instructions for Cirrus using Python 3.8
+2021-07-22 | Michael Bareford | Cirrus | 4.9.7 | Miniconda3 Build instructions for Cirrus using Python 3.8
 
 Build Instructions
 ------------------
