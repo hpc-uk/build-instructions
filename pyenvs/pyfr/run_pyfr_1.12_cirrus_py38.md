@@ -7,11 +7,11 @@ The instructions take the form of two Slurm submission scripts one using `srun` 
 The two scripts are very similar, the main difference being the setting of two Slurm environment variables in the `mpirun` script.
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project. The submission scripts below assume a locally installed
-Miniconda3 virtual environment containing mpi4py, pycuda and pyfr.
+Miniconda3 virtual environment containing mpi4py, pyfr and supporting packages, see [build instructions](build_pyfr_1.12_cirrus_py38.md) for further details.
 
 
-Launch a PyFR job (via srun) that uses 16 GPUs across 4 compute nodes
----------------------------------------------------------------------
+Launch a PyFR job (via srun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
+------------------------------------------------------------------------------
 
 ```bash
 #!/bin/bash
@@ -24,7 +24,6 @@ Launch a PyFR job (via srun) that uses 16 GPUs across 4 compute nodes
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 #SBATCH --account=[budget code]
-
 
 NGPUS=16
 NGPUS_PER_NODE=4
@@ -60,8 +59,8 @@ conda deactivate
 ```
 
 
-Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 compute nodes
------------------------------------------------------------------------
+Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
+--------------------------------------------------------------------------------
 
 ```bash
 #!/bin/bash
@@ -74,7 +73,6 @@ Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 compute nodes
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 #SBATCH --account=[budget code]
-
 
 NGPUS=16
 NGPUS_PER_NODE=4
