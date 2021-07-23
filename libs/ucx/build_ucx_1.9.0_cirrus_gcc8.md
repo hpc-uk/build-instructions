@@ -51,6 +51,7 @@ Build and install UCX for GPU (CUDA 11.2)
 -----------------------------------------
 
 ```bash
+module unload gcc
 module load nvidia/cuda-11.2
 module load nvidia/mathlibs-11.2
 module swap gcc gcc/8.2.0
