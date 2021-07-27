@@ -58,13 +58,13 @@ function terminate_processes {
 trap 'terminate_processes' TERM
 
 
-export nodecnt=${SLURM_JOB_NUM_NODES}
+export nodecnt=${SLURM_NNODES}
 export corecnt=`expr ${nodecnt} \* ${SLURM_CPUS_ON_NODE}`
 export enginecnt=`expr ${corecnt} - 1`
 
 export SLURM_NTASKS=${corecnt}
-export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_JOB_NUM_NODES}`
-export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_JOB_NUM_NODES})"
+export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
+export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 
 cd ${SLURM_SUBMIT_DIR}
