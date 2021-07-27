@@ -20,7 +20,7 @@ Installation Instructions
 Run Instructions
 ----------------
 
-* [PyTorch 1.9.0 Cirrus Run Instructions (Python 3.8)](install_pytorch_1.9.0_cirrus_py38.md)
+* [PyTorch 1.9.0 Cirrus Run Instructions (Python 3.8)](run_pytorch_1.9.0_cirrus_py38.md)
 
 Notes
 -----

@@ -150,8 +150,8 @@ make clean
 conda deactivate
 ```
 
-Notice that the python configure command for pycuda has one anomalous setting, the `py36` suffix used for the boost python library name.
-This is not a mistake; it ia merely a workaround required to get pycuda to build.
+Note that the python configure command for pycuda has one anomalous setting, the `py36` suffix used for the boost python library name.
+This is not a mistake; it is merely a workaround required to get pycuda to build.
 
 
 Install general purpose python packages
