@@ -135,7 +135,7 @@ pip install mako
 pip install numpy
 pip install pytools
 
-pip install pyfr==1.12.1
+pip install pyfr==1.12.2
 
 conda deactivate
 ```

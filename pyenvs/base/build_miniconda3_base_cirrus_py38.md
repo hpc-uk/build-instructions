@@ -19,7 +19,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # e.g., PRFX=/lustre/sw
 cd ${PRFX}
 
 CUDA_VERSION=11.2
@@ -39,7 +39,7 @@ MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.0.3
-MPI4PY_ROOT=${PRFX}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
+MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
@@ -86,7 +86,7 @@ Build and install mpi4py using OpenMPI 4.1.0
 --------------------------------------------
 
 ```bash
-cd ${PRFX}
+cd ${MINICONDA_ROOT}
 
 PYTHON_LABEL_LONG=python${PYTHON_LABEL:2:1}.${PYTHON_LABEL:3:1}
 
@@ -121,7 +121,7 @@ Build and install pycuda
 ------------------------
 
 ```bash
-cd ${PRFX}
+cd ${MINICONDA_ROOT}
 
 . ${MINICONDA_ROOT}/activate.sh
 
@@ -158,7 +158,7 @@ Install general purpose python packages
 ---------------------------------------
 
 ```bash
-cd ${PRFX}
+cd ${MINICONDA_ROOT}
 
 . ${MINICONDA_ROOT}/activate.sh
 

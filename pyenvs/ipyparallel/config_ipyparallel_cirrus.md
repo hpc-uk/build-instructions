@@ -9,7 +9,6 @@ Setup initial environment
 -------------------------
 
 ```bash
-module use /lustre/sw/modulefiles.dev
 module load miniconda3/4.9.2-py38
 
 ipython profile create --parallel --profile=mpi

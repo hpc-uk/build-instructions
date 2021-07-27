@@ -11,7 +11,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2021-07-22 | Michael Bareford | Cirrus | 1.12 | Build and run instructions for Cirrus using Python 3.8
+2021-07-26 | Michael Bareford | Cirrus | 1.12 | Build and run instructions for Cirrus using Python 3.8
 
 Installation Instructions
 -------------------------

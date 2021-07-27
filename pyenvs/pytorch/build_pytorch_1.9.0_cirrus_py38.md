@@ -1,73 +1,61 @@
 Instructions for building a machine learning Miniconda3 environment on Cirrus
 =============================================================================
 
-These instructions are for building a machine learning Miniconda3 environment on Cirrus
+These instructions are for building a PyTorch Miniconda3 environment on Cirrus
 (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
 
 The build for this Miniconda3 environment is based on `miniconda3/4.9.2-py38`.
-It provides various machine learning frameworks such as TensorFlow 2.3.0 and PyTorch 1.7.1.
-Crucially, the Horovod package allows those frameworks to utilise multiple GPUS distributed
-across multiple compute nodes.
+It includes the Horovod package required for running PyTorch over multiple GPUs
+distributed across multiple compute nodes.
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # e.g., PRFX=/lustre/sw
 cd ${PRFX}
 
 PYTHON_LABEL=py38
+MINICONDA_LABEL=miniconda3
 MINICONDA_VERSION=4.9.2
+MINICONDA_ROOT=/lustre/sw/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}
+MINICONDA_ML_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}-torch
+
+${MINICONDA_ROOT}/create.sh ${PRFX} torch
+. ${MINICONDA_ML_ROOT}/activate.sh
+
+export PS1="(torch) [\u@\h \W]\$ "
+
 CUDA_VERSION=11.2
-NCCL_VERSION=2.8.3
 OPENMPI_VERSION=4.1.0
 BOOST_VERSION=1.73.0
 CMAKE_VERSION=3.17.3
 
 module load nvidia/cuda-${CUDA_VERSION}
 module load nvidia/mathlibs-${CUDA_VERSION}
-module load boost/${BOOST_VERSION}
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 module load boost/${BOOST_VERSION}
 module load cmake/${CMAKE_VERSION}
-
-module use /lustre/sw/modulefiles.dev
-module load miniconda3/${MINICONDA_VERSION}-${PYTHON_LABEL}
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
-
-
-Create new python environment based on the (general purpose) miniconda3 loaded above
-------------------------------------------------------------------------------------
-
-```bash
-MINICONDA_ML_ROOT=/lustre/sw/miniconda3/${MINICONDA_VERSION}-${PYTHON_LABEL}-ml
-
-python -m venv --system-site-packages ${MINICONDA_ML_ROOT}
-
-. ${MINICONDA_ML_ROOT}/bin/activate
-pip install --upgrade pip
-```
 
 
 Install the machine learning packages
 -------------------------------------
 
 ```bash
+pip install wandb
+pip install gym
+pip install scikit-learn
+pip install scikit-image
+
 pip install torch
 pip install torchvision
 pip install pytorch-lightning
 pip install pytorch-lightning-bolts
 pip install pytorch-lightning-bolts["extra"]
-pip install wandb
-pip install gym
-
-pip install tensorflow
-pip install tensorflow-gpu
-pip install scikit-learn
-pip install scikit-image
 ```
 
 
@@ -85,6 +73,6 @@ Finish by deactivating the virtual environment
 ----------------------------------------------
 
 ```bash
-deactivate
-module unload miniconda3/4.9.2-py38
+conda deactivate
+export PS1="[\u@\h \W]\$ "
 ```
