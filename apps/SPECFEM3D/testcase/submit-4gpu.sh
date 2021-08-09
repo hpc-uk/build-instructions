@@ -11,7 +11,7 @@
 #SBATCH --account=z04
 
 # Load the required modules
-module load specfem3d/3.0.0-impi19-cuda11
+module load specfem3d
 
 NUM_GPU=4
 
