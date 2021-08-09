@@ -1,7 +1,9 @@
 # GrADS build instructions
 
 Dependencies:
- - GNU compilers. 
+ - GNU compiler
+ - HDF5
+ - NetCDF 
 
 ## Build GrADS
 Execute `grads.sh`. The software will be installed in `$HOME/grads`. Please note that the aforementioned script does not install all dependencies. Should you require any other dependencies, please install them by following these instructions:
