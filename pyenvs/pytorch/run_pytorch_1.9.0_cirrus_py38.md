@@ -11,9 +11,7 @@ Horovod is a key component as it allows the PyTorch work to be distributed over 
 see [https://horovod.readthedocs.io/en/stable/mpi_include.html](https://horovod.readthedocs.io/en/stable/mpi_include.html).
 
 The submission script below shows how to run PyTorch over multiple GPUs.
-The job runs an MNIST benchmark using the scripts and data located within `/lustre/home/shared/ml/pytorch/benchmarks`.
-Furthermore, PyTorch itself is encapsulated within the Pytorch Lightning framework (v1.3.8) as shown by
-the contents of the `hvpytl.py` script.
+The job runs an MNIST benchmark using the scripts and data located within `/lustre/home/shared/ml/pytorch/benchmarks/mnist`.
 
 
 Launch a PyTorch job that uses 2 GPUs on one Cascade Lake GPU node
@@ -31,42 +29,31 @@ Launch a PyTorch job that uses 2 GPUs on one Cascade Lake GPU node
 #SBATCH --gres=gpu:2
 #SBATCH --account=[budget code]
 
-
 export SLURM_NTASKS=2
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-rm -f ${SLURM_SUBMIT_DIR}/hosts
-scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
-HOST_LST=""
-while read hn; do
-  HOST_LST="${HOST_LST}${hn}:${SLURM_NTASKS_PER_NODE},"
-done < ${SLURM_SUBMIT_DIR}/hosts
-HOST_LST=${HOST_LST::-1}
-
-
 module load miniconda3/4.9.2-py38-torch
 
-BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks
-if [ ! -d "${SLURM_SUBMIT_DIR}/MNIST" ]; then
-  cp -r ${BENCHMARKS_PATH}/MNIST ${SLURM_SUBMIT_DIR}/
-fi
+rm -f ${SLURM_SUBMIT_DIR}/hosts
+scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
-export OMPI_MCA_mca_base_component_show_load_errors=0
+BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks/mnist
+rm -rf ${SLURM_SUBMIT_DIR}/input
+mkdir ${SLURM_SUBMIT_DIR}/input
+for (( rank=0; rank<${SLURM_NTASKS}; rank++ )); do
+  if [ ! -d "${SLURM_SUBMIT_DIR}/input/data-${rank}" ]; then
+    cp -r ${BENCHMARKS_PATH}/data ${SLURM_SUBMIT_DIR}/input/data-${rank}
+  fi
+done
 
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
-    -host ${HOST_LST} -bind-to none -map-by slot \
-    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x HOROVOD_MPI_THREADS_DISABLE=1 -x PATH \
-    --mca pml ob1 --mca mpi_warn_on_fork 0 \
-    python ${BENCHMARKS_PATH}/hvpytl.py \
-        --distributed_backend="horovod" \
-        --max_epochs=100 --profiler="simple" \
-        --batch_size=64 --num_workers=0
+    -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
+    -x HOROVOD_MPI=1 -x HOROVOD_MPI_THREADS_DISABLE=1 \
+    -x NCCL_DEBUG=INFO -x PYTHONWARNINGS="ignore::UserWarning" \
+    -x LD_LIBRARY_PATH -x PATH \
+    python ${BENCHMARKS_PATH}/mnist.py --use-horovod --epochs=10
 
-
-sed -i -e "s/\r/\n/g" slurm-${SLURM_JOB_ID}.out
-sed -i -e "s/[\x01-\x1F\x7F]//g" slurm-${SLURM_JOB_ID}.out
-sed -i -e "s/[\x5B\x41]//g" slurm-${SLURM_JOB_ID}.out
 ```
 
 
