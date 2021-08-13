@@ -4,9 +4,8 @@ Instructions for building a machine learning Miniconda3 environment on Cirrus
 These instructions are for building a PyTorch Miniconda3 environment on Cirrus
 (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
 
-The build for this Miniconda3 environment starts with the instructions used to build
-[`miniconda3/4.9.2-py38`](build_miniconda3_base_cirrus_py38.md), which are provided
-by the `create.sh` script indicated below.
+The PyTorch build starts with [the instructions for building `miniconda3/4.9.2-py38`](../../base/build_miniconda3_base_cirrus_py38.md);
+these are provided by the `create.sh` script indicated below.
 
 The `miniconda3/4.9.2-py38-torch` environment also includes the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) package
 required for running PyTorch over multiple GPUs distributed across multiple compute nodes.
