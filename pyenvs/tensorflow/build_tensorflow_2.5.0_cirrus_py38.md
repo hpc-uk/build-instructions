@@ -72,6 +72,7 @@ HOROVOD_CUDA_HOME=${CUDA_ROOT} HOROVOD_NCCL_HOME=${NCCL_ROOT} \
 HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 \
 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL \
 HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 \
+HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 \
     pip install --no-cache-dir horovod[tensorflow]
 ```
 
@@ -79,11 +80,12 @@ Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.rea
 correctly. That command should return something like the following output
 
 ```
+2021-08-13 14:53:51.732625: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
 Horovod v0.22.1:
 
 Available Frameworks:
     [X] TensorFlow
-    [ ] PyTorch
+    [X] PyTorch
     [ ] MXNet
 
 Available Controllers:
@@ -97,6 +99,9 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+The first line output by the build check may appear several times. Further, note that PyTorch is marked as an available framework; this looks
+to be due to an error within `horovodrun` as none of the PyTorch packages are present in the TensorFlow environment.
 
 
 Finish by deactivating the virtual environment
