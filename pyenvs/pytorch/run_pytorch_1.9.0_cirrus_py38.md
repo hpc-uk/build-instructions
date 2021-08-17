@@ -20,7 +20,7 @@ Launch a PyTorch job that uses 2 GPUs on one Cascade Lake GPU node
 ```bash
 #!/bin/bash
 
-#SBATCH --job-name=hvpytlbm
+#SBATCH --job-name=hvpt
 #SBATCH --time=02:00:00
 #SBATCH --nodes=1
 #SBATCH --exclusive
@@ -37,7 +37,7 @@ module load miniconda3/4.9.2-py38-torch
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
-BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks/mnist
+BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks/synthetic
 
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
     -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \

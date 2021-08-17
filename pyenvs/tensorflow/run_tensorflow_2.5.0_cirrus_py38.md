@@ -21,7 +21,7 @@ Launch a TensorFlow job that uses 16 GPUs across 4 Cascade Lake GPU nodes
 ```bash
 #!/bin/bash
 
-#SBATCH --job-name=hvtfbm
+#SBATCH --job-name=hvtf
 #SBATCH --time=00:20:00
 #SBATCH --nodes=4
 #SBATCH --exclusive
