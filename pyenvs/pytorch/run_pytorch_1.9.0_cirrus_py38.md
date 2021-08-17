@@ -20,7 +20,7 @@ Launch a PyTorch job that uses 2 GPUs on one Cascade Lake GPU node
 ```bash
 #!/bin/bash
 
-#SBATCH --job-name=hvpytlbm
+#SBATCH --job-name=hvpt
 #SBATCH --time=02:00:00
 #SBATCH --nodes=1
 #SBATCH --exclusive
@@ -35,25 +35,16 @@ export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 module load miniconda3/4.9.2-py38-torch
 
-rm -f ${SLURM_SUBMIT_DIR}/hosts
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
-BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks/mnist
-rm -rf ${SLURM_SUBMIT_DIR}/input
-mkdir ${SLURM_SUBMIT_DIR}/input
-for (( rank=0; rank<${SLURM_NTASKS}; rank++ )); do
-  if [ ! -d "${SLURM_SUBMIT_DIR}/input/data-${rank}" ]; then
-    cp -r ${BENCHMARKS_PATH}/data ${SLURM_SUBMIT_DIR}/input/data-${rank}
-  fi
-done
+BENCHMARKS_PATH=/lustre/home/shared/ml/pytorch/benchmarks/synthetic
 
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
     -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
     -x HOROVOD_MPI=1 -x HOROVOD_MPI_THREADS_DISABLE=1 \
     -x NCCL_DEBUG=INFO -x PYTHONWARNINGS="ignore::UserWarning" \
     -x LD_LIBRARY_PATH -x PATH \
-    python ${BENCHMARKS_PATH}/mnist.py --use-horovod --epochs=10
-
+    python ${BENCHMARKS_PATH}/pytorch_synthetic_benchmark.py
 ```
 
 

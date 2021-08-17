@@ -21,7 +21,7 @@ Launch a TensorFlow job that uses 16 GPUs across 4 Cascade Lake GPU nodes
 ```bash
 #!/bin/bash
 
-#SBATCH --job-name=hvtfbm
+#SBATCH --job-name=hvtf
 #SBATCH --time=00:20:00
 #SBATCH --nodes=4
 #SBATCH --exclusive
@@ -36,7 +36,6 @@ export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 module load miniconda3/4.9.2-py38-tensorflow
 
-rm -f ${SLURM_SUBMIT_DIR}/hosts
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
 BENCHMARKS_PATH=/lustre/home/shared/ml/tensorflow/benchmarks/scripts/tf_cnn_benchmarks
