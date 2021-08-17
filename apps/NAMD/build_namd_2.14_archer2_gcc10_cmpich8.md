@@ -66,7 +66,7 @@ cd ${TCL_ROOT}
 wget http://www.ks.uiuc.edu/Research/${NAMD_LABEL}/libraries/${TCL_ARCHIVE}.tar.gz
 tar -xzf ${TCL_ARCHIVE}.tar.gz
 rm ${TCL_ARCHIVE}.tar.gz
-mv ${TCL_ARCHIVE} ${TCL_NAME}
+mv ${TCL_LABEL}${TCL_VERSION} ${TCL_NAME}
 
 cd ${TCL_NAME}/unix
 export FC=ftn CC=cc CXX=CC
