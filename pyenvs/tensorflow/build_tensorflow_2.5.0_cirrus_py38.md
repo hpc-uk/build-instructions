@@ -4,9 +4,12 @@ Instructions for building a TensorFlow Miniconda3 environment on Cirrus
 These instructions are for building a TensorFlow Miniconda3 environment on Cirrus
 (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
 
-The build for this Miniconda3 environment is based on `miniconda3/4.9.2-py38`.
-It includes the Horovod package required for running TensorFlow over multiple GPUs
-distributed across multiple compute nodes.
+The TensorFlow build starts with [the instructions for building a base python environment](/pyenvs/base/build_miniconda3_base_cirrus_py38.md);
+these are provided by the `create.sh` script indicated below.
+
+The `miniconda3/4.9.2-py38-tensorflow` environment also includes the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) package
+required for running TensorFlow over multiple GPUs distributed across multiple compute
+nodes.
 
 
 Setup initial environment
@@ -60,10 +63,45 @@ Install Horovod linking with the Nvidia Collective Communications Library (NCCL)
 --------------------------------------------------------------------------------
 
 ```bash
-NCCL_ROOT=/lustre/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2/comm_libs/${CUDA_VERSION}/nccl
+NVIDIA_HPCSDK_ROOT=/lustre/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
+CUDA_ROOT=${NVIDIA_HPCSDK_ROOT}/cuda/${CUDA_VERSION}
+NCCL_ROOT=${NVIDIA_HPCSDK_ROOT}/comm_libs/${CUDA_VERSION}/nccl
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${NCCL_ROOT}/lib
-HOROVOD_NCCL_HOME=${NCCL_ROOT} HOROVOD_GPU_OPERATIONS=NCCL pip install --no-cache-dir horovod
+
+HOROVOD_CUDA_HOME=${CUDA_ROOT} HOROVOD_NCCL_HOME=${NCCL_ROOT} \
+HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 \
+HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL \
+HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 \
+HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 \
+    pip install --no-cache-dir horovod[tensorflow]
 ```
+
+Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.readthedocs.io/en/stable/index.html) has been installed
+correctly. That command should return something like the following output
+
+```
+2021-08-13 14:53:51.732625: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
+Horovod v0.22.1:
+
+Available Frameworks:
+    [X] TensorFlow
+    [X] PyTorch
+    [ ] MXNet
+
+Available Controllers:
+    [X] MPI
+    [X] Gloo
+
+Available Tensor Operations:
+    [X] NCCL
+    [ ] DDL
+    [ ] CCL
+    [X] MPI
+    [X] Gloo 
+```
+
+The first line output by the build check may appear several times. Further, note that PyTorch is marked as an available framework; this looks
+to be due to an error within `horovodrun` as none of the PyTorch packages are present in the TensorFlow environment.
 
 
 Finish by deactivating the virtual environment

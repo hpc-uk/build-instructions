@@ -36,17 +36,15 @@ export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 module load miniconda3/4.9.2-py38-tensorflow
 
-export OMPI_MCA_mca_base_component_show_load_errors=0
-
-BENCHMARKS_PATH=/lustre/home/shared/ml/tensorflow/benchmarks/scripts/tf_cnn_benchmarks
-
 rm -f ${SLURM_SUBMIT_DIR}/hosts
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
+BENCHMARKS_PATH=/lustre/home/shared/ml/tensorflow/benchmarks/scripts/tf_cnn_benchmarks
+
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
-    -bind-to none -map-by slot -hostfile ${SLURM_SUBMIT_DIR}/hosts \
-    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x HOROVOD_MPI_THREADS_DISABLE=1 -x PATH \
-    --mca pml ob1 --mca mpi_warn_on_fork 0 \
+    -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
+    -x HOROVOD_MPI=1 -x HOROVOD_MPI_THREADS_DISABLE=1 \
+    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH \
     python ${BENCHMARKS_PATH}/tf_cnn_benchmarks.py \
         --data_format=NCHW --model=resnet50 --variable_update=horovod --num_gpus=1
 ```

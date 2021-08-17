@@ -15,7 +15,7 @@ Installation Instructions
 -------------------------
 
 * [PyTorch 1.6.0 ARCHER2 Build Instructions (Python 3.8)](build_pytorch_1.6.0_archer2_py38.md)
-* [PyTorch 1.6.0 Cirrus Build Instructions (Python 3.8)](build_pytorch_1.9.0_cirrus_py38.md)
+* [PyTorch 1.9.0 Cirrus Build Instructions (Python 3.8)](build_pytorch_1.9.0_cirrus_py38.md)
 
 Run Instructions
 ----------------
