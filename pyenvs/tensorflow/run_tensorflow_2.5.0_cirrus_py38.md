@@ -36,7 +36,6 @@ export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 module load miniconda3/4.9.2-py38-tensorflow
 
-rm -f ${SLURM_SUBMIT_DIR}/hosts
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
 BENCHMARKS_PATH=/lustre/home/shared/ml/tensorflow/benchmarks/scripts/tf_cnn_benchmarks
