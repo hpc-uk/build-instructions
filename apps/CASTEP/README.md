@@ -3,25 +3,10 @@ CASTEP
 
 This folder contains files and documentation for building CASTEP on various HPC facilities.
 
-History
--------
-
-Date | Person | System | Version | Notes
----- | -------|--------|---------|------
-2020-03-23 | Andy Turner | A64FX | 18.1.0, Fujitsu Flang 1.2.19, A64FX | MPI build instructions for A64FX
-2019-02-04 | Andy Turner | Tesseract (EPCC) | 18.1.0, Intel 18, Intel Skylake Silver | MPI build instructions for Tessearct
-2019-02-04 | Andy Turner | Cirrus (EPCC) | 18.1.0, Intel 17, Intel Broadwell | MPI build instructions for Cirrus
-2018-08-09 | Andy Turner | Isambard (GW4) | 18.1.0, Cray CCE 8, Arm ThunderX2 | MPI build instructions for Isambard
-2018-05-08 | Andy Turner | Cirrus (EPCC) | 16.1.1, Intel 17, Intel Broadwell | MPI build instructions for Cirrus
-2018-01-19 | Andy Turner | Athena (HPC Mid+) | 18.1.0, GCC 6.x, Intel Broadwell | MPI build instructions for Athena
-2018-01-19 | Andy Turner | ARCHER (EPCC) | 18.1.0, GCC 6.x, Intel Ivy Bridge | MPI build instructions for ARCHER
-2017-11-30 | Andy Turner | Peta4-Skylake (Cambridge) | 16.1.2, Intel 17, Intel Skylake Gold | MPI build instructions for CSD3 Skylake
-2017-01-05 | Andy Turner | ARCHER (EPCC) | 16.1.2, Intel 16, Serial, Intel x86_64 | Serial build instructions for ARCHER PP nodes using Intel 16 compilers
-2016-12-21 | Andy Turner | ARCHER (EPCC) | 16.1.2, Intel 16, Intel Ivy Bridge | MPI build instructions for ARCHER Ivy Bridge nodes using Intel 16 compilers
-
 Build Instructions
 ------------------
 
+* [CASTEP 20.1.1 Hawk (AMD 7742, GCC 10.1.0, HPE Apollo Build Instructions) GCC 9.2.0 Build Instructions](Hawk_20.1.1_gcc9_HPEMPT.md)
 * [CASTEP 19.11 ARCHER2 (AMD 7742, GCC 10.1.0 Build Instructions)](ARCHER2_19.11_GCC_CrayMPT.md)
 * [CASTEP 18.1.0 A64FX, Fujitsu Flang 1.2.19 Build Instructions](Fujitsu-A64fx_18.1.0_tcsds1.2.19.md)
 * [CASTEP 18.1.0 ARCHER (Intel Xeon Ivy Bridge, Cray XC30) GCC 6.x Build Instructions](ARCHER_18.1.0_gcc6_CrayMPT.md)
@@ -38,6 +23,4 @@ Build Instructions
 Notes
 -----
 
-* ARCHER serial versions are compiled to work on post-processing nodes, login nodes and compute nodes
-* ARCHER MPI versions are compiled to work on compute nodes only
 
