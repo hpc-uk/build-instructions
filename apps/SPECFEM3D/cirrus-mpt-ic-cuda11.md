@@ -16,7 +16,7 @@ module load nvidia/cuda-11.2
 export MPICC_CC=icc
 export MPICXX_CXX=icpc
 export I_MPI_F90=ifort
-CC=icc CXX=icpc FC=ifort ./configure --with-cuda=cuda11
+CC=icc CXX=icpc FC=ifort ./configure --with-cuda=cuda9
 make
 ```
 
