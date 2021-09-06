@@ -8,7 +8,7 @@ From your `/work` directory, unzip the file, and go into the generated directory
 
 ```
 tar -xvf AmberTools20.tar.bz
-cd amber-src
+cd amber20_src
 ```
 
 ## Build serial version
