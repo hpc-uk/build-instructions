@@ -15,12 +15,12 @@ Date | Person | System | Version | Notes
 Config Instructions
 -------------------
 
-* [IPyParallel Cirrus GPU Config Instructions (Python 3.8)](config_ipyparallel_cirrus_gpu.md)
+* [IPyParallel Cirrus Config Instructions (GPU)](config_ipyparallel_cirrus_gpu.md)
 
 Run Instructions
 -------------------
 
-* [IPyParallel Cirrus GPU Run Instructions (Python 3.8)](run_ipyparallel_cirrus_gpu.md)
+* [IPyParallel Cirrus Run Instructions (GPU)](run_ipyparallel_cirrus_gpu.md)
 
 Notes
 -----

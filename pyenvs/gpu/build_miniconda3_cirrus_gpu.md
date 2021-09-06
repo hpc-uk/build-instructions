@@ -1,7 +1,7 @@
-Instructions for building a general purpose Miniconda3 environment on Cirrus
-============================================================================
+Instructions for building a general purpose Miniconda3 environment on Cirrus (GPU)
+==================================================================================
 
-These instructions are for building a general purpose (or base-level) Miniconda3 environment
+These instructions show how to build a general purpose (or base-level) Miniconda3 environment
 for the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 The Miniconda3 environment is setup with GPU support in the form of pycuda 2021.1 and CUDA 11.2.
