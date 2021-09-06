@@ -1,7 +1,7 @@
-Instructions for setting up an ipyparallel configuration on Cirrus
-==================================================================
+Instructions for setting up an ipyparallel configuration on Cirrus (GPU)
+========================================================================
 
-The instructions below start with the loading of the `miniconda3/4.9.2-py38` module
+The instructions below start with the loading of the `miniconda3/4.9.2-gpu` module
 within the user's account on the Cirrus login node.
 
 
@@ -9,7 +9,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-module load miniconda3/4.9.2-py38
+module load miniconda3/4.9.2-gpu
 
 ipython profile create --parallel --profile=mpi
 ```

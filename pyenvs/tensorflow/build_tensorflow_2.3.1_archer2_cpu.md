@@ -1,7 +1,7 @@
-Instructions for installing TensorFlow 2.3.1 on ARCHER2
-=======================================================
+Instructions for installing TensorFlow 2.3.1 on ARCHER2 (CPU)
+=============================================================
 
-These instructions are for installing TensorFlow 2.3.1 on ARCHER2 (HPE Cray EX, AMD Zen2 7742) using Python 3.8.
+These instructions show how to install TensorFlow 2.3.1 for use on the ARCHER2 CPU nodes (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
