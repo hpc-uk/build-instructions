@@ -11,17 +11,17 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2021-07-26 | Michael Bareford | Cirrus | 1.12 | Build and run instructions for Cirrus using Python 3.8
+2021-09-06 | Michael Bareford | Cirrus | 1.12 | Build and run instructions for Cirrus GPU nodes
 
 Installation Instructions
 -------------------------
 
-* [PyFR 1.12 Cirrus Installation Instructions (Python 3.8)](build_pyfr_1.12_cirrus_py38.md)
+* [PyFR 1.12 Cirrus Installation Instructions (GPU)](build_pyfr_1.12_cirrus_gpu.md)
 
 Run Instructions
 ----------------
 
-* [PyFR 1.12 Cirrus Run Instructions (Python 3.8)](run_pyfr_1.12_cirrus_py38.md)
+* [PyFR 1.12 Cirrus Run Instructions (GPU)](run_pyfr_1.12_cirrus_gpu.md)
 
 Notes
 -----

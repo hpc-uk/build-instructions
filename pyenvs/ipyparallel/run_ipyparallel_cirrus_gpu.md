@@ -1,5 +1,5 @@
-Instructions for running an ipyparallel session on Cirrus
-=========================================================
+Instructions for running an ipyparallel session on Cirrus (GPU)
+===============================================================
 
 The Slurm submission script below requests a GPU node and loads the machine learning
 specific Miniconda3 module before starting the ipyparallel cluster and Jupyter notebook.
@@ -75,8 +75,7 @@ rm -f ${JUPYTER_OUTPUT}
 
 
 # load module(s)
-module use /lustre/sw/modulefiles.dev
-module load miniconda3/4.9.2-py38-ml
+module load miniconda3/4.9.2-gpu
 
 
 export OMPI_MCA_mca_base_component_show_load_errors=0

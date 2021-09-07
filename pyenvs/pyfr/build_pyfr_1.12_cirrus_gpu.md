@@ -1,7 +1,7 @@
-Instructions for building PyFR 1.12 on Cirrus
-=============================================
+Instructions for building PyFR 1.12 on Cirrus (GPU)
+===================================================
 
-These instructions are for building PyFR 1.12 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
+These instructions show how to build PyFR 1.12 for use on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 
 Setup initial environment
@@ -25,7 +25,7 @@ MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_TITLE=${MINICONDA_LABEL^}
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-gpu
 MINICONDA_BASH_SCRIPT=${MINICONDA_TITLE}-${PYTHON_LABEL}_${MINICONDA_VERSION}-Linux-x86_64.sh
 
 mkdir -p ${MINICONDA_LABEL}
@@ -71,7 +71,7 @@ OPENMPI_VERSION=4.1.0
 
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
-MINICONDA_ROOT=${PRFX}/miniconda3/${MINICONDA_VERSION}-${PYTHON_LABEL}
+MINICONDA_ROOT=${PRFX}/miniconda3/${MINICONDA_VERSION}-gpu
 . ${MINICONDA_ROOT}/activate.sh
 
 MPI4PY_LABEL=mpi4py
@@ -108,8 +108,6 @@ Install PyFR and supporting packages
 ```bash
 cd ${PRFX}
 
-PYTHON_LABEL=py38
-
 MINICONDA_VERSION=4.9.2
 CUDA_VERSION=11.2
 OPENMPI_VERSION=4.1.0
@@ -119,7 +117,7 @@ module load nvidia/cuda-${CUDA_VERSION}
 module load nvidia/mathlibs-${CUDA_VERSION}
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
-MINICONDA_ROOT=${PRFX}/miniconda3/${MINICONDA_VERSION}-${PYTHON_LABEL}
+MINICONDA_ROOT=${PRFX}/miniconda3/${MINICONDA_VERSION}-gpu
 . ${MINICONDA_ROOT}/activate.sh
 
 MPI4PY_VERSION=3.0.3

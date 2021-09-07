@@ -1,12 +1,12 @@
-Instructions for building a general purpose Miniconda3 environment on Cirrus
-============================================================================
+Instructions for building a general purpose Miniconda3 environment on Cirrus (GPU)
+==================================================================================
 
-These instructions are for building a general purpose (or base-level) Miniconda3 environment
-on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
+These instructions show how to build a general purpose (or base-level) Miniconda3 environment
+for the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-As the target machine is Cirrus, the Miniconda3 environment is setup with GPU support in the
-form of pycuda 2021.1 and CUDA 11.2. MPI support is provided by mpi4py 3.0.3 and OpenMPI 4.1.0
-; the OpenMPI libraries having been built against CUDA 11.2 and UCX 1.9.0.
+The Miniconda3 environment is setup with GPU support in the form of pycuda 2021.1 and CUDA 11.2.
+MPI support is provided by mpi4py 3.0.3 and OpenMPI 4.1.0; the OpenMPI libraries having been built
+against CUDA 11.2 and UCX 1.9.0.
 
 In addition, the environment provides a suite of general purpose packages (e.g., numpy, scipy,
 pandas and matplotlib) and also supports interactive parallel python using Jupyter notebooks.
@@ -35,7 +35,7 @@ PYTHON_LABEL=py38
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-gpu
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.0.3
@@ -76,9 +76,10 @@ echo "rm activate2.sh" >> sed.sh
 rm ./sed.sh
 
 . ${MINICONDA_ROOT}/activate.sh
+
 conda update -y -n root --all
 
-conda deactivate
+export PS1="(gpu) [\u@\h \W]\$ "
 ```
 
 
@@ -89,10 +90,7 @@ Build and install mpi4py using OpenMPI 4.1.0
 cd ${MINICONDA_ROOT}
 
 PYTHON_LABEL_LONG=python${PYTHON_LABEL:2:1}.${PYTHON_LABEL:3:1}
-
 MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
-
-. ${MINICONDA_ROOT}/activate.sh
 
 mkdir -p ${MPI4PY_LABEL}
 cd ${MPI4PY_LABEL}
@@ -112,8 +110,6 @@ echo "export LIBRARY_PATH=\${ROOT}/lib:\${LIBRARY_PATH}" >> ${MPI4PY_ROOT}/env.s
 echo "export LD_LIBRARY_PATH=\${ROOT}/lib:\${LD_LIBRARY_PATH}" >> ${MPI4PY_ROOT}/env.sh
 echo "export PYTHONPATH=\${ROOT}/lib/${PYTHON_LABEL_LONG}/site-packages:\${PYTHONPATH}" >> ${MPI4PY_ROOT}/env.sh
 . ${MPI4PY_ROOT}/env.sh
-
-conda deactivate
 ```
 
 
@@ -122,12 +118,6 @@ Build and install pycuda
 
 ```bash
 cd ${MINICONDA_ROOT}
-
-. ${MINICONDA_ROOT}/activate.sh
-
-if [[ ${LD_LIBRARY_PATH} != *"${MPI4PY_ROOT}"* ]]; then
-  . ${MPI4PY_ROOT}/env.sh
-fi
 
 PYCUDA_LABEL=pycuda
 PYCUDA_VERSION=2021.1
@@ -146,8 +136,6 @@ python configure.py --cuda-root=${CUDAROOT} --no-use-shipped-boost --boost-pytho
 make
 make install
 make clean
-
-conda deactivate
 ```
 
 Note that the python configure command for pycuda has one anomalous setting, the `py36` suffix used for the boost python library name.
@@ -160,12 +148,6 @@ Install general purpose python packages
 ```bash
 cd ${MINICONDA_ROOT}
 
-. ${MINICONDA_ROOT}/activate.sh
-
-if [[ ${LD_LIBRARY_PATH} != *"${MPI4PY_ROOT}"* ]]; then
-  . ${MPI4PY_ROOT}/env.sh
-fi
-
 pip install scipy
 pip install matplotlib
 pip install pandas
@@ -174,5 +156,10 @@ pip install notebook
 pip install sympy
 pip install graphviz
 
+
+Finish by deactivating the virtual environment
+----------------------------------------------
+
 conda deactivate
+export PS1="[\u@\h \W]\$ "
 ```

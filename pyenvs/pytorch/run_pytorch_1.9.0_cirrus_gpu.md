@@ -1,10 +1,9 @@
-Instructions for running PyTorch on Cirrus
-==========================================
+Instructions for running PyTorch on Cirrus (GPU)
+================================================
 
-These instructions are for running PyTorch within a Miniconda3 environment on Cirrus
-(SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
+These instructions are for running PyTorch within a Miniconda3 environment on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-PyTorch 1.9.0 is made available by loading the `miniconda3/4.9.2-py38-torch` module; this starts a Miniconda3 environment
+PyTorch 1.9.0 is made available by loading the `miniconda3/4.9.2-gpu-torch` module; this starts a Miniconda3 environment
 containing Horovod 0.22.1 and mpi4py 3.0.3 (built against Open MPI 4.1.0 and CUDA 11.2).
 
 Horovod is a key component as it allows the PyTorch work to be distributed over CPUs and/or GPUs,
@@ -33,7 +32,7 @@ export SLURM_NTASKS=2
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-module load miniconda3/4.9.2-py38-torch
+module load miniconda3/4.9.2-gpu-torch
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 

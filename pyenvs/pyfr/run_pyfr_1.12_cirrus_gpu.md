@@ -1,13 +1,13 @@
-Instructions for running PyFR 1.12 on Cirrus
-============================================
+Instructions for running PyFR 1.12 on Cirrus (GPU)
+==================================================
 
-These instructions are for running PyFR 1.12 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using Python 3.8.
+These instructions are for running PyFR 1.12 on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 The instructions take the form of two Slurm submission scripts one using `srun` the other using `mpirun`.
 The two scripts are very similar, the main difference being the setting of two Slurm environment variables in the `mpirun` script.
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project. The submission scripts below assume a locally installed
-Miniconda3 virtual environment containing mpi4py, pyfr and supporting packages, see [build instructions](build_pyfr_1.12_cirrus_py38.md) for further details.
+Miniconda3 virtual environment containing mpi4py, pyfr and supporting packages, see [build instructions](build_pyfr_1.12_cirrus_gpu.md) for further details.
 
 
 Launch a PyFR job (via srun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
@@ -35,7 +35,7 @@ MPI4PY_VERSION=3.0.3
 MINICONDA3_VERSION=4.9.2
 
 PRFX=/path/to/work
-MINICONDA3_ROOT=${PRFX}/miniconda3/${MINICONDA3_VERSION}
+MINICONDA3_ROOT=${PRFX}/miniconda3/${MINICONDA3_VERSION}-gpu
 MPI4PY_ROOT=${PRFX}/mpi4py/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
 
 INPUTDIR=${PRFX}/input
@@ -84,7 +84,7 @@ MPI4PY_VERSION=3.0.3
 MINICONDA3_VERSION=4.9.2
 
 PRFX=/path/to/work
-MINICONDA3_ROOT=${PRFX}/miniconda3/${MINICONDA3_VERSION}
+MINICONDA3_ROOT=${PRFX}/miniconda3/${MINICONDA3_VERSION}-gpu
 MPI4PY_ROOT=${PRFX}/mpi4py/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
 
 INPUTDIR=${PRFX}/input
