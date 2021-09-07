@@ -155,11 +155,13 @@ pip install ipyparallel
 pip install notebook
 pip install sympy
 pip install graphviz
+```
 
 
 Finish by deactivating the virtual environment
 ----------------------------------------------
 
+```bash
 conda deactivate
 export PS1="[\u@\h \W]\$ "
 ```
