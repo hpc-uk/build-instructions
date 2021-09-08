@@ -53,11 +53,11 @@ export GFDL_WORK=/work/group/group/username/Isca/gfdl_work
 export GFDL_DATA=/work/group/group/username/Isca/gfdl_data 
 ```
 
-## Edit the run.sh template file in `src/extra/python/isca/templates/run.sh`
+Edit the `run.sh` template file in `src/extra/python/isca/templates/run.sh`
 
 On line 22 change `mpirun` to `srun` and `-np` to `-n` 
 
-### Build and run Isca 
+## Build and run Isca 
 
 First launch an interactive job 
 
