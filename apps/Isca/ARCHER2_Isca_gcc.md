@@ -28,7 +28,6 @@ pip install --user -e .
 
 Create the following file for the archer2 environment (named archer2) at `/src/extra/env/` 
 ```
-#——————— 
 echo loadmodules for archer2 
 
 module load cray-hdf5 
@@ -39,7 +38,6 @@ export GFDL_MKMF_TEMPLATE=gfort
 export F90=ftn 
 export CC=cc 
 
-#—————— 
 ```
 
 Set the following environment variables for example like so, based on where Isca is in your work directory above. (You can add these to your ./bashrc so that they are set when you log in). 
@@ -57,7 +55,7 @@ export GFDL_DATA=/work/group/group/username/Isca/gfdl_data
 
 ## Edit the run.sh template file in `src/extra/python/isca/templates/run.sh`
 
-On line 22 change mpirun to srun and -np to -n 
+On line 22 change `mpirun` to `srun` and `-np` to `-n` 
 
 ### Build and run Isca 
 
