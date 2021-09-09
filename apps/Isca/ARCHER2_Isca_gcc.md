@@ -3,7 +3,7 @@
 ## Load modules and set python environment 
 
 ```
-module restore PrgEnv-gnu 
+module restore /etc/cray-pe.d/PrgEnv-gnu
 module load cray-python 
 module swap gcc gcc/9.3.0 
 
@@ -55,7 +55,7 @@ export GFDL_DATA=/work/group/group/username/Isca/gfdl_data
 
 Edit the `run.sh` template file in `src/extra/python/isca/templates/run.sh`
 
-On line 22 change `mpirun` to `srun` and `-np` to `-n` 
+On line 22 change `-np` to `-n` and all instances of `mpirun` to `srun`
 
 ## Build and run Isca 
 
@@ -102,3 +102,5 @@ export GFDL_DATA=/work/group/group/username/Isca/gfdl_data
 cd $GFDL_BASE/exp/test_cases/held_suarez/ 
 python held_suarez_test_case.py 
 ```
+
+Note that the number of cores Isca actually uses is set by the `NCORES` parameter in the python script. The model requires there to be a minimum of 2 latitude bands per core, so at the default T42 resolution (128 lon x 64 lat) the maximum number of cores you can use is `64/2=32`. 
