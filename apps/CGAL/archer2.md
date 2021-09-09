@@ -1,4 +1,4 @@
-# GrADS build instructions
+# CGAL build instructions
 
 Dependencies:
  - GNU compiler
