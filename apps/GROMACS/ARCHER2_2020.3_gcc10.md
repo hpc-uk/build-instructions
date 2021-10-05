@@ -1,4 +1,4 @@
-Instructions for compiling GROMACS 2020.3 for ARCHER2 using GCC 9 compilers
+Instructions for compiling GROMACS 2020.3 for ARCHER2 using GCC 10 compilers
 ==========================================================================
 
 These instructions are for compiling GROMACS 2020.3 on [ARCHER2](https://www.archer2.ac.uk) using the GCC 10 compilers.
