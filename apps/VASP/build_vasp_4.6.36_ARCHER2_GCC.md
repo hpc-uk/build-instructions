@@ -70,3 +70,14 @@ modify Makefile.HPECrayEX_GCC to add the correct additional preprocessor directi
  - Gamma-point: **add** `-DwNGZhalf`
  - Non-collinear: **remove** `-DNGZhalf`
 
+Runtime on ARCHER2 4-cabinet system
+-----------------------------------
+
+**Important:** Remember that you will need the following two lines in your job submission
+script to ensure that the correct versions of libraries are used at runtime:
+
+```bash
+module restore /work/y07/shared/vasp5/vasp.5.4.4.pl2-gcc10-cpe2103/collection/vasp544-gcc10-cpe2103
+export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
+```
+
