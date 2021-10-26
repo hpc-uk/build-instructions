@@ -1,8 +1,8 @@
 Instructions for compiling NAMD 2.14 for ARCHER2
 ================================================
 
-These instructions are for compiling NAMD 2.14 (with and without SMP) on ARCHER2 (HPE Cray EX, AMD Zen2 7742) 4-cabinet system
-using the GCC 10 compilers and Cray MPICH 8.
+These instructions are for compiling NAMD 2.14 (with and without SMP) on the ARCHER2 (HPE Cray EX, AMD Zen2 7742) full system
+using the GCC 11 compilers and Cray MPICH 8.
 
 
 Setup initial environment
@@ -42,12 +42,17 @@ Switch to the GNU Programming Environment and load the approptiate FFTW module
 ------------------------------------------------------------------------------
 
 ```bash
-module restore /etc/cray-pe.d/PrgEnv-gnu
+CPE_VERSION=21.09
+FFTW_VERSION=3.3.8.11
+
+module -q load cpe/${CPE_VERSION}
+module -q swap PrgEnv-cray PrgEnv-gnu
+module -q load cray-fftw/${FFTW_VERSION}
+module -q load xpmem
+module -q load perftools-base
 
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-FFTW_VERSION=3.3.8.7
-
-module load cray-fftw/${FFTW_VERSION}
+CPE_VERSION=`echo "${CPE_VERSION}" | tr -d .`
 ```
 
 
@@ -72,7 +77,7 @@ mv ${TCL_LABEL}${TCL_VERSION} ${TCL_NAME}
 cd ${TCL_NAME}/unix
 export FC=ftn CC=cc CXX=CC
 
-./configure --enable-threads --prefix=${TCL_ROOT}/${TCL_VERSION}-gcc${GNU_VERSION_MAJOR}
+./configure --enable-threads --prefix=${TCL_ROOT}/${TCL_VERSION}
 make
 make test
 make install
@@ -88,7 +93,7 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 NAMD_CHARM_NAME=charm-6.10.2
 tar -xf ${NAMD_CHARM_NAME}.tar
 
-TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}-gcc${GNU_VERSION_MAJOR}
+TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 cd ${NAMD_CHARM_NAME}
 export CRAY_MPICH_GNU_BASEDIR=${CRAY_MPICH_BASEDIR}/gnu/${PE_MPICH_GENCOMPILERS_GNU}
@@ -107,8 +112,8 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 gmake
 
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}
-cd ${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}
+mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}
+cd ${NAMD_ROOT}/${NAMD_VERSION}
 cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
 cd bin
 rm .rootdir
@@ -117,7 +122,7 @@ ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
 rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 ```
 
-The `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}/bin` directory.
+The `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}/bin` directory.
 
 
 Build and install NAMD (non-SMP version)
@@ -129,8 +134,8 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 gmake
 
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}
-cd ${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}
+mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
+cd ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
 cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
 cd bin
 rm .rootdir
@@ -139,4 +144,4 @@ ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
 rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 ```
 
-This `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}/bin` directory.
+This `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-nosmp/bin` directory.
