@@ -66,7 +66,7 @@ export MESA_INSTALL_PREFIX=${PV_PATH}/mesa-21.0.1/build/install/
 ## Build Paraview
 
 ```
-cd $(PV_PATH)
+cd ${PV_PATH}
 git clone https://gitlab.kitware.com/paraview/paraview.git
 cd paraview
 git checkout v5.9.1
