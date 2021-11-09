@@ -17,7 +17,7 @@ export PV_PATH=`pwd`
 ```
 wget https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
 tar xvf llvm-12.0.1.src.tar.xz
-cd llvm-12.0.1
+cd llvm-12.0.1.src
 mkdir build
 cd build
 cmake                                           \
