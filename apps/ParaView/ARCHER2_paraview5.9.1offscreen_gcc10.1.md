@@ -29,8 +29,8 @@ cmake                                           \
   ../
 make -j 8 install
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/llvm/lib
-export PATH=$PATH:$(PV_PATH)/llvm/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/llvm/lib
+export PATH=$PATH:${PV_PATH}/llvm/bin
 ```
 
 ## Install meson and ninja 
