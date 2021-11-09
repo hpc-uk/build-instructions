@@ -33,7 +33,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/llvm/lib
 export PATH=$PATH:${PV_PATH}/llvm/bin
 ```
 
-## Install meson and ninja 
+## Install meson, ninja and mako 
 
 * Required for build mesa
 * Installed via pip
@@ -44,6 +44,7 @@ export PYTHONUSERBASE=/work/group/group/user/.local/
 export PATH=$PYTHONUSERBASE/bin:$PATH
 pip install --user meson
 pip install --user ninja
+pip install --user mako
 ```
 
 ## Build mesa
