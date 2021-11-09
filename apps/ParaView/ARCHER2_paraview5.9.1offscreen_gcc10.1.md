@@ -49,7 +49,7 @@ pip install --user ninja
 ## Build mesa
 
 ```
-cd $(PV_PATH)
+cd ${PV_PATH}
 wget https://archive.mesa3d.org//mesa-21.0.1.tar.xz
 tar xvf mesa-21.0.1.tar.xz
 cd mesa-21.0.1/
