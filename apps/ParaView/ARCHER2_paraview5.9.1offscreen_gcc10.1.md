@@ -16,13 +16,13 @@ export PV_PATH=`pwd`
 
 ```
 wget https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
-tar xvf llvm-12.0.1.src.tar.zx
+tar xvf llvm-12.0.1.src.tar.xz
 cd llvm-12.0.1
 mkdir build
 cd build
 cmake                                           \
   -DCMAKE_BUILD_TYPE=Release                    \
-  -DCMAKE_INSTALL_PREFIX=$(PV_PATH)/llvm        \
+  -DCMAKE_INSTALL_PREFIX=${PV_PATH}/llvm        \
   -DLLVM_BUILD_LLVM_DYLIB=ON                    \
   -DLLVM_ENABLE_RTTI=ON                         \
   -DLLVM_INSTALL_UTILS=ON                       \
@@ -58,8 +58,8 @@ ninja -j 8 -C build
 ninja -C build install
 
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/mesa-21.0.1/build/install/lib64
-export MESA_INSTALL_PREFIX=$(PV_PATH)/mesa-21.0.1/build/install/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/mesa-21.0.1/build/install/lib64
+export MESA_INSTALL_PREFIX=${PV_PATH}/mesa-21.0.1/build/install/
 ```
 
 ## Build Paraview
@@ -77,7 +77,7 @@ cmake  -DPARAVIEW_USE_QT=OFF -DPARAVIEW_USE_MPI=on                          \
         -DVTK_USE_X=OFF -DOSMESA_INCLUDE_DIR=${MESA_INSTALL_PREFIX}/include  \
         -DOSMESA_LIBRARY=${MESA_INSTALL_PREFIX}/lib64/libOSMesa.so           \
         -DVTK_OPENGL_HAS_OSMESA=ON -DPARAVIEW_USE_VTKM=off                   \
-        -DCMAKE_INSTALL_PREFIX=$(PV_PATH)/paraview/build/install             \
+        -DCMAKE_INSTALL_PREFIX=${PV_PATH}/paraview/build/install             \
         -DPARAVIEW_USE_PYTHON=ON ..
 make -j 8
 make install
@@ -87,6 +87,6 @@ make install
 
 ```
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib
-export PATH=$PATH:$(PV_PATH)/paraview/build/install/bin
+export PATH=$PATH:${PV_PATH}/paraview/build/install/bin
 ```
 
