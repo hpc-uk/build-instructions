@@ -10,8 +10,8 @@ CP2K_ROOT  = /work/y07/shared/cp2k/cp2k-8.2
 
 include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
 
-FFTW_INC = /opt/cray/pe/fftw/3.3.8.8/x86_rome/include
-FFTW_LIB = /opt/cray/pe/fftw/3.3.8.8/x86_rome/lib
+FFTW_INC = /opt/cray/pe/fftw/3.3.8.11/x86_rome/include
+FFTW_LIB = /opt/cray/pe/fftw/3.3.8.11/x86_rome/lib
 
 # Options
 
@@ -27,7 +27,7 @@ FCFLAGS  = $(DFLAGS) $(CFLAGS) \
            -I$(CP2K_ROOT)/libs/libxc/include  \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-2020.11.001/modules \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-2020.11.001/elpa \
-           -I$(FFTW_INC) -ffree-form -std=f2008 -ffree-line-length-none
+           -I$(FFTW_INC) -ffree-form -std=f2008 -ffree-line-length-none -fallow-argument-mismatch
 
 LDFLAGS  = $(FCFLAGS)  
 
