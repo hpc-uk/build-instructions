@@ -6,7 +6,7 @@ This folder contains files and documentation for building ONETEP on various HPC 
 Build Instructions
 ------------------
 
-* [ONETEP 6.0 ARCHER2 (AMD 7742, GCC 9.3.0 Build Instructions)](ARCHER2_6.0_GCC_CrayMPT.md)
+* [ONETEP 6.0 ARCHER2 (AMD 7742, GCC 9.3.0 Build Instructions)](ARCHER2_6.x_GCC_CrayMPT.md)
 
 Notes
 -----

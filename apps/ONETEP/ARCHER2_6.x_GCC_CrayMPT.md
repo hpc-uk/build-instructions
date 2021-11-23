@@ -22,12 +22,12 @@ Setup correct modules
 Setup the GCC compilers and load the FFTW library module:
 
 ```bash
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 module swap gcc gcc/9.3.0
 module load cray-fftw
 ```
 
-Note that the default `gcc/10.1.0` module gives an error when building ONETEP in one of
+Note that the default `gcc/10.2.0` module gives an error when building ONETEP in one of
 the OpenMP parallel regions so we switch to an older version of the compiler.
 
 Build ONETEP
