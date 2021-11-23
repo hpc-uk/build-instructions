@@ -1,4 +1,4 @@
-Instructions for compiling CASTEP 19.11 for ARCHER2 using GCC compilers
+Instructions for compiling CASTEP 20.11 for ARCHER2 using GCC compilers
 =========================================================================
 
 These instructions are for compiling CASTEP 19.11 on [ARCHER2](https://www.archer2.ac.uk)
