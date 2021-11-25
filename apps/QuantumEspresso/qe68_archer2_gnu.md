@@ -8,11 +8,8 @@ wget https://github.com/QEF/q-e/archive/qe-6.8.tar.gz
 tar -xvf qe-6.8.tar.gz
 cd q-e-qe-6.8
 
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 module load cray-fftw cray-hdf5-parallel
-module load cpe/21.03
-module remove cpe
-module swap gcc gcc/10.2.0
 
 export CC=cc
 export FC=ftn
