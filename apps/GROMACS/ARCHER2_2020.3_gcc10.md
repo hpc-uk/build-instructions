@@ -20,7 +20,7 @@ Setup correct modules
 Setup the GCC programming environment:
 
 ```bash
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 ```
 
 Configure and build the parallel, single-precision build
