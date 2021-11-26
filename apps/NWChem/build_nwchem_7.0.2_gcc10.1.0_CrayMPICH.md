@@ -18,7 +18,7 @@ Setup the environment
 Switch to the Gnu programming environment:
 
 ```bash
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 ```
 
 Set the build environment variables for NWChem:
