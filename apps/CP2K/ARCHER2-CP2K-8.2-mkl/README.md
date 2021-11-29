@@ -35,7 +35,7 @@ CP2K | Name         | Optional | Build?    | Comment
 2a.  | Gnu make     | No       | Available |
 2b.  | Python       | No       | Available | `module load cray-python`
 2c.  | Fortran/C/C++| No       | Available | via module `gcc/11.2.0`
-2d.  | BLAS/LAPACK  | No       | Available | via module `cray-libsci`
+2d.  | BLAS/LAPACK  | No       | Available | via module `mkl\19.5-281`
 2e.  | MPI?SCLAPACK | Yes      | Available | 
 2f.  | FFTW         | Yes      | Avaialble | `module load cray-fftw`
 2g.  | libint       | Yes      | Build     | 
