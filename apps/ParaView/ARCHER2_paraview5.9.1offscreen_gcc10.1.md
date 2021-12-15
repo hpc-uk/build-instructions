@@ -1,5 +1,7 @@
 # Build instructions for Pararview 5.9.1 offscreen version on ARCHER2
 
+The instructions below assume you're building and installing on the same filesystem. If this is not the case you may need to define two `PV_` environment variable, one for the build path, and one for the install path.
+
 ## Set up the environment
 
 ```
@@ -37,6 +39,7 @@ export PATH=$PATH:${PV_PATH}/llvm/bin
 
 * Required for build mesa
 * Installed via pip
+* Note, you need to change PYTHNOUSERBASE to point to somewhere sensible in the command below
 
 ```
 module load cray-python
@@ -79,15 +82,18 @@ cmake  -DPARAVIEW_USE_QT=OFF -DPARAVIEW_USE_MPI=on                          \
         -DOSMESA_LIBRARY=${MESA_INSTALL_PREFIX}/lib64/libOSMesa.so           \
         -DVTK_OPENGL_HAS_OSMESA=ON -DPARAVIEW_USE_VTKM=off                   \
         -DCMAKE_INSTALL_PREFIX=${PV_PATH}/paraview/build/install             \
-        -DPARAVIEW_USE_PYTHON=ON ..
+        -DPARAVIEW_USE_PYTHON=ON .. -DCMAKE_SHARED_LINKER_FLAGS=-lpthread
 make -j 8
 make install
 ```
 
 ### Set up the environment
+* Note, if the python version changes then you will need to modify `python3.8` to be something appropriate to your python install 
+
 
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib64
 export PATH=$PATH:${PV_PATH}/paraview/build/install/bin
+export PYTHONPATH=$PYTHONPATH:${{PV_PATH}/paraview/build/install/lib64/python3.8/site-packages
 ```
 
