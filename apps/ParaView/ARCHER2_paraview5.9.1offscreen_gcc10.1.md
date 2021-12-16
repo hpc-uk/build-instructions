@@ -5,7 +5,7 @@ The instructions below assume you're building and installing on the same filesys
 ## Set up the environment
 
 ```
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 module load cmake
 mkdir paraview-build
 cd paraview-build
