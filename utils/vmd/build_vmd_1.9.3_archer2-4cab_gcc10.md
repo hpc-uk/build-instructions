@@ -1,7 +1,7 @@
-Instructions for compiling VMD 1.9.3 on ARCHER2
-===============================================
+Instructions for compiling VMD 1.9.3 on the ARCHER2 4 Cabinet system
+====================================================================
 
-These instructions are for compiling VMD 1.9.3 (serial and parallel) on ARCHER2 (HPE Cray EX, AMD Zen2 7742) using the GCC 10 compilers and Cray MPICH 8.
+These instructions are for compiling VMD 1.9.3 (serial and parallel) on ARCHER2 4 Cabinet system (HPE Cray EX, AMD Zen2 7742) using the GCC 10 compilers and Cray MPICH 8.
 
 
 Setup initial environment
