@@ -1,7 +1,7 @@
-Instructions for building XALT 2.10.2 on ARCHER2
+Instructions for building XALT 2.10.34 on ARCHER2
 ================================================
 
-These instructions are for building XALT 2.10.2 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
+These instructions are for building XALT 2.10.34 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
 
 
 Setup initial environment
@@ -10,7 +10,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work
 XALT_LABEL=xalt
-XALT_VERSION=2.10.2
+XALT_VERSION=2.10.34
 XALT_NAME=${XALT_LABEL}-${XALT_VERSION}
 XALT_ROOT=${PRFX}/${XALT_LABEL}
 XALT_INSTALL=${XALT_ROOT}/${XALT_VERSION}

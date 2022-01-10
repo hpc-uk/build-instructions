@@ -12,12 +12,12 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2022-01-20 | Michael Bareford | ARCHER2 Full System | 2.10.2 | GCC 11
+ 2022-01-10 | Michael Bareford | ARCHER2 Full System | 2.10.34 | GCC 11
  
 Build Instructions
 ------------------
 
-* [XALT 2.10.2 ARCHER2 Full System Build Instructions](build_xalt_2.10.2_archer2.md)
+* [XALT 2.10.34 ARCHER2 Full System Build Instructions](build_xalt_2.10.34_archer2.md)
 
 Notes
 -----
