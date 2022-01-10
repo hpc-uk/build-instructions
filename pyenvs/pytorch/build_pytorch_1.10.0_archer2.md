@@ -31,7 +31,6 @@ Create and setup the PyTorch virtual python environment
 mkdir -p ${PYTHON_BIN}
 
 export PIP_CACHE_DIR=${PYTHON_DIR}/.cache/pip
-export MPLCONFIGDIR=${PYTHON_DIR}/.config/matplotlib
 
 export PYTHONUSERBASE=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}
 export PATH=${PYTHONUSERBASE}/bin:${PATH}

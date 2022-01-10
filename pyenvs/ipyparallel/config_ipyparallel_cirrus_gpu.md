@@ -1,7 +1,7 @@
 Instructions for setting up an ipyparallel configuration on Cirrus (GPU)
 ========================================================================
 
-The instructions below start with the loading of the `miniconda3/4.9.2-gpu` module
+The instructions below start with the loading of the `mpi4py/3.1.3-ompi-gpu` module
 within the user's account on the Cirrus login node.
 
 
@@ -9,7 +9,8 @@ Setup initial environment
 -------------------------
 
 ```bash
-module load miniconda3/4.9.2-gpu
+module use /lustre/sw/modulefiles.miniconda3
+module load mpi4py/3.1.3-ompi-gpu
 
 ipython profile create --parallel --profile=mpi
 ```
@@ -21,18 +22,17 @@ Edit the `~/.ipython/profile_mpi/ipcluster_config.py` file
 Add the following line.
 
 ```bash
-c.IPClusterEngines.engine_launcher_class = 'MPIEngineSetLauncher'
+c.Cluster.engine_launcher_class = 'ipyparallel.cluster.launcher.MPIEngineSetLauncher'
 ```
 
 
 Edit the `~/.ipython/profile_mpi/ipengine_config.py` file
 ----------------------------------------------------------
 
-Add the following lines.
+Add the following line.
 
 ```bash
-c.EngineFactory.use_mpi = True
-c.MPI.use = 'mpi4py'
+c.IPEngine.use_mpi = True
 ```
 
 

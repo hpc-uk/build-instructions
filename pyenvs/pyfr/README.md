@@ -11,17 +11,17 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2021-09-06 | Michael Bareford | Cirrus | 1.12 | Build and run instructions for Cirrus GPU nodes
+2022-01-07 | Michael Bareford | Cirrus | 1.12.3 | Build and run instructions for Cirrus GPU nodes
 
 Installation Instructions
 -------------------------
 
-* [PyFR 1.12 Cirrus Installation Instructions (GPU)](build_pyfr_1.12_cirrus_gpu.md)
+* [PyFR 1.12.3 Cirrus Installation Instructions (GPU)](build_pyfr_1.12.3_cirrus_gpu.md)
 
 Run Instructions
 ----------------
 
-* [PyFR 1.12 Cirrus Run Instructions (GPU)](run_pyfr_1.12_cirrus_gpu.md)
+* [PyFR 1.12.3 Cirrus Run Instructions (GPU)](run_pyfr_1.12.3_cirrus_gpu.md)
 
 Notes
 -----

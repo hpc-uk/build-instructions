@@ -1,10 +1,9 @@
 Instructions for running an ipyparallel session on Cirrus (GPU)
 ===============================================================
 
-The Slurm submission script below requests a GPU node and loads the machine learning
-specific Miniconda3 module before starting the ipyparallel cluster and Jupyter notebook.
-This script is suitable therefore for running pytorch commands interactively on a Cirrus
-GPU node. Obviously, the script may need to be altered to suit a different use case. 
+The Slurm submission script below requests a GPU node and loads the mpi4py Miniconda3 module, `mpi4py/3.1.3-ompi-gpu`,
+before starting the ipyparallel cluster and Jupyter notebook. This script is suitable therefore for running pytorch commands
+interactively on a Cirrus GPU node. Obviously, the script may need to be altered to suit a different use case. 
 
 Login to your Cirrus account and submit the Slurm script shown below.
 
@@ -16,7 +15,7 @@ Submit `sbatch submit_ipypar.ll`
 #!/bin/bash
 
 #SBATCH --job-name=ipypar
-#SBATCH --time=00:20:00
+#SBATCH --time=01:00:00
 #SBATCH --signal=B:TERM@60
 #SBATCH --nodes=1
 #SBATCH --partition=gpu-cascade
@@ -75,7 +74,8 @@ rm -f ${JUPYTER_OUTPUT}
 
 
 # load module(s)
-module load miniconda3/4.9.2-gpu
+module use /lustre/sw/modulefiles.miniconda3
+module load mpi4py/3.1.3-ompi-gpu
 
 
 export OMPI_MCA_mca_base_component_show_load_errors=0
@@ -104,7 +104,7 @@ done
 
 
 # start jupyter notebook
-jupyter notebook --no-browser --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
+jupyter notebook --no-browser --notebook-dir /lustre/home --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
 
 
 wait
