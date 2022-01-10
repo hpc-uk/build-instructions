@@ -56,3 +56,39 @@ for pel in "${PE_LABEL[@]}"; do
   make clean
 done
 ```
+
+
+Addendum: build tests
+---------------------
+
+The `make check` command performs a number of tests, all of which pass for the Cray and AMD programming environments.
+However, for `PrgEnv-gnu`, two tests fail, `linalg` and `multilarge_nlinear`. The failures are due to very slight differences
+between the computed and expected values (e.g., for the `multilarge_nlinear` tests the computed values start to differ
+from the 8th decimal place). For this reason, these *failures* will simply be noted for now.
+
+```bash
+linalg
+
+FAIL: cholesky_invert unscaled hilbert (  4,  4)[0,2]: (2.55795384873636067e-13 observed vs 0 expected) [28190582]
+```
+
+```bash
+multilarge_nlinear
+
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs0.0309278350515463929 expected) [10927]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [10930]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11343]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11346]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11435]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11438]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11851]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=levenberg/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11854]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11943]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [11946]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12359]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12362]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12451]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12454]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12867]
+FAIL: trust-region/steihaug-toint/solver=mcholesky/scale=more/weighted/linear_rank1zeros coeff sum (0.0309278346895478506 observed vs 0.0309278350515463929 expected) [12870]
+```
