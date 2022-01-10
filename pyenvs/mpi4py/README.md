@@ -16,7 +16,7 @@ Build Instructions
 ------------------
 
 * [mpi4py 3.1.3 Cirrus Build Instructions (GPU)](build_mpi4py_3.1.3_cirrus_gpu.md)
-* [mpi4py 3.1.3 Cirrus Build Instructions (GPU)](build_mpi4py_3.1.3_cirrus_cpu.md)
+* [mpi4py 3.1.3 Cirrus Build Instructions (CPU)](build_mpi4py_3.1.3_cirrus_cpu.md)
 
 Notes
 -----

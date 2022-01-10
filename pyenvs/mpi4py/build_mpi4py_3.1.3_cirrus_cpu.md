@@ -157,6 +157,7 @@ pip install nltk
 pip install ipyparallel
 pip install jupyter
 pip install jupyterlab
+pip install jupyterlab-server==2.10.3
 pip install notebook
 pip install sympy
 pip install wandb
