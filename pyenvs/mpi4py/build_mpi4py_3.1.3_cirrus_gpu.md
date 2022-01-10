@@ -1,18 +1,12 @@
-Instructions for building a general purpose Miniconda3 environment on Cirrus (GPU)
-==================================================================================
+Instructions for building a Miniconda3 environment that provides mpi4py suitable for Cirrus GPU nodes
+=====================================================================================================
 
-These instructions show how to build a general purpose (or base-level) Miniconda3 environment
-for the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
+These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus GPU nodes
+(Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The Miniconda3 environment is setup with GPU support in the form of pycuda 2021.1 and CUDA 11.2.
-MPI support is provided by mpi4py 3.0.3 and OpenMPI 4.1.0; the OpenMPI libraries having been built
-against CUDA 11.2 and UCX 1.9.0.
-
-In addition, the environment provides a suite of general purpose packages (e.g., numpy, scipy,
-pandas and matplotlib) and also supports interactive parallel python using Jupyter notebooks.
-
-Other Miniconda3 environments whose purposes are more tightly defined are expected to be based
-on this module.
+The environment features mpi4py 3.1.3 (OpenMPI 4.1.0 with ucx 1.9.0 and CUDA 11.2) and pycuda 2021.1.
+It also provides a suite of packages pertinent to parallel processing and numerical analysis,
+e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
 
 Setup initial environment
@@ -31,15 +25,14 @@ module load nvidia/mathlibs-${CUDA_VERSION}
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 module load boost/${BOOST_VERSION}
 
+MPI4PY_LABEL=mpi4py
+MPI4PY_VERSION=3.1.3
+
 PYTHON_LABEL=py38
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-gpu
-
-MPI4PY_LABEL=mpi4py
-MPI4PY_VERSION=3.0.3
-MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-gpu
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
@@ -79,7 +72,7 @@ rm ./sed.sh
 
 conda update -y -n root --all
 
-export PS1="(gpu) [\u@\h \W]\$ "
+export PS1="(mpi4py-gpu) [\u@\h \W]\$ "
 ```
 
 
@@ -91,6 +84,7 @@ cd ${MINICONDA_ROOT}
 
 PYTHON_LABEL_LONG=python${PYTHON_LABEL:2:1}.${PYTHON_LABEL:3:1}
 MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
+MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
 
 mkdir -p ${MPI4PY_LABEL}
 cd ${MPI4PY_LABEL}
@@ -104,12 +98,26 @@ cd ${MPI4PY_NAME}
 python setup.py build
 python setup.py install --prefix=${MPI4PY_ROOT}
 python setup.py clean --all
+```
 
-echo "ROOT=${MPI4PY_ROOT}" > ${MPI4PY_ROOT}/env.sh
-echo "export LIBRARY_PATH=\${ROOT}/lib:\${LIBRARY_PATH}" >> ${MPI4PY_ROOT}/env.sh
-echo "export LD_LIBRARY_PATH=\${ROOT}/lib:\${LD_LIBRARY_PATH}" >> ${MPI4PY_ROOT}/env.sh
-echo "export PYTHONPATH=\${ROOT}/lib/${PYTHON_LABEL_LONG}/site-packages:\${PYTHONPATH}" >> ${MPI4PY_ROOT}/env.sh
-. ${MPI4PY_ROOT}/env.sh
+
+Checking the mpi4py package
+---------------------------
+
+To show the MPI library supporting mpi4py, first set you environment like so.
+
+```bash
+export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-ompi-4.1.0/lib:${LD_LIBRARY_PATH}
+export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-ompi-4.1.0/lib/python3.8/site-packages:${PYTHONPATH}
+```
+
+Then start a python session and run the following commands.
+
+```python
+import mpi4py.rc
+mpi4py.rc.initialize = False
+from mpi4py import MPI
+MPI.Get_library_version()
 ```
 
 
@@ -149,12 +157,22 @@ Install general purpose python packages
 cd ${MINICONDA_ROOT}
 
 pip install scipy
-pip install matplotlib
 pip install pandas
+pip install dask
+pip install memory_profiler
+pip install matplotlib
+pip install pyqt5
+pip install numba
+pip install graphviz
+pip install nltk
 pip install ipyparallel
+pip install jupyter
+pip install jupyterlab
+pip install jupyterlab-server==2.10.3
 pip install notebook
 pip install sympy
-pip install graphviz
+pip install wandb
+pip install gym
 ```
 
 
