@@ -21,3 +21,5 @@ Build Instructions
 
 Notes
 -----
+
+libuuid is used by the [XALT tool](../../utils/xalt/README.md).
