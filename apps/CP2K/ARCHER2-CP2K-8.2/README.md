@@ -63,15 +63,13 @@ First of all, we need to load the GNU compiler suite and version
 module load PrgEnv-gnu
 module load cpe/21.09
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CRAY_LD_LIBRARY_PATH
+export FCFLAGS="-fallow-argument-mismatch"
 ```
 which is relevant to all of what follows. In an attempt to make clear
 which modules are relevant for which parts of the build, the relevant
 module commands are repeated in each section. They don't need to be
 repeated in practice.
 
-
-
-### Set `CP2K_ROOT`
 
 From the CP2K web site, download the appropriate release of the code: 
 
@@ -83,13 +81,17 @@ Note: here we get the `.bz2` bundle as it contains the DBCSR submodule
 
  Untar this into a location on the `/work` file system:
  ```
- $ bunzip2 cp2k-8.2.tar.bz2
- $ tar xvf cp2k-8.2.tar
- $ cd cp2k-8.2
- $ ls
+ bunzip2 cp2k-8.2.tar.bz2
+ tar xvf cp2k-8.2.tar
+ cd cp2k-8.2
+ ls
  COPYRIGHT   LICENSE   README.md  arch        data  src    tools
  INSTALL.md  Makefile  REVISION   benchmarks  exts  tests
- $ export CP2K_ROOT=`pwd`
+ ```
+ 
+ Set CP2K_ROOT
+ ```
+ export CP2K_ROOT=`pwd`
 ```
 Note we have set the environment variable `CP2K_ROOT` to be the top-level
 CP2K directory. We will refer to this in what follows.
@@ -106,9 +108,9 @@ so a download can be selected. A choice is required on the highest `lmax` suppor
 `lmax = 4` to limit the size of the static executable.
 
 ```
-$ wget https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.0-cp2k-lmax-4.tgz
-$ tar zxvf libint-v2.6.0-cp2k-lmax-4.tgz
-$ cd libint-v2.6.0-cp2k-lmax-4
+wget https://github.com/cp2k/libint-cp2k/releases/download/v2.6.0/libint-v2.6.0-cp2k-lmax-4.tgz
+tar zxvf libint-v2.6.0-cp2k-lmax-4.tgz
+cd libint-v2.6.0-cp2k-lmax-4
 ```
 
 The `libint` web site suggests that `cmake` should be the standard build approach,
