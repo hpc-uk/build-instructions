@@ -61,27 +61,10 @@ in directory:
 ${FHI_AIMS_ROOT}/benchmarks/Ac-Lys-Ala19-H/reference.hydra.48cores
 ```
 
-Use the following submission script for a 48-core job. Again, we use
-the `prgEnv-gnu` build as an example.
+We include submission script for a 48-core job `submit-48.sh`. Again, we use
+the `PrgEnv-gnu` build as an example.
 
-
-```
-#!/bin/bash
-
-#SBATCH --nodes=1
-
-# FHI-aims version variable to call the right binary (see below).
-
-export FHI_AIMS_ROOT=/work/z19/z19/kevin/fhi-aims/fhi-aims.210716_2/
-aims_version="210716_2.scalapack.mpi"
-
-export OMP_NUM_THREADS=1
-
-cp ${FHI_AIMS_ROOT}/benchmarks/Ac-Lys-Ala19-H/control.in .
-cp ${FHI_AIMS_ROOT}/benchmarks/Ac-Lys-Ala19-H/geometry.in .
-
-srun ${FHI_AIMS_ROOT}/build-intel/aims.$aims_version.x < /dev/null
-```
+You will need to set `FHI_AIMS_ROOT` appropriately.
 
 
 
