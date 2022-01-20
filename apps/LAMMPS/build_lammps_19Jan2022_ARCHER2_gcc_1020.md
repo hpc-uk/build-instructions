@@ -18,7 +18,8 @@ Load the correct modules:
    ```bash
    module restore
    module swap PrgEnv-cray PrgEnv-gnu 
-   module load cray-fftw module load cmake
+   module load cray-fftw
+   module load cmake
    ```
 
 Compile with cmake
@@ -43,3 +44,5 @@ Run CMake:
         ../cmake/
   make -j 8
   ```
+
+This will create an executable called `lmp` in `mylammps/build`.
