@@ -25,7 +25,7 @@ Download and unpack NAMD
 ------------------------
 
 Next, download the NAMD 2.14 source from: http://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=NAMD
-and transfer to the ARCHER2 system at the path indicated by `$NAMD_ROOT/arc`.
+and transfer to the Cirrus system at the path indicated by `$NAMD_ROOT/arc`.
 
 Unpack the source.
 
