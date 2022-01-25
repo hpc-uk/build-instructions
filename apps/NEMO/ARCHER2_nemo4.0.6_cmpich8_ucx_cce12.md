@@ -63,4 +63,26 @@ change "%XIOS_HOME           /work/n01/shared/acc/xios-2.5" to "%XIOS_HOME      
 
 Edit line 45 of `./arch/arch-X86_ARCHER2-Cray.fcm`:
 ``` bash
-change "%CPP                 cpp" to "%CPP                 cpp -Dkey_nosignedzero"```
+change "%CPP                 cpp" to "%CPP                 cpp -Dkey_nosignedzero"
+```
+
+We are now ready to build a NEMO configuration.
+
+
+Setting up a test configuration
+-------------------------------
+```bash
+cd ${NEMO_MAKE}
+
+./makenemo -n GYRE_PISCES_TEST -r GYRE_PISCES -m X86_ARCHER2-Cray -j 16
+
+cd ./cfgs/GYRE_PISCES_TEST/EXP00
+rm ./nemo
+cp ${NEMO_MAKE}/cfgs/GYRE_PISCES_TEST/BLD/bin/nemo.exe ./nemo
+```
+
+Link directory to XIOS
+
+```bash
+ln -s ${PRFX}/xios/2.5/cmpich8-ucx/cce12/bin/xios_server.exe xios_server.exe
+```
