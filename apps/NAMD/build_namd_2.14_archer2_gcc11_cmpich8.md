@@ -1,7 +1,7 @@
 Instructions for compiling NAMD 2.14 for ARCHER2
 ================================================
 
-These instructions are for compiling NAMD 2.14 (with and without SMP) on the ARCHER2 (HPE Cray EX, AMD Zen2 7742) full system
+These instructions are for compiling NAMD 2.14 (with and without SMP) on ARCHER2 (HPE Cray EX, AMD Zen2 7742)
 using the GCC 11 compilers and Cray MPICH 8.
 
 
@@ -96,10 +96,9 @@ tar -xf ${NAMD_CHARM_NAME}.tar
 TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 cd ${NAMD_CHARM_NAME}
-export CRAY_MPICH_GNU_BASEDIR=${CRAY_MPICH_BASEDIR}/gnu/${PE_MPICH_GENCOMPILERS_GNU}
 
-./build charm++ mpi-linux-amd64 gcc smp --incdir=${CRAY_MPICH_GNU_BASEDIR}/include --libdir=${CRAY_MPICH_GNU_BASEDIR}/lib --with-production
-./build charm++ mpi-linux-amd64 gcc --incdir=${CRAY_MPICH_GNU_BASEDIR}/include --libdir=${CRAY_MPICH_GNU_BASEDIR}/lib --with-production
+./build charm++ mpi-linux-amd64 gcc smp --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --with-production
+./build charm++ mpi-linux-amd64 gcc --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --with-production
 ```
 
 

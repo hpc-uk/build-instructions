@@ -1,8 +1,8 @@
-Instructions for compiling NAMD 2.14 for ARCHER2
-================================================
+Instructions for compiling NAMD 2.14 for Cirrus
+===============================================
 
-These instructions are for compiling NAMD 2.14 (with and without SMP) on ARCHER2 (HPE Cray EX, AMD Zen2 7742) 4-cabinet system
-using the GCC 10 compilers and Cray MPICH 8.
+These instructions are for compiling NAMD 2.14 (with and without SMP) on Cirrus (SGI ICE XA, Broadwell) full system
+using the GCC 8 compilers and Intel MPI 19.
 
 
 Setup initial environment
@@ -18,7 +18,7 @@ NAMD_NAME=${NAMD_LABEL}-${NAMD_VERSION}
 NAMD_ARCHIVE=${NAMD_LABEL_CAPS}_${NAMD_VERSION}_Source
 ```
 
-Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
+Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
 
 
 Download and unpack NAMD
@@ -38,16 +38,20 @@ mv ${NAMD_ARCHIVE} ${NAMD_NAME}
 ```
 
 
-Switch to the GNU Programming Environment and load the approptiate FFTW module
-------------------------------------------------------------------------------
+Load the GCC, MPI and FFTW modules
+----------------------------------
 
 ```bash
-module restore /etc/cray-pe.d/PrgEnv-gnu
+GNU_VERSION=8.2.0
+IMPI_VERSION=19.0.0.117
+FFTW_VERSION=3.3.9
 
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-FFTW_VERSION=3.3.8.7
+IMPI_VERSION_MAJOR=`echo ${IMPI_VERSION} | cut -d'.' -f1`
 
-module load cray-fftw/${FFTW_VERSION}
+module load gcc/${GNU_VERSION}
+module load intel-mpi-${IMPI_VERSION_MAJOR}/${IMPI_VERSION}
+module load fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}
 ```
 
 
@@ -70,9 +74,9 @@ rm ${TCL_ARCHIVE}.tar.gz
 mv ${TCL_LABEL}${TCL_VERSION} ${TCL_NAME}
 
 cd ${TCL_NAME}/unix
-export FC=ftn CC=cc CXX=CC
+export FC=gfortran CC=gcc CXX=g++
 
-./configure --enable-threads --prefix=${TCL_ROOT}/${TCL_VERSION}-gcc${GNU_VERSION_MAJOR}
+./configure --enable-threads --prefix=${TCL_ROOT}/${TCL_VERSION}
 make
 make test
 make install
@@ -88,13 +92,13 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 NAMD_CHARM_NAME=charm-6.10.2
 tar -xf ${NAMD_CHARM_NAME}.tar
 
-TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}-gcc${GNU_VERSION_MAJOR}
+TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 cd ${NAMD_CHARM_NAME}
 export CRAY_MPICH_GNU_BASEDIR=${CRAY_MPICH_BASEDIR}/gnu/${PE_MPICH_GENCOMPILERS_GNU}
 
-./build charm++ mpi-linux-amd64 gcc smp --incdir=${CRAY_MPICH_GNU_BASEDIR}/include --libdir=${CRAY_MPICH_GNU_BASEDIR}/lib --with-production
-./build charm++ mpi-linux-amd64 gcc --incdir=${CRAY_MPICH_GNU_BASEDIR}/include --libdir=${CRAY_MPICH_GNU_BASEDIR}/lib --with-production
+./build charm++ mpi-linux-amd64 gcc smp --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
+./build charm++ mpi-linux-amd64 gcc --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
 ```
 
 
@@ -103,12 +107,12 @@ Build and install NAMD (SMP version)
 
 ```bash
 cd ${NAMD_ROOT}/${NAMD_NAME}
-./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix ${FFTW_ROOT} --charm-arch mpi-linux-amd64-smp-gcc
+./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8 --charm-arch mpi-linux-amd64-smp-gcc
 cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 gmake
 
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}
-cd ${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}
+mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}
+cd ${NAMD_ROOT}/${NAMD_VERSION}
 cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
 cd bin
 rm .rootdir
@@ -117,7 +121,7 @@ ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
 rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 ```
 
-The `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-smp-gcc${GNU_VERSION_MAJOR}/bin` directory.
+The `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}/bin` directory.
 
 
 Build and install NAMD (non-SMP version)
@@ -125,12 +129,12 @@ Build and install NAMD (non-SMP version)
 
 ```bash
 cd ${NAMD_ROOT}/${NAMD_NAME}
-./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix ${FFTW_ROOT} --charm-arch mpi-linux-amd64-gcc
+./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8 --charm-arch mpi-linux-amd64-gcc
 cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 gmake
 
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}
-cd ${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}
+mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
+cd ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
 cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
 cd bin
 rm .rootdir
@@ -139,4 +143,4 @@ ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
 rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
 ```
 
-This `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-nosmp-gcc${GNU_VERSION_MAJOR}/bin` directory.
+This `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-nosmp/bin` directory.
