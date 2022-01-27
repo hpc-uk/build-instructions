@@ -64,6 +64,7 @@ TCL_VERSION=8.5.9
 TCL_ROOT=${NAMD_ROOT}/${TCL_LABEL}
 TCL_NAME=${TCL_LABEL}-${TCL_VERSION}
 TCL_ARCHIVE=${TCL_LABEL}${TCL_VERSION}-src
+TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 mkdir -p ${TCL_ROOT}
 cd ${TCL_ROOT}
@@ -83,8 +84,8 @@ make install
 ```
 
 
-Build and install Charm++ (with and without SMP)
-------------------------------------------------
+Build and install various flavours of Charm++ suitable for CPU and GPU
+----------------------------------------------------------------------
 
 ```bash
 cd ${NAMD_ROOT}/${NAMD_NAME}
@@ -92,55 +93,59 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 NAMD_CHARM_NAME=charm-6.10.2
 tar -xf ${NAMD_CHARM_NAME}.tar
 
-TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
-
 cd ${NAMD_CHARM_NAME}
-export CRAY_MPICH_GNU_BASEDIR=${CRAY_MPICH_BASEDIR}/gnu/${PE_MPICH_GENCOMPILERS_GNU}
 
-./build charm++ mpi-linux-amd64 gcc smp --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
-./build charm++ mpi-linux-amd64 gcc --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
+# MPI (with and without SMP), CPU
+./build charm++ mpi-linux-x86_64 gcc smp --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
+./build charm++ mpi-linux-x86_64 gcc --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --libdir=${I_MPI_ROOT}/intel64/lib/release --libdir=${I_MPI_ROOT}/intel64/libfabric/lib --with-production
+
+# verbs (with SMP), GPU
+./build charm++ verbs-linux-x86_64 gcc smp --with-production
 ```
 
 
-Build and install NAMD (SMP version)
-------------------------------------
+Build and install NAMD for each Charm++ flavour
+-----------------------------------------------
 
 ```bash
-cd ${NAMD_ROOT}/${NAMD_NAME}
-./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8 --charm-arch mpi-linux-amd64-smp-gcc
-cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
-gmake
+NV_HPCSDK_ROOT=/lustre/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
 
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}
-cd ${NAMD_ROOT}/${NAMD_VERSION}
-cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
-cd bin
-rm .rootdir
-ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
+FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8"
+FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_HPCSDK_ROOT}/math_libs/11.2/targets/x86_64-linux"
 
-rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
+CUDA_CPU_OPTIONS="--without-cuda"
+CUDA_GPU_OPTIONS="--with-cuda --cuda-prefix ${NV_HPCSDK_ROOT}/cuda/11.2"
+
+declare -a FFTW_OPTIONS=("${FFTW_CPU_OPTIONS}" "${FFTW_CPU_OPTIONS}" "${FFTW_GPU_OPTIONS}")
+declare -a CUDA_OPTIONS=("${CUDA_CPU_OPTIONS}" "${CUDA_CPU_OPTIONS}" "${CUDA_GPU_OPTIONS}")
+
+declare -a NAMD_VERSION_LABEL=("${NAMD_VERSION}" "${NAMD_VERSION}-nosmp" "${NAMD_VERSION}-gpu")
+
+declare -a CHARM_FLAVOUR=("mpi-linux-x86_64-smp-gcc" "mpi-linux-x86_64-gcc" "verbs-linux-x86_64-smp-gcc")
+NUM_CHARM_FLAVOURS=${#CHARM_FLAVOUR[@]}
+
+# might need to change one of the arch files first, ./arch/Linux-x86_64.cuda
+
+sed -i "s:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft_static -lculibos -lcudart_static -lrt:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft -lculibos -lcudart -lrt:g" ${NAMD_ROOT}/${NAMD_NAME}/arch/Linux-x86_64.cuda
+
+for (( i=0; i<${NUM_CHARM_FLAVOURS}; i++ )); do
+  cd ${NAMD_ROOT}/${NAMD_NAME}
+  ./config Linux-x86_64-g++ --charm-arch ${CHARM_FLAVOUR[$i]} --with-tcl --tcl-prefix ${TCL_BASEDIR} ${FFTW_OPTIONS[$i]} ${CUDA_OPTIONS[$i]}  
+  cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
+  gmake
+
+  NAMD_INSTALL_PATH=${NAMD_ROOT}/${NAMD_VERSION_LABEL[$i]}
+  rm -rf ${NAMD_INSTALL_PATH}
+  mkdir -p ${NAMD_INSTALL_PATH}
+  cd ${NAMD_INSTALL_PATH}
+
+  cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
+  cd bin
+  rm .rootdir
+  ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
+
+  rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
+done
 ```
 
-The `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}/bin` directory.
-
-
-Build and install NAMD (non-SMP version)
-----------------------------------------
-
-```bash
-cd ${NAMD_ROOT}/${NAMD_NAME}
-./config Linux-x86_64-g++ --tcl-prefix ${TCL_BASEDIR} --with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8 --charm-arch mpi-linux-amd64-gcc
-cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
-gmake
-
-mkdir -p ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
-cd ${NAMD_ROOT}/${NAMD_VERSION}-nosmp
-cp -r ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++ bin
-cd bin
-rm .rootdir
-ln -s ${NAMD_ROOT}/${NAMD_NAME} .rootdir
-
-rm -rf ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
-```
-
-This `namd2` executable exists in the `${NAMD_ROOT}/${NAMD_VERSION}-nosmp/bin` directory.
+The `namd2` executables exist in the `${NAMD_ROOT}/${NAMD_VERSION_LABEL[$i]}/bin` directories.
