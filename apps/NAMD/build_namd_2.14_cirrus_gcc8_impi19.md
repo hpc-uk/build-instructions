@@ -1,8 +1,7 @@
-Instructions for compiling NAMD 2.14 for Cirrus
-===============================================
+Instructions for compiling NAMD 2.14 for Cirrus (CPU and GPU)
+=============================================================
 
-These instructions are for compiling NAMD 2.14 (with and without SMP) on Cirrus (SGI ICE XA, Broadwell) full system
-using the GCC 8 compilers and Intel MPI 19.
+These instructions are for compiling NAMD 2.14 for Cirrus CPU (SGI ICE XA, Broadwell) and for Cirrus GPU (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 
 Setup initial environment
@@ -124,13 +123,16 @@ declare -a NAMD_VERSION_LABEL=("${NAMD_VERSION}" "${NAMD_VERSION}-nosmp" "${NAMD
 declare -a CHARM_FLAVOUR=("mpi-linux-x86_64-smp-gcc" "mpi-linux-x86_64-gcc" "verbs-linux-x86_64-smp-gcc")
 NUM_CHARM_FLAVOURS=${#CHARM_FLAVOUR[@]}
 
-# might need to change one of the arch files first, ./arch/Linux-x86_64.cuda
-
-sed -i "s:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft_static -lculibos -lcudart_static -lrt:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft -lculibos -lcudart -lrt:g" ${NAMD_ROOT}/${NAMD_NAME}/arch/Linux-x86_64.cuda
+sed -i "s:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft_static -lculibos -lcudart_static -lrt:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft -lculibos -lcudart -lrt:g" \
+    ${NAMD_ROOT}/${NAMD_NAME}/arch/Linux-x86_64.cuda
 
 for (( i=0; i<${NUM_CHARM_FLAVOURS}; i++ )); do
   cd ${NAMD_ROOT}/${NAMD_NAME}
-  ./config Linux-x86_64-g++ --charm-arch ${CHARM_FLAVOUR[$i]} --with-tcl --tcl-prefix ${TCL_BASEDIR} ${FFTW_OPTIONS[$i]} ${CUDA_OPTIONS[$i]}  
+
+  ./config Linux-x86_64-g++ --charm-arch ${CHARM_FLAVOUR[$i]} \
+      --with-tcl --tcl-prefix ${TCL_BASEDIR} \
+      ${FFTW_OPTIONS[$i]} ${CUDA_OPTIONS[$i]}
+
   cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
   gmake
 
