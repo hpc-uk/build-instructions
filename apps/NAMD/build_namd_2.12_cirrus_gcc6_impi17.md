@@ -60,4 +60,3 @@ gmake -j4
 ```
 
 This will create the executable `namd2` in the Linux-x86_64-g++/ directory.
-
