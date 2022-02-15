@@ -9,11 +9,11 @@ containing Horovod 0.23.0 and mpi4py 3.1.3 (built against Open MPI 4.1.0 and CUD
 Horovod is a key component as it allows the PyTorch work to be distributed over CPUs and/or GPUs,
 see [https://horovod.readthedocs.io/en/stable/mpi_include.html](https://horovod.readthedocs.io/en/stable/mpi_include.html).
 
-The submission script below shows how to run PyTorch over multiple GPUs.
+The instructions below explain how to run PyTorch over multiple GPUs.
 
 
-Launch a PyTorch synthetic image-recognition benchmark
-------------------------------------------------------
+Launch a PyTorch MNIST benchmark
+--------------------------------
 
 The script below launches a PyTorch job that uses 2 GPUs on one Cascade Lake GPU node.
 
@@ -39,14 +39,22 @@ module load pytorch/1.10.1-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
-BENCHMARK_PATH=/lustre/home/shared/ml/pytorch/benchmarks/synthetic
+SHARED_ROOT=/lustre/home/shared/ml/pytorch/mnist
+
+if [ ! -d ${SLURM_SUBMIT_DIR}/data ]; then
+  cp -r ${SHARED_ROOT}/data ${SLURM_SUBMIT_DIR}/
+fi
 
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
+    --mca mpi_warn_on_fork 0 \
     -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
     -x HOROVOD_MPI=1 -x HOROVOD_MPI_THREADS_DISABLE=1 \
     -x NCCL_DEBUG=INFO -x PYTHONWARNINGS="ignore::UserWarning" \
     -x LD_LIBRARY_PATH -x PATH \
-    python ${BENCHMARK_PATH}/pytorch_synthetic_benchmark.py
+    python ${SHARED_ROOT}/pytorch_mnist.py \
+        --data-dir ${SLURM_SUBMIT_DIR}/data --batch-size 64 --epochs 10
+
+rm -f hosts
 ```
 
 
