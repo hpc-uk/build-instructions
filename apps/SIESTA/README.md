@@ -14,7 +14,7 @@ Date | Person | Version | Notes
 Build Instructions
 ------------------
 
-* [SIESTA 4.1-b2 ARCHER2 GNU Compilers Build Instructions](build_siesta_4.4_amd_epyc.md)
+* [SIESTA 4.1-b4 ARCHER2 GNU Compilers Build Instructions](build_siesta_4.4_amd_epyc.md)
 
 Notes
 -----
