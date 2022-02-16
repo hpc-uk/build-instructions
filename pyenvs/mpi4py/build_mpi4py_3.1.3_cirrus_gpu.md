@@ -4,7 +4,7 @@ Instructions for building a Miniconda3 environment that provides mpi4py suitable
 These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.3 (OpenMPI 4.1.0 with ucx 1.9.0 and CUDA 11.2) and pycuda 2021.1.
+The environment features mpi4py 3.1.3 (OpenMPI 4.1.0 with ucx 1.9.0 and CUDA 11.2) with pycuda 2021.1 and cupy 10.1.0.
 It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
@@ -104,7 +104,7 @@ python setup.py clean --all
 Checking the mpi4py package
 ---------------------------
 
-To show the MPI library supporting mpi4py, first set you environment like so.
+To show the MPI library supporting mpi4py, first set the environment like so.
 
 ```bash
 export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-ompi-4.1.0/lib:${LD_LIBRARY_PATH}
@@ -157,6 +157,7 @@ Install general purpose python packages
 cd ${MINICONDA_ROOT}
 
 pip install scipy
+pip install cupy-cuda112
 pip install pandas
 pip install dask
 pip install memory_profiler
