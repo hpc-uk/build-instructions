@@ -1,5 +1,5 @@
-Instructions for compiling SIESTA 4.1-b4 for ARCHER using Intel compilers
-=========================================================================
+Instructions for compiling SIESTA 4.1-b4 for ARCHER2 using GNU compilers
+========================================================================
 
 These instructions are for compiling SIESTA 4.1-b4 on ARCHER2 (AMD EPYC
 processors) using the GNU compilers
