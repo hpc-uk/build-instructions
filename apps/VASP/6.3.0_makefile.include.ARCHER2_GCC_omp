@@ -1,0 +1,66 @@
+# Precompiler options
+CPP_OPTIONS= -DHOST=\"HPECrayEX_GCC\" \
+             -DMPI -DMPI_BLOCK=32000 -Duse_collective \
+             -DscaLAPACK \
+             -DCACHE_SIZE=2000 \
+             -DscaLAPACK \
+             -Davoidalloc \
+             -DMPI_INPLACE \
+             -DnoAugXCmeta \
+             -Dvasp6 \
+             -Duse_bse_te \
+             -Dtbdyn \
+             -Dfock_dblbuf \
+             -D_OPENMP
+
+CPP        = gcc -E -P -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
+
+FC         = ftn -fopenmp
+FCL        = ftn -fopenmp
+
+FREE       = -ffree-form -ffree-line-length-none
+
+MKL_PATH   =
+
+FFLAGS     = -fallow-argument-mismatch -w -ffpe-summary=invalid,zero,overflow
+OFLAG      = -Ofast
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+BLAS       = 
+LAPACK     = 
+BLACS      = 
+SCALAPACK  =
+
+LLIBS      = 
+
+INCS       = 
+
+OBJECTS    = fftmpiw.o fftmpi_map.o  fftw3d.o  fft3dlib.o
+
+OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = cc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB= linpack_double.o getshmem.o
+
+# For the parser library
+CXX_PARS   = CC
+LLIBS      += -lstdc++
+
+### For the fft library
+##CXX_FFTLIB = g++ -fopenmp -std=c++11 -DFFTLIB_THREADSAFE 
+##INCS_FFTLIB= -I./include -I$(FFTW)/include
+##LIBS       += fftlib
+##LLIBS      += -ldl
+
+# Normally no need to change this
+SRCDIR     = ../../src
+BINDIR     = ../../bin

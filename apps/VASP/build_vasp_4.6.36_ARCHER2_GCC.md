@@ -1,5 +1,5 @@
 Instructions for compiling VASP 4.6.36 for ARCHER2 using GCC compilers
-====================================================================
+======================================================================
 
 These instructions are for compiling VASP 4.6.36 on [ARCHER2](https://www.archer2.ac.uk)
 using the GCC compilers.
@@ -14,7 +14,7 @@ Load the GCC programming environment, switch to older GCC version (GCC 10 fails 
 VASP successfully) and load the FFTW library module:
 
 ```bash
-module restore PrgEnv-gnu
+module load PrgEnv-gnu
 module load cray-fftw
 ```
 
@@ -70,14 +70,5 @@ modify Makefile.HPECrayEX_GCC to add the correct additional preprocessor directi
  - Gamma-point: **add** `-DwNGZhalf`
  - Non-collinear: **remove** `-DNGZhalf`
 
-Runtime on ARCHER2 4-cabinet system
------------------------------------
 
-**Important:** Remember that you will need the following two lines in your job submission
-script to ensure that the correct versions of libraries are used at runtime:
-
-```bash
-module restore /work/y07/shared/vasp5/vasp.5.4.4.pl2-gcc10-cpe2103/collection/vasp544-gcc10-cpe2103
-export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
-```
 

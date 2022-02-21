@@ -1,7 +1,7 @@
-Instructions for compiling VASP 6.2.0 for ARCHER2 using GCC compilers
+Instructions for compiling VASP 6.2.x for ARCHER2 using GCC compilers
 =====================================================================
 
-These instructions are for compiling VASP 6.2.0 on [ARCHER2](https://www.archer2.ac.uk)
+These instructions are for compiling VASP 6.2.x on [ARCHER2](https://www.archer2.ac.uk)
 using the GCC compilers including the use of OpenMP
 
 We assume that you have obtained the VASP source code from the VASP website along
@@ -19,69 +19,41 @@ tar -xvf vasp.6.2.0.tar.gz
 Setup correct modules
 ---------------------
 
-Use the previously saved collection that was used for building the central
-install of VASP on ARCHER2 and ensure that you update the `LD_LIBRARY_PATH`
+We use the non-default, more recent (21.09) version of the programming environment
+on ARCHER2. Setup the GCC compiler environment and FFTW and switch to the more recent
+programming environment version. You should also update the `LD_LIBRARY_PATH`
 environment variable to ensure that the right versions of libraries are used.
-The two commands to do this are:
+The commands to do all this are:
 
 ```bash
-module restore /work/y07/shared/vasp6/vasp.6.2.0-gcc10-cpe2103/collection/vasp.6.2.0-gcc10-cpe2103
+module load cpe/21.09
+module load PrgEnv-gnu
+module load cray-fftw
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 ```
 
 This should give:
 
 ```bash
-Unloading /usr/local/share/epcc-module/epcc-module-loader
+The following have been reloaded with a version change:
+  1) PrgEnv-cray/8.0.0 => PrgEnv-cray/8.1.0     3) cray-libsci/21.04.1.1 => cray-libsci/21.08.1.2     5) craype/2.7.6 => craype/2.7.10
+  2) cce/11.0.4 => cce/12.0.3                   4) cray-mpich/8.1.4 => cray-mpich/8.1.9
 
-Warning: Unloading the epcc-setup-env module will stop many
-modules being available on the system. If you do this by
-accident, you can recover the situation with the command:
+Lmod is automatically replacing "cce/12.0.3" with "gcc/11.2.0".
 
-        module load /work/y07/shared/archer2-modules/modulefiles-cse/epcc-setup-env
+Lmod is automatically replacing "PrgEnv-cray/8.1.0" with "PrgEnv-gnu/8.1.0".
 
-Unloading /work/y07/shared/archer2-modules/modulefiles-cse/epcc-setup-env
-Unloading bolt/0.7
-Unloading cray-libsci/20.10.1.2
-Unloading cray-mpich/8.0.16
-Unloading xpmem/2.2.35-7.0.1.0_1.9__gd50fabf.shasta
-Unloading perftools-base/20.10.0
-Unloading cray-dsmml/0.1.2
-Unloading craype-network-ofi
-Unloading libfabric/1.11.0.0.233
-Unloading craype-x86-rome
-Unloading craype/2.7.2
-Unloading cce/10.0.4
-Unloading cpe-cray
-Loading cpe-gnu
-Loading craype-x86-rome
-Loading libfabric/1.11.0.0.233
-Loading craype-network-ofi
-Loading xpmem/2.2.35-7.0.1.0_1.9__gd50fabf.shasta
-Loading bolt/0.7
-Loading /work/y07/shared/archer2-modules/modulefiles-cse/epcc-setup-env
-Loading /usr/local/share/epcc-module/epcc-module-loader
-Loading cray-dsmml/0.1.3
-Loading cray-fftw/3.3.8.9
-Loading cray-libsci/21.03.1.1
-Loading cray-mpich/8.1.3
-Loading craype/2.7.5
-Loading perftools-base/21.02.0
-Loading gcc/10.2.0
+Due to MODULEPATH changes, the following have been reloaded:
+  1) cray-mpich/8.1.9
 ```
 
 and your loaded module list should look like:
 
 ```bash
-Currently Loaded Modulefiles:
- 1) cpe-gnu                                                           9) cray-dsmml/0.1.3        
- 2) craype-x86-rome                                                  10) cray-fftw/3.3.8.9       
- 3) libfabric/1.11.0.0.233(default)                                  11) cray-libsci/21.03.1.1   
- 4) craype-network-ofi                                               12) cray-mpich/8.1.3        
- 5) xpmem/2.2.35-7.0.1.0_1.9__gd50fabf.shasta(default)               13) craype/2.7.5            
- 6) bolt/0.7                                                         14) perftools-base/21.02.0  
- 7) /work/y07/shared/archer2-modules/modulefiles-cse/epcc-setup-env  15) gcc/10.2.0              
- 8) /usr/local/share/epcc-module/epcc-module-loader     
+Currently Loaded Modules:
+  1) cpe/21.09       4) craype-x86-rome         7) cray-dsmml/0.2.1       10) bolt/0.7          13) PrgEnv-gnu/8.1.0
+  2) gcc/11.2.0      5) libfabric/1.11.0.4.71   8) cray-mpich/8.1.9       11) epcc-setup-env    14) cray-fftw/3.3.8.11
+  3) craype/2.7.10   6) craype-network-ofi      9) cray-libsci/21.08.1.2  12) load-epcc-module   
 ```
 
 Create makefile.include
@@ -128,6 +100,8 @@ All versions include the additional MD algorithms accessed via the MDALGO keywor
 script to ensure that the correct versions of libraries are used at runtime:
 
 ```bash
-module restore /work/y07/shared/vasp6/vasp.6.2.0-gcc10-cpe2103/collection/vasp.6.2.0-gcc10-cpe2103
+module load cpe/21.09
+module load PrgEnv-gnu
+module load cray-fftw
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 ```
