@@ -11,7 +11,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2022-01-07 | Michael Bareford | Cirrus | 1.12.3 | Build and run instructions for Cirrus GPU nodes
+2022-03-10 | Michael Bareford | Cirrus | 1.12.3 | Build and run instructions for Cirrus GPU nodes
 
 Installation Instructions
 -------------------------

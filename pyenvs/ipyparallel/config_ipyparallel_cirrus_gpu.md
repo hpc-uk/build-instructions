@@ -9,7 +9,6 @@ Setup initial environment
 -------------------------
 
 ```bash
-module use /lustre/sw/modulefiles.miniconda3
 module load mpi4py/3.1.3-ompi-gpu
 
 ipython profile create --parallel --profile=mpi
@@ -27,7 +26,7 @@ c.Cluster.engine_launcher_class = 'ipyparallel.cluster.launcher.MPIEngineSetLaun
 
 
 Edit the `~/.ipython/profile_mpi/ipengine_config.py` file
-----------------------------------------------------------
+---------------------------------------------------------
 
 Add the following line.
 

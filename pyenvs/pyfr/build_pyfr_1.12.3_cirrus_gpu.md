@@ -11,14 +11,13 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/lustre/sw/miniconda3
+PRFX=/path/to/work  # e.g., PRFX=/scratch/sw/miniconda3
 cd ${PRFX}
 
 PYFR_LABEL=pyfr
 PYFR_VERSION=1.12.3
 PYFR_ROOT=${PRFX}/${PYFR_LABEL}
 
-module use /lustre/sw/modulefiles.miniconda3
 module load mpi4py/3.1.3-ompi-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`

@@ -5,7 +5,7 @@ These instructions show how to build Miniconda3-based mpi4py environment for the
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
 The build instructions cover the installation of two flavours of mpi4py 3.1.3, one linked with OpenMPI 4.1.0
-and the other linked with HPE MPT 2.22.
+and the other linked with HPE MPT 2.25.
 
 The Miniconda3 environment also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
@@ -15,11 +15,11 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/lustre/sw
+PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
 cd ${PRFX}
 
 OPENMPI_VERSION=4.1.0
-MPT_VERSION=2.22
+MPT_VERSION=2.25
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
@@ -38,8 +38,6 @@ Create and setup a Miniconda3 virtual environment
 -------------------------------------------------
 
 ```bash
-cd ${PRFX}
-
 MINICONDA_TITLE=${MINICONDA_LABEL^}
 MINICONDA_BASH_SCRIPT=${MINICONDA_TITLE}-${PYTHON_LABEL}_${MINICONDA_VERSION}-Linux-x86_64.sh
 
@@ -72,7 +70,7 @@ export PS1="(mpi4py) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.0 and HPE MPT 2.22
+Build and install mpi4py using OpenMPI 4.1.0 and HPE MPT 2.25
 -------------------------------------------------------------
 
 ```bash
@@ -120,11 +118,11 @@ Checking the mpi4py package
 Which MPI library is supporting mpi4py will depend on how you set up the runtime environment, specifically,
 the `LD_LIBRARY_PATH` and `PYTHONPATH` environment variables.
 
-For example, if you wish to use the HPE MPT library, simply add `3.1.3-mpt-2.22` to the appropriate paths.
+For example, if you wish to use the HPE MPT library, simply add `3.1.3-mpt-2.25` to the appropriate paths.
 
 ```bash
-export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.22/lib:${LD_LIBRARY_PATH}
-export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.22/lib/python3.8/site-packages:${PYTHONPATH}
+export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib:${LD_LIBRARY_PATH}
+export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib/python3.8/site-packages:${PYTHONPATH}
 ```
 
 And for OpenMPI you will need to use `3.1.3-ompi-4.1.0` instead.

@@ -1,12 +1,11 @@
-Instructions for building a PyTorch environment suitable for the Cirrus GPU nodes
-=================================================================================
+Instructions for building a TensorFlow environment suitable for the Cirrus GPU nodes
+====================================================================================
 
-These instructions show how to build a Python virtual environment (venv) that provides PyTorch 1.10.1, PyTorch Lightning 1.5.7,
-Lightning Flash 0.6.0 and torchvision 0.11.2, see https://pytorch.org/ for further details. The PyTorch environment is intended
-to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
+These instructions show how to build a Python virtual environment (venv) that provides tensorflow 2.8.0 and tensorflow-gpu 2.8.0,
+see https://www.tensorflow.org/ for further details. The TensorFlow environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 The venv is an extension of the Miniconda3 (Python 3.8.12) environment provided by the `mpi4py/3.1.3-ompi-gpu` module.
-MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.23.0 package (built with NCCL 2.8.3).
+MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.24.1 package (built with NCCL 2.8.3).
 Horovod is required for running PyTorch over multiple GPUs distributed across multiple compute nodes.
 
 
@@ -14,19 +13,17 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/lustre/sw/miniconda3
+PRFX=/path/to/work  # e.g., PRFX=/scratch/sw/miniconda3
 cd ${PRFX}
 
-PYTORCH_PACKAGE_LABEL=torch
-PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
-PYTORCH_VERSION=1.10.1
-PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
+TENSORFLOW_LABEL=tensorflow
+TENSORFLOW_VERSION=2.8.0
+TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
 
-module use /lustre/sw/modulefiles.miniconda3
 module load mpi4py/3.1.3-ompi-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
-PYTHON_DIR=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}-gpu/python
+PYTHON_DIR=${PRFX}/${TENSORFLOW_LABEL}/${TENSORFLOW_VERSION}-gpu/python
 PYTHON_BIN=${PYTHON_DIR}/${MINICONDA3_PYTHON_VERSION}/bin
 
 
@@ -50,13 +47,8 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 
-pip install --user ${PYTORCH_PACKAGE_LABEL}==${PYTORCH_VERSION}
-pip install --user torchvision
-pip install --user pytorch-lightning
-pip install --user pytorch-lightning-bolts
-pip install --user pytorch-lightning-bolts["extra"]
-pip install --user lightning-flash
-pip install --user 'lightning-flash[all]'
+pip install --user ${TENSORFLOW_LABEL}==${TENSORFLOW_VERSION}
+pip install --user ${TENSORFLOW_LABEL}-gpu==${TENSORFLOW_VERSION}
 ```
 
 
@@ -65,7 +57,7 @@ Install Horovod linking with the Nvidia Collective Communications Library (NCCL)
 
 ```bash
 CUDA_VERSION=11.2
-NVIDIA_HPCSDK_ROOT=/lustre/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
+NVIDIA_HPCSDK_ROOT=/scratch/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
 CUDA_ROOT=${NVIDIA_HPCSDK_ROOT}/cuda/${CUDA_VERSION}
 NCCL_ROOT=${NVIDIA_HPCSDK_ROOT}/comm_libs/${CUDA_VERSION}/nccl
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${NCCL_ROOT}/lib
@@ -75,19 +67,19 @@ module load cmake
 HOROVOD_CUDA_HOME=${CUDA_ROOT} HOROVOD_NCCL_HOME=${NCCL_ROOT} \
 HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 \
 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL \
-HOROVOD_WITH_MPI=1 HOROVOD_WITH_PYTORCH=1 \
-HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_MXNET=0 \
-    pip install --user --no-cache-dir horovod[pytorch]
+HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 \
+HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 \
+    pip install --no-cache-dir horovod[tensorflow]
 ```
 
 Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.readthedocs.io/en/stable/index.html) has been installed
 correctly. That command should return something like the following output
 
 ```
-Horovod v0.23.0:
+Horovod v0.24.1:
 
 Available Frameworks:
-    [ ] TensorFlow
+    [X] TensorFlow
     [X] PyTorch
     [ ] MXNet
 
@@ -102,3 +94,6 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+Note that PyTorch is marked as an available framework; this looks to be due to an error within `horovodrun` as none of the
+PyTorch packages are present in the TensorFlow environment.
