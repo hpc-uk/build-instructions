@@ -3,8 +3,8 @@ Instructions for running PyTorch on Cirrus (GPU)
 
 These instructions are for running PyTorch on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-PyTorch 1.10.1 is made available by loading the `pytorch/1.10.1-gpu` module; this starts a Miniconda3 environment
-containing Horovod 0.23.0 and mpi4py 3.1.3 (built against Open MPI 4.1.0 and CUDA 11.2).
+PyTorch 1.10.2 is made available by loading the `pytorch/1.10.2-gpu` module; this starts a Miniconda3 environment
+containing Horovod 0.24.1 and mpi4py 3.1.3 (built against Open MPI 4.1.0 and CUDA 11.2).
 
 Horovod is a key component as it allows the PyTorch work to be distributed over CPUs and/or GPUs,
 see [https://horovod.readthedocs.io/en/stable/mpi_include.html](https://horovod.readthedocs.io/en/stable/mpi_include.html).
@@ -34,12 +34,11 @@ export SLURM_NTASKS=2
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-module use /lustre/sw/modulefiles.miniconda3
-module load pytorch/1.10.1-gpu
+module load pytorch/1.10.2-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
-SHARED_ROOT=/lustre/home/shared/ml/pytorch/mnist
+SHARED_ROOT=/work/z04/shared/ml/pytorch/mnist
 
 if [ ! -d ${SLURM_SUBMIT_DIR}/data ]; then
   cp -r ${SHARED_ROOT}/data ${SLURM_SUBMIT_DIR}/

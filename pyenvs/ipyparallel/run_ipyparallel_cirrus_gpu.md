@@ -74,7 +74,6 @@ rm -f ${JUPYTER_OUTPUT}
 
 
 # load module(s)
-module use /lustre/sw/modulefiles.miniconda3
 module load mpi4py/3.1.3-ompi-gpu
 
 
@@ -104,7 +103,7 @@ done
 
 
 # start jupyter notebook
-jupyter notebook --no-browser --notebook-dir /lustre/home --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
+jupyter notebook --no-browser --notebook-dir ${SLURM_SUBMIT_DIR} --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
 
 
 wait
@@ -126,7 +125,7 @@ Please note, you may not get a login prompt immediately as it takes a minute or 
 presence of a non-empty `jupyter.out` file within your first Cirrus session). Once you do get a Jupyter login prompt, enter the password specified when
 setting up the ipyparallel config and you should be presented with a file explorer style interface for your Cirrus account.
 
-Some example Jupyter notebooks (`*.ipynb` files) along with supporting python scripts can be found in `/lustre/home/shared/y15/jupyter`.
+Some example Jupyter notebooks (`*.ipynb` files) along with supporting python scripts can be found in `/work/z04/shared/jupyter`.
 The simplest of these is `ipyparallel-mpi.ipynb`: the notebook uses the `psum.py` script to perform the same summation on all available cores.
 A more interesting example is the `parallelpi.ipynb` notebook, which uses the functions defined in `pydigits.py` and the matplotlib package to
 visualise how frequently digit pairs (00 - 99) occur within the first billion digits of PI. More information concerning this example can be found

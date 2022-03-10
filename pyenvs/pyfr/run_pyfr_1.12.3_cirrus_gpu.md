@@ -34,7 +34,6 @@ INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/${NGPUS}GPU_3D_11deg_endwalls_z33.pyfrm
 INIT=${INPUTDIR}/tri_airfoil_Re3000_M015_3D.ini
 
-module use /lustre/sw/modulefiles.miniconda3
 module load pyfr/1.12.3-gpu
 
 export UCX_MEMTYPE_CACHE=n
@@ -68,7 +67,6 @@ INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/${NGPUS}GPU_3D_11deg_endwalls_z33.pyfrm
 INIT=${INPUTDIR}/tri_airfoil_Re3000_M015_3D.ini
 
-module use /lustre/sw/modulefiles.miniconda3
 module load pyfr/1.12.3-gpu
 
 export SLURM_NTASKS_PER_NODE=${NGPUS_PER_NODE}
