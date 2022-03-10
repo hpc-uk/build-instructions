@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work # e.g., /scratch/sw
 NAMD_LABEL=namd
 NAMD_LABEL_CAPS=`echo ${NAMD_LABEL} | tr [a-z] [A-Z]`
 NAMD_VERSION=2.14
@@ -107,9 +107,9 @@ Build and install NAMD for each Charm++ flavour
 -----------------------------------------------
 
 ```bash
-NV_HPCSDK_ROOT=/lustre/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
+NV_HPCSDK_ROOT=/scratch/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
 
-FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix /lustre/sw/fftw/3.3.9-impi19-gcc8"
+FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix /scratch/sw/fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}"
 FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_HPCSDK_ROOT}/math_libs/11.2/targets/x86_64-linux"
 
 CUDA_CPU_OPTIONS="--without-cuda"
