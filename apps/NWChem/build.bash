@@ -3,12 +3,12 @@
 # Download, see http://www.nwchem-sw.org/index.php/Download, but get
 # the bug fixed release.  Do this once
 
-#wget https://github.com/nwchemgit/nwchem/releases/download/6.8.1-release/nwchem-6.8.1-release.revision-v6.8-133-ge032219-src.2018-06-14.tar.bz2
+wget https://github.com/nwchemgit/nwchem/releases/download/v6.8-release/nwchem-6.8-release.revision-v6.8-47-gdf6c956-srconly.2017-12-14.tar.bz2
 
 # Untar (or re-untar, quicker than make clean!)
-rm -rf nwchem-6.8.1
-tar xf nwchem-6.8.1-release.revision-v6.8-133-ge032219-src.2018-06-14.tar.bz2
-cd nwchem-6.8.1
+rm -rf nwchem-6.8
+tar -xvf nwchem-6.8-release.revision-v6.8-47-gdf6c956-srconly.2017-12-14.tar.bz2
+cd nwchem-6.8
 
 # Configure
 # User guide https://github.com/nwchemgit/nwchem/wiki
@@ -21,9 +21,9 @@ cd nwchem-6.8.1
 # MKL OK, in future might put OpenMP back (only much use for Xeon Phi
 # though)?
 
-module load gcc/6.3.0
-module load intel-cmkl-17/17.0.2.174
-module load mpt/2.16
+module load gcc/8.2.0
+module load intel-cmkl-19/19.0.0.117
+module load mpt/2.25
 module load anaconda/python2
 
 export NWCHEM_TOP=$PWD
