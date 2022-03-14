@@ -21,7 +21,7 @@ cd nwchem-6.8
 # MKL OK, in future might put OpenMP back (only much use for Xeon Phi
 # though)?
 
-module load gcc/8.2.0
+module load gcc/6.3.0
 module load intel-cmkl-19/19.0.0.117
 module load mpt/2.25
 module load anaconda/python2
