@@ -3,7 +3,7 @@
 # Download, see http://www.nwchem-sw.org/index.php/Download, but get
 # the bug fixed release.  Do this once
 
-wget https://github.com/nwchemgit/nwchem/releases/download/v6.8-release/nwchem-6.8-release.revision-v6.8-47-gdf6c956-srconly.2017-12-14.tar.bz2
+# wget https://github.com/nwchemgit/nwchem/releases/download/v6.8-release/nwchem-6.8-release.revision-v6.8-47-gdf6c956-srconly.2017-12-14.tar.bz2
 
 # Untar (or re-untar, quicker than make clean!)
 rm -rf nwchem-6.8
