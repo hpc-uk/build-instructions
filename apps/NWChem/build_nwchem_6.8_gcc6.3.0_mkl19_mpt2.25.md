@@ -1,7 +1,7 @@
 Instructions for compiling NWChem 6.8 for Cirrus
 ================================================
 
-These instructions are for compiling NWChem on Cirrus (SGI ICE XA, Broadwell) using the GCC 8.2.0 compilers, Intel MKL 19 library, and HPE MPT 2.25 MPI library.
+These instructions are for compiling NWChem on Cirrus (SGI ICE XA, Broadwell) using the GCC 6.3.0 compilers, Intel MKL 19 library, and HPE MPT 2.25 MPI library.
 
 Download NWChem
 ---------------
