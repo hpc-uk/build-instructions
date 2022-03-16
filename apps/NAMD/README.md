@@ -9,7 +9,7 @@ History
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
 2021-10-26 | Michael Bareford | ARCHER2 | 2.14 | Build instructions for ARCHER2 (using GCC 11 compilers and Cray MPICH 8)
-2022-03-10 | Michael Bareford | Cirrus | 2.14 | Build instructions for Cirrus (using GCC 8 compilers and Intel MPI 19)
+2022-03-16 | Michael Bareford | Cirrus | 2.14 | Build instructions for Cirrus (using GCC 8 compilers and Intel MPI 19)
 
 Build Instructions
 ------------------
