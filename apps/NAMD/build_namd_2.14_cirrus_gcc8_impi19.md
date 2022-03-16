@@ -107,13 +107,18 @@ Build and install NAMD for each Charm++ flavour
 -----------------------------------------------
 
 ```bash
-NV_HPCSDK_ROOT=/scratch/sw/nvidia/hpcsdk-212/Linux_x86_64/21.2
+NV_CUDA_VERSION=11.6
+NV_SDK_VERSION_MAJOR=22
+NV_SDK_VERSION_MINOR=2
+NV_SDK_VERSION=${NV_SDK_VERSION_MAJOR}.${NV_SDK_VERSION_MINOR}
+NV_SDK_NAME=hpcsdk-${NV_SDK_VERSION_MAJOR}${NV_SDK_VERSION_MINOR}
+NV_SDK_ROOT=/scratch/sw/nvidia/${NV_SDK_NAME}/Linux_x86_64/${NV_SDK_VERSION}
 
 FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix /scratch/sw/fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}"
-FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_HPCSDK_ROOT}/math_libs/11.2/targets/x86_64-linux"
+FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_HPCSDK_ROOT}/math_libs/${NV_CUDA_VERSION}/targets/x86_64-linux"
 
 CUDA_CPU_OPTIONS="--without-cuda"
-CUDA_GPU_OPTIONS="--with-cuda --cuda-prefix ${NV_HPCSDK_ROOT}/cuda/11.2"
+CUDA_GPU_OPTIONS="--with-cuda --cuda-prefix ${NV_HPCSDK_ROOT}/cuda/${NV_CUDA_VERSION}"
 
 declare -a FFTW_OPTIONS=("${FFTW_CPU_OPTIONS}" "${FFTW_CPU_OPTIONS}" "${FFTW_GPU_OPTIONS}")
 declare -a CUDA_OPTIONS=("${CUDA_CPU_OPTIONS}" "${CUDA_CPU_OPTIONS}" "${CUDA_GPU_OPTIONS}")
