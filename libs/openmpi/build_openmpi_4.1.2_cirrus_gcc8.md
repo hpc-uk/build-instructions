@@ -1,7 +1,7 @@
-Instructions for building OpenMPI 4.1.0 on Cirrus
+Instructions for building OpenMPI 4.1.2 on Cirrus
 =================================================
 
-These instructions are for building OpenMPI 4.1.0 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 8.2.0.
+These instructions are for building OpenMPI 4.1.2 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 8.2.0.
 
 
 Setup initial environment
@@ -10,7 +10,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work # e.g., /scratch/sw
 OPENMPI_LABEL=openmpi
-OPENMPI_VERSION=4.1.0
+OPENMPI_VERSION=4.1.2
 OPENMPI_VERSION_MAJOR=`echo ${OPENMPI_VERSION} | cut -d'.' -f1-2`
 OPENMPI_NAME=${OPENMPI_LABEL}-${OPENMPI_VERSION}
 
@@ -39,7 +39,7 @@ module load gcc/8.2.0
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
-  --with-ucx=/scratch/sw/ucx/1.9.0 \
+  --with-ucx=/scratch/sw/ucx/1.12.0 \
   --with-pmi=/scratch/sw/pmi2 --with-pmi-libdir=/scratch/sw/pmi2/lib \
   --with-libevent=/scratch/sw/libevent/2.1.12 \
   --prefix=${PRFX}/${OPENMPI_LABEL}/${OPENMPI_VERSION}
@@ -50,12 +50,11 @@ make clean
 ```
 
 
-Build and install OpenMPI for GPU (CUDA 11.2)
+Build and install OpenMPI for GPU (CUDA 11.6)
 ---------------------------------------------
 
 ```bash
-module load nvidia/cuda-11.2
-module load nvidia/mathlibs-11.2
+module load nvidia/nvhpc-nompi/22.2
 
 ./configure CC=gcc CXX=g++ FC=gfortran \
   CFLAGS="-I/scratch/sw/pmi2/include" \
@@ -63,11 +62,11 @@ module load nvidia/mathlibs-11.2
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
-  --with-ucx=/scratch/sw/ucx/1.9.0-cuda-11.2 \
+  --with-ucx=/scratch/sw/ucx/1.12.0-cuda-11.6 \
   --with-pmi=/scratch/sw/pmi2 --with-pmi-libdir=/scratch/sw/pmi2/lib \
-  --with-cuda=${CUDAROOT} \
+  --with-cuda=${NVHPC_ROOT}/cuda/11.6 \
   --with-libevent=/scratch/sw/libevent/2.1.12 \
-  --prefix=${PRFX}/${OPENMPI_LABEL}/${OPENMPI_VERSION}-cuda-11.2
+  --prefix=${PRFX}/${OPENMPI_LABEL}/${OPENMPI_VERSION}-cuda-11.6
 
 make
 make install
