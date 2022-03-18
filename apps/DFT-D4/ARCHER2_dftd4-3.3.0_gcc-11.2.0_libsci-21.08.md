@@ -52,6 +52,17 @@ pip install --user meson
 pip install --user ninja
 ```
 
+You will then need to make the installations available with:
+
+```
+export PATH=$HOME/.local/bin:$PATH
+export PYTHONPATH=$HOME/.local/lib/python3.8/site-packages:$PYTHONPATH
+```
+
+(Note, you will need to repeat the environment setup commands above each time
+you log in unless you add the lines to your `$HOME/.bash_profile` file.
+
+
 ## Configure the DFT-D4 build
 
 Modify the `meson_options.txt` file to set a `custom` LAPACK library (as the DFT-D4
