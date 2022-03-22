@@ -39,7 +39,7 @@ module load gcc/8.2.0
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
-  --with-ucx=/scratch/sw/ucx/1.12.0 \
+  --with-ucx=/scratch/sw/ucx/1.9.0 \
   --with-pmi=/scratch/sw/pmi2 --with-pmi-libdir=/scratch/sw/pmi2/lib \
   --with-libevent=/scratch/sw/libevent/2.1.12 \
   --prefix=${PRFX}/${OPENMPI_LABEL}/${OPENMPI_VERSION}
@@ -62,7 +62,7 @@ module load nvidia/nvhpc-nompi/22.2
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
-  --with-ucx=/scratch/sw/ucx/1.12.0-cuda-11.6 \
+  --with-ucx=/scratch/sw/ucx/1.9.0-cuda-11.6 \
   --with-pmi=/scratch/sw/pmi2 --with-pmi-libdir=/scratch/sw/pmi2/lib \
   --with-cuda=${NVHPC_ROOT}/cuda/11.6 \
   --with-libevent=/scratch/sw/libevent/2.1.12 \
