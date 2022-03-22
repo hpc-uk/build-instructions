@@ -79,10 +79,10 @@ mpirun -n ${NGPUS} -N ${NGPUS_PER_NODE} pyfr run -b cuda -p ${MESH} ${INIT}
 ```
 
 Note, loading the `pyfr/1.12.3-gpu` module also loads several other modules, one of which is called
-`openmpi/4.1.0-cuda-11.2`. That module has many configuration options, see the following section.
+`openmpi/4.1.2-cuda-11.6`. That module has many configuration options, see the following section.
 
 
-Loading the `openmpi/4.1.0-cuda-11.2` module sets a collection of OpenMPI MCA environment variables
+Loading the `openmpi/4.1.2-cuda-11.6` module sets a collection of OpenMPI MCA environment variables
 ---------------------------------------------------------------------------------------------------
 
 ```bash
