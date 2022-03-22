@@ -4,8 +4,8 @@ Instructions for building a Miniconda3 environment that provides mpi4py suitable
 These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus CPU nodes
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
-The build instructions cover the installation of two flavours of mpi4py 3.1.3, one linked with OpenMPI 4.1.0
-and the other linked with HPE MPT 2.25.
+The build instructions cover the installation of two flavours of mpi4py 3.1.3, one linked with OpenMPI 4.1.2
+(with UCX 1.9.0) and the other linked with HPE MPT 2.25.
 
 The Miniconda3 environment also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
@@ -18,7 +18,7 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
 cd ${PRFX}
 
-OPENMPI_VERSION=4.1.0
+OPENMPI_VERSION=4.1.2
 MPT_VERSION=2.25
 
 MPI4PY_LABEL=mpi4py
@@ -70,7 +70,7 @@ export PS1="(mpi4py) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.0 and HPE MPT 2.25
+Build and install mpi4py using OpenMPI 4.1.2 and HPE MPT 2.25
 -------------------------------------------------------------
 
 ```bash
@@ -125,7 +125,7 @@ export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib:${LD_LIBRARY_
 export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib/python3.8/site-packages:${PYTHONPATH}
 ```
 
-And for OpenMPI you will need to use `3.1.3-ompi-4.1.0` instead.
+And for OpenMPI you will need to use `3.1.3-ompi-4.1.2` instead.
 
 To check that the intended MPI library is supporting mpi4py, start a python session and run the following commands.
 

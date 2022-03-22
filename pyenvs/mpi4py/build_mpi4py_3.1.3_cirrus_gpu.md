@@ -4,8 +4,8 @@ Instructions for building a Miniconda3 environment that provides mpi4py suitable
 These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.3 (OpenMPI 4.1.0 with ucx 1.9.0 and CUDA 11.2) with pycuda 2021.1 and cupy 10.2.0.
-It also provides a suite of packages pertinent to parallel processing and numerical analysis,
+The environment features mpi4py 3.1.3 (OpenMPI 4.1.2 with ucx 1.9.0 and CUDA 11.6) with pycuda 2021.1
+and cupy 10.2.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
 
@@ -16,19 +16,20 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
 cd ${PRFX}
 
-CUDA_VERSION=11.2
-OPENMPI_VERSION=4.1.0
+NVHPC_VERSION=22.2
+CUDA_VERSION=11.6
+OPENMPI_VERSION=4.1.2
 BOOST_VERSION=1.73.0
 
-module load nvidia/cuda-${CUDA_VERSION}
-module load nvidia/mathlibs-${CUDA_VERSION}
-module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 module load boost/${BOOST_VERSION}
+module load nvidia/nvhpc-nompi/${NVHPC_VERSION}
+module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
 
 PYTHON_LABEL=py38
+PYTHON_LABEL2=python3.8
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
@@ -74,7 +75,7 @@ export PS1="(mpi4py-gpu) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.0-cuda-11.2
+Build and install mpi4py using OpenMPI 4.1.2-cuda-11.6
 ------------------------------------------------------
 
 ```bash
@@ -105,8 +106,8 @@ Checking the mpi4py package
 To show the MPI library supporting mpi4py, first set the environment like so.
 
 ```bash
-export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-ompi-4.1.0/lib:${LD_LIBRARY_PATH}
-export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-ompi-4.1.0/lib/python3.8/site-packages:${PYTHONPATH}
+export LD_LIBRARY_PATH=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}/lib:${LD_LIBRARY_PATH}
+export PYTHONPATH=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}/lib/${PYTHON_LABEL2}/site-packages:${PYTHONPATH}
 ```
 
 Then start a python session and run the following commands.
@@ -119,8 +120,8 @@ MPI.Get_library_version()
 ```
 
 
-Build and install pycuda
-------------------------
+Download pycuda source
+----------------------
 
 ```bash
 cd ${MINICONDA_ROOT}
@@ -137,11 +138,39 @@ tar -xvzf ${PYCUDA_NAME}.tar.gz
 rm ${PYCUDA_NAME}.tar.gz
 
 cd ${PYCUDA_NAME}
+```
 
-python configure.py --cuda-root=${CUDAROOT} --no-use-shipped-boost --boost-python-libname=boost_python-py36 --ldflags="-L${CUDAROOT}/targets/x86_64-linux/lib/stubs"
+Set `default_lib_dirs` array in `setup.py`
+------------------------------------------
+
+```python
+    default_lib_dirs = [
+        "${CUDA_ROOT}/lib64",
+        "${CUDA_ROOT}/lib64/stubs",
+        "/scratch/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64",
+        "/scratch/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64/stubs",
+    ]
+```
+
+Build and install pycuda
+------------------------
+
+```
+# switch from nvidia to gcc compilers
+CC_SAVE=${CC}
+CXX_SAVE=${CXX}
+export CC=gcc
+export CXX=g++
+
+python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
+                    --no-use-shipped-boost --boost-python-libname=boost_python-py36
+
 make
 make install
 make clean
+
+export CC=${CC_SAVE}
+export CXX=${CXX_SAVE}
 ```
 
 Note that the python configure command for pycuda has one anomalous setting, the `py36` suffix used for the boost python library name.

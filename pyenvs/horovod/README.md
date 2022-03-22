@@ -1,0 +1,29 @@
+Horovod
+=======
+
+This folder contains files and documentation for installing Horovod on various HPC machine platforms.
+
+Horovod is a distributed deep learning training framework for TensorFlow, Keras, PyTorch, and Apache MXNet.
+
+https://horovod.readthedocs.io/en/stable/
+
+History
+-------
+
+Date | Person | System | Version | Notes
+---- | -------|--------|---------|------
+2022-03-18 | Michael Bareford | Cirrus | 0.24.2 | Build and run instructions for Cirrus GPU nodes
+
+Build Instructions
+------------------
+
+* [Horovod 0.24.2 Cirrus Build Instructions (GPU)](build_horovod_0.24.2_cirrus_gpu.md)
+
+Run Instructions
+------------------
+
+* [Horovod 0.24.2 Cirrus Run Instructions (GPU)](run_horovod_0.24.2_cirrus_gpu.md)
+
+Notes
+-----
+
