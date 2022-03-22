@@ -46,5 +46,6 @@ Build and Install
 ```bash
 make -j 8
 make -j 8 install
+make clean
 ```
 
