@@ -70,7 +70,7 @@ INIT=${INPUTDIR}/tri_airfoil_Re3000_M015_3D.ini
 module load pyfr/1.12.3-gpu
 
 export SLURM_NTASKS_PER_NODE=${NGPUS_PER_NODE}
-export SLURM_TASKS_PER_NODE='${NGPUS_PER_NODE}(x${SLURM_NNODES})'
+export SLURM_TASKS_PER_NODE="${NGPUS_PER_NODE}(x${SLURM_NNODES})"
 
 export UCX_MEMTYPE_CACHE=n
 export OMPI_MCA_mca_base_component_show_load_errors=0
