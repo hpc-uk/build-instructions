@@ -2,7 +2,7 @@ Instructions for building PyFR 1.12.3 on Cirrus (GPU)
 =====================================================
 
 These instructions show how to build PyFR 1.12.3 for use on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB),
-see http://www.pyfr.org/index.php for further details. 
+see http://www.pyfr.org for further details. 
 
 The venv is an extension of the Miniconda3 (Python 3.8.12) environment provided by the `mpi4py/3.1.3-ompi-gpu` module.
 
