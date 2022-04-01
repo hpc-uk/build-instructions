@@ -13,7 +13,6 @@ CPP_OPTIONS= -DMPI -DHOST=\"HPECrayEX-GNU\" \
              -DscaLAPACK \
              -Duse_collective \
              -DMPI_INPLACE \
-             -DnoAugXCmeta \
              -Duse_bse_te \
              -Duse_shmem \
              -Dtbdyn
