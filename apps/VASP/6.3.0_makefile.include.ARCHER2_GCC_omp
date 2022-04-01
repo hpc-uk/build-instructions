@@ -6,7 +6,6 @@ CPP_OPTIONS= -DHOST=\"HPECrayEX_GCC\" \
              -DscaLAPACK \
              -Davoidalloc \
              -DMPI_INPLACE \
-             -DnoAugXCmeta \
              -Dvasp6 \
              -Duse_bse_te \
              -Dtbdyn \
