@@ -130,7 +130,7 @@ ssh <username>@cirrus.epcc.ed.ac.uk -L19888:<nodename>:19888
 You can now launch a browser on your local machine and begin running your remote Jupyter notebook session, just click [http://localhost:19888/lab](http://localhost:19888/lab).
 Please note, you may not get a login prompt immediately as it takes a minute or two for the Jupyter session to get started (check for the
 presence of a non-empty `jupyter.out` file within your first Cirrus session). Once you do get a Jupyter login prompt, enter the password specified when
-setting up the ipyparallel config and you should be presented with a file explorer style interface for your Cirrus account.
+setting up the ipyparallel config and you should be presented with a file explorer style interface for the Cirrus `/work` file system.
 
 Some example Jupyter notebooks (`*.ipynb` files) along with supporting python scripts can be found in `/work/z04/shared/jupyter`.
 The simplest of these is `ipyparallel-mpi.ipynb`: the notebook uses the `psum.py` script to perform the same summation on all available cores.
