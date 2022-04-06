@@ -9,8 +9,8 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2022-03-10 | Michael Bareford | Cirrus | 8.2.0 | IPyParallel Config instructions for Cirrus GPU nodes
-2022-03-10 | Michael Bareford | Cirrus | 8.2.0 | IPyParallel Run instructions for Cirrus GPU nodes
+2022-04-06 | Michael Bareford | Cirrus | 8.2.0 | IPyParallel Config instructions for Cirrus GPU nodes
+2022-04-06 | Michael Bareford | Cirrus | 8.2.0 | IPyParallel Run instructions for Cirrus GPU nodes
 
 Config Instructions
 -------------------

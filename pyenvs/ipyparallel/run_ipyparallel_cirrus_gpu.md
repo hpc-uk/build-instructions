@@ -76,6 +76,13 @@ rm -f ${JUPYTER_OUTPUT}
 # load module(s)
 module load mpi4py/3.1.3-ompi-gpu
 
+export XDG_CACHE_HOME=${HOME/home/work}
+export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython
+export JUPYTERDIR=${XDG_CACHE_HOME}/.jupyter
+export JUPYTER_CONFIG_DIR=${JUPYTERDIR}
+export JUPYTER_RUNTIME_DIR=${JUPYTERDIR}
+export JUPYTER_DATA_DIR=${JUPYTERDIR}
+export MPLCONFIGDIR=${XDG_CACHE_HOME}/.matplotlib
 
 export OMPI_MCA_mca_base_component_show_load_errors=0
 export OMPI_MCA_pml=ob1
@@ -103,7 +110,7 @@ done
 
 
 # start jupyter notebook
-jupyter notebook --no-browser --notebook-dir ${SLURM_SUBMIT_DIR} --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
+jupyter lab --no-browser --notebook-dir /work --port=19888 --ip=0.0.0.0 &> ${JUPYTER_OUTPUT} &
 
 
 wait
@@ -120,7 +127,7 @@ ssh <username>@cirrus.epcc.ed.ac.uk -L19888:<nodename>:19888
 ```
 
 
-You can now launch a browser on your local machine and begin running your remote Jupyter notebook session, just click [http://localhost:19888](http://localhost:19888).
+You can now launch a browser on your local machine and begin running your remote Jupyter notebook session, just click [http://localhost:19888/lab](http://localhost:19888/lab).
 Please note, you may not get a login prompt immediately as it takes a minute or two for the Jupyter session to get started (check for the
 presence of a non-empty `jupyter.out` file within your first Cirrus session). Once you do get a Jupyter login prompt, enter the password specified when
 setting up the ipyparallel config and you should be presented with a file explorer style interface for your Cirrus account.
