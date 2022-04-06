@@ -135,8 +135,7 @@ setting up the ipyparallel config and you should be presented with a file explor
 Some example Jupyter notebooks (`*.ipynb` files) along with supporting python scripts can be found in `/work/z04/shared/jupyter`.
 The simplest of these is `ipyparallel-mpi.ipynb`: the notebook uses the `psum.py` script to perform the same summation on all available cores.
 A more interesting example is the `parallelpi.ipynb` notebook, which uses the functions defined in `pydigits.py` and the matplotlib package to
-visualise how frequently digit pairs (00 - 99) occur within the first billion digits of PI. More information concerning this example can be found
-at [https://ipyparallel.readthedocs.io/en/latest/demos.html](https://ipyparallel.readthedocs.io/en/latest/demos.html).
+visualise how frequently digit pairs (00 - 99) occur within the first billion digits of PI.
 
 When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run `scancel -b --signal=TERM <jobid>`
 with the original Slurm job number. This will ensure that all the ipyparallel and Jupyter processes are explicitly shutdown. If you do not call scancel the processes will
