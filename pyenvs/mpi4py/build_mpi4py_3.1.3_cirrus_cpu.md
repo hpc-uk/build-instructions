@@ -4,8 +4,7 @@ Instructions for building a Miniconda3 environment that provides mpi4py suitable
 These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus CPU nodes
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
-The build instructions cover the installation of two flavours of mpi4py 3.1.3, one linked with OpenMPI 4.1.2
-(with UCX 1.9.0) and the other linked with HPE MPT 2.25.
+The build instructions show how to install mpi4py 3.1.3 such that it is linked with HPE MPT 2.25.
 
 The Miniconda3 environment also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
@@ -20,6 +19,8 @@ cd ${PRFX}
 
 OPENMPI_VERSION=4.1.2
 MPT_VERSION=2.25
+
+module load mpt/${MPT_VERSION}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
@@ -70,13 +71,12 @@ export PS1="(mpi4py) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.2 and HPE MPT 2.25
--------------------------------------------------------------
+Build and install mpi4py using HPE MPT 2.25
+-------------------------------------------
 
 ```bash
 cd ${MINICONDA_ROOT}
 
-PYTHON_LABEL_LONG=python${PYTHON_LABEL:2:1}.${PYTHON_LABEL:3:1}
 MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
 
 mkdir -p ${MPI4PY_LABEL}
@@ -88,44 +88,14 @@ rm ${MPI4PY_VERSION}.tar.gz
 
 cd ${MPI4PY_NAME}
 
-
-module load openmpi/${OPENMPI_VERSION}
-
-MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
-
 python setup.py build
-python setup.py install --prefix=${MPI4PY_ROOT}
+python setup.py install --prefix=${MINICONDA_ROOT}
 python setup.py clean --all
-
-module unload openmpi/${OPENMPI_VERSION}
-
-
-module load mpt/${MPT_VERSION}
-
-MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-mpt-${MPT_VERSION}
-
-python setup.py build
-python setup.py install --prefix=${MPI4PY_ROOT}
-python setup.py clean --all
-
-module unload mpt/${MPT_VERSION}
 ```
 
 
 Checking the mpi4py package
 ---------------------------
-
-Which MPI library is supporting mpi4py will depend on how you set up the runtime environment, specifically,
-the `LD_LIBRARY_PATH` and `PYTHONPATH` environment variables.
-
-For example, if you wish to use the HPE MPT library, simply add `3.1.3-mpt-2.25` to the appropriate paths.
-
-```bash
-export LD_LIBRARY_PATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib:${LD_LIBRARY_PATH}
-export PYTHONPATH=${MINICONDA_ROOT}/mpi4py/3.1.3-mpt-2.25/lib/python3.8/site-packages:${PYTHONPATH}
-```
-
-And for OpenMPI you will need to use `3.1.3-ompi-4.1.2` instead.
 
 To check that the intended MPI library is supporting mpi4py, start a python session and run the following commands.
 
@@ -134,6 +104,7 @@ import mpi4py.rc
 mpi4py.rc.initialize = False
 from mpi4py import MPI
 MPI.Get_library_version()
+exit()
 ```
 
 
