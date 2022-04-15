@@ -75,6 +75,9 @@ SHARED_ROOT=/work/z04/shared/ml/pytorch
 DATA_ROOT=${SHARED_ROOT}/imagenet/ILSVRC/Data/CLS-LOC
 BENCHMARK_PATH=${SHARED_ROOT}/benchmarks/imagenet
 
+rm -f ${SLURM_SUBMIT_DIR}/checkpoint-*.tar
+rm -rf ${SLURM_SUBMIT_DIR}/logs
+
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
     --mca mpi_warn_on_fork 0 \
     -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
@@ -86,4 +89,6 @@ mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
         --batch-size 64 --epochs 1
 
 rm -f ${SLURM_SUBMIT_DIR}/hosts
+
+sed -i "s/^M/\n/g" slurm-${SLURM_JOB_ID}.out
 ```
