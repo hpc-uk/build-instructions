@@ -11,6 +11,15 @@ Setup initial environment
 ```bash
 module load mpi4py/3.1.3-ompi-gpu
 
+export XDG_CACHE_HOME=${HOME/home/work}
+
+export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython
+
+export JUPYTERDIR=${XDG_CACHE_HOME}/.jupyter
+export JUPYTER_CONFIG_DIR=${JUPYTERDIR}
+export JUPYTER_RUNTIME_DIR=${JUPYTERDIR}
+export JUPYTER_DATA_DIR=${JUPYTERDIR}
+
 ipython profile create --parallel --profile=mpi
 ```
 
