@@ -17,19 +17,19 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
 cd ${PRFX}
 
-OPENMPI_VERSION=4.1.2
 MPT_VERSION=2.25
 
 module load mpt/${MPT_VERSION}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
+MPI4PY_MPI=mpt
 
 PYTHON_LABEL=py38
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-${MPI4PY_MPI}
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
