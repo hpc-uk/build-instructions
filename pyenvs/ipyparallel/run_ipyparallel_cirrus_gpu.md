@@ -134,7 +134,7 @@ setting up the ipyparallel config and you should be presented with a file explor
 
 Some example Jupyter notebooks (`*.ipynb` files) along with supporting python scripts can be found in `/work/z04/shared/jupyter`.
 The simplest of these is `mpi-sum.ipynb`: the notebook uses the `psum.py` script to perform the same summation on all available CPU cores.
-More pertinent to GPUs, is the `mandelbrot.ipynb` notebook, which computes a Mandelbrot fractal in parallel using Numba.
+More pertinent to GPUs, is the `mandelbrot.ipynb` notebook, which computes a Mandelbrot fractal in parallel using [Numba](https://numba.pydata.org/numba-doc/latest/user/index.html).
 
 When you have finished with your ipyparallel-enabled Jupyter notebook, simply logout then return to your first Cirrus session and run `scancel -b --signal=TERM <jobid>`
 with the original Slurm job number. This will ensure that all the ipyparallel and Jupyter processes are explicitly shutdown. If you do not call scancel the processes will
