@@ -43,7 +43,7 @@ cmake -C initial_cache.cmake ..
 make -j 16
 ```
 
-The build should take 10--15 minutes.
+The build should take 10--15 minutes. The final executable will be called `aims.mpi.x`.
 
 
 ## Test job submission
