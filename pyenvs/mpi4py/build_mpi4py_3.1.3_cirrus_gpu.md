@@ -81,9 +81,7 @@ Build and install mpi4py using OpenMPI 4.1.2-cuda-11.6
 ```bash
 cd ${MINICONDA_ROOT}
 
-PYTHON_LABEL_LONG=python${PYTHON_LABEL:2:1}.${PYTHON_LABEL:3:1}
 MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
-MPI4PY_ROOT=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}
 
 mkdir -p ${MPI4PY_LABEL}
 cd ${MPI4PY_LABEL}
@@ -95,7 +93,7 @@ rm ${MPI4PY_VERSION}.tar.gz
 cd ${MPI4PY_NAME}
 
 python setup.py build
-python setup.py install --prefix=${MPI4PY_ROOT}
+python setup.py install --prefix=${MINICONDA_ROOT}
 python setup.py clean --all
 ```
 
@@ -103,20 +101,14 @@ python setup.py clean --all
 Checking the mpi4py package
 ---------------------------
 
-To show the MPI library supporting mpi4py, first set the environment like so.
-
-```bash
-export LD_LIBRARY_PATH=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}/lib:${LD_LIBRARY_PATH}
-export PYTHONPATH=${MINICONDA_ROOT}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-ompi-${OPENMPI_VERSION}/lib/${PYTHON_LABEL2}/site-packages:${PYTHONPATH}
-```
-
-Then start a python session and run the following commands.
+To show the MPI library supporting mpi4py, simply set a Python session and do as follows.
 
 ```python
 import mpi4py.rc
 mpi4py.rc.initialize = False
 from mpi4py import MPI
 MPI.Get_library_version()
+exit()
 ```
 
 
