@@ -16,7 +16,10 @@ However, here we discuss a bundled stable release version downloaded as
 
 One of the accompanying scripts may be used to build the code
 in either `PrgEnv-cray`, `PrgEnv-gnu` (`PrgEnv-aocc` is under
-investigation).
+investigation):
+
+* [Build script for GCC](build-gnu.sh)
+* [Build script for CCE](build-cray.sh)
 
 Run the relevant script interactively in a suitable location containing
 the tar bundle, e.g., for `PrgEnv-gnu`
@@ -43,7 +46,7 @@ cmake -C initial_cache.cmake ..
 make -j 16
 ```
 
-The build should take 10--15 minutes.
+The build should take 10--15 minutes. The final executable will be called `aims.mpi.x`.
 
 
 ## Test job submission
