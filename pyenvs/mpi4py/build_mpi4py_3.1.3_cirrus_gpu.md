@@ -177,7 +177,7 @@ Install general purpose python packages
 cd ${MINICONDA_ROOT}
 
 pip install scipy
-pip install cupy-cuda112
+pip install cupy-cuda116
 pip install pandas
 pip install dask
 pip install memory_profiler
@@ -204,6 +204,14 @@ Install cudatoolkit
 cd ${MINICONDA_ROOT}
 
 conda install -c anaconda cudatoolkit
+```
+
+
+Update Miniconda3 environment
+-----------------------------
+
+```bash
+conda update -y -n root --all
 ```
 
 
