@@ -27,13 +27,14 @@ module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
+MPI4PY_MPI=ompi
 
 PYTHON_LABEL=py38
 PYTHON_LABEL2=python3.8
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-gpu
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-${MPI4PY_MPI}-gpu
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
@@ -176,7 +177,7 @@ Install general purpose python packages
 cd ${MINICONDA_ROOT}
 
 pip install scipy
-pip install cupy-cuda112
+pip install cupy-cuda116
 pip install pandas
 pip install dask
 pip install memory_profiler
@@ -193,6 +194,24 @@ pip install notebook
 pip install sympy
 pip install wandb
 pip install gym
+```
+
+
+Install cudatoolkit
+-------------------
+
+```bash
+cd ${MINICONDA_ROOT}
+
+conda install -c anaconda cudatoolkit
+```
+
+
+Update Miniconda3 environment
+-----------------------------
+
+```bash
+conda update -y -n root --all
 ```
 
 
