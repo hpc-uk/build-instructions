@@ -92,8 +92,8 @@ make install
 
 
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/paraview/build/install/lib64
 export PATH=$PATH:${PV_PATH}/paraview/build/install/bin
-export PYTHONPATH=$PYTHONPATH:${{PV_PATH}/paraview/build/install/lib64/python3.8/site-packages
+export PYTHONPATH=$PYTHONPATH:${PV_PATH}/paraview/build/install/lib64/python3.8/site-packages
 ```
 

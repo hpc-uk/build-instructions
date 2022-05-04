@@ -114,13 +114,13 @@ make install
 
 
 ```
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/ospray/2.1.0/ospray/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/ospray/2.1.0/openvkl/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/ospray/2.1.0/embree/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/llvm/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/mesa/21.0.1/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(PV_PATH)/paraview/build/install/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/paraview/build/install/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/ospray/2.1.0/ospray/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/ospray/2.1.0/openvkl/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/ospray/2.1.0/embree/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/llvm/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/mesa/21.0.1/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PV_PATH}/paraview/build/install/lib64
 export PATH=$PATH:${PV_PATH}/paraview/build/install/bin
-export PYTHONPATH=$PYTHONPATH:${{PV_PATH}/paraview/build/install/lib64/python3.8/site-packages
+export PYTHONPATH=$PYTHONPATH:${PV_PATH}/paraview/build/install/lib64/python3.8/site-packages
 ```
