@@ -11,7 +11,7 @@ Run the script to build `libxc`:
 ```
 kevin@ln01:> bash ./build_libxc.sh
 ```
-which will use the current directory as the intall location.
+which will use the current directory as the install location.
 
 Run the script to build `GPAW`:
 ```
