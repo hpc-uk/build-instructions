@@ -17,8 +17,9 @@ Run the script to build `GPAW`:
 ```
 kevin@ln01:> bash ./build_gpaw.sh
 ```
-which will install in the same location. The scripts can be edited
-to change the location if required.
+which will install in the same location. At the moment the GPAW script
+requires that the `libxc` install location and the GPAW install
+location must be the same.
 
 ## Run time
 

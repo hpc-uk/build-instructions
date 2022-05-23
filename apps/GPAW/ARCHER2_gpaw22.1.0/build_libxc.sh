@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # See https://www.tddft.org/programs/libxc/installation/
 
 export my_prefix=$(pwd)
