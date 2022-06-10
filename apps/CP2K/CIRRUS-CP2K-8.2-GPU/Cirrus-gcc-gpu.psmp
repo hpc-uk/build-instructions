@@ -1,0 +1,54 @@
+CP2K_ROOT =/lustre/home/w68/hollyj/CP2K/v8.2
+DATA_DIR  =/lustre/home/w68/hollyj/CP2K/v8.2/cp2k-8.2/data
+
+
+COSMA_INC   = $(CP2K_ROOT)/libs/cosma/include
+COSMA_LIB   = $(CP2K_ROOT)/libs/cosma/lib64
+
+DFLAGS   = -D__MKL -D__FFTW3 -D__MPI_VERSION=3 \
+	   -D__parallel -D__SCALAPACK -D__ELPA -D__COSMA  \
+	   -D__ACC -D__DBCSR_ACC -D__GRID_CUDA -D__LIBINT -D__LIBXC -D__LIBXSMM -D__SPGLIB \
+           -D__CUDA_PROFILING -D__PW_CUDA
+
+
+
+CFLAGS   = $(DFLAGS) -O3 -mavx -fopenmp -mtune=native -march=skylake-avx512 -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -funroll-loops -ftree-vectorize -ffree-form -ffree-line-length-512 
+
+CXXFLAGS = $(CFLAGS) -std=c++11 
+
+
+FCFLAGS  = $(DFLAGS) $(CFLAGS) \
+           -I$(MKLROOT)/include -m64  \
+           -I$(CP2K_ROOT)/libs/fftw/include  \
+           -I$(CP2K_ROOT)/libs/libint/include  \
+           -I$(CP2K_ROOT)/libs/libxsmm/include \
+           -I$(CP2K_ROOT)/libs/libxc/include   \
+           -I$(COSMA_INC) \
+           -I$(CP2K_ROOT)/libs/elpa-gpu/include/elpa_openmp-2020.11.001/modules \
+           -I$(CP2K_ROOT)/libs/elpa-gpu/include/elpa_openmp-2020.11.001/elpa \
+           -fbacktrace -ffree-form -ffree-line-length-none -fno-omit-frame-pointer -std=f2008
+
+
+LDFLAGS  =  $(FCFLAGS)
+
+NVFLAGS  = $(DFLAGS) -O3 -Xcompiler="-fopenmp" -arch=sm_70 --std=c++11
+
+MKL_LIB  = ${MKLROOT}/lib/intel64
+
+LIBS    = -L$(CP2K_ROOT)/libs/libint/lib -lint2     \
+          -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm       \
+          -L$(CP2K_ROOT)/libs/fftw/lib -lfftw3 -lfftw3_threads       \
+          -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc       \
+          -L$(CP2K_ROOT)/libs/elpa-gpu/lib -lelpa_openmp        \
+          $(CP2K_ROOT)/libs/spglib/lib/libsymspg.a                 \
+          $(COSMA_LIB)/libcosma_prefixed_pxgemm.a  \
+          $(COSMA_LIB)/libcosma.a   \
+          $(COSMA_LIB)/libcosta_prefixed_scalapack.a   \
+          $(COSMA_LIB)/libcosta.a       \
+          $(COSMA_LIB)/libTiled-MM.a   \
+          $(MKL_LIB)/libmkl_scalapack_lp64.a -Wl,--start-group \
+	  $(MKL_LIB)/libmkl_gf_lp64.a ${MKL_LIB}/libmkl_sequential.a \
+	  $(MKL_LIB)/libmkl_core.a \
+	  ${MKL_LIB}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group \
+	  -lcudart -lcublas -lcufft -lnvrtc -lcuda -lnvToolsExt -ldl -lstdc++ -lpthread -lm
