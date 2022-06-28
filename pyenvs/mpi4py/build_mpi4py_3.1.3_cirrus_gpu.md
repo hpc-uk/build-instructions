@@ -194,6 +194,7 @@ pip install notebook
 pip install sympy
 pip install wandb
 pip install gym
+pip install termcolor
 ```
 
 
