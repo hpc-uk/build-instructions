@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work # e.g., /scratch/sw
+PRFX=/path/to/work # e.g., /mnt/lustre/indy2lfs/sw
 UCX_LABEL=ucx
 UCX_VERSION=1.12.0
 UCX_NAME=${UCX_LABEL}-${UCX_VERSION}
