@@ -4,8 +4,8 @@ Instructions for building a Miniconda3 environment that provides mpi4py suitable
 These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.3 (OpenMPI 4.1.2 with ucx 1.9.0 and CUDA 11.6) with pycuda 2021.1
-and cupy 10.2.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
+The environment features mpi4py 3.1.3 (OpenMPI 4.1.4 with ucx 1.9.0 and CUDA 11.6) with pycuda 2022.1
+and cupy 10.6.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
 
@@ -13,12 +13,12 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
+PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
 cd ${PRFX}
 
 NVHPC_VERSION=22.2
 CUDA_VERSION=11.6
-OPENMPI_VERSION=4.1.2
+OPENMPI_VERSION=4.1.4
 BOOST_VERSION=1.73.0
 
 module load boost/${BOOST_VERSION}
@@ -29,11 +29,11 @@ MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
 MPI4PY_MPI=ompi
 
-PYTHON_LABEL=py38
-PYTHON_LABEL2=python3.8
+PYTHON_LABEL=py39
+PYTHON_LABEL2=python3.9
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
-MINICONDA_VERSION=4.9.2
+MINICONDA_VERSION=4.12.0
 MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-${MPI4PY_MPI}-gpu
 ```
 
@@ -76,7 +76,7 @@ export PS1="(mpi4py-gpu) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.2-cuda-11.6
+Build and install mpi4py using OpenMPI 4.1.4-cuda-11.6
 ------------------------------------------------------
 
 ```bash
@@ -120,13 +120,13 @@ Download pycuda source
 cd ${MINICONDA_ROOT}
 
 PYCUDA_LABEL=pycuda
-PYCUDA_VERSION=2021.1
+PYCUDA_VERSION=2022.1
 PYCUDA_NAME=${PYCUDA_LABEL}-${PYCUDA_VERSION}
 
 mkdir -p ${PYCUDA_LABEL}
 cd ${PYCUDA_LABEL}
 
-wget https://files.pythonhosted.org/packages/5a/56/4682a5118a234d15aa1c8768a528aac4858c7b04d2674e18d586d3dfda04/${PYCUDA_NAME}.tar.gz
+wget https://files.pythonhosted.org/packages/2d/1f/48a3a5b2c715345e7af1e09361100bd98c3d72b4025371692ab233f523d3/${PYCUDA_NAME}.tar.gz
 tar -xvzf ${PYCUDA_NAME}.tar.gz
 rm ${PYCUDA_NAME}.tar.gz
 
@@ -140,8 +140,8 @@ Set `default_lib_dirs` array in `setup.py`
     default_lib_dirs = [
         "${CUDA_ROOT}/lib64",
         "${CUDA_ROOT}/lib64/stubs",
-        "/scratch/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64",
-        "/scratch/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64/stubs",
+        "/mnt/lustre/indy2lfs/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64",
+        "/mnt/lustre/indy2lfs/sw/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64/stubs",
     ]
 ```
 

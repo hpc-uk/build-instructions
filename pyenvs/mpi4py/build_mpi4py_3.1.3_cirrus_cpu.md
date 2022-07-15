@@ -14,21 +14,23 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/scratch/sw
+PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
 cd ${PRFX}
 
 MPT_VERSION=2.25
 
 module load mpt/${MPT_VERSION}
 
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib64
+
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
 MPI4PY_MPI=mpt
 
-PYTHON_LABEL=py38
+PYTHON_LABEL=py39
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
-MINICONDA_VERSION=4.9.2
+MINICONDA_VERSION=4.12.0
 MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-${MPI4PY_MPI}
 ```
 
@@ -131,6 +133,7 @@ pip install notebook
 pip install sympy
 pip install wandb
 pip install gym
+pip install termcolor
 ```
 
 
