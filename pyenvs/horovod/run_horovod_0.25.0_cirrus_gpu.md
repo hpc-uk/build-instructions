@@ -3,15 +3,15 @@ Instructions for running Horovod on Cirrus (GPU)
 
 These instructions are for running Horovod on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-Horovod 0.24.2 is made available by loading the `horovod/0.24.2-gpu` module; this starts a Miniconda3 environment
-containing Horovod 0.24.2 and mpi4py 3.1.3 (built against Open MPI 4.1.2 and CUDA 11.6). Also included are
-TensorFlow 2.8.0 and PyTorch 1.11.0.
+Horovod 0.24.2 is made available by loading the `horovod/0.25.0-gpu` module; this starts a Miniconda3 environment
+containing Horovod 0.25.0 and mpi4py 3.1.3 (built against Open MPI 4.1.4 and CUDA 11.6). Also included are
+TensorFlow 2.9.1 and PyTorch 1.12.0.
 
 Horovod is a key component as it allows the TensorFlow/PyTorch workload to be distributed over multiple GPU nodes,
 see [https://horovod.readthedocs.io/en/stable/mpi_include.html](https://horovod.readthedocs.io/en/stable/mpi_include.html).
 
-For clarity, two module aliases are also provided, `tensorflow/2.8.0-gpu` and `pytorch/1.11.0`. Those two modules
-are aliases for the `horovod/0.24.2-gpu` module.
+For clarity, two module aliases are also provided, `tensorflow/2.9.1-gpu` and `pytorch/1.12.0`. Those two modules
+are aliases for the `horovod/0.25.0-gpu` module.
 
 The submission scripts linked below show how to run TensorFlow/PyTorch over multiple GPU nodes for two
 popular ML benchmarks, MNIST and ImageNet.

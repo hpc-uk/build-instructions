@@ -12,17 +12,17 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2022-03-18 | Michael Bareford | Cirrus | 0.24.2 | Build and run instructions for Cirrus GPU nodes
+2022-07-15 | Michael Bareford | Cirrus | 0.25.0 | Build and run instructions for Cirrus GPU nodes
 
 Build Instructions
 ------------------
 
-* [Horovod 0.24.2 Cirrus Build Instructions (GPU)](build_horovod_0.24.2_cirrus_gpu.md)
+* [Horovod 0.25.0 Cirrus Build Instructions (GPU)](build_horovod_0.25.0_cirrus_gpu.md)
 
 Run Instructions
 ------------------
 
-* [Horovod 0.24.2 Cirrus Run Instructions (GPU)](run_horovod_0.24.2_cirrus_gpu.md)
+* [Horovod 0.25.0 Cirrus Run Instructions (GPU)](run_horovod_0.25.0_cirrus_gpu.md)
 
 Notes
 -----
