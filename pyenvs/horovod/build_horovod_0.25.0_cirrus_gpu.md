@@ -62,6 +62,9 @@ pip install --user 'lightning-flash[all]'
 
 pip install --user mxnet
 pip install --user mxnet-cu112
+
+pip install --user fastai
+pip install --user opencv-python
 ```
 
 
