@@ -1,13 +1,13 @@
-Instructions for running PyFR 1.14.0 on Cirrus (GPU)
+Instructions for running PyFR 1.12.3 on Cirrus (GPU)
 ====================================================
 
-These instructions are for running PyFR 1.14.0 on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
+These instructions are for running PyFR 1.12.3 on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 The instructions take the form of two Slurm submission scripts one using `srun` the other using `mpirun`.
 The two scripts are very similar, the main difference being the setting of two Slurm environment variables in the `mpirun` script.
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project. The submission scripts below assume a locally installed
-Miniconda3 virtual environment containing mpi4py, pyfr and supporting packages, see [build instructions](build_pyfr_1.14.0_cirrus_gpu.md) for further details.
+Miniconda3 virtual environment containing mpi4py, pyfr and supporting packages, see [build instructions](build_pyfr_1.12.3_cirrus_gpu.md) for further details.
 
 
 Launch a PyFR job (via srun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
@@ -34,7 +34,7 @@ INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/${NGPUS}GPU_3D_11deg_endwalls_z33.pyfrm
 INIT=${INPUTDIR}/tri_airfoil_Re3000_M015_3D.ini
 
-module load pyfr/1.14.0-gpu
+module load pyfr/1.12.3-gpu
 
 export UCX_MEMTYPE_CACHE=n
 export OMPI_MCA_mca_base_component_show_load_errors=0
@@ -67,7 +67,7 @@ INPUTDIR=${PRFX}/input
 MESH=${INPUTDIR}/meshes/${NGPUS}GPU_3D_11deg_endwalls_z33.pyfrm
 INIT=${INPUTDIR}/tri_airfoil_Re3000_M015_3D.ini
 
-module load pyfr/1.14.0-gpu
+module load pyfr/1.12.3-gpu
 
 export SLURM_NTASKS_PER_NODE=${NGPUS_PER_NODE}
 export SLURM_TASKS_PER_NODE="${NGPUS_PER_NODE}(x${SLURM_NNODES})"
@@ -78,11 +78,11 @@ export OMPI_MCA_mca_base_component_show_load_errors=0
 mpirun -n ${NGPUS} -N ${NGPUS_PER_NODE} pyfr run -b cuda -p ${MESH} ${INIT}
 ```
 
-Note, loading the `pyfr/1.14.0-gpu` module also loads several other modules, one of which is called
-`openmpi/4.1.4-cuda-11.6`. That module has many configuration options, see the following section.
+Note, loading the `pyfr/1.12.3-gpu` module also loads several other modules, one of which is called
+`openmpi/4.1.2-cuda-11.6`. That module has many configuration options, see the following section.
 
 
-Loading the `openmpi/4.1.4-cuda-11.6` module sets a collection of OpenMPI MCA environment variables
+Loading the `openmpi/4.1.2-cuda-11.6` module sets a collection of OpenMPI MCA environment variables
 ---------------------------------------------------------------------------------------------------
 
 ```bash
