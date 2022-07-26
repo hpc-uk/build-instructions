@@ -1,13 +1,13 @@
 Instructions for building Horovod for the Cirrus GPU nodes
 ==========================================================
 
-These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.25.0, a distributed deep learning training framework,
-one that encompasses TensorFlow 2.9.1 (https://www.tensorflow.org/), PyTorch 1.12.0 (https://pytorch.org/) and MXNet 1.9.1 (https://mxnet.apache.org/).
+These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.24.2, a distributed deep learning training framework,
+one that encompasses TensorFlow 2.8.0 (https://www.tensorflow.org/), PyTorch 1.11.0 (https://pytorch.org/) and MXNet 1.9.0 (https://mxnet.apache.org/).
 
 The Horovod environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-This venv is an extension of the Miniconda3 (Python 3.9.12) environment provided by the `mpi4py/3.1.3-ompi-gpu` module.
-MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.25.0 package (built with NCCL 2.11.4).
+This venv is an extension of the Miniconda3 (Python 3.8.12) environment provided by the `mpi4py/3.1.3-ompi-gpu` module.
+MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.24.2 package (built with NCCL 2.11.4).
 Horovod is required for running TensorFlow/PyTorch over multiple GPUs distributed across multiple compute nodes.
 
 
@@ -18,12 +18,12 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw/miniconda3
 cd ${PRFX}
 
-TENSORFLOW_VERSION=2.9.1
-PYTORCH_VERSION=1.12.0
-MXNET_VERSION=1.9.1
+TENSORFLOW_VERSION=2.8.0
+PYTORCH_VERSION=1.11.0
+MXNET_VERSION=1.9.0
 
 HOROVOD_LABEL=horovod
-HOROVOD_VERSION=0.25.0
+HOROVOD_VERSION=0.24.2
 HOROVOD_ROOT=${PRFX}/${HOROVOD_LABEL}
 
 module load mpi4py/3.1.3-ompi-gpu
@@ -67,8 +67,8 @@ pip install --user pytorch-lightning-bolts["extra"]
 pip install --user lightning-flash
 pip install --user 'lightning-flash[all]'
 
-pip install --user torchaudio==0.12.0 \
-                   torchvision==0.13.0 \
+pip install --user torchaudio==0.11.0 \
+                   torchvision==0.12.0 \
                    torch==${PYTORCH_VERSION}
 
 pip install --user mxnet
@@ -109,6 +109,9 @@ HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=1 \
 CUDA_PATH=${NVHPC_ROOT}/cuda/11.6 \    
 pip install --user --no-cache-dir horovod[tensorflow,pytorch,mxnet]==${HOROVOD_VERSION}
 
+# downgrade pytorch-lightning from 1.3.8 to 1.3.6 so that it is compatible with pytorch-tabular 0.7.0
+pip install --user pytorch-lightning==1.3.6
+
 export CC=${CC_SAVE}
 export CXX=${CXX_SAVE}
 export FC=${FC_SAVE}
@@ -118,7 +121,7 @@ Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.rea
 correctly. That command should return something like the following output
 
 ```
-Horovod v0.25.0:
+Horovod v0.24.2:
 
 Available Frameworks:
     [X] TensorFlow
