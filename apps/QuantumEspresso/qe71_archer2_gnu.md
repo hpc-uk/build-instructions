@@ -40,8 +40,8 @@ make -j 4 pw
 ```
 
 At runtime:  
-"""
+```bash
 module load cpe/21.09 
 module load cray-fftw cray-hdf5-parallel
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
-"""
+```
