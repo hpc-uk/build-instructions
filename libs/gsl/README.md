@@ -18,13 +18,13 @@ History
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
  2021-12-20 | Michael Bareford | ARCHER2 | 2.7 | Build instructions for ARCHER2
- 2020-11-12 | Michael Bareford | Cirrus | 2.6 | Build instructions for Cirrus
+ 2022-08-01 | Michael Bareford | Cirrus | 2.7 | Build instructions for Cirrus
 
 Build Instructions
 ------------------
 
 * [GSL 2.7 ARCHER2 Build Instructions](build_gsl_2.7_archer2.md)
-* [GSL 2.6 Cirrus Build Instructions](build_gsl_2.6_cirrus.md)
+* [GSL 2.7 Cirrus Build Instructions](build_gsl_2.7_cirrus.md)
 
 Notes
 -----
