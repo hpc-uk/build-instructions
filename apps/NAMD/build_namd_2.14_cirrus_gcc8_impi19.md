@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work # e.g., /scratch/sw
+PRFX=/path/to/work # e.g., PRFX=/mnt/lustre/indy2lfs/sw
 NAMD_LABEL=namd
 NAMD_LABEL_CAPS=`echo ${NAMD_LABEL} | tr [a-z] [A-Z]`
 NAMD_VERSION=2.14
@@ -112,13 +112,13 @@ NV_SDK_VERSION_MAJOR=22
 NV_SDK_VERSION_MINOR=2
 NV_SDK_VERSION=${NV_SDK_VERSION_MAJOR}.${NV_SDK_VERSION_MINOR}
 NV_SDK_NAME=hpcsdk-${NV_SDK_VERSION_MAJOR}${NV_SDK_VERSION_MINOR}
-NV_SDK_ROOT=/scratch/sw/nvidia/${NV_SDK_NAME}/Linux_x86_64/${NV_SDK_VERSION}
+NV_SDK_ROOT=${PRFX}/nvidia/${NV_SDK_NAME}/Linux_x86_64/${NV_SDK_VERSION}
 
-FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix /scratch/sw/fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}"
-FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_HPCSDK_ROOT}/math_libs/${NV_CUDA_VERSION}/targets/x86_64-linux"
+FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix ${PRFX}/fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}"
+FFTW_GPU_OPTIONS="--with-fftw3 --fftw-prefix ${NV_SDK_ROOT}/math_libs/${NV_CUDA_VERSION}/targets/x86_64-linux"
 
 CUDA_CPU_OPTIONS="--without-cuda"
-CUDA_GPU_OPTIONS="--with-cuda --cuda-prefix ${NV_HPCSDK_ROOT}/cuda/${NV_CUDA_VERSION}"
+CUDA_GPU_OPTIONS="--with-cuda --cuda-prefix ${NV_SDK_ROOT}/cuda/${NV_CUDA_VERSION}"
 
 declare -a FFTW_OPTIONS=("${FFTW_CPU_OPTIONS}" "${FFTW_CPU_OPTIONS}" "${FFTW_GPU_OPTIONS}")
 declare -a CUDA_OPTIONS=("${CUDA_CPU_OPTIONS}" "${CUDA_CPU_OPTIONS}" "${CUDA_GPU_OPTIONS}")
