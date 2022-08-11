@@ -24,7 +24,6 @@ Build Instructions
 Run Instructions
 ------------------
 
-* [Horovod 0.25.0 Cirrus Run Instructions (GPU)](run_horovod_0.25.0_cirrus_gpu.md)
 * [Horovod 0.24.2 Cirrus Run Instructions (GPU)](run_horovod_0.24.2_cirrus_gpu.md)
 
 Notes

@@ -1,7 +1,7 @@
-Instructions for building a Miniconda3 environment that provides mpi4py suitable for Cirrus GPU nodes
-=====================================================================================================
+Instructions for building a Miniconda3 environment suitable for Cirrus GPU nodes
+================================================================================
 
-These instructions show how to build Miniconda3-based mpi4py environment for the Cirrus GPU nodes
+These instructions show how to build Miniconda3 environment (based on Python 3.8.13) for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
 The environment features mpi4py 3.1.3 (OpenMPI 4.1.2 with ucx 1.9.0 and CUDA 11.6) with pycuda 2021.1
@@ -33,7 +33,7 @@ PYTHON_LABEL=py38
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.9.2
-MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MPI4PY_LABEL}/${MPI4PY_VERSION}-${MPI4PY_MPI}-gpu
+MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}-gpu
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
@@ -71,7 +71,7 @@ rm ./sed.sh
 
 conda update -y -n root --all
 
-export PS1="(mpi4py-gpu) [\u@\h \W]\$ "
+export PS1="(python-gpu) [\u@\h \W]\$ "
 ```
 
 
@@ -140,12 +140,14 @@ Set `default_lib_dirs` array in `setup.py`
     default_lib_dirs = [
         "${CUDA_ROOT}/lib64",
         "${CUDA_ROOT}/lib64/stubs",
-        "<PRFX>/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64",
-        "<PRFX>/nvidia/hpcsdk-222/Linux_x86_64/22.2/math_libs/11.6/lib64/stubs",
+        "<NVHPC_ROOT>/math_libs/<CUDA_VERSION>/lib64",
+        "<NVHPC_ROOT>/math_libs/<CUDA_VERSION>/lib64/stubs",
     ]
 ```
-Note, you must replace `<PRFX>` in the string list definition above with the actual
-path referenced by the PRFX variable defined at the top of these instructions.
+Note, you must replace `<NVHPC_ROOT>` in the string definitions above with the value
+of the NVHPC_ROOT environment variable that was set when the `nvidia/nvhpc-nompi` module
+was loaded. You must also replace `<CUDA_VERSION>` with the actual value held by the
+CUDA_VERSION variable defined at the top of these instructions.
 
 
 Build and install pycuda

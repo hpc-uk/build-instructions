@@ -74,7 +74,7 @@ rm -f ${JUPYTER_OUTPUT}
 
 
 # load module(s)
-module load mpi4py/3.1.3-ompi-gpu
+module load python/3.8.13-gpu
 
 export XDG_CACHE_HOME=${HOME/home/work}
 export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython
