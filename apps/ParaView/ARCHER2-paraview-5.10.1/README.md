@@ -22,3 +22,19 @@ Note that this version contains the configuration option
 -DPARAVIEW_ENABLE_RAYTRACING=on
 ```
 which is required to allow OSPRay volume rendering functionality.
+
+## Run time
+
+For a given install location `PV_INSTALL` one requires at run time:
+```
+export PATH = ${PV_INSTALL}/paraview/bin:${PATH}
+
+export LD_LIBRARY_PATH=${PV_INSTALL}/ospray/2.1.0/ospray/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PV_INSTALL}/ospray/2.1.0/openvkl/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PV_INSTALL}/ospray/2.1.0/embree/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PV_INSTALL}/llvm/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PV_INSTALL}/mesa/21.0.1/lib64:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${PV_INSTALL}/paraview/lib64:${LD_LIBRARY_PATH}
+
+export PYTHONPATH=${PV_INSTALL}/paraview/lib64/python3.8/site-packages:${PYTHONPATH}
+```
