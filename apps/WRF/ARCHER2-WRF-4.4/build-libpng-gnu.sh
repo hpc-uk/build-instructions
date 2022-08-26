@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# From the default envoronment
+# From the default environment
 # invoke as "bash ./libpng-build-gnu.sh"
 
 set -e
