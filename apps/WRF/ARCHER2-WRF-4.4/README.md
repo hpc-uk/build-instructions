@@ -58,7 +58,7 @@ $ bash ./build-wps-gnu.sh
 
 Allow 15-20 minutes for this build.
 
-The module environemt at the time of writing was:
+The module environment at the time of writing was:
 ```
 Currently Loaded Modules:
   1) gcc/10.2.0                                  9) cray-libsci/21.04.1.1
