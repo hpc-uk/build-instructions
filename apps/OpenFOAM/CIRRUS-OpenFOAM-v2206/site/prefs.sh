@@ -1,0 +1,2 @@
+
+export WM_MPLIB=SGIMPI
