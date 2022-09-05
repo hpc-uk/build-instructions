@@ -2,6 +2,7 @@
 
 Dependencies:
  - svn
+ - ruby 
  - autotools (not version 2.63 for autoconf or version 1.16.2 for automake
  - gnu libtool (delft3d currently uses version 2.4.2)
  - intel compilers version 18 or higher 
@@ -10,14 +11,13 @@ Dependencies:
  - lex & yacc 
  - openssl (NOT version 0.9.8)
  - readline-devel 
- - ruby 
  - NetCDF (netcdf-c-4.6.1 or above, netcdf-fortran-4.4.5 or above, with hdf5 enabled)
  - uuid-dev 
  - HDF5
  - PETSc
  - METIS
 
-*Note that mpich, netCDF and Delft3D must all be built using the same compilers!*
+*NOTE: mpich, netCDF and Delft3D must all be built using the same compilers!*
 
 The software and its dependencies will be installed in `$PRFX`, an environment
 variable that we will define beforehand.
@@ -39,6 +39,20 @@ export CPP=icpc
 export FC=ifort
 export PERL_USE_UNSAFE_INC=1
 ```
+
+## Build ruby 
+```
+wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
+tar -xvf ruby-3.1.2.tar.gz
+cd ruby-3.1.2
+./configure --prefix=$PRFX/ruby_install
+make 
+make install
+export PATH=$PRFX/ruby_install/bin:$PATH
+export LD_LIBRARY_PATH=$PRFX/ruby_install/lib/:$LD_LIBRARY_PATH
+cd $PRFX
+```
+
 
 ## Build autotools
 ```
@@ -119,20 +133,6 @@ export LD_LIBRARY_PATH=$PRFX/readline_install/lib/:$LD_LIBRARY_PATH
 cd $PRFX
 ```
 
-## Build ruby 
-```
-# NOTE: Ruby does not seem to compile correctly with the above version of automake, however will with verion 1.11
-wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
-tar -xvf ruby-3.1.2.tar.gz
-cd ruby-3.1.2
-./configure --prefix=$PRFX/ruby_install
-make 
-make install
-export PATH=$PRFX/ruby_install/bin:$PATH
-export LD_LIBRARY_PATH=$PRFX/ruby_install/lib/:$LD_LIBRARY_PATH
-cd $PRFX
-```
-
 ## Build HDF5
 ```
 v=1.8.13
@@ -184,7 +184,7 @@ cd $PRFX
 
 ## Build PETSc
 ```
-# Note: Metis gets installed with PETSc!
+# NOTE: Metis gets installed with PETSc!
 INSTALL_DIR=${PRFX}/petsc_install/
 mkdir -p ${PRFX}/downloads
 cd ${PRFX}/downloads
@@ -232,6 +232,7 @@ cd $PRFX
 ## Build Delft3D 
 ```
 # vim src/README to see compilation instructions
+# NOTE: the intel mpi paths should be removed from the PATH and LD_LIBRARY_PATH variables before compiling to ensure the mpich compilers get picked up correctly! 
 svn co https://svn.oss.deltares.nl/repos/delft3d/trunk delft3dtrunk
 cd delft3d_repository/src
 export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
