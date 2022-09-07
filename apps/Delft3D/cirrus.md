@@ -33,19 +33,24 @@ module load flex
 module load libtool
 module load intel-compilers-18
 
+# the intel mpi paths should be removed from the PATH and LD_LIBRARY_PATH variables before compiling to ensure the mpich compilers get picked up correctly! 
+export PATH=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64:/scratch/sw/intel/debugger_2018/gdb/intel64:/scratch/sw/gcc/8.2.0/bin:/scratch/sw/libtool/2.4.6/bin:/scratch/sw/flex/2.6.4//bin:/scratch/sw/bison/3.6.4//bin:/scratch/sw/svn/1.14.0/bin:/opt/singularity/3.7.2/bin:/scratch/sw/go/1.15.7/bin:/scratch/sw/git/2.35.1/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/c3/bin:/sbin:/bin
+
+export LD_LIBRARY_PATH=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/compiler/lib/intel64:/scratch/sw/gcc/8.2.0/lib64:/scratch/sw/gcc/8.2.0/lib:/scratch/sw/libtool/2.4.6/lib:/scratch/sw/flex/2.6.4//lib:/scratch/sw/bison/3.6.4//lib:/scratch/sw/svn/1.14.0/lib
+
 # Set relevant environment variables 
 export CC=icc
-export CPP=icpc
+export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
 export FC=ifort
 export PERL_USE_UNSAFE_INC=1
 ```
 
 ## Build ruby 
 ```
-wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz
-tar -xvf ruby-3.1.2.tar.gz
-cd ruby-3.1.2
-./configure --prefix=$PRFX/ruby_install
+wget https://cache.ruby-lang.org/pub/ruby/2.5/ruby-2.5.1.tar.gz
+tar -xvf ruby-2.5.1.tar.gz
+cd ruby-2.5.1
+./configure --prefix=$PRFX/ruby_install --disable-dtrace
 make 
 make install
 export PATH=$PRFX/ruby_install/bin:$PATH
@@ -232,17 +237,15 @@ cd $PRFX
 ## Build Delft3D 
 ```
 # vim src/README to see compilation instructions
-# NOTE: the intel mpi paths should be removed from the PATH and LD_LIBRARY_PATH variables before compiling to ensure the mpich compilers get picked up correctly! 
 svn co https://svn.oss.deltares.nl/repos/delft3d/trunk delft3dtrunk
 cd delft3d_repository/src
-export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
 ./autogen.sh
 cd third_party_open/kdtree2
 ./autogen.sh
 cd -
-CFLAGS='-O2 -I/work/z04/z04/stoltzfu/workspace/cirrus_support/delft3d/petsc_install/include -L/work/z04/z04/stoltzfu/workspace/cirrus_support/delft3d/petsc_install/lib' CXXFLAGS='-O2' FFLAGS='-O2' FCFLAGS='-O2' ./configure --prefix=`pwd` --with-netcdf --with-mpi --with-metis --with-petsc
+CFLAGS='-O2 -I'$PRFX'/petsc_install/include -L'$PRFX'/petsc_install/lib' CXXFLAGS='-O2' FFLAGS='-O2' FCFLAGS='-O2' ./configure --prefix=`pwd` --with-netcdf --with-mpi --with-metis --with-petsc
 cp third_party_open/swan/src/* third_party_open/swan/swan_mpi
 cp third_party_open/swan/src/* third_party_open/swan/swan_omp/
-# change first line in scripts_lgpl/linux/gatherlibraries.r from /usr/bin/ruby to $PRFX/ruby_install/bin/ruby
+# change first line in scripts_lgpl/linux/gatherlibraries.rb from /usr/bin/ruby to $PRFX/ruby_install/bin/ruby
 FC=mpif90 make ds-install
 ```
