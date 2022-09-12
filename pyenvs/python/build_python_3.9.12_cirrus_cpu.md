@@ -4,7 +4,7 @@ Instructions for building a Miniconda3 environment  suitable for Cirrus CPU node
 These instructions show how to build Miniconda3 environment (based on Python 3.9.12) for the Cirrus CPU nodes
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
-The build instructions show how to install mpi4py 3.1.3 such that it is linked with HPE MPT 2.25.
+The build instructions show how to install mpi4py 3.1.3 such that it is linked with OpenMPI 4.1.4.
 
 The Miniconda3 environment also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
@@ -17,17 +17,16 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
 cd ${PRFX}
 
-MPT_VERSION=2.25
+OPENMPI_VERSION=4.1.4
 
-module load mpt/${MPT_VERSION}
+module load openmpi/${OPENMPI_VERSION}
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib64
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
-MPI4PY_MPI=mpt
 
-PYTHON_LABEL=py38
+PYTHON_LABEL=py39
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
 MINICONDA_VERSION=4.12.0
@@ -73,8 +72,8 @@ export PS1="(python) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using HPE MPT 2.25
--------------------------------------------
+Build and install mpi4py using OpenMPI 4.1.4
+--------------------------------------------
 
 ```bash
 cd ${MINICONDA_ROOT}

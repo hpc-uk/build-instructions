@@ -1,7 +1,7 @@
 Instructions for running an ipyparallel session on Cirrus (GPU)
 ===============================================================
 
-The Slurm submission script below requests a GPU node and loads the mpi4py Miniconda3 module, `mpi4py/3.1.3-ompi-gpu`,
+The Slurm submission script below requests a GPU node and loads the python Miniconda3 module, `python/3.9.12-gpu`,
 before starting the ipyparallel cluster and Jupyter notebook. This script is suitable therefore for running pytorch commands
 interactively on a Cirrus GPU node. Obviously, the script may need to be altered to suit a different use case. 
 
@@ -74,7 +74,7 @@ rm -f ${JUPYTER_OUTPUT}
 
 
 # load module(s)
-module load python/3.8.13-gpu
+module load python/3.9.12-gpu
 
 export XDG_CACHE_HOME=${HOME/home/work}
 export IPYTHONDIR=${XDG_CACHE_HOME}/.ipython

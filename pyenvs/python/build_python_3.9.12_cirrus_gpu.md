@@ -27,7 +27,6 @@ module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.3
-MPI4PY_MPI=ompi
 
 PYTHON_LABEL=py39
 MINICONDA_TAG=miniconda
