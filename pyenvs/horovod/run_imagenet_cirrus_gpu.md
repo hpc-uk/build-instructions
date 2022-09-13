@@ -69,7 +69,7 @@ export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
 # pytorch module is an alias for horovod/0.25.0-gpu
-module load pytorch/1.12.0-gpu
+module load pytorch/1.12.1-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 

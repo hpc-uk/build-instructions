@@ -3,7 +3,7 @@ Instructions for building Horovod for the Cirrus GPU nodes
 
 These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.25.0, a distributed deep learning training framework,
 one that encompasses three ML libraries, [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/) and [MXNet](https://mxnet.apache.org/).
-The instructions will attempt to install the latest versions of those libraries; as of 5 Aug 2022, these are TensorFlow 2.9.1, PyTorch 1.12.0 and MXNet 1.9.1.
+The instructions will attempt to install the latest versions of those libraries; as of 5 Aug 2022, these are TensorFlow 2.9.1, PyTorch 1.12.1 and MXNet 1.9.1.
 
 The Horovod environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
