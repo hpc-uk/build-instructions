@@ -1,4 +1,4 @@
-Instructions for building Horovod for the Cirrus GPU nodes
+Instructions for building Horovod for the Cirrus CPU nodes
 ==========================================================
 
 These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.25.0, a distributed deep learning training framework,
