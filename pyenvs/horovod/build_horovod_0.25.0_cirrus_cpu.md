@@ -7,7 +7,7 @@ The instructions will attempt to install the latest versions of those libraries;
 
 The Horovod environment is intended to run on the Cirrus CPU nodes (Intel Xeon E5-2695, Broadwell).
 
-This venv is an extension of the Miniconda3 (Python 3.9.12) environment provided by the `python/3.9.12` module.
+This venv is an extension of the Miniconda3 (Python 3.9.13) environment provided by the `python/3.9.13` module.
 MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.25.0 package.
 Horovod is required for running TensorFlow/PyTorch over multiple compute nodes.
 
@@ -23,7 +23,7 @@ HOROVOD_LABEL=horovod
 HOROVOD_VERSION=0.25.0
 HOROVOD_ROOT=${PRFX}/${HOROVOD_LABEL}
 
-module load python/3.9.12
+module load python/3.9.13
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
 PYTHON_DIR=${PRFX}/${HOROVOD_LABEL}/${HOROVOD_VERSION}/python

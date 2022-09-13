@@ -1,7 +1,7 @@
 Instructions for building a Miniconda3 environment  suitable for Cirrus CPU nodes
 =================================================================================
 
-These instructions show how to build Miniconda3 environment (based on Python 3.9.12) for the Cirrus CPU nodes
+These instructions show how to build Miniconda3 environment (based on Python 3.9.13) for the Cirrus CPU nodes
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
 The build instructions show how to install mpi4py 3.1.3 such that it is linked with OpenMPI 4.1.4.
