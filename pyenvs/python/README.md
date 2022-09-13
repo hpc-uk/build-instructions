@@ -15,7 +15,7 @@ Date | Person | System | Version | Notes
 Build Instructions
 ------------------
 
-* [Python 3.9.12 Cirrus Build Instructions (CPU)](build_python_3.9.13_cirrus_cpu.md)
+* [Python 3.9.13 Cirrus Build Instructions (CPU)](build_python_3.9.13_cirrus_cpu.md)
 * [Python 3.9.12 Cirrus Build Instructions (GPU)](build_python_3.9.12_cirrus_gpu.md)
 
 Notes
