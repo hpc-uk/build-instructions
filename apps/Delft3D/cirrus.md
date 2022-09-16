@@ -35,14 +35,9 @@ module load flex
 module load libtool
 module load intel-compilers-18
 
-# the intel mpi paths should be removed from the PATH and LD_LIBRARY_PATH variables before compiling to ensure the mpich compilers get picked up correctly! 
-export PATH=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64:/scratch/sw/intel/debugger_2018/gdb/intel64:/scratch/sw/gcc/8.2.0/bin:/scratch/sw/libtool/2.4.6/bin:/scratch/sw/flex/2.6.4//bin:/scratch/sw/bison/3.6.4//bin:/scratch/sw/svn/1.14.0/bin:/opt/singularity/3.7.2/bin:/scratch/sw/go/1.15.7/bin:/scratch/sw/git/2.35.1/bin:/opt/clmgr/sbin:/opt/clmgr/bin:/opt/sgi/sbin:/opt/sgi/bin:/usr/share/Modules/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/c3/bin:/sbin:/bin
-
-export LD_LIBRARY_PATH=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/compiler/lib/intel64:/scratch/sw/gcc/8.2.0/lib64:/scratch/sw/gcc/8.2.0/lib:/scratch/sw/libtool/2.4.6/lib:/scratch/sw/flex/2.6.4//lib:/scratch/sw/bison/3.6.4//lib:/scratch/sw/svn/1.14.0/lib
-
 # Set relevant environment variables 
 export CC=icc
-export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
+export CPP='/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
 export FC=ifort
 export PERL_USE_UNSAFE_INC=1
 ```
@@ -150,9 +145,6 @@ v=1.8.13
 wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4/hdf5-${v}.tar.gz
 tar -xf hdf5-${v}.tar.gz
 cd hdf5-${v}
-export CC=icc
-export FC=ifort
-export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
 ./configure --enable-shared --enable-hl --prefix=$PRFX/hdf5_install
 make 
 make install
@@ -249,7 +241,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${INSTALL_DIR}/lib
 
 cd ../
 cd petsc-3.13.2
-./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FFLAGS="$FFLAGS" CC=$CC CXX=$CXX FC=$FC --with-cxx=$CXX --with-cc=$CC --with-fc=$FC --with-openmp --with-shared-libraries=1 --with-debugging=0 --prefix=${INSTALL_DIR} --with-blas-lapack-dir=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/mkl/ --with-mkl_pardiso-dir=/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/mkl/ --with-scalapack-lib='-lmkl_scalapack_ilp64 -lmkl_blacs_intelmpi_ilp64 -lpthread -lm -ldl' --with-display=0 --with-scalapack --download-superlu --download-hypre --download-ptscotch --download-sundials --download-metis --download-mumps --download-parmetis --download-cmake --with-packages-download-dir=${PRFX}/downloads
+./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" FFLAGS="$FFLAGS" CC=$CC CXX=$CXX FC=$FC --with-cxx=$CXX --with-cc=$CC --with-fc=$FC --with-openmp --with-shared-libraries=1 --with-debugging=0 --prefix=${INSTALL_DIR} --with-blas-lapack-dir=/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2018.5.274/linux/mkl --with-mkl_pardiso-dir=/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2018.5.274/linux/mkl--with-scalapack-lib='-lmkl_scalapack_ilp64 -lmkl_blacs_intelmpi_ilp64 -lpthread -lm -ldl' --with-display=0 --with-scalapack --download-superlu --download-hypre --download-ptscotch --download-sundials --download-metis --download-mumps --download-parmetis --download-cmake --with-packages-download-dir=${PRFX}/downloads
 make PETSC_DIR=${PRFX}/petsc-3.13.2 PETSC_ARCH=arch-linux-c-opt all
 make PETSC_DIR=${PRFX}/petsc-3.13.2 PETSC_ARCH=arch-linux-c-opt install
 make PETSC_DIR=${INSTALL_DIR} PETSC_ARCH="" check
@@ -279,7 +271,7 @@ export CC=mpicc
 export MPICC_CC=icc
 export CXX=mpicxx
 export MPICXX_CXX=icpc
-export CPP='/scratch/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
+export CPP='/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2018.5.274/linux/bin/intel64/icpc -E'
 export FC=mpifort
 export PERL_USE_UNSAFE_INC=1
 
@@ -315,6 +307,7 @@ export LDFLAGS=-L$PRFX/hdf5_install/lib:$LDFLAGS
 # Load netcdf
 export PATH=$PATH:$PRFX/netcdf_install/bin
 export LD_LIBRARY_PATH=$PRFX/netcdf_install/lib:$LD_LIBRARY_PATH 
+export LD_LIBRARY_PATH=$PRFX/netcdf_4.3.3_install/lib:$LD_LIBRARY_PATH 
 export CPPFLAGS=-I$PRFX/netcdf_install/include
 export LDFLAGS=-L$PRFX/netcdf_install/lib
 export NETCDFROOT=$PRFX/netcdf_install
