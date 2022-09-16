@@ -18,6 +18,7 @@ PYFR_LABEL=pyfr
 PYFR_VERSION=1.14.0
 PYFR_ROOT=${PRFX}/${PYFR_LABEL}
 
+module load metis/5.1.0
 module load python/3.9.12-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
@@ -43,6 +44,7 @@ Install PyFR and supporting packages
 ```bash
 pip install --user gimmik==2.3
 pip install --user h5py
+pip install --user metis
 
 pip install --user pyfr==${PYFR_VERSION}
 ```
