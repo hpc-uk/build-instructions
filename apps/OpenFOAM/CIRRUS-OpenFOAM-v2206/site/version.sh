@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 
-export version="v2206206"
+export version="v2206"
