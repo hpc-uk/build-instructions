@@ -29,7 +29,7 @@ module load cpe/21.09
 module load PrgEnv-gnu
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 
-PMI_ROOT=/opt/cray/pe/pmi/6.0.10
+PMI_ROOT=/opt/cray/pe/pmi/6.0.13
 OFI_ROOT=/opt/cray/libfabric/1.11.0.4.71
 UCX_ROOT=/opt/cray/pe/cray-ucx/2.7.0-1/ucx
 ```
