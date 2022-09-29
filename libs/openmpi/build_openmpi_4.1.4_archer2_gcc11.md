@@ -28,6 +28,10 @@ cd ${OPENMPI_NAME}
 module load cpe/21.09
 module load PrgEnv-gnu
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
+
+PMI_ROOT=/opt/cray/pe/pmi/6.0.10
+OFI_ROOT=/opt/cray/libfabric/1.11.0.4.71
+UCX_ROOT=/opt/cray/pe/cray-ucx/2.7.0-1/ucx
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
@@ -39,10 +43,13 @@ Build and install OpenMPI for OFI
 ```bash
 OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ofi-gcc${GNU_VERSION_MAJOR}
 
-./configure CC=cc CXX=CC FTN=ftn CFLAGS="-march=znver2 -mno-avx512f" \
+./configure CC=cc CXX=CC FTN=ftn \
+    CFLAGS="-I${PMI_ROOT}/include -march=znver2 -mno-avx512f" \
+    LDFLAGS="-L${PMI_ROOT}/lib" \
     --enable-mpi1-compatibility --enable-mpi-fortran \
-    --with-ofi=/opt/cray/libfabric/1.11.0.4.71 \
-    --with-pmi-libdir=/opt/cray/pe/lib64 \
+    --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
+    --with-ofi=${OFI_ROOT} \
+    --with-pmi=${PMI_ROOT} --with-pmi-libdir=${PMI_ROOT}/lib \
     --with-slurm \
     --with-singularity \
     --prefix=${OPENMPI_ROOT}/${OPENMPI_INSTALL_LABEL} \
@@ -70,10 +77,13 @@ module swap cray-mpich cray-mpich-ucx
 
 OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ucx-gcc${GNU_VERSION_MAJOR}
 
-./configure CC=cc CXX=CC FTN=ftn CFLAGS="-march=znver2 -mno-avx512f" LDFLAGS="-L${OPENMPI_ROOT}/liblinks" \
+./configure CC=cc CXX=CC FTN=ftn \
+    CFLAGS="-I${PMI_ROOT}/include -march=znver2 -mno-avx512f" \
+    LDFLAGS="-L${PMI_ROOT}/lib -L${OPENMPI_ROOT}/liblinks" \
     --enable-mpi1-compatibility --enable-mpi-fortran \
-    --with-ucx=/opt/cray/pe/cray-ucx/2.7.0-1/ucx \
-    --with-pmi-libdir=/opt/cray/pe/lib64 \
+    --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
+    --with-ucx=${UCX_ROOT} \
+    --with-pmi=${PMI_ROOT} --with-pmi-libdir=${PMI_ROOT}/lib \
     --with-slurm \
     --with-singularity \
     --prefix=${OPENMPI_ROOT}/${OPENMPI_INSTALL_LABEL} \
