@@ -29,7 +29,9 @@ module load cpe/21.09
 module load PrgEnv-gnu
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 
-PMI_ROOT=/opt/cray/pe/pmi/6.0.13
+PMI_HDRS_DIR=/usr/include/slurm  # required for srun integration
+PMI_LIBS_DIR=/opt/cray/pe/pmi/6.0.13/lib  # consistent with cpe/21.09
+
 OFI_ROOT=/opt/cray/libfabric/1.11.0.4.71
 UCX_ROOT=/opt/cray/pe/cray-ucx/2.7.0-1/ucx
 ```
@@ -44,12 +46,12 @@ Build and install OpenMPI for OFI
 OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ofi-gcc${GNU_VERSION_MAJOR}
 
 ./configure CC=cc CXX=CC FTN=ftn \
-    CFLAGS="-I${PMI_ROOT}/include -march=znver2 -mno-avx512f" \
-    LDFLAGS="-L${PMI_ROOT}/lib" \
+    CFLAGS="-I${PMI_HDRS_DIR} -march=znver2 -mno-avx512f" \
+    LDFLAGS="-L${PMI_LIBS_DIR}" \
     --enable-mpi1-compatibility --enable-mpi-fortran \
     --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
     --with-ofi=${OFI_ROOT} \
-    --with-pmi=${PMI_ROOT} --with-pmi-libdir=${PMI_ROOT}/lib \
+    --with-pmi=${PMI_HDRS_DIR} --with-pmi-libdir=${PMI_LIBS_DIR} \
     --with-slurm \
     --with-singularity \
     --prefix=${OPENMPI_ROOT}/${OPENMPI_INSTALL_LABEL} \
@@ -78,12 +80,12 @@ module swap cray-mpich cray-mpich-ucx
 OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ucx-gcc${GNU_VERSION_MAJOR}
 
 ./configure CC=cc CXX=CC FTN=ftn \
-    CFLAGS="-I${PMI_ROOT}/include -march=znver2 -mno-avx512f" \
-    LDFLAGS="-L${PMI_ROOT}/lib -L${OPENMPI_ROOT}/liblinks" \
+    CFLAGS="-I${PMI_HDRS_DIR} -march=znver2 -mno-avx512f" \
+    LDFLAGS="-L${PMI_LIBS_DIR} -L${OPENMPI_ROOT}/liblinks" \
     --enable-mpi1-compatibility --enable-mpi-fortran \
     --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
     --with-ucx=${UCX_ROOT} \
-    --with-pmi=${PMI_ROOT} --with-pmi-libdir=${PMI_ROOT}/lib \
+    --with-pmi=${PMI_HDRS_DIR} --with-pmi-libdir=${PMI_LIBS_DIR} \
     --with-slurm \
     --with-singularity \
     --prefix=${OPENMPI_ROOT}/${OPENMPI_INSTALL_LABEL} \
