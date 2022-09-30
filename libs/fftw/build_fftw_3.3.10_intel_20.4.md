@@ -26,4 +26,5 @@ Configure and build
 
 make
 make install
+make check
 ```
