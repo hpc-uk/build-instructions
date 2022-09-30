@@ -22,9 +22,9 @@ module load intel-20.4/mpi
 
 Configure and build
 ```
-./configure --prefix=$PRFX --enable-mpi --enable-openmp --enable-threads --enable-shared LDFLAGS=-L/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/lib:$LD_LIBRARY_PATH CPPFLAGS=-I/mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2020.4.304/linux/mpi/intel64/include
+./configure --prefix=$PRFX --enable-mpi --enable-openmp --enable-threads --enable-shared LDFLAGS=-L${I_MPI_ROOT}/intel64/lib:$LD_LIBRARY_PATH CPPFLAGS=-I${I_MPI_ROOT}/intel64/include
 
 make
-make install
 make check
+make install
 ```
