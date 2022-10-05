@@ -7,7 +7,7 @@ The instructions will attempt to install the latest versions of those libraries;
 
 The Horovod environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-This venv is an extension of the Miniconda3 (Python 3.9.12) environment provided by the `python/3.9.12-gpu` module.
+This venv is an extension of the Miniconda3 (Python 3.9.13) environment provided by the `python/3.9.13-gpu` module.
 MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.25.0 package (built with NCCL 2.11.4).
 Horovod is required for running TensorFlow/PyTorch over multiple GPUs distributed across multiple compute nodes.
 
@@ -23,7 +23,7 @@ HOROVOD_LABEL=horovod
 HOROVOD_VERSION=0.25.0
 HOROVOD_ROOT=${PRFX}/${HOROVOD_LABEL}
 
-module load python/3.9.12-gpu
+module load python/3.9.13-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
 PYTHON_DIR=${PRFX}/${HOROVOD_LABEL}/${HOROVOD_VERSION}-gpu/python
@@ -50,8 +50,9 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 
-pip install --user tensorflow
-pip install --user tensorflow-gpu
+pip install --user tensorflow==2.9.1
+pip install --user tensorflow-gpu==2.9.1
+pip install --user tensorboard_plugin_profile
 
 pip install --user torch
 pip install --user torchvision
