@@ -1,7 +1,7 @@
 Instructions for building a Miniconda3 environment suitable for Cirrus GPU nodes
 ================================================================================
 
-These instructions show how to build Miniconda3 environment (based on Python 3.9.12) for the Cirrus GPU nodes
+These instructions show how to build Miniconda3 environment (based on Python 3.9.13) for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
 The environment features mpi4py 3.1.3 (OpenMPI 4.1.4 with ucx 1.9.0 and CUDA 11.6) with pycuda 2022.1

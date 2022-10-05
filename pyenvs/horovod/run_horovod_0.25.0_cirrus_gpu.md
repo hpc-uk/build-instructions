@@ -10,7 +10,7 @@ TensorFlow 2.9.1 and PyTorch 1.12.1.
 Horovod is a key component as it allows the TensorFlow/PyTorch workload to be distributed over multiple GPU nodes,
 see [https://horovod.readthedocs.io/en/stable/mpi_include.html](https://horovod.readthedocs.io/en/stable/mpi_include.html).
 
-For clarity, two module aliases are also provided, `tensorflow/2.9.1-gpu` and `pytorch/1.12.1`. Those two modules
+For clarity, two module aliases are also provided, `tensorflow/2.9.1-gpu` and `pytorch/1.12.1-gpu`. Those two modules
 are aliases for the `horovod/0.25.0-gpu` module.
 
 The submission scripts linked below show how to run TensorFlow/PyTorch over multiple GPU nodes for two

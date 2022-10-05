@@ -1,7 +1,7 @@
 Instructions for setting up an ipyparallel configuration on Cirrus (GPU)
 ========================================================================
 
-The instructions below start with the loading of the `python/3.9.12-gpu` module
+The instructions below start with the loading of the `python/3.9.13-gpu` module
 within the user's account on the Cirrus login node.
 
 
@@ -9,7 +9,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-module load python/3.9.12-gpu
+module load python/3.9.13-gpu
 
 export XDG_CACHE_HOME=${HOME/home/work}
 
