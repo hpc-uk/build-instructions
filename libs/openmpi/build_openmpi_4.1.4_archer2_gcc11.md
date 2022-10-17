@@ -29,8 +29,8 @@ module load cpe/21.09
 module load PrgEnv-gnu
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 
-PMI_HDRS_DIR=/usr/include/slurm  # required for srun integration
-PMI_LIBS_DIR=/opt/cray/pe/pmi/6.0.13/lib  # consistent with cpe/21.09
+PMI_HDRS_DIR=/usr/include/slurm
+PMI_LIBS_DIR=/usr/lib64
 
 OFI_ROOT=/opt/cray/libfabric/1.11.0.4.71
 UCX_ROOT=/opt/cray/pe/cray-ucx/2.7.0-1/ucx
@@ -59,9 +59,9 @@ OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ofi-gcc${GNU_VERSION_MAJOR}
 
 mv config.log config.log.${OPENMPI_INSTALL_LABEL}
 
-make
-make install
-make clean
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
 
 
@@ -93,7 +93,7 @@ OPENMPI_INSTALL_LABEL=${OPENMPI_VERSION}-ucx-gcc${GNU_VERSION_MAJOR}
 
 mv config.log config.log.${OPENMPI_INSTALL_LABEL}
 
-make
-make install
-make clean
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
