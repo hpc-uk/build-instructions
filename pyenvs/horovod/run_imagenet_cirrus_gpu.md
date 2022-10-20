@@ -57,7 +57,7 @@ Launch a PyTorch ImageNet benchmark
 
 #SBATCH --job-name=hvpt
 #SBATCH --time=02:00:00
-#SBATCH --nodes=1
+#SBATCH --nodes=4
 #SBATCH --exclusive
 #SBATCH --partition=gpu-cascade
 #SBATCH --qos=gpu
@@ -80,6 +80,9 @@ BENCHMARK_PATH=${SHARED_ROOT}/benchmarks/imagenet
 rm -f ${SLURM_SUBMIT_DIR}/checkpoint-*.tar
 rm -rf ${SLURM_SUBMIT_DIR}/logs
 
+THREADS_PER_WORKER=2
+WORKERS_PER_TASK=4
+
 mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
     --mca mpi_warn_on_fork 0 \
     -hostfile ${SLURM_SUBMIT_DIR}/hosts -bind-to none -map-by slot \
@@ -88,7 +91,8 @@ mpirun -n ${SLURM_NTASKS} -N ${SLURM_NTASKS_PER_NODE} \
     -x LD_LIBRARY_PATH -x PATH \
     python ${BENCHMARK_PATH}/pytorch_imagenet_resnet50.py \
         --train-dir ${DATA_ROOT}/train --val-dir ${DATA_ROOT}/val \
-        --batch-size 64 --epochs 1
+        --batch-size 64 --epochs 1 \
+        --num-workers ${WORKERS_PER_TASK} --num-threads-per-worker ${THREADS_PER_WORKER}
 
 rm -f ${SLURM_SUBMIT_DIR}/hosts
 
