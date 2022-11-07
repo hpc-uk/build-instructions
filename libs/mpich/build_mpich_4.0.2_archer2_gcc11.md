@@ -66,9 +66,7 @@ make -j 8 clean
 Build and install MPICH for UCX
 -------------------------------
 
-Unfortunately, the present version of Cray UCX installed on ARCHER2 does not support
-a particular ucx routine required by MPICH 4.0.2, namely `ucp_tag_msg_recv_nbx`,
-and so MPICH 4.0.2 cannot be built using Cray UCX 2.7.0-1.
+**Unfortunately, the present version of Cray UCX installed on ARCHER2 does not support a particular ucx routine required by MPICH 4.0.2, namely `ucp_tag_msg_recv_nbx`, and so MPICH 4.0.2 cannot be built using Cray UCX 2.7.0-1.**
 
 ```bash
 UCX_ROOT=/opt/cray/pe/cray-ucx/2.7.0-1/ucx
