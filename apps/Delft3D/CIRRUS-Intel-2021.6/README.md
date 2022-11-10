@@ -72,6 +72,7 @@ allow access to the svn repository.
 It is assumed that the repository is available as subdirectory `delft3d`.
 
 ```
+$ svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/delft3dfm/141346 delft3d
 $ bash ./build-delft3d/.sh
 ```
 
