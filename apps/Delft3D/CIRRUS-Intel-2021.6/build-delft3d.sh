@@ -66,3 +66,17 @@ make -j 1
 export LD_LIBRARY_PATH=${metis}/lib:${proj}/lib:${LD_LIBRARY_PATH}
 
 cmake --install . --prefix=${prefix}/delft3d
+
+# Note the install stage will produce a set of warnings about
+# patchelf. As a robust version of patchelf is not available
+# we do not attempt to use it.
+
+# Copy missing dimr_lib/libdimr_lib.so to install location
+# Remove the sqlite libraries which have been copied to the
+# install location (and cause a missing symbol).
+
+cp dimr_lib/libdimr_lib.so ${prefix}/delft3d/lib
+rm ${prefix}/delft3d/lib/libsqlite*
+
+printf "Modules were:\n"
+module list

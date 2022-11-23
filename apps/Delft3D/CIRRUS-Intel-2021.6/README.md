@@ -9,16 +9,17 @@ Delft3d has a significant number of potential dependencies,
 and I have tried to minimise the ones actually built here.
 
 All elements are built with the latest Intel oneAPI version (currently
-2022.1.0 and gcc/8.2.0)
+2022.1.0 and gcc/8.2.0) along with Intel MPI:
 
 ```
 module load oneapi
 module load compiler/latest
+module load mpi/latest
 module load gcc
 ```
 
 Arrange the accompanying scripts in an appropriate location in the
-work file system.
+work file system (`/work`).
 All installations are in `$(pwd)/install` (currently hardwired in
 each script).
 
@@ -77,3 +78,17 @@ $ bash ./build-delft3d/.sh
 ```
 
 The resulting executables should be in `$(pwd)/install/delft3d/bin`.
+
+
+### Test Delft3d
+
+The following script copies the contents of a standard test problem into a
+suitable location, and runs a short problem. It should complete normally.
+
+The script should be submitted to the queue system:
+```
+$ sbatch qscript-test.sh
+```
+The script should be submitted from the current working directory as
+it expects the install location to be `$(pwd)/install` as in the build
+scripts.
