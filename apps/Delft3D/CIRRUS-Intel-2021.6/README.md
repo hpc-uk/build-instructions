@@ -74,7 +74,7 @@ It is assumed that the repository is available as subdirectory `delft3d`.
 
 ```
 $ svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/delft3dfm/141346 delft3d
-$ bash ./build-delft3d/.sh
+$ bash ./build-delft3d.sh
 ```
 
 The resulting executables should be in `$(pwd)/install/delft3d/bin`.
