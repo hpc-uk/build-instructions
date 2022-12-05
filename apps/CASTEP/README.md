@@ -6,6 +6,7 @@ This folder contains files and documentation for building CASTEP on various HPC 
 Build Instructions
 ------------------
 
+* [CASTEP 22.1.1 ARCHER2 (AMD 7742, GCC 10.2.0 Build Instructions)](ARCHER2_22.11_GCC_CrayMPT.md)
 * [CASTEP 20.1.1 Hawk (AMD 7742, GCC 10.1.0, HPE Apollo Build Instructions) GCC 9.2.0 Build Instructions](Hawk_20.1.1_gcc9_HPEMPT.md)
 * [CASTEP 20.1.1 ARCHER2 (AMD 7742, GCC 10.2.0 Build Instructions)](ARCHER2_20.11_GCC_CrayMPT.md)
 * [CASTEP 18.1.0 A64FX, Fujitsu Flang 1.2.19 Build Instructions](Fujitsu-A64fx_18.1.0_tcsds1.2.19.md)
