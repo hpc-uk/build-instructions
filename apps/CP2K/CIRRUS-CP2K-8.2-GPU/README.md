@@ -212,7 +212,7 @@ using a job script (to compile on a GPU).
 ```
 #!/bin/bash
 #
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --time=00:20:00

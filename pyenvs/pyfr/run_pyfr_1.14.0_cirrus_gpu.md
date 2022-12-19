@@ -18,7 +18,7 @@ Launch a PyFR job (via srun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
  
 #SBATCH --job-name=pyfr
 #SBATCH --time=4-00:00:00
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --nodes=4
 #SBATCH --exclusive
 #SBATCH --qos=gpu
@@ -51,7 +51,7 @@ Launch a PyFR job (via mpirun) that uses 16 GPUs across 4 Cascade Lake GPU nodes
  
 #SBATCH --job-name=pyfr
 #SBATCH --time=4-00:00:00
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --nodes=4
 #SBATCH --exclusive
 #SBATCH --qos=gpu

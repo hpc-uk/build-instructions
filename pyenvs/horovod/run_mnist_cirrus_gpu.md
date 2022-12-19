@@ -17,7 +17,7 @@ The script below launches a TensorFlow job that uses 16 GPUs across 4 Cascade La
 #SBATCH --time=00:20:00
 #SBATCH --nodes=4
 #SBATCH --exclusive
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 #SBATCH --account=[budget code]
@@ -85,7 +85,7 @@ The script below launches a PyTorch job that uses 2 GPUs on one Cascade Lake GPU
 #SBATCH --time=00:20:00
 #SBATCH --nodes=1
 #SBATCH --exclusive
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:2
 #SBATCH --account=[budget code]

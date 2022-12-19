@@ -15,7 +15,7 @@ Launch a TensorFlow ImageNet benchmark
 #SBATCH --time=00:20:00
 #SBATCH --nodes=4
 #SBATCH --exclusive
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 #SBATCH --account=[budget code]
@@ -59,7 +59,7 @@ Launch a PyTorch ImageNet benchmark
 #SBATCH --time=02:00:00
 #SBATCH --nodes=4
 #SBATCH --exclusive
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 #SBATCH --account=[budget code]
