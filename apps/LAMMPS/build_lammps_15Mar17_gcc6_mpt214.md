@@ -90,7 +90,7 @@ Edit `Makefile.linux` as follows:
 
 Begin an interactive session on a GPU node
 
-   srun --nodes=1 --time=0:20:0 --partition=gpu --qos=gpu-cascade \
+   srun --nodes=1 --time=0:20:0 --partition=gpu --qos=gpu \
         --gres=gpu:1 --account=<budget_code> --pty /bin/bash --login
         
 You should be in the `lammps_20170315/lib/gpu` directory. Run:

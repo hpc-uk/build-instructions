@@ -3,7 +3,7 @@
 # Slurm job options (name, compute nodes, job time)
 #SBATCH --job-name=specfem3d
 #SBATCH --time=01:00:00
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:4
 

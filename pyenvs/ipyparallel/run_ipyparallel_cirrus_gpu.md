@@ -18,7 +18,7 @@ Submit `sbatch submit_ipypar.ll`
 #SBATCH --time=01:00:00
 #SBATCH --signal=B:TERM@60
 #SBATCH --nodes=1
-#SBATCH --partition=gpu-cascade
+#SBATCH --partition=gpu
 #SBATCH --qos=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --account=<account_code>
