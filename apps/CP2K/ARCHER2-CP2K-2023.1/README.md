@@ -3,7 +3,7 @@
 This document provides instructions on how to build CP2K 2023.1 and its dependencies on ARCHER2 full system.
 
 Further information on CP2K can be found at [the CP2K website](https://www.cp2k.org) and on the
-[ARCHER2 CP2K documentation page](https://docs.archer2.ac.uk/research-software/cp2k/cp2k/).
+[ARCHER2 CP2K documentation page](https://docs.archer2.ac.uk/research-software/cp2k/).
 
 The official build instructions for CP2K are at [https://www.cp2k.org/howto:compile](https://www.cp2k.org/howto:compile).
 The ARCHER2 build instructions however use the "manual" route, building each relevant prerequisite independently.
@@ -21,11 +21,11 @@ The ARCHER2 build instructions however use the "manual" route, building each rel
 ## Prepare module environment
 
 ```
-module load cpe/21.09
 module load PrgEnv-gnu
+module load cpe/21.09
 module load mkl
 module load cray-fftw
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 export FCFLAGS="-fallow-argument-mismatch"
 ```
 
@@ -186,7 +186,7 @@ make install
 
 ## Build CP2K
 
-Download the `ARCHER2.psmp` and `ARCHER2.popt` files from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
 and copy to `/work/y07/shared/apps/core/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
 
 ```
