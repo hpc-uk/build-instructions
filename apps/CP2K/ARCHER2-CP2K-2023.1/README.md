@@ -5,7 +5,7 @@ This document provides instructions on how to build CP2K 2023.1 and its dependen
 Further information on CP2K can be found at [the CP2K website](https://www.cp2k.org) and on the
 [ARCHER2 CP2K documentation page](https://docs.archer2.ac.uk/research-software/cp2k/).
 
-The official build instructions for CP2K are at [https://www.cp2k.org/howto:compile](https://www.cp2k.org/howto:compile).
+The official build instructions for CP2K are at [https://github.com/cp2k/cp2k/blob/master/INSTALL.md](https://github.com/cp2k/cp2k/blob/master/INSTALL.md).
 The ARCHER2 build instructions however use the "manual" route, building each relevant prerequisite independently.
 
 ## General
@@ -220,11 +220,11 @@ The test can be executed in the queue system by submitting script from `${CP2K_R
 #SBATCH --tasks-per-node=2
 #SBATCH --cpus-per-task=2
 
-module load cpe/21.09
 module load PrgEnv-gnu
+module load cpe/21.09
 module load mkl
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 
 export OMP_NUM_THREADS=2
 
