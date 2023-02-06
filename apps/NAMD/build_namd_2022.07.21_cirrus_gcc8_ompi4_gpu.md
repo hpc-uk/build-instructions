@@ -106,7 +106,7 @@ cd ${CHARM_NAME}
 # ucx (with SMP), GPU
 ./build charm++ ucx-linux-x86_64 --incdir=${PMI2_ROOT}/include --libdir=${PMI2_ROOT}/lib slurmpmi2 \
     gcc smp --with-production --force
-
+```
 
 
 Build and install NAMD for GPU
