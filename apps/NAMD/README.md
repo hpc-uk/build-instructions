@@ -17,7 +17,7 @@ Build Instructions
 
 * [NAMD 2.14 ARCHER2 Build Instructions (GCC 11, CMPICH 8, CPU)](build_namd_2.14_archer2_gcc11_cmpich8.md)
 * [NAMD 2.14 Cirrus Build Instructions (GCC 8, IMPI 19, CPU)](build_namd_2.14_cirrus_gcc8_impi19.md)
-* [NAMD 2022.07.21 Cirrus Build Instructions (GCC 8, OMPI 4, GPU)](build_namd_2022.07.21_cirrus_gcc8_ompi4_gpu)
+* [NAMD 2022.07.21 Cirrus Build Instructions (GCC 8, OMPI 4, GPU)](build_namd_2022.07.21_cirrus_gcc8_ompi4_gpu.md)
 
 Notes
 -----
