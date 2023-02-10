@@ -7,16 +7,13 @@ using the GCC compilers including the use of OpenMP
 We assume that you have obtained the VASP source code from the VASP website along
 with any relevant patches.
 
-In these build instructions we use AOCL to provide the numerical performance and
-FFTW libraries. 
-
 Unpack the VASP source code and apply patches
 ---------------------------------------------
 
 Unpack the source
 
 ```bash
-tar -xvf vasp.6.3.1.tar.gz
+tar -xvf vasp.6.3.2.tar.gz
 ```
 
 Setup correct modules
