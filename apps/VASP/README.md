@@ -6,7 +6,8 @@ This folder contains files and documentation for building VASP on a variety of H
 Build Instructions
 ------------------
 
-* [VASP 6.3.1 ARCHER2 GCC with AOCL Build Instructions](build_vasp_6.3.1_ARCHER2_GCC.md) (recommended build on ARCHER2)
+* [VASP 6.3.2 ARCHER2 GCC with LibSci Build Instructions](build_vasp_6.3.2_ARCHER2_GCC.md) (recommended build on ARCHER2)
+* [VASP 6.3.1 ARCHER2 GCC with AOCL Build Instructions](build_vasp_6.3.1_ARCHER2_GCC.md)
 * [VASP 6.3.0 ARCHER2 GCC with HPE Cray LibSci Build Instructions](build_vasp_6.3.0_ARCHER2_GCC.md)
 * [VASP 6.2.0 ARCHER2 GCC with HPE Cray LibSci Build Instructions](build_vasp_6.2.0_ARCHER2_GCC.md)
 * [VASP 5.4.4 ARCHER2 GCC with HPE Cray LibSci Build Instructions](build_vasp_5.4.4_ARCHER2_GCC.md) (recommended build on ARCHER2)
