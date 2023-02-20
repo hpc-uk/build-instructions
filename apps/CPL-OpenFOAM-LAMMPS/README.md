@@ -15,6 +15,11 @@ Build Instructions
 
 * [CPL-OpenFOAM-LAMMPS 30Jan2023 ARCHER2 Build Instructions (GCC 10.2.0)](build_cpl-openfoam-lammps_30Jan2023_gcc1020.md)
 
+Run Instructions
+------------------
+
+* [CPLTestSocketFoam Run Instructions](run_CPLTestSockFoam.md)
+
 Notes
 -----
 
