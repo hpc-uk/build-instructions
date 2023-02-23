@@ -1,0 +1,124 @@
+# Author: Julien Sindt, EPCC
+# Modifications: Rui Apóstolo, EPCC
+# 2023/02/23
+
+##################################################################################
+#                             Variable to change                                 #
+##################################################################################
+
+variable        TEMPERATURE equal    300.0  # Temperature in K
+variable        PRESSURE    equal     10.0  # Pressure in atm 
+variable        TIMESTEP    equal      1.0  # dt in fs
+variable        NEIGH_TIME  equal      5    # neigh_modify every x dt
+variable        NEIGH_DELAY equal     10    # neigh_modify delay
+variable        EQUIL_TIME  equal   1000    # equilibrate system for # timesteps in NVT
+variable        PROD_TIME   equal  10000    # run simulation for # timesteps in total
+variable	OUT_TIME    equal   1000    # dt between thermo output
+variable	X_LENGTH    equal      8    # length of x side of the box
+variable	Y_LENGTH    equal      8    # length of y side of the box
+variable	Z_LENGTH    equal      8    # length of z side of the box
+
+##################################################################################
+#                                 Code                                           #
+##################################################################################
+
+units           real
+atom_style      full
+dimension       3
+boundary        p p p
+
+lattice         sc 6.000
+variable        box_length equal ${Z_LENGTH}
+region          box block 0 ${box_length} 0 ${box_length} 0 ${box_length}
+region          start_box block 0 ${X_LENGTH} 0 ${Y_LENGTH} 0 ${Z_LENGTH}
+create_box      6 box bond/types 5               &
+                      angle/types 7              &
+                      dihedral/types 4           &
+                      extra/bond/per/atom 3      &
+                      extra/special/per/atom 7   &
+                      extra/angle/per/atom 6     &
+                      extra/dihedral/per/atom 9
+molecule        CH3CH2OH data.ethanol
+create_atoms    0 region start_box mol CH3CH2OH 6871
+
+######################################################
+# Coefficients for bonds, angles, diheadrals & pairs #
+######################################################
+
+pair_style      lj/cut/coul/long 12.0
+bond_style      harmonic
+angle_style     harmonic
+dihedral_style  opls
+kspace_style    pppm      0.0001
+
+mass		1 12.011000 # ECH
+mass		2 12.011000 # ECO
+mass		3  1.008000 # EHA
+mass		4  1.008000 # EHC
+mass		5  1.008000 # EHO
+mass		6 15.999000 # EOH
+
+set		type 1 charge -0.18
+set		type 2 charge  0.145
+set		type 3 charge  0.06
+set		type 4 charge  0.06
+set		type 5 charge  0.418
+set		type 6 charge -0.683
+
+pair_coeff      1  1  0.066  3.5 
+pair_coeff	2  2  0.066  3.5
+pair_coeff	3  3  0.03   2.5
+pair_coeff      4  4  0.03   2.5
+pair_coeff      5  5  0.03   2.5
+pair_coeff      6  6  0.17   3.12
+
+bond_coeff      1  134.0  1.529
+bond_coeff      2  170.0  1.09
+bond_coeff      3  170.0  1.09
+bond_coeff      4  160    1.41
+bond_coeff      5  276.5  0.945
+
+angle_coeff     1  18.75  110.7
+angle_coeff     2  25.0   109.5
+angle_coeff     3  18.75  110.7
+angle_coeff     4  27.5   108.5
+angle_coeff     5  16.5   107.8
+angle_coeff     6  17.5   109.5
+angle_coeff     7  16.5   107.8
+
+dihedral_coeff	1  -0.356  -0.174  0.492  0.0
+dihedral_coeff  2   0.0      0.0   0.352  0.0
+dihedral_coeff  3   0.0      0.0   0.3    0.0
+dihedral_coeff  4   0.0      0.0   0.468  0.0
+
+#####################################################
+# Neighbour list: distance = LJ cutoff + 2.0 = 14.0 #
+#####################################################
+neighbor        2.0 bin
+
+###############################
+# List renewed every timestep #
+###############################
+neigh_modify    delay ${NEIGH_DELAY} every ${NEIGH_TIME} check no
+
+##############################
+# Nose-Hoover thermobarostat #
+##############################
+
+velocity	all create ${TEMPERATURE} 4928459 rot yes dist gaussian
+fix		1 all nvt temp ${TEMPERATURE} ${TEMPERATURE} 20.0
+
+#########################################
+# Rebalance number of particles per CPU #
+# Can speed up on muliple cores         #
+#########################################
+#fix    		bal all balance 1000 1.05 shift xy 10 1.05
+
+thermo_style    custom step cpu temp etotal epair elong evdwl vol lx press
+thermo		${OUT_TIME}
+
+timestep	${TIMESTEP}
+
+run		${EQUIL_TIME}
+
+run		${PROD_TIME}
