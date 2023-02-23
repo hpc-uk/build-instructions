@@ -1,7 +1,7 @@
 Building CPL-OpenFOAM-LAMMPS on ARCHER2 (GCC 10.2.0)
 ====================================================
 
-These instructions are for building CPL-OpenFOAM LAMMPS on ARCHER2 using the GNU compilers.  
+These instructions are for building CPL-OpenFOAM LAMMPS on ARCHER2 using the GNU compilers.
 
 At present, as a stepping stone to the full installation of the coupling a OpenFOAM simulation with a LAMMPS simulatino using the CPL coupler library, we first install a related OpenFOAM simulation with a dummy LAMMPS simulation, namely CPL_APP_OPENFOAM
 
@@ -42,6 +42,18 @@ Install CPL library:
 
   `source SOURCEME.sh`
 
+Change group write permissions on examples
+------------------------------------------
+
+Change permissions such that group members also have write permissions on files in examples, then return to parent directory
+
+  ```
+  find examples -type d -exec chmod 775 {} \;
+  find examples -type f -exec chmod 664 {} \;
+  find examples -name *.py -exec chmod 775 {} \;
+  cd ..
+  ```
+
 Download CPL_APP_OPENFOAM
 -------------------------
 
@@ -52,7 +64,7 @@ Clone the latest version of CPL_APP_OPENFOAM from the GitHub repository:
 Setup your environment further
 ------------------------------
 
-Configure environment 
+Configure environment
 
    ```bash
    cd CPL_APP_OPENFOAM
@@ -64,10 +76,24 @@ Configure environment
    cd src;ln -s CPLPstream_v2106 CPLPstream;cd ..
    ```
 
-Compile CPL_APP_OPENFOAM application with make
-----------------------------------------------
+Change group write permissions on examples
+------------------------------------------
+
+Change permissions such that group members also have write permissions on files in examples, then return to parent directory
+
+  ```
+  find examples -type d -exec chmod 775 {} \;
+  find examples -type f -exec chmod 664 {} \;
+  find examples -name *.py -exec chmod 775 {} \;
+  ```
+
+Compile CPL_APP_OPENFOAM applications with make
+-----------------------------------------------
 Run make:
 
   ```
-  make PLATFORM=ARCHER2
+  make pstream
+  make cpltestfoam
+  make cpltestsocketfoam
   ```
+
