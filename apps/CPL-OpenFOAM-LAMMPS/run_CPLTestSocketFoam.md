@@ -18,7 +18,7 @@ Recursively copy the CPLTestSocketForm example directory into your work director
 
    ```bash
    cd /work/t42/t42/gavin
-   cp -r $CPL_APP_OPENFOAM_PATH/examples/CPLTestSocketFoam/* .
+   cp -r $CPL_APP_OPENFOAM_PATH/examples/CPLTestSocketFoam .
    cd CPLTestSocketFoam
    source $CPL_PATH/SOURCEME.sh; cplc++ minimal_MD.cpp -o MD
    ```
