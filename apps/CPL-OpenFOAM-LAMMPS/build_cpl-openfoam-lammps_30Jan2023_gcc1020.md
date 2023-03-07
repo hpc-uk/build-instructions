@@ -10,7 +10,7 @@ Download CPL
 
 Clone the latest version of CPL from the GitHub repository:
 
-   `git clone https://github.com/Crompulence/cpl-library.git`
+   `git clone git@github.com:Crompulence/cpl-library.git`
 
 Setup your environment
 ----------------------
@@ -42,7 +42,7 @@ Install CPL library:
 
   `source SOURCEME.sh`
 
-Change group write permissions on examples
+Add group write permissions on examples
 ------------------------------------------
 
 Change permissions such that group members also have write permissions on files in examples, then return to parent directory
@@ -59,7 +59,7 @@ Download CPL_APP_OPENFOAM
 
 Clone the latest version of CPL_APP_OPENFOAM from the GitHub repository:
 
-   `git clone https://github.com/Crompulence/cpl-library.git`
+   `git clone git@github.com:Crompulence/CPL_APP_OPENFOAM.git`
 
 Setup your environment further
 ------------------------------
@@ -68,18 +68,15 @@ Configure environment
 
    ```bash
    cd CPL_APP_OPENFOAM
-   echo $FOAM_INSTALL_DIR > CODE_INST_DIR
    # the following SOURCEME.sh is different from the SOURCEME.sh above
    source SOURCEME.sh
-   export FOAM_USER_APPBIN=$FOAM_CPL_APP_BIN
-   export FOAM_USER_LIBBIN=$FOAM_CPL_APP_LIBBIN
    cd src;ln -s CPLPstream_v2106 CPLPstream;cd ..
    ```
 
-Change group write permissions on examples
+Add group write permissions on examples
 ------------------------------------------
 
-Change permissions such that group members also have write permissions on files in examples, then return to parent directory
+As for cpl-library above, change permissions such that group members also have write permissions on files in examples, then return to parent directory
 
   ```
   find examples -type d -exec chmod 775 {} \;
@@ -95,5 +92,6 @@ Run make:
   make pstream
   make cpltestfoam
   make cpltestsocketfoam
+  make cplinterfoam
   ```
 
