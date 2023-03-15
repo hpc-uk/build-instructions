@@ -1,4 +1,4 @@
-Building LAMMPS v. 17Jun2023 on ARCHER2 (GCC 11.2.0)
+Building LAMMPS v. 17Jun2023 on ARCHER2 (GCC 10.3.0)
 ====================================================
 
 These instructions are for building LAMMPS on ARCHER2 using the GNU compilers
