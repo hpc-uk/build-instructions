@@ -1,0 +1,90 @@
+# Default precompiler options
+CPP_OPTIONS = -DHOST=\"SGIICEXA-Intel20-HMPT225\" \
+              -DMPI -DMPI_BLOCK=8000 -Duse_collective \
+              -DscaLAPACK \
+              -DCACHE_SIZE=4000 \
+              -Davoidalloc \
+              -Dvasp6 \
+              -Duse_bse_te \
+              -Dtbdyn \
+              -Dfock_dblbuf \
+              -D_OPENMP
+
+CPP        = fpp -f_com=no -free -w0  $*$(FUFFIX) $*$(SUFFIX) $(CPP_OPTIONS)
+
+FC          = mpif08 -qopenmp
+FCL         = mpif08 -qopenmp
+
+FREE        = -free -names lowercase
+
+FFLAGS     = -assume byterecl -w
+OFLAG      = -O3 -ip -fno-alias -unroll-aggressive -qopt-prefetch -use-intel-optimized-headers -no-prec-div
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+OBJECTS     = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o
+
+LLIBS      = -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_sgimpt_lp64 -qopenmp -lpthread -lm -ldl
+
+# Redefine the standard list of O1 and O2 objects
+OBJECTS_O1 += fftw3d.o fftmpi.o fftmpiw.o
+OBJECTS_O2 += fft3dlib.o
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = mpiicc -cc=icc
+CCX        = mpiicpc
+CCX_LIB    = mpiicpc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB = linpack_double.o
+
+# For the parser library
+CXX_PARS   = mpiicpc -cxx=icpc
+
+#LIBS       += parser
+LLIBS      += -Lparser -lparser -lstdc++
+
+# Normally no need to change this
+SRCDIR     = ../../src
+BINDIR     = ../../bin
+
+
+##
+## Customize as of this point! Of course you may change the preceding
+## part of this file as well if you like, but it should rarely be
+## necessary ...
+##
+# Intel MKL for FFTW, BLAS, LAPACK, and scaLAPACK
+FCL        += -qmkl
+MKLROOT    ?= /mnt/lustre/indy2lfs/sw/intel/compilers_and_libraries_2020.4.304/linux/mkl
+LLIBS_MKL   = -Mmkl -L$(MKLROOT)/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_sgimpt_lp64 -lpthread -lm -ldl
+INCS       += -I$(MKLROOT)/include/fftw
+
+# Use a separate scaLAPACK installation (optional but recommended in combination with OpenMPI)
+# Comment out the two lines below if you want to use scaLAPACK from MKL instead
+# SCALAPACK_ROOT ?= /path/to/your/scalapack/installation
+# LLIBS_MKL   = -L$(SCALAPACK_ROOT)/lib -lscalapack -Mmkl
+
+LLIBS      += $(LLIBS_MKL)
+
+# HDF5-support (optional but strongly recommended)
+#CPP_OPTIONS+= -DVASP_HDF5
+#HDF5_ROOT  ?= /path/to/your/hdf5/installation
+#LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
+#INCS       += -I$(HDF5_ROOT)/include
+
+# For the VASP-2-Wannier90 interface (optional)
+#CPP_OPTIONS    += -DVASP2WANNIER90
+#WANNIER90_ROOT ?= /path/to/your/wannier90/installation
+#LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+
+# For the fftlib library (hardly any benefit in combination with MKL's FFTs)
+#CPP_OPTION += -Dsysv
+#FCL         = mpif90 fftlib.o -qmkl
+#CXX_FFTLIB  = icpc -qopenmp -std=c++11 -DFFTLIB_USE_MKL -DFFTLIB_THREADSAFE
+#INCS_FFTLIB = -I./include -I$(MKLROOT)/include/fftw
+#LIBS       += fftlib
