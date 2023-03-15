@@ -10,8 +10,9 @@ Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
 2017-06-05 | Andy Turner | Cirrus | 31Mar2017 | Build instructions for Cirrus using GCC 6 compilers and MPT 2.14
 2020-10-15 | Julien Sindt | ARCHER2 | 13Jul2020 | Build instructions for ARCHER2 using GCC 9.3.0 compilers
-2023-02-22 | Julien Sindt | Cirrus | 8Feb2023 | Build instructions for Cirrus using GCC 8 compilers and intel MPI
-2023-02-23 | Rui Apóstolo | Cirrus | 8Feb2023 | Build instructions for Cirrus using GCC 8 compilers, intel MPI, and CUDA 11.8
+2023-02-22 | Julien Sindt | Cirrus | 17Feb2023 | Build instructions for Cirrus using GCC 8 compilers and intel MPI
+2023-02-23 | Rui Apóstolo | Cirrus | 17Feb2023 | Build instructions for Cirrus using GCC 8 compilers, intel MPI, and CUDA 11.8
+2023-03-09 | Rui Apóstolo | ARCHER2 | 17Feb2023 | Build instructions for ARCHER2 using GCC 10.3 compilers
 
 Build Instructions
 ------------------
