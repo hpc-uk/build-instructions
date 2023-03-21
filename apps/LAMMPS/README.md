@@ -14,6 +14,9 @@ Patched versions of stable releases can have two names - the original date with 
 version `7Jan2022` is the same as version `29Sep2021 update 2`.
 All the available versions are on the [LAMMPS github releases page](https://github.com/lammps/lammps/releases).
 
+Older versions of LAMMPS could only be compiled by editing several makefiles and then using make.
+Recent (2020 and later) versions of LAMMPS can also be compiled using `cmake`, which can be configured using only one (long) command.
+
 History
 -------
 
