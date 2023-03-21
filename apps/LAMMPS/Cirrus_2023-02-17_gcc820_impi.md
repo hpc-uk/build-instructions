@@ -1,7 +1,7 @@
 Building LAMMPS 17Feb2023 on Cirrus (GCC 8.2.0, FFTW 3.3.10)
 ============================================================
 
-These instructions are for building LAMMPS version 17Feb2023, also known as 23Jun2023 update 3, on Cirrus (SGI/HPE ICE XA, Intel Broadwell) using the GCC 8.2.0 compilers, MPI from intel, and FFTW 3.3.10.
+These instructions are for building LAMMPS version 17Feb2023, also known as 23Jun2023 update 3, on Cirrus (SGI/HPE ICE XA, Intel Broadwell) using the GCC 8.2.0 compilers, MPI from Intel, and FFTW 3.3.10.
 
 Download LAMMPS
 ---------------
@@ -22,8 +22,8 @@ module load cmake/3.17.3
 module load fftw/3.3.10-intel20.4
 ```
 
-MPI Version with CUDA support
------------------------------
+MPI Version
+-----------
 
 Make and go into a build directory:
 
