@@ -3,6 +3,9 @@ LAMMPS
 
 This folder contains files and documentation for building and maintaining LAMMPS on various HPC facilities.
 
+To keep files sorted, the LAMMPS default version names of DDMonYYYY is changed to the sensible ISO 8601 format in the markdown file names.
+Elsewhere, the original nomenclature is used.
+
 History
 -------
 
