@@ -1,8 +1,7 @@
-Building LAMMPS on Cirrus (GCC 8, FFTW 3.3.10, CUDA 11.8)
-=============================================================
+Building LAMMPS 17Feb2023 on Cirrus (GCC 8.2.0, FFTW 3.3.10, CUDA 11.8)
+=======================================================================
 
-These instructions are for building LAMMPS on Cirrus (SGI/HPE ICE XA, Intel Broadwell)
-using the GCC 8 compilers, MPI from intel, FFTW 3.3.10, and GPU support using CUDA 11.8.
+These instructions are for building LAMMPS version 17Feb2023, also known as 23Jun2023 update 3, on Cirrus (SGI/HPE ICE XA, Intel Broadwell) using the GCC 8.2.0 compilers, MPI from Intel, FFTW 3.3.10, and GPU support using CUDA 11.8.
 
 Download LAMMPS
 ---------------
@@ -10,8 +9,8 @@ Download LAMMPS
 Clone the latest stable version of LAMMPS from the GitHub repository:
 
 ```bash
-  git clone --depth 1 -b stable https://github.com/lammps/lammps.git mylammps
- ```
+git clone --depth 1 --branch stable_23Ju2022_update3 https://github.com/lammps/lammps.git mylammps
+```
 
 Setup your environment
 ----------------------
@@ -19,7 +18,7 @@ Setup your environment
 Load the correct modules:
 
 ```bash
-module load cmake
+module load cmake/3.17.3
 module load fftw/3.3.10-intel20.4
 module load nvidia/nvhpc-byo-compiler/22.11
 ```
@@ -45,7 +44,8 @@ cmake -DCMAKE_CXX_COMPILER=mpicxx -DCMAKE_CXX_FLAGS="-O3"         \
       -D PKG_MPIIO=yes -D PKG_OPT=yes -D PKG_PERI=yes             \
       -D PKG_QEQ=yes -D PKG_SHOCK=yes -D PKG_SRD=yes              \
       -D PKG_RIGID=yes -D PKG_GPU=yes -D GPU_API=cuda             \
-      -D GPU_ARCH=sm_80 -DCMAKE_INSTALL_PREFIX=<INSTALL_PATH>     \
+      -D GPU_ARCH=sm_80                                           \
+      -DCMAKE_INSTALL_PREFIX=/path/to/install/directory           \
       ../cmake/
 
 make -j 8
