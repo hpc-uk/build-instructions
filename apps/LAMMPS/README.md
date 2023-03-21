@@ -39,4 +39,4 @@ Contributing
 
 * Always load modules with a version number, even if it's the default in that system.
 
-* The file header should take the form `Building LAMMPS <version> on <system> (<compiler with version>, <other packages>)`, for example, `Building LAMMPS 31Mar2017 on Cirrus (GCC 6.2.0, SGI MPT 2.14)`
+* The file first title should take the form `Building LAMMPS <version> on <system> (<compiler with version>, <other packages>)`, for example, `Building LAMMPS 31Mar2017 on Cirrus (GCC 6.2.0, SGI MPT 2.14)`
