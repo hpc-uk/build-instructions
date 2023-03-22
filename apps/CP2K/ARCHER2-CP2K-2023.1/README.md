@@ -60,7 +60,7 @@ CP2K releases versions of `libint` appropriate for CP2K at https://github.com/cp
 A choice is required on the highest `lmax` supported: we choose `lmax = 4` to limit the size of the static executable.
 
 ```
-cd ${CP2K_ROOT}
+cd ${CP2K_ROOT}/libs
 
 LIBINT_LABEL=libint
 LIBINT_VERSION=2.6.0
@@ -84,7 +84,7 @@ make install
 ## Build libxc
 
 ```
-cd ${CP2K_ROOT}
+cd ${CP2K_ROOT}/libs
 
 LIBXC_LABEL=libxc
 LIBXC_VERSION=6.1.0
@@ -105,7 +105,7 @@ make install
 ## Build libxsmm
 
 ```
-cd ${CP2K_ROOT}
+cd ${CP2K_ROOT}/libs
 
 LIBXSMM_LABEL=libxsmm
 LIBXSMM_VERSION=1.17
@@ -124,7 +124,7 @@ make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
 ## Build ELPA
 
 ```
-cd ${CP2K_ROOT}
+cd ${CP2K_ROOT}/libs
 
 ELPA_LABEL=elpa
 ELPA_VERSION=2022.11.001
@@ -147,7 +147,7 @@ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
 make
 make install
 
-cd ${ELPA_NAME}
+cd ${CP2K_ROOT}/libs/${ELPA_NAME}
 mkdir build-openmp
 cd build-openmp
 export LIBS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -lgomp -lpthread -lm -ldl"
@@ -164,7 +164,7 @@ make install
 ## Build Plumed
 
 ```
-cd ${CP2K_ROOT}
+cd ${CP2K_ROOT}/libs
 
 PLUMED_LABEL=plumed
 PLUMED_VERSION=2.8.1
