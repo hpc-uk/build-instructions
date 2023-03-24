@@ -48,8 +48,6 @@ FFTW_VERSION=3.3.8.11
 module -q load cpe/${CPE_VERSION}
 module -q swap PrgEnv-cray PrgEnv-gnu
 module -q load cray-fftw/${FFTW_VERSION}
-module -q load xpmem
-module -q load perftools-base
 
 GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 CPE_VERSION=`echo "${CPE_VERSION}" | tr -d .`
@@ -97,8 +95,8 @@ TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 cd ${NAMD_CHARM_NAME}
 
-./build charm++ mpi-linux-amd64 gcc smp --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --with-production
-./build charm++ mpi-linux-amd64 gcc --incdir=${I_MPI_ROOT}/intel64/include --libdir=${I_MPI_ROOT}/intel64/lib --with-production
+./build charm++ mpi-linux-amd64 gcc smp --incdir=${MPICH_DIR}/intel64/include --libdir=${MPICH_DIR}/intel64/lib --with-production
+./build charm++ mpi-linux-amd64 gcc --incdir=${MPICH_DIR}/intel64/include --libdir=${MPICH_DIR}/intel64/lib --with-production
 ```
 
 
