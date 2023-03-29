@@ -47,7 +47,7 @@ Build NWChem
 Now, build NWChem with:
 
 ```bash
-cd $NWCHM_TOP/src
+cd $NWCHEM_TOP/src
 make nwchem_config
 make -j16 FC=ftn 2>&1 | tee make.log
 ```
