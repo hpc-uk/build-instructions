@@ -21,12 +21,10 @@ The ARCHER2 build instructions however use the "manual" route, building each rel
 ## Prepare module environment
 
 ```
-module load PrgEnv-gnu
 module load cpe/21.09
-module load mkl
+module load PrgEnv-gnu
 module load cray-fftw
-export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
-export FCFLAGS="-fallow-argument-mismatch"
+module load mkl
 ```
 
 The above commands load the Cray Programming Environment (CPE) 21.09 and the GNU compiler suite.
@@ -36,6 +34,9 @@ Then, the Intel Maths Kernel Library (MKL) module is loaded, replacing the `cray
 ## Prepare CP2K build environment
 
 ```
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
+export FCFLAGS="-fallow-argument-mismatch"
+
 PRFX=/path/to/work/dir # e.g., /work/y07/shared/apps/core 
 CP2K_LABEL=cp2k
 CP2K_VERSION=2023.1
@@ -51,6 +52,8 @@ wget -q https://github.com/${CP2K_LABEL}/${CP2K_LABEL}/releases/download/v${CP2K
 bunzip2 ${CP2K_NAME}.tar.bz2
 tar xf ${CP2K_NAME}.tar
 rm ${CP2K_NAME}.tar
+
+mkdir ${CP2K_ROOT}/libs
 ```
 
 
@@ -76,8 +79,10 @@ cd ${LIBINT_NAME}
 CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ./configure \
     --enable-fortran --with-cxx-optflags=-O \
     --prefix=${CP2K_ROOT}/libs/libint
-make
-make install
+
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
 
 
@@ -91,14 +96,19 @@ LIBXC_VERSION=6.1.0
 LIBXC_NAME=${LIBXC_LABEL}-${LIBXC_VERSION}
 
 rm -rf ${LIBXC_NAME}
-wget -q -O ${LIBXC_NAME}.tar.gz https://www.tddft.org/programs/${LIBXC_LABEL}/down.php?file=${LIBXC_VERSION}/${LIBXC_NAME}.tar.gz
+wget -q https://gitlab.com/${LIBXC_LABEL}/${LIBXC_LABEL}/-/archive/${LIBXC_VERSION}/${LIBXC_NAME}.tar.gz
 tar zxf ${LIBXC_NAME}.tar.gz
 rm ${LIBXC_NAME}.tar.gz
+mv ${LIBXC_LABEL}-* ${LIBXC_NAME}
 cd ${LIBXC_NAME}
 
+autoreconf -i
+
 CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
-make
-make install
+
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
 
 
@@ -112,12 +122,13 @@ LIBXSMM_VERSION=1.17
 LIBXSMM_NAME=${LIBXSMM_LABEL}-${LIBXSMM_VERSION}
 
 rm -rf ${LIBXSMM_NAME}
-wget -q https://github.com/hfp/${LIBXSMM_LABEL}/archive/${LIBXSMM_VERSION}.tar.gz
+wget -q https://github.com/${LIBXSMM_LABEL}/${LIBXSMM_LABEL}/archive/refs/tags/${LIBXSMM_VERSION}.tar.gz
 tar zxf ${LIBXSMM_VERSION}.tar.gz
 rm ${LIBXSMM_VERSION}.tar.gz
 cd ${LIBXSMM_NAME}
 
-make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm install
+make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm -j 8 install
+make -j 8 clean
 ```
 
 
@@ -138,26 +149,34 @@ rm ${ELPA_NAME}.tar.gz
 cd ${ELPA_NAME}
 mkdir build-serial
 cd build-serial
+
 export LIBS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -lgomp -lpthread -lm -ldl"
+
 CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
   --enable-openmp=no --enable-shared=no \
   --disable-avx512 --disable-detect-mpi-launcher \
   --without-threading-support-check-during-build \
   --prefix=${CP2K_ROOT}/libs/elpa-serial
-make
-make install
+
+make -j 8
+make -j 8 install
+make -j 8 clean
 
 cd ${CP2K_ROOT}/libs/${ELPA_NAME}
 mkdir build-openmp
 cd build-openmp
+
 export LIBS="-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_gnu_thread -lmkl_core -lmkl_blacs_intelmpi_lp64 -lgomp -lpthread -lm -ldl"
+
 CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure \
   --enable-openmp=yes --enable-shared=no --enable-allow-thread-limiting \
   --disable-avx512 --disable-detect-mpi-launcher \
   --without-threading-support-check-during-build \
   --prefix=${CP2K_ROOT}/libs/elpa-openmp
-make
-make install
+
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
 
 
@@ -167,35 +186,38 @@ make install
 cd ${CP2K_ROOT}/libs
 
 PLUMED_LABEL=plumed
-PLUMED_VERSION=2.8.1
+PLUMED_VERSION=2.8.2
 PLUMED_NAME=${PLUMED_LABEL}-${PLUMED_VERSION}
 
 rm -rf ${PLUMED_NAME}
-wget -q https://github.com/${PLUMED_LABEL}/${PLUMED_LABEL}2/releases/download/v${PLUMED_VERSION}/${PLUMED_NAME}.tgz
-tar zxf ${PLUMED_NAME}.tgz
-rm ${PLUMED_NAME}.tgz
+wget -q https://github.com/${PLUMED_LABEL}/${PLUMED_LABEL}2/archive/refs/tags/v${PLUMED_VERSION}.tar.gz
+tar zxf v${PLUMED_VERSION}.tar.gz
+rm v${PLUMED_VERSION}.tar.gz
+mv ${PLUMED_LABEL}2-${PLUMED_VERSION} ${PLUMED_NAME}
 cd ${PLUMED_NAME}
 
 CC=cc CXX=CC FC=ftn MPIEXEC=srun ./configure \
   --disable-openmp --disable-shared --disable-dlopen \
   --prefix=${CP2K_ROOT}/libs/plumed
-make
-make install
+
+make -j 8
+make -j 8 install
+make -j 8 clean
 ```
 
 
 ## Build CP2K
 
 Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
-and copy to `/work/y07/shared/apps/core/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
+and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
 
 ```
 cd ${CP2K_ROOT}
 
 sed -i "s:CP2K_ROOT = .*/${CP2K_NAME}:CP2K_ROOT = ${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 
-make ARCH=ARCHER2 VERSION=psmp
-make clean ARCH=ARCHER2 VERSION=psmp
+make -j 8 ARCH=ARCHER2 VERSION=psmp
+make -j 8 clean ARCH=ARCHER2 VERSION=psmp
 ```
 
 
@@ -220,28 +242,29 @@ The test can be executed in the queue system by submitting script from `${CP2K_R
 #SBATCH --tasks-per-node=2
 #SBATCH --cpus-per-task=2
 
-module load PrgEnv-gnu
 module load cpe/21.09
+module load PrgEnv-gnu
+module load cray-fftw
 module load mkl
 
-export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
 
 export OMP_NUM_THREADS=2
 
 ./tools/regtesting/do_regtest -nobuild -c ./ARCHER2-regtest.psmp.conf
 ```
 
-The regression tests should take around 2 hrs 40 mins to complete (assuming CPU frequency of 2.0 GHz)
+The regression tests should take around 3 hrs to complete (assuming CPU frequency of 2.0 GHz)
 and the summarized results should be as shown below.
 
 ```
 --------------------------------- Summary --------------------------------
 Number of FAILED  tests 0
 Number of WRONG   tests 0
-Number of CORRECT tests 3664
-Total number of   tests 3664
-GREPME 0 0 3664 0 3664 X
+Number of CORRECT tests 3797
+Total number of   tests 3797
+GREPME 0 0 3797 0 3797 X
 
-Summary: correct: 3664 / 3664; 160min
+Summary: correct: 3797 / 3797; 160min
 Status: OK
 ```
