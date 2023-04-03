@@ -257,4 +257,3 @@ cmake ../ -DGMX_MPI=OFF -DGMX_OPENMP=OFF -DGMX_GPU=OFF \
 make -j 16
 make install
 ```
-
