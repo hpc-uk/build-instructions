@@ -159,7 +159,7 @@ Configure and compile PLUMED
 Run the configuration file with the options below, and compile PLUMED.
 
 ```bash
-./configure --disable-openmp --enable-shared --prefix=${PLUMED_DIR}
+./configure --enable-shared --prefix=${PLUMED_DIR}
 make -j 8
 make install
 export PATH=$PATH:${PLUMED_DIR}/bin
