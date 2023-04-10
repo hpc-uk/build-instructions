@@ -97,7 +97,7 @@ A choice is required on the highest `lmax` supported: we choose `lmax = 4` to li
 cd ${CP2K_ROOT}/libs
 
 LIBINT_LABEL=libint
-LIBINT_NAME=${LIBINT_LABEL}-v${LIBINT_VERSION}-${LIBINT_SUFFIX}
+LIBINT_NAME=${LIBINT_LABEL}-v${LIBINT_VERSION}-${LIBINT_VERSION_SUFFIX}
 
 rm -rf ${LIBINT_NAME}
 wget -q https://github.com/${CP2K_LABEL}/${LIBINT_LABEL}-${CP2K_LABEL}/releases/download/v${LIBINT_VERSION}/${LIBINT_NAME}.tgz
