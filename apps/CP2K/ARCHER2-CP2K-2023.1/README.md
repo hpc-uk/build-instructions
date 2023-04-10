@@ -8,22 +8,39 @@ Further information on CP2K can be found at [the CP2K website](https://www.cp2k.
 The official build instructions for CP2K are at [https://github.com/cp2k/cp2k/blob/master/INSTALL.md](https://github.com/cp2k/cp2k/blob/master/INSTALL.md).
 The ARCHER2 build instructions however use the "manual" route, building each relevant prerequisite independently.
 
+These instructions are also provided as a Slurm batch script, see the `submit.ll` file at [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1).
+
 ## General
 
 * We will use the GNU programming environment.
 * We will only consider psmp build for CP2K.
 * The autotuned version of libgrid was not built as there were some
   residual problems with the automatic code generation on ARCHER2.
+* The libxsmm library is not built as this component causes OpenMP-related
+  memory faults on the ARCHER2 system.
 
 
 # Preliminaries
 
-## Prepare module environment
+## Specify versions of CP2K and supporting libraries
 
 ```
-module load cpe/21.09
+CP2K_VERSION=2023.1
+LIBINT_VERSION=2.6.0
+LIBINT_VERSION_SUFFIX=cp2k-lmax-4
+LIBXC_VERSION=6.1.0
+ELPA_VERSION=2022.11.001
+PLUMED_VERSION=2.8.2
+```
+
+## Load modules
+
+```
+module restore
 module load PrgEnv-gnu
 module load cray-fftw
+module load cray-python
+module load cpe/21.09
 module load mkl
 ```
 
@@ -34,12 +51,12 @@ Then, the Intel Maths Kernel Library (MKL) module is loaded, replacing the `cray
 ## Prepare CP2K build environment
 
 ```
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
+CP2K_CRAY_LD_LIBRARY_PATH=`echo ${CRAY_LD_LIBRARY_PATH} | sed 's:\:/opt/cray/pe/libsci/.*/.*/.*/x86_64/lib::g'`
+export LD_LIBRARY_PATH=${CP2K_CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 export FCFLAGS="-fallow-argument-mismatch"
 
 PRFX=/path/to/work/dir # e.g., /work/y07/shared/apps/core 
 CP2K_LABEL=cp2k
-CP2K_VERSION=2023.1
 CP2K_NAME=${CP2K_LABEL}-${CP2K_VERSION}
 CP2K_BASE=${PRFX}/${CP2K_LABEL}
 CP2K_ROOT=${CP2K_BASE}/${CP2K_NAME}
@@ -56,6 +73,21 @@ rm ${CP2K_NAME}.tar
 mkdir ${CP2K_ROOT}/libs
 ```
 
+## Prepare CP2K arch file
+
+Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
+
+```
+sed -i "s:<CP2K_ROOT>:${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<LIBINT_VERSION>:${LIBINT_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<LIBINT_VERSION_SUFFIX>:${LIBINT_VERSION_SUFFIX}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<LIBXC_VERSION>:${LIBXC_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<LIBXSMM_VERSION>:${LIBXSMM_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<ELPA_VERSION>:${ELPA_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<PLUMED_VERSION>:${PLUMED_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+```
+
 
 ## Build libint
 
@@ -66,8 +98,6 @@ A choice is required on the highest `lmax` supported: we choose `lmax = 4` to li
 cd ${CP2K_ROOT}/libs
 
 LIBINT_LABEL=libint
-LIBINT_VERSION=2.6.0
-LIBINT_SUFFIX=cp2k-lmax-4
 LIBINT_NAME=${LIBINT_LABEL}-v${LIBINT_VERSION}-${LIBINT_SUFFIX}
 
 rm -rf ${LIBINT_NAME}
@@ -92,14 +122,12 @@ make -j 8 clean
 cd ${CP2K_ROOT}/libs
 
 LIBXC_LABEL=libxc
-LIBXC_VERSION=6.1.0
 LIBXC_NAME=${LIBXC_LABEL}-${LIBXC_VERSION}
 
 rm -rf ${LIBXC_NAME}
 wget -q https://gitlab.com/${LIBXC_LABEL}/${LIBXC_LABEL}/-/archive/${LIBXC_VERSION}/${LIBXC_NAME}.tar.gz
 tar zxf ${LIBXC_NAME}.tar.gz
 rm ${LIBXC_NAME}.tar.gz
-mv ${LIBXC_LABEL}-* ${LIBXC_NAME}
 cd ${LIBXC_NAME}
 
 autoreconf -i
@@ -112,33 +140,12 @@ make -j 8 clean
 ```
 
 
-## Build libxsmm
-
-```
-cd ${CP2K_ROOT}/libs
-
-LIBXSMM_LABEL=libxsmm
-LIBXSMM_VERSION=1.17
-LIBXSMM_NAME=${LIBXSMM_LABEL}-${LIBXSMM_VERSION}
-
-rm -rf ${LIBXSMM_NAME}
-wget -q https://github.com/${LIBXSMM_LABEL}/${LIBXSMM_LABEL}/archive/refs/tags/${LIBXSMM_VERSION}.tar.gz
-tar zxf ${LIBXSMM_VERSION}.tar.gz
-rm ${LIBXSMM_VERSION}.tar.gz
-cd ${LIBXSMM_NAME}
-
-make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${CP2K_ROOT}/libs/libxsmm -j 8 install
-make -j 8 clean
-```
-
-
 ## Build ELPA
 
 ```
 cd ${CP2K_ROOT}/libs
 
 ELPA_LABEL=elpa
-ELPA_VERSION=2022.11.001
 ELPA_NAME=${ELPA_LABEL}-${ELPA_VERSION}
 
 rm -rf ${ELPA_NAME}
@@ -186,7 +193,6 @@ make -j 8 clean
 cd ${CP2K_ROOT}/libs
 
 PLUMED_LABEL=plumed
-PLUMED_VERSION=2.8.2
 PLUMED_NAME=${PLUMED_LABEL}-${PLUMED_VERSION}
 
 rm -rf ${PLUMED_NAME}
@@ -208,13 +214,8 @@ make -j 8 clean
 
 ## Build CP2K
 
-Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
-and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
-
 ```
 cd ${CP2K_ROOT}
-
-sed -i "s:CP2K_ROOT = .*/${CP2K_NAME}:CP2K_ROOT = ${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 
 make -j 8 ARCH=ARCHER2 VERSION=psmp
 make -j 8 clean ARCH=ARCHER2 VERSION=psmp
@@ -242,12 +243,14 @@ The test can be executed in the queue system by submitting script from `${CP2K_R
 #SBATCH --tasks-per-node=2
 #SBATCH --cpus-per-task=2
 
-module load cpe/21.09
 module load PrgEnv-gnu
 module load cray-fftw
+module load cray-python
+module load cpe/21.09
 module load mkl
 
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CRAY_LD_LIBRARY_PATH}
+CP2K_CRAY_LD_LIBRARY_PATH=`echo ${CRAY_LD_LIBRARY_PATH} | sed 's:\:/opt/cray/pe/libsci/.*/.*/.*/x86_64/lib::g'`
+export LD_LIBRARY_PATH=${CP2K_CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 
 export OMP_NUM_THREADS=2
 
