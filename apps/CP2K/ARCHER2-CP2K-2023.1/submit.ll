@@ -22,9 +22,6 @@ LIBINT_VERSION_SUFFIX=cp2k-lmax-4
 # https://gitlab.com/libxc/libxc/-/tags
 LIBXC_VERSION=6.1.0
 
-# https://github.com/libxsmm/libxsmm/tags
-LIBXSMM_VERSION=1.16.3
-
 # https://gitlab.mpcdf.mpg.de/elpa/elpa/-/tags
 ELPA_VERSION=2022.11.001
 
@@ -85,7 +82,6 @@ sed -i "s:<CP2K_ROOT>:${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBINT_VERSION>:${LIBINT_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBINT_VERSION_SUFFIX>:${LIBINT_VERSION_SUFFIX}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBXC_VERSION>:${LIBXC_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
-sed -i "s:<LIBXSMM_VERSION>:${LIBXSMM_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<ELPA_VERSION>:${ELPA_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<PLUMED_VERSION>:${PLUMED_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 ################################################################################################################
