@@ -4,9 +4,20 @@ FC       = ftn -fopenmp
 LD       = ftn -fopenmp
 AR       = ar -r
 
-CP2K_ROOT = /path/to/cp2k-2023.1
+CP2K_ROOT = <CP2K_ROOT>
 DATA_DIR = $(CP2K_ROOT)/data
-ELPA_VERSION = 2022.11.001
+
+LIBINT_VERSION         = <LIBINT_VERSION>
+LIBINT_VERSION_SUFFIX  = <LIBINT_VERSION_SUFFIX>
+LIBXC_VERSION          = <LIBXC_VERSION>
+ELPA_VERSION           = <ELPA_VERSION>
+PLUMED_VERSION         = <PLUMED_VERSION>
+
+LIBINT_ROOT  = $(CP2K_ROOT)/libs/libint/$(LIBINT_VERSION)/$(LIBINT_VERSION_SUFFIX)
+LIBXC_ROOT   = $(CP2K_ROOT)/libs/libxc/$(LIBXC_VERSION)
+ELPA_ROOT    = $(CP2K_ROOT)/libs/elpa/$(ELPA_VERSION)/openmp
+PLUMED_ROOT  = $(CP2K_ROOT)/libs/plumed/$(PLUMED_VERSION)
+
 
 # Provides PLUMED_DEPENDENCIES
 
@@ -16,7 +27,7 @@ include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
 # Options
 
 DFLAGS   = -D__FFTW3 -D__LIBXC -D__PLUMED2  \
-           -D__ELPA -D__LIBINT -D__MKL -D__LIBXSMM \
+           -D__ELPA -D__LIBINT -D__MKL \
            -D__parallel -D__SCALAPACK -D__MPI_VERSION=3
 
 WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
@@ -30,7 +41,6 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
 CFLAGS   = -march=native -mtune=native -fno-omit-frame-pointer -g -O3 -funroll-loops \
            -I$(CP2K_ROOT)/libs/libint/include  \
            -I$(CP2K_ROOT)/libs/libxc/include  \
-           -I$(CP2K_ROOT)/libs/libxsmm/include  \
            -I${MKLROOT}/include -m64 \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/modules \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/elpa \
@@ -44,7 +54,6 @@ FCFLAGS  = $(DFLAGS) $(WFLAGS) \
            -march=native -mtune=native -fno-omit-frame-pointer -g -O3 -funroll-loops \
            -I$(CP2K_ROOT)/libs/libint/include  \
            -I$(CP2K_ROOT)/libs/libxc/include  \
-           -I$(CP2K_ROOT)/libs/libxsmm/include  \
            -I${MKLROOT}/include -m64 \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/modules \
            -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/elpa \
@@ -54,7 +63,6 @@ LDFLAGS  = $(FCFLAGS)
 
 LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
            -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
-           -L$(CP2K_ROOT)/libs/libxsmm/lib -lxsmmf -lxsmm \
            -L$(CP2K_ROOT)/libs/elpa-openmp/lib -lelpa_openmp \
            $(PLUMED_DEPENDENCIES) -lz \
            -L$(FFTW_LIB) -lfftw3 -lfftw3_threads \
