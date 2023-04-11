@@ -21,7 +21,7 @@ PLUMED_ROOT  = $(CP2K_ROOT)/libs/plumed/$(PLUMED_VERSION)
 
 # Provides PLUMED_DEPENDENCIES
 
-include $(CP2K_ROOT)/libs/plumed/lib/plumed/src/lib/Plumed.inc.static
+include $(PLUMED_ROOT)/lib/plumed/src/lib/Plumed.inc.static
 
 
 # Options
@@ -39,11 +39,11 @@ WFLAGS      = -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
 
 
 CFLAGS   = -march=native -mtune=native -fno-omit-frame-pointer -g -O3 -funroll-loops \
-           -I$(CP2K_ROOT)/libs/libint/include  \
-           -I$(CP2K_ROOT)/libs/libxc/include  \
+           -I$(LIBINT_ROOT)/include  \
+           -I$(LIBXC_ROOT)/include  \
            -I${MKLROOT}/include -m64 \
-           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/modules \
-           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/elpa \
+           -I$(ELPA_ROOT)/include/elpa_openmp-$(ELPA_VERSION)/modules \
+           -I$(ELPA_ROOT)/include/elpa_openmp-$(ELPA_VERSION)/elpa \
            -I$(FFTW_INC) \
            -std=c11 -Wall -Wextra -Werror -Wno-vla-parameter -Wno-deprecated-declarations $(DFLAGS)
 
@@ -52,18 +52,18 @@ CXXFLAGS = -O2 -fPIC -fno-omit-frame-pointer -fopenmp -g -march=native -mtune=na
 
 FCFLAGS  = $(DFLAGS) $(WFLAGS) \
            -march=native -mtune=native -fno-omit-frame-pointer -g -O3 -funroll-loops \
-           -I$(CP2K_ROOT)/libs/libint/include  \
-           -I$(CP2K_ROOT)/libs/libxc/include  \
+           -I$(LIBINT_ROOT)/include  \
+           -I$(LIBXC_ROOT)/include  \
            -I${MKLROOT}/include -m64 \
-           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/modules \
-           -I$(CP2K_ROOT)/libs/elpa-openmp/include/elpa_openmp-$(ELPA_VERSION)/elpa \
+           -I$(ELPA_ROOT)/include/elpa_openmp-$(ELPA_VERSION)/modules \
+           -I$(ELPA_ROOT)/include/elpa_openmp-$(ELPA_VERSION)/elpa \
            -I$(FFTW_INC) -ffree-form -fbacktrace -fimplicit-none -std=f2008 -ffree-line-length-none -fallow-argument-mismatch
 
 LDFLAGS  = $(FCFLAGS)  
 
-LIBS     = -L$(CP2K_ROOT)/libs/libint/lib -lint2  \
-           -L$(CP2K_ROOT)/libs/libxc/lib -lxcf90 -lxcf03 -lxc \
-           -L$(CP2K_ROOT)/libs/elpa-openmp/lib -lelpa_openmp \
+LIBS     = -L$(LIBINT_ROOT)/lib -lint2  \
+           -L$(LIBXC_ROOT)/lib -lxcf90 -lxcf03 -lxc \
+           -L$(ELPA_ROOT)/lib -lelpa_openmp \
            $(PLUMED_DEPENDENCIES) -lz \
            -L$(FFTW_LIB) -lfftw3 -lfftw3_threads \
            ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group \

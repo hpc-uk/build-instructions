@@ -74,9 +74,13 @@ echo -e "\n\nPreparing CP2K arch file..."
 ################################################################################################################
 cd ${CP2K_BASE}
 
-git clone https://github.com/hpc-uk/build-instructions.git
-cp ${CP2K_BASE}/build-instructions/apps/CP2K/ARCHER2-CP2K-${CP2K_VERSION}/ARCHER2.psmp ${CP2K_ROOT}/arch/
-rm -rf build-instructions
+if [ -d "${CP2K_BASE}/build-instructions" ]; then
+  cp ${CP2K_BASE}/build-instructions/apps/CP2K/ARCHER2-CP2K-${CP2K_VERSION}/ARCHER2.psmp ${CP2K_ROOT}/arch/
+else
+  git clone https://github.com/hpc-uk/build-instructions.git
+  cp ${CP2K_BASE}/build-instructions/apps/CP2K/ARCHER2-CP2K-${CP2K_VERSION}/ARCHER2.psmp ${CP2K_ROOT}/arch/
+  rm -rf build-instructions
+fi
 
 sed -i "s:<CP2K_ROOT>:${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBINT_VERSION>:${LIBINT_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
