@@ -20,7 +20,7 @@ GPAW_ROOT=${PRFX}/${GPAW_LABEL}
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
-The following instructions assume that an installation of [libxc 6.1.0](https://github.com/hpc-uk/build-instructions/blob/main/libs/libxc/build_libxc_6.1.9_archer2_gcc11.md) exists directly
+The following instructions assume that an installation of [libxc 6.1.0](https://github.com/hpc-uk/build-instructions/blob/main/libs/libxc/build_libxc_6.1.0_archer2_gcc11.md) exists directly
 off the path indicated by `PRFX`.
 
 
