@@ -1,20 +1,22 @@
-Libxc
+libxc
 =====
 
-This folder contains files and documentation for building and
-maintaining Libxc on UK HPC systems.
+This folder contains instructions for building libxc on UK HPC systems.
+Libxc is a library of exchange-correlation and kinetic energy functionals for density-functional theory. 
+
+https://tddft.org/programs/libxc/
 
 History
 -------
 
-Date | Person | System | Version | Notes
----- | ------ | ------ | ------- | -----
-2019-04-05 | Mark Filipiak | ARCHER (EPCC), Xeon Ivy Bridge | 4.3.4 | With GCC 6.
+ Date | Person | System | Version | Notes
+ ---- | ------ | ------ | ------- | -----
+ 2023-04-13 | Michael Bareford | ARCHER2 | 6.1.0 | GCC 11.2.0
 
 Build Instructions
 ------------------
 
-* [Libxc 4.3.4 ARCHER (EPCC), Xeon Ivy Bridge, GCC 6 Build Instructions](4.3.4_ARCHER_IvyBridge_gcc6/README.md)
+* [libxc 6.1.0 ARCHER2 Build Instructions (GCC11)](build_libxc_6.1.0_archer2_gcc11.md)
 
 Notes
 -----
