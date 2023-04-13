@@ -2,7 +2,7 @@ Instructions for installing GPAW 22.8.0 on ARCHER2
 ==================================================
 
 These instructions show how to build GPAW 22.8.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742)
-using Python 3.9.4. The following will also [ASE](https://wiki.fysik.dtu.dk/ase/) 3.22.1 Python package.
+using Python 3.9.4.1. The following will also install the [ASE](https://wiki.fysik.dtu.dk/ase/) 3.22.1 Python package.
 
 GPAW 22.8.0 requires [libxc 6.1.0](https://github.com/hpc-uk/build-instructions/tree/main/libs/libxc).
 
@@ -11,7 +11,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=${HOME/home/work}/libs
+PRFX=/path/to/work  # e.g., PRFX=${HOME/home/work}
 
 GPAW_LABEL=gpaw
 GPAW_VERSION=22.8.0
@@ -53,8 +53,8 @@ pip install --user cloudpickle
 ```
 
 
-Build GPAW
-----------
+Download GPAW source
+-------------------
 
 ```bash
 mkdir -p ${GPAW_ROOT}
@@ -62,6 +62,13 @@ mkdir -p ${GPAW_ROOT}
 cd ${GPAW_ROOT}
 git clone -b ${GPAW_VERSION} https://gitlab.com/${GPAW_LABEL}/${GPAW_LABEL}.git
 mv ${GPAW_LABEL} ${GPAW_NAME}
+```
+
+
+Build GPAW
+----------
+
+```bash
 cd ${GPAW_NAME}
 
 echo -e "libraries = ['sci_gnu_mpi_mp']" > ./siteconfig.py

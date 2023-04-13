@@ -12,7 +12,7 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2023-04-13 | Michael Bareford | ARCHER2 | 22.8.0 | Python 3.9.4
+ 2023-04-13 | Michael Bareford | ARCHER2 | 22.8.0 | Python 3.9.4.1
  2017-10-02 | Andrew Logsdail  | Cirrus  | 2017-10-02 | Python 3
 
 Build Instructions
