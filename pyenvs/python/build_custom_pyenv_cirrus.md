@@ -1,20 +1,20 @@
-Instructions for building a locally-installed custom Miniconda3 environment on Cirrus
-=====================================================================================
+Instructions for building a locally-installed custom Python environment on Cirrus
+=================================================================================
   
 The instructions below show how to set up a locally-installed custom Python environment, one that includes
 the packages provided by a centrally-installed Python module. You may want to do this in order to have
-access to packages such as `mpi4py` that have been specifically built for the Cirrus system. You can decide
+access to packages that have been specifically built for the Cirrus system, such as `mpi4py`. You can decide
 which module to base your environment on by running `module avail python` to see the available choices.
 
 The instructions assume that the custom environment is named and versioned according to a single principal package.
-If this is not the case, you will need to instead choose a name (and version) that best describes your custom environment.
-You will also need to specify your own pip install commands (or conda equivalents).
+If this is not the case, you will instead need to choose a name (and version) that best describes your custom environment.
+You will also need to specify your own `pip install` commands (or `conda` equivalents).
 
-Once the custom environment is installed, you can run the equivalent of "source ${PYTHON_BIN}/activate" to activate
+Once the custom environment is installed, you can run the equivalent of `source ${PYTHON_BIN}/activate` to activate
 the environment from within subsequent login sessions. You may want to do this if you need to change the packages
 installed in the local environment. There is also a deactivate script for unloading the custom environment.
 
-When running on the compute nodes, please make sure the "source ${PYTHON_BIN}/activate" command or similar
+When running on the compute nodes, please make sure the `source ${PYTHON_BIN}/activate` command or similar
 is called from the Slurm submission script.
 
 
