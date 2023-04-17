@@ -1,10 +1,10 @@
-Instructions for building a locally-installed custom Python environment on Cirrus
-=================================================================================
+Instructions for building a locally-installed custom Python environment on ARCHER2
+==================================================================================
   
 The instructions below show how to set up a locally-installed custom Python environment, one that includes
 the packages provided by a centrally-installed Python module. You may want to do this in order to have
-access to packages that have been specifically built for the Cirrus system, such as `mpi4py`. You can decide
-which module to base your environment on by running `module avail python` to see the available choices.
+access to packages that have been specifically built for the ARCHER2 system, such as `mpi4py`. You can decide
+which module to base your environment on by running `module avail cray-python` to see the available choices.
 
 The instructions assume that the custom environment is named and versioned according to a single principal package.
 If this is not the case, you will instead need to choose a name (and version) that best describes your custom environment.
@@ -29,13 +29,13 @@ PYTHON_MODULE_VERSION=<python module version>
 
 echo -e "Install path starts with \"${INSTALL_PRFX}\"."
 echo -e "Principal Python package is ${PYPKG_LABEL} ${PYPKG_VERSION}."
-echo -e "Including packages from \"python/${PYTHON_MODULE_VERSION}\" module.\n"
+echo -e "Including packages from \"cray-python/${PYTHON_MODULE_VERSION}\" module.\n"
 ```
 
 The user-supplied fields are indicated by angle brackets.
 The install location is a simple file path.
 The Python module version is the version of the Python module on which the custom environment is based.
-Simply run `module avail python` to see which versions are available.
+Simply run `module avail cray-python` to see which versions are available.
 
 
 Initialise environment variables and create install folders
@@ -57,9 +57,9 @@ PYPKG_ROOT=${INSTALL_PRFX}/${PYPKG_LABEL}
 mkdir -p ${PYPKG_ROOT}
 cd ${PYPKG_ROOT}
 
-module -s load python/${PYTHON_MODULE_VERSION}
+module -s load cray-python/${PYTHON_MODULE_VERSION}
 
-PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
+PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
 PYTHON_DIR=${PYPKG_ROOT}/${PYPKG_VERSION}/python
 PYTHON_BIN=${PYTHON_DIR}/${PYTHON_MODULE_VERSION}/bin
 
@@ -110,15 +110,15 @@ echo -e "PYPKG_ROOT=\${INSTALL_PRFX}/\${PYPKG_LABEL}\n" >> ${PYTHON_BIN}/activat
 
 echo -e "PYTHON_MODULE_VERSION=${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
 
-echo -e "module -s load python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
+echo -e "module -s load cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
 
-echo -e "MODULE_LOADED=\`module info-loaded python/\${PYTHON_MODULE_VERSION}\`" >> ${PYTHON_BIN}/activate
-echo -e "if [[ \"\${MODULE_LOADED}\" != \"python/\${PYTHON_MODULE_VERSION}\" ]]; then" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Error, failed to load \"python/\${PYTHON_MODULE_VERSION}\" module!\"" >> ${PYTHON_BIN}/activate
+echo -e "MODULE_LOADED=\`module info-loaded cray-python/\${PYTHON_MODULE_VERSION}\`" >> ${PYTHON_BIN}/activate
+echo -e "if [[ \"\${MODULE_LOADED}\" != \"cray-python/\${PYTHON_MODULE_VERSION}\" ]]; then" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Error, failed to load \"cray-python/\${PYTHON_MODULE_VERSION}\" module!\"" >> ${PYTHON_BIN}/activate
 echo -e "  exit 1" >> ${PYTHON_BIN}/activate
 echo -e "fi\n" >> ${PYTHON_BIN}/activate
 
-echo -e "PYTHON_VER=\`echo \${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2\`" >> ${PYTHON_BIN}/activate
+echo -e "PYTHON_VER=\`echo \${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2\`" >> ${PYTHON_BIN}/activate
 echo -e "PYTHON_DIR=\${PYPKG_ROOT}/\${PYPKG_VERSION}/python" >> ${PYTHON_BIN}/activate
 echo -e "PYTHON_BIN=\${PYTHON_DIR}/\${PYTHON_MODULE_VERSION}/bin" >> ${PYTHON_BIN}/activate
 echo -e "PYTHON_LIB=\${PYTHON_DIR}/\${PYTHON_MODULE_VERSION}/lib\n" >> ${PYTHON_BIN}/activate
@@ -154,7 +154,7 @@ echo -e "fi\n" >> ${PYTHON_BIN}/deactivate
 
 echo -e "PYTHON_MODULE_VERSION=${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
 
-echo -e "module -s unload python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
+echo -e "module -s unload cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
 
 echo -e "export PATH=${DEACTIVATE_PATH}" >> ${PYTHON_BIN}/deactivate
 echo -e "export LIBRARY_PATH=${DEACTIVATE_LIBRARY_PATH}" >> ${PYTHON_BIN}/deactivate
