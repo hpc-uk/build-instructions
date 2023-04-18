@@ -80,8 +80,8 @@ mkdir -p ${MPLCONFIGDIR}
 ```
 
 
-Installing package(s)
----------------------
+Install package(s)
+------------------
 
 ```bash
 pip install --user ${PYPKG_LABEL}==${PYPKG_VERSION}
