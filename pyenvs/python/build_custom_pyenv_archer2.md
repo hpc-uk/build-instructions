@@ -57,7 +57,7 @@ PYPKG_ROOT=${INSTALL_PRFX}/${PYPKG_LABEL}
 mkdir -p ${PYPKG_ROOT}
 cd ${PYPKG_ROOT}
 
-module -s load cray-python/${PYTHON_MODULE_VERSION}
+module -q load cray-python/${PYTHON_MODULE_VERSION}
 
 PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
 PYTHON_DIR=${PYPKG_ROOT}/${PYPKG_VERSION}/python
@@ -94,11 +94,11 @@ Create activation script
 ------------------------
 
 ```bash
-echo -e "#!/bin/bash\n" > ${PYTHON_BIN}/activate
+echo -e '#!/bin/bash\n' > ${PYTHON_BIN}/activate
 
 echo -e "if [[ \"\${BASH_SOURCE[0]}\" == \"\${0}\" ]]; then" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Error, activate script is not being sourced!\"" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Please run \"source \${BASH_SOURCE[0]}\" instead.\"" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Error, activate script is not being sourced.\"" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Please run \\\"source \${BASH_SOURCE[0]}\\\" instead.\"" >> ${PYTHON_BIN}/activate
 echo -e "  exit 1" >> ${PYTHON_BIN}/activate
 echo -e "fi\n" >> ${PYTHON_BIN}/activate
 
@@ -110,11 +110,12 @@ echo -e "PYPKG_ROOT=\${INSTALL_PRFX}/\${PYPKG_LABEL}\n" >> ${PYTHON_BIN}/activat
 
 echo -e "PYTHON_MODULE_VERSION=${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
 
-echo -e "module -s load cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
+echo -e "module -q load cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/activate
 
-echo -e "MODULE_LOADED=\`module info-loaded cray-python/\${PYTHON_MODULE_VERSION}\`" >> ${PYTHON_BIN}/activate
-echo -e "if [[ \"\${MODULE_LOADED}\" != \"cray-python/\${PYTHON_MODULE_VERSION}\" ]]; then" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Error, failed to load \"cray-python/\${PYTHON_MODULE_VERSION}\" module!\"" >> ${PYTHON_BIN}/activate
+echo -e "MODULE_LIST_OUT=\`module list cray-python/\${PYTHON_MODULE_VERSION} 2>&1\`" >> ${PYTHON_BIN}/activate
+echo -e "MODULE_ITEM_CNT=\`echo \"\${MODULE_LIST_OUT}\" | grep -c \"cray-python/\${PYTHON_MODULE_VERSION}\"\`" >> ${PYTHON_BIN}/activate
+echo -e "if [[ \"\${MODULE_ITEM_CNT}\" -ne 2 ]]; then" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Error, failed to load cray-python/\${PYTHON_MODULE_VERSION} module.\"" >> ${PYTHON_BIN}/activate
 echo -e "  exit 1" >> ${PYTHON_BIN}/activate
 echo -e "fi\n" >> ${PYTHON_BIN}/activate
 
@@ -144,17 +145,17 @@ Create deactivation script
 --------------------------
 
 ```bash
-echo -e "#!/bin/bash\n" > ${PYTHON_BIN}/deactivate
+echo -e '#!/bin/bash\n' > ${PYTHON_BIN}/deactivate
 
 echo -e "if [[ \"\${BASH_SOURCE[0]}\" == \"\${0}\" ]]; then" >> ${PYTHON_BIN}/deactivate
-echo -e "  echo -e \"Error, deactivate script is not being sourced!\"" >> ${PYTHON_BIN}/deactivate
-echo -e "  echo -e \"Please run \"source \${BASH_SOURCE[0]}\" instead.\"" >> ${PYTHON_BIN}/deactivate
+echo -e "  echo -e \"Error, deactivate script is not being sourced.\"" >> ${PYTHON_BIN}/deactivate
+echo -e "  echo -e \"Please run \\\"source \${BASH_SOURCE[0]}\\\" instead.\"" >> ${PYTHON_BIN}/deactivate
 echo -e "  exit 1" >> ${PYTHON_BIN}/deactivate
 echo -e "fi\n" >> ${PYTHON_BIN}/deactivate
 
 echo -e "PYTHON_MODULE_VERSION=${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
 
-echo -e "module -s unload cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
+echo -e "module -q unload cray-python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/deactivate
 
 echo -e "export PATH=${DEACTIVATE_PATH}" >> ${PYTHON_BIN}/deactivate
 echo -e "export LIBRARY_PATH=${DEACTIVATE_LIBRARY_PATH}" >> ${PYTHON_BIN}/deactivate
