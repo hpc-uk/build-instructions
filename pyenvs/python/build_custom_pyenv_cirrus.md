@@ -94,11 +94,11 @@ Create activation script
 ------------------------
 
 ```bash
-echo -e "#!/bin/bash\n" > ${PYTHON_BIN}/activate
+echo -e '#!/bin/bash\n' > ${PYTHON_BIN}/activate
 
 echo -e "if [[ \"\${BASH_SOURCE[0]}\" == \"\${0}\" ]]; then" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Error, activate script is not being sourced!\"" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Please run \"source \${BASH_SOURCE[0]}\" instead.\"" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Error, activate script is not being sourced.\"" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Please run \\\"source \${BASH_SOURCE[0]}\\\" instead.\"" >> ${PYTHON_BIN}/activate
 echo -e "  exit 1" >> ${PYTHON_BIN}/activate
 echo -e "fi\n" >> ${PYTHON_BIN}/activate
 
@@ -114,7 +114,7 @@ echo -e "module -s load python/\${PYTHON_MODULE_VERSION}\n" >> ${PYTHON_BIN}/act
 
 echo -e "MODULE_LOADED=\`module info-loaded python/\${PYTHON_MODULE_VERSION}\`" >> ${PYTHON_BIN}/activate
 echo -e "if [[ \"\${MODULE_LOADED}\" != \"python/\${PYTHON_MODULE_VERSION}\" ]]; then" >> ${PYTHON_BIN}/activate
-echo -e "  echo -e \"Error, failed to load \"python/\${PYTHON_MODULE_VERSION}\" module!\"" >> ${PYTHON_BIN}/activate
+echo -e "  echo -e \"Error, failed to load python/\${PYTHON_MODULE_VERSION} module.\"" >> ${PYTHON_BIN}/activate
 echo -e "  exit 1" >> ${PYTHON_BIN}/activate
 echo -e "fi\n" >> ${PYTHON_BIN}/activate
 
@@ -144,11 +144,11 @@ Create deactivation script
 --------------------------
 
 ```bash
-echo -e "#!/bin/bash\n" > ${PYTHON_BIN}/deactivate
+echo -e '#!/bin/bash\n' > ${PYTHON_BIN}/deactivate
 
 echo -e "if [[ \"\${BASH_SOURCE[0]}\" == \"\${0}\" ]]; then" >> ${PYTHON_BIN}/deactivate
-echo -e "  echo -e \"Error, deactivate script is not being sourced!\"" >> ${PYTHON_BIN}/deactivate
-echo -e "  echo -e \"Please run \"source \${BASH_SOURCE[0]}\" instead.\"" >> ${PYTHON_BIN}/deactivate
+echo -e "  echo -e \"Error, deactivate script is not being sourced.\"" >> ${PYTHON_BIN}/deactivate
+echo -e "  echo -e \"Please run \\\"source \${BASH_SOURCE[0]}\\\" instead.\"" >> ${PYTHON_BIN}/deactivate
 echo -e "  exit 1" >> ${PYTHON_BIN}/deactivate
 echo -e "fi\n" >> ${PYTHON_BIN}/deactivate
 
