@@ -1,10 +1,10 @@
 Instructions for building a Miniconda3 environment suitable for Cirrus GPU nodes
 ================================================================================
 
-These instructions show how to build Miniconda3 environment (based on Python 3.9.13) for the Cirrus GPU nodes
+These instructions show how to build Miniconda3 environment (based on Python 3.10.8) for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.3 (OpenMPI 4.1.4 with ucx 1.9.0 and CUDA 11.6) with pycuda 2022.1
+The environment features mpi4py 3.1.4 (OpenMPI 4.1.4 with ucx 1.9.0 and CUDA 11.6) with pycuda 2022.1
 and cupy 10.6.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
@@ -26,12 +26,12 @@ module load nvidia/nvhpc-nompi/${NVHPC_VERSION}
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
 MPI4PY_LABEL=mpi4py
-MPI4PY_VERSION=3.1.3
+MPI4PY_VERSION=3.1.4
 
-PYTHON_LABEL=py39
+PYTHON_LABEL=py310
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
-MINICONDA_VERSION=4.12.0
+MINICONDA_VERSION=22.11.1-1
 MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}-gpu
 ```
 
@@ -118,13 +118,13 @@ Download pycuda source
 cd ${MINICONDA_ROOT}
 
 PYCUDA_LABEL=pycuda
-PYCUDA_VERSION=2022.1
+PYCUDA_VERSION=2022.2.2
 PYCUDA_NAME=${PYCUDA_LABEL}-${PYCUDA_VERSION}
 
 mkdir -p ${PYCUDA_LABEL}
 cd ${PYCUDA_LABEL}
 
-wget https://files.pythonhosted.org/packages/2d/1f/48a3a5b2c715345e7af1e09361100bd98c3d72b4025371692ab233f523d3/${PYCUDA_NAME}.tar.gz
+wget https://files.pythonhosted.org/packages/78/09/9df5358ffb74d225243b56a65ffe196de481fcd8f731f55e41f2d5d36015/${PYCUDA_NAME}.tar.gz
 tar -xvzf ${PYCUDA_NAME}.tar.gz
 rm ${PYCUDA_NAME}.tar.gz
 
