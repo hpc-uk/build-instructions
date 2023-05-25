@@ -66,8 +66,6 @@ rm ./sed.sh
 
 . ${MINICONDA_ROOT}/activate.sh
 
-conda update -y -n root --all
-
 export PS1="(python) [\u@\h \W]\$ "
 ```
 
