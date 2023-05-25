@@ -118,13 +118,13 @@ Download pycuda source
 cd ${MINICONDA_ROOT}
 
 PYCUDA_LABEL=pycuda
-PYCUDA_VERSION=2022.1
+PYCUDA_VERSION=2022.2.2
 PYCUDA_NAME=${PYCUDA_LABEL}-${PYCUDA_VERSION}
 
 mkdir -p ${PYCUDA_LABEL}
 cd ${PYCUDA_LABEL}
 
-wget https://files.pythonhosted.org/packages/2d/1f/48a3a5b2c715345e7af1e09361100bd98c3d72b4025371692ab233f523d3/${PYCUDA_NAME}.tar.gz
+wget https://files.pythonhosted.org/packages/78/09/9df5358ffb74d225243b56a65ffe196de481fcd8f731f55e41f2d5d36015/${PYCUDA_NAME}.tar.gz
 tar -xvzf ${PYCUDA_NAME}.tar.gz
 rm ${PYCUDA_NAME}.tar.gz
 
