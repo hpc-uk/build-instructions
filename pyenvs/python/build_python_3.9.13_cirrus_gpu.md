@@ -68,8 +68,6 @@ rm ./sed.sh
 
 . ${MINICONDA_ROOT}/activate.sh
 
-conda update -y -n root --all
-
 export PS1="(python-gpu) [\u@\h \W]\$ "
 ```
 
@@ -200,14 +198,6 @@ Install cudatoolkit
 cd ${MINICONDA_ROOT}
 
 conda install -c anaconda cudatoolkit
-```
-
-
-Update Miniconda3 environment
------------------------------
-
-```bash
-conda update -y -n root --all
 ```
 
 
