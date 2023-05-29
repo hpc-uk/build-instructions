@@ -22,7 +22,7 @@ Run Instructions
 ------------------
 
 * [OpenFOAM/dummy-LAMMPS test CPLTestSocketFoam Run Instructions](run_CPLTestSocketFoam.md)
-* [dummy-OpenFOAM/LAMMPS test Couette_coupled Run Instructions] (update_name.md)
+* [dummy-OpenFOAM/LAMMPS test Couette_coupled Run Instructions] (Couette_coupled_run_instructions.md)
 
 Notes
 -----
