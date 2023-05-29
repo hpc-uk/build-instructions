@@ -3,7 +3,7 @@ Building CPL-OpenFOAM-LAMMPS on ARCHER2 (GCC 10.2.0)
 
 These instructions are for building CPL-OpenFOAM LAMMPS on ARCHER2 using the GNU compilers.
 
-At present, as a stepping stone to the full installation of the coupling a OpenFOAM simulation with a LAMMPS simulatino using the CPL coupler library, we first install a related OpenFOAM simulation with a dummy LAMMPS simulation, namely CPL_APP_OPENFOAM
+At present, as a stepping stone to the full installation of the coupling a OpenFOAM simulation with a LAMMPS simulatino using the CPL coupler library, we first install the CPL library.  Secondly, we install a related OpenFOAM simulation with a dummy LAMMPS simulation, namely CPL_APP_OPENFOAM.  This is follows by the installatoin of a LAMMPS simulation with a dummy OpenFOAM simulation, namely CPL_APP_LAMMPS-DEV.
 
 Download CPL
 ---------------
@@ -94,4 +94,32 @@ Run make:
   make cpltestsocketfoam
   make cplinterfoam
   ```
+  
+Download Download CPL_APP_LAMMPS-DEV
+------------------------------------
 
+Clone the latest version of CPL_APP_LAMMPS-DEV from the GitHub repository. This includes the latest LAMMPS version.
+
+   `git clone git@github.com:Crompulence/CPL_APP_LAMMPS-DEV.git`
+
+Setup your environment further
+------------------------------
+
+Configure environment
+
+   ```bash
+   cd CPL_APP_LAMMPS-DEV
+   echo "/work/project/project/username/mylammps" > CODE_INST_DIR
+   # the following SOURCEME.sh is different from the previous two SOURCEME.sh files above
+   source SOURCEME.sh
+   cd config; ./enable-packages.sh make; cd ..
+   ```
+
+Compile CPL_APP_LAMMPS-DEV applications with make
+-----------------------------------------------
+Run make:
+
+  ```
+  make patch-lammps
+  make CC=CC LINK=CC
+  ```
