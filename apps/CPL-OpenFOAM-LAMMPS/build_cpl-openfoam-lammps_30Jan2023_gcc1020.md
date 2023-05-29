@@ -101,6 +101,7 @@ Download Download CPL_APP_LAMMPS-DEV
 Clone the latest version of CPL_APP_LAMMPS-DEV from the GitHub repository. This includes the latest LAMMPS version.
 
    `git clone git@github.com:Crompulence/CPL_APP_LAMMPS-DEV.git`
+   `git clone -b stable https://github.com/lammps/lammps.git mylammps`
 
 Setup your environment further
 ------------------------------
