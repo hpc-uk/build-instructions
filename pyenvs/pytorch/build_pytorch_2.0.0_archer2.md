@@ -1,7 +1,7 @@
-Instructions for installing PyTorch 1.10.0 on ARCHER2
-=====================================================
+Instructions for installing PyTorch 2.0.0 on ARCHER2
+====================================================
 
-These instructions show how to install PyTorch 1.10.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install PyTorch 2.0.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
@@ -11,7 +11,7 @@ Setup initial environment
 PRFX=/path/to/work
 PYTORCH_PACKAGE_LABEL=torch
 PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
-PYTORCH_VERSION=1.10.0
+PYTORCH_VERSION=2.0.0
 PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
 
 module load cray-python
@@ -59,11 +59,8 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 
-pip install --user ${PYTORCH_PACKAGE_LABEL}==${PYTORCH_VERSION}
-pip install --user torchvision
-pip install --user pytorch-lightning
-pip install --user pytorch-lightning-bolts
-pip install --user pytorch-lightning-bolts["extra"]
-pip install --user lightning-flash
-pip install --user 'lightning-flash[all]'
+pip install --user ${PYTORCH_PACKAGE_LABEL}==${PYTORCH_VERSION}+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchvision==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchtext==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchaudio==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 ```
