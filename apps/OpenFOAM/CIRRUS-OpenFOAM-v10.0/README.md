@@ -1,6 +1,6 @@
 # OpenFOAM v10
 
-This is OpenFOAM v10. (Patch released January 2023)
+This is OpenFOAM v10.0 (Patch released January 2023)
 See https://openfoam.org/news/v10-patch/
 
 Here using gcc (default gcc/8.2.0) and mpt (default mpt/2.25)
