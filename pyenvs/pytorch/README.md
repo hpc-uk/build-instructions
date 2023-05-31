@@ -19,6 +19,7 @@ Date | Person | System | Version | Notes
 Installation Instructions
 -------------------------
 
+* [PyTorch 1.10.0 ARCHER2 Build Instructions](build_pytorch_1.10.0_archer2.md)
 * [PyTorch 2.0.0 ARCHER2 Build Instructions](build_pytorch_2.0.0_archer2.md)
 
 Notes
