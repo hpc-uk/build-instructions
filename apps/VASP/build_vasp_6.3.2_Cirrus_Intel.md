@@ -23,6 +23,7 @@ Setup correct modules
 module load mpt
 module load intel-20.4/compilers
 module load intel-20.4/cmkl
+module load intel-20.4/mpi
 ```
 
 The loaded module list when these instructions were written was:
@@ -31,6 +32,7 @@ The loaded module list when these instructions were written was:
 Currently Loaded Modulefiles:
  1) git/2.37.3           2) epcc/utils      3) setup-env       4) mpt/2.25              5) intel-license
  6) gcc/8.2.0(default)   7) intel-20.4/cc   8) intel-20.4/fc   9) intel-20.4/compilers  10) intel-20.4/cmkl
+ 11) intel-20.4/mpi
 ```
 
 Create makefile.include
