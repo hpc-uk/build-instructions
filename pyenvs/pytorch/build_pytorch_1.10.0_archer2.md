@@ -1,5 +1,5 @@
-Instructions for installing Pyorch 1.10.0 on ARCHER2
-====================================================
+Instructions for installing PyTorch 1.10.0 on ARCHER2
+=====================================================
 
 These instructions show how to install PyTorch 1.10.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
