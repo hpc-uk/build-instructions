@@ -75,19 +75,7 @@ Install Horovod
 ```bash
 module load cmake
 
-# switch from nvidia to openmpi compilers
-CC_SAVE=${CC}
-CXX_SAVE=${CXX}
-FC_SAVE=${FC}
-export CC=mpicc
-export CXX=mpicxx
-export FC=mpifort
-
-HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=1 pip install --user --no-cache-dir horovod[tensorflow,pytorch,mxnet]==${HOROVOD_VERSION}
-
-export CC=${CC_SAVE}
-export CXX=${CXX_SAVE}
-export FC=${FC_SAVE}
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=1 pip install --user --no-cache-dir horovod[tensorflow,pytorch,mxnet]==${HOROVOD_VERSION}
 ```
 
 Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.readthedocs.io/en/stable/index.html) has been installed

@@ -1,14 +1,14 @@
 Instructions for building Horovod for the Cirrus GPU nodes
 ==========================================================
 
-These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.25.0, a distributed deep learning training framework,
-one that encompasses three ML libraries, [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/) and [MXNet](https://mxnet.apache.org/).
-The instructions will attempt to install the latest versions of those libraries; as of 5 Aug 2022, these are TensorFlow 2.9.1, PyTorch 1.12.1 and MXNet 1.9.1.
+These instructions show how to build a Python virtual environment (venv) that provides Horovod 0.26.1, a distributed deep learning training framework,
+one that encompasses three ML libraries, [TensorFlow](https://www.tensorflow.org/) and [PyTorch](https://pytorch.org/).
+The instructions will attempt to install the latest versions of those libraries; as of Apr 2023, these are TensorFlow 2.11.0 and PyTorch 1.13.1.
 
 The Horovod environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-This venv is an extension of the Miniconda3 (Python 3.9.13) environment provided by the `python/3.9.13-gpu` module.
-MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.25.0 package (built with NCCL 2.11.4).
+This venv is an extension of the Miniconda3 (Python 3.10.8) environment provided by the `python/3.10.8-gpu` module.
+MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.26.1 package (built with NCCL 2.11.4).
 Horovod is required for running TensorFlow/PyTorch over multiple GPUs distributed across multiple compute nodes.
 
 
@@ -20,10 +20,10 @@ PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
 cd ${PRFX}
 
 HOROVOD_LABEL=horovod
-HOROVOD_VERSION=0.25.0
+HOROVOD_VERSION=0.26.1
 HOROVOD_ROOT=${PRFX}/${HOROVOD_LABEL}
 
-module load python/3.9.13-gpu
+module load python/3.10.8-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
 PYTHON_DIR=${PRFX}/${HOROVOD_LABEL}/${HOROVOD_VERSION}-gpu/python
@@ -81,19 +81,19 @@ module load cmake
 
 export LD_LIBRARY_PATH=${NVHPC_ROOT}/cuda/lib64/stubs:${LD_LIBRARY_PATH}
 
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CUDA_HOME=${NVHPC_ROOT}/cuda/11.6 HOROVOD_NCCL_HOME=${NVHPC_ROOT}/comm_libs/nccl HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=1 CUDA_PATH=${NVHPC_ROOT}/cuda/11.6 pip install --user --no-cache-dir horovod[tensorflow,pytorch,mxnet]==${HOROVOD_VERSION}
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CUDA_HOME=${NVHPC_ROOT}/cuda/11.6 HOROVOD_NCCL_HOME=${NVHPC_ROOT}/comm_libs/nccl HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 CUDA_PATH=${NVHPC_ROOT}/cuda/11.6 pip install --user --no-cache-dir horovod[tensorflow,pytorch]==${HOROVOD_VERSION}
 ```
 
 Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.readthedocs.io/en/stable/index.html) has been installed
 correctly. That command should return something like the following output
 
 ```
-Horovod v0.25.0:
+Horovod v0.26.1:
 
 Available Frameworks:
     [X] TensorFlow
     [X] PyTorch
-    [X] MXNet
+    [ ] MXNet
 
 Available Controllers:
     [X] MPI
