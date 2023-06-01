@@ -38,9 +38,9 @@ Build and install UCX for CPU
 module load gcc/8.2.0
 
 ./configure CC=gcc CXX=g++ FC=gfortran \
-  --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}
+  --enable-mt --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}
 
-make
+make 
 make install
 make clean
 ```
@@ -54,8 +54,25 @@ module load nvidia/nvhpc-nompi/22.2
 
 ./configure CC=gcc CXX=g++ FC=gfortran \
   --with-cuda=${NVHPC_ROOT}/cuda/11.6 \
-  --with-mlx5-dv \
+  --with-mlx5-dv --enable-mt \
   --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-11.6
+
+make
+make install
+make clean
+```
+
+
+Build and install UCX for GPU (CUDA 11.8)
+-----------------------------------------
+
+```bash
+module load nvidia/nvhpc-nompi/22.11
+
+./configure CC=gcc CXX=g++ FC=gfortran \
+  --with-cuda=${NVHPC_ROOT}/cuda/11.8 \
+  --with-mlx5-dv --enable-mt \
+  --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-11.8
 
 make
 make install
