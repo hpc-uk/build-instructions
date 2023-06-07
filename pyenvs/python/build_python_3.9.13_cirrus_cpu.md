@@ -99,8 +99,6 @@ Checking the mpi4py package
 To check that the intended MPI library is supporting mpi4py, start a python session and run the following commands.
 
 ```python
-import mpi4py.rc
-mpi4py.rc.initialize = False
 from mpi4py import MPI
 MPI.Get_library_version()
 exit()
