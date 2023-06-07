@@ -98,7 +98,7 @@ python setup.py clean --all
 Checking the mpi4py package
 ---------------------------
 
-To show the MPI library supporting mpi4py, simply set a Python session and do as follows.
+To show the MPI library supporting mpi4py, simply start a Python session and run the following commands.
 
 ```python
 import mpi4py.rc
@@ -151,10 +151,10 @@ Build and install pycuda
 ------------------------
 
 ```
-CC=gcc CXX=g++ python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
-                                   --no-use-shipped-boost --boost-python-libname=boost_python-py36
+python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
+                    --no-use-shipped-boost --boost-python-libname=boost_python-py36
 
-make
+CC=gcc CXX=g++ make
 make install
 make clean
 ```
