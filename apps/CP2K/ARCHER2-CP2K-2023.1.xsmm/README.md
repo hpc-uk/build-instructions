@@ -2,9 +2,9 @@
 
 This document provides instructions on how to build CP2K 2023.1.xsmm and its dependencies on ARCHER2 full system.
 
-Please note, this CP2K version includes the libxsmm library, which supports small matrix-matrix multiplications,
-and replaces CP2K's own libsmm library. The libxsmm library is not included in the default cp2k-2023.1 build due
-to the fact that cp2k/libxsmm is known to fail on ARCHER2 for some hybrid MPI/OpenMP configurations. For other
+Please note, this CP2K version includes the `libxsmm` library, which supports small matrix-matrix multiplications,
+and replaces CP2K's own `libsmm` library. The `libxsmm` library is not included in the default CP2K 2023.1 build due
+to the fact that CP2K with `libxsmm` is known to fail on ARCHER2 for some hybrid MPI/OpenMP configurations. For other
 types of job however, this version may give a faster time to solution compared to CP2K 2023.1.
 
 Further information on CP2K can be found at [the CP2K website](https://www.cp2k.org) and on the
