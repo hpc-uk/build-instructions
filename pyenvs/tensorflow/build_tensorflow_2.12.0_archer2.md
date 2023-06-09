@@ -1,7 +1,7 @@
-Instructions for installing TensorFlow 2.11.0 on ARCHER2
+Instructions for installing TensorFlow 2.12.0 on ARCHER2
 ========================================================
 
-These instructions show how to install TensorFlow 2.11.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install TensorFlow 2.12.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
@@ -10,7 +10,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work
 TENSORFLOW_LABEL=tensorflow
-TENSORFLOW_VERSION=2.11.0
+TENSORFLOW_VERSION=2.12.0
 TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
 
 module load cray-python
@@ -59,7 +59,7 @@ pip install --user gym
 pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
-pip install --user ${TENSORFLOW_LABEL}==${TENSORFLOW_VERSION}
+pip install --user tensorflow==${TENSORFLOW_VERSION}
 pip install --user tensorflow-cpu
 pip install --user tensorboard_plugin_profile
 ```
