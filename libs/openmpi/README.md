@@ -29,3 +29,5 @@ Build Instructions
 Notes
 -----
 
+When running on ARCHER2, please ensure that you set `export OMPI_MCA_btl='^openib'` before launching
+your OpenMPI-linked code via srun/mpirun. This disables the OpenIB byte transfer layer.
