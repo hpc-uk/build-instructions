@@ -1,7 +1,7 @@
-Instructions for building OpenMPI 4.1.4 on ARCHER2
+Instructions for building OpenMPI 4.1.5 on ARCHER2
 ==================================================
 
-These instructions are for building OpenMPI 4.1.4 on ARCHER2 (HPE Cray EX, AMD Zen2 7742) using gcc 11.2.0.
+These instructions are for building OpenMPI 4.1.5 on ARCHER2 (HPE Cray EX, AMD Zen2 7742) using gcc 11.2.0.
 Two sets of instructions are provided, one that builds OpenMPI for the OpenFabrics interface (OFI) and the
 other for the UCX communications interface.
 
@@ -12,7 +12,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work # e.g., PRFX=/work/y07/shared/libs/dev
 OPENMPI_LABEL=openmpi
-OPENMPI_VERSION=4.1.4
+OPENMPI_VERSION=4.1.5
 OPENMPI_VERSION_MAJOR=`echo "${OPENMPI_VERSION}" | cut -d"." -f 1-2`
 OPENMPI_NAME=${OPENMPI_LABEL}-${OPENMPI_VERSION}
 OPENMPI_ROOT=${PRFX}/${OPENMPI_LABEL}
