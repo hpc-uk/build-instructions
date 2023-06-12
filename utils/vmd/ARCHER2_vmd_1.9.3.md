@@ -1,10 +1,36 @@
-Instructions for compiling VMD 1.9.3 on the ARCHER2 4 Cabinet system
-====================================================================
+Instructions for compiling VMD 1.9.3 on the ARCHER2
+===================================================
 
 These instructions are for compiling VMD 1.9.3 (serial and parallel) on ARCHER2 (HPE Cray EX, AMD Zen2 7742) using the CPE 15 compilers and Cray MPICH 8.
 
+VMD builds a static executable.
+
+The staging/compilation folder should probably be better separated from the installation folder in the next version.
+
 TODO: check all `${VMD_ROOT}` and `${VMD_NAME}`
 
+Setup initial environment
+-------------------------
+
+```bash
+export PRFX=/work/y07/shared/utils/core/vmd
+export VMD_LABEL=vmd
+export VMD_VERSION=1.9.3
+# VMD_ROOT is a staging/compiling folder.
+export VMD_ROOT=${PRFX}/${VMD_LABEL}
+export VMD_NAME=${VMD_LABEL}-${VMD_VERSION}
+# Installation folder
+export VMDINSTALLBINDIR=${PRFX}/${VMD_VERSION}-cpe${CPE_VERSION_MAJOR}/bin
+export VMDINSTALLLIBRARYDIR=${PRFX}/${VMD_VERSION}-cpe${CPE_VERSION_MAJOR}/lib
+
+export HDF5_VERSION=1.12.2.1
+export NETCDF_VERSION=4.9.0.1
+export TCL_VERSION=8.6.13
+export TCL_VERSION_MAJOR=`echo ${TCL_VERSION} | cut -d'.' -f1-2`
+export TK_VERSION=8.6.13
+export TK_VERSION_MAJOR=`echo ${TK_VERSION} | cut -d'.' -f1-2`
+export FLTK_VERSION=1.3.8
+```
 
 Setup required modules
 ----------------------
@@ -20,31 +46,6 @@ module load tk/${TK_VERSION}
 ln -s ${PRFX}/tk/${TK_VERSION}/lib/tk${TK_VERSION_MAJOR} ${PRFX}/tcl/${TCL_VERSION}/lib/tk${TK_VERSION_MAJOR}
 ```
 
-Setup initial environment
--------------------------
-
-```bash
-PRFX=/path/to/work
-export PRFX=/work/y07/shared/utils/core
-export VMD_LABEL=vmd
-export VMD_VERSION=1.9.3
-export VMD_ROOT=${PRFX}/${VMD_LABEL}
-export VMD_NAME=${VMD_ROOT}/${VMD_LABEL}-${VMD_VERSION}
-export VMDINSTALLBINDIR=${VMD_ROOT}/$VMD_VERSION-cpe${CPE_VERSION_MAJOR}/bin
-export VMDINSTALLLIBRARYDIR=${VMD_ROOT}/$VMD_VERSION-cpe${CPE_VERSION_MAJOR}/lib
-
-export HDF5_VERSION=1.12.2.1
-export NETCDF_VERSION=4.9.0.1
-export TCL_VERSION=8.6.13
-export TCL_VERSION_MAJOR=`echo ${TCL_VERSION} | cut -d'.' -f1-2`
-export TK_VERSION=8.6.13
-export TK_VERSION_MAJOR=`echo ${TK_VERSION} | cut -d'.' -f1-2`
-export FLTK_VERSION=1.3.8
-```
-
-Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
-
-
 Download and unpack VMD source
 ------------------------------
 
@@ -54,9 +55,7 @@ cd ${VMD_ROOT}
 
 # expand VMD software archive
 if [ -f ${VMD_ROOT}/arc/${VMD_NAME}.src.tar.gz ]; then
-  cp ${VMD_ROOT}/arc/${VMD_NAME}.src.tar.gz ${VMD_ROOT}/
-  tar -xzf ${VMD_NAME}.src.tar.gz
-  rm ${VMD_NAME}.src.tar.gz
+  tar -xvzf ${VMD_ROOT}/arc/${VMD_NAME}.src.tar.gz
 else
   mkdir -p ${VMD_ROOT}/arc
   echo "Please download the VMD source archive from http://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD"
@@ -182,11 +181,14 @@ WEBSITE IS DOWN?
 git = https://github.com/thesketh/Tachyon.git
 
 ```bash
-cd ..
+cd ${VMD_ROOT}/${VMD_NAME}/lib/
 mv tachyon tachyon.arc
-wget http://jedi.ks.uiuc.edu/~johns/raytracer/files/0.98.9/tachyon-0.98.9.tar.gz
-tar -xvzf tachyon-0.98.9.tar.gz
-mv tachyon-0.98.9.tar.gz ./tachyon.arc
+# website seems to be down
+# wget http://jedi.ks.uiuc.edu/~johns/raytracer/files/0.98.9/tachyon-0.98.9.tar.gz
+# tar -xvzf tachyon-0.98.9.tar.gz
+# mv tachyon-0.98.9.tar.gz ./tachyon.arc
+# alternative github:
+git clone --depth=1 https://github.com/thesketh/Tachyon.git tachyon
 mv tachyon tachyon.serial
 cp -r tachyon.serial tachyon.parallel
 
@@ -203,13 +205,12 @@ Amend the following lines in the linux-lam-64 section of the ``Make-arch`` file.
 ...
 linux-lam-64:
         ...
-        "CFLAGS = -I/opt/cray/pe/mpich/8.1.23/ofi/crayclang/10.0/include ..."
+        "CC = cc" \
+        "CFLAGS = -I${MPICH_DIR}/include ..." \
         ...
-        "LIBS = -L. -L$(LAMHOME)/lib -L/opt/cray/pe/mpich/8.1.23/ofi/crayclang/10.0/lib ..."
+        "LIBS = -L. -L$(LAMHOME)/lib -L${MPICH_DIR}/lib ..." \
 ...
 ```
-
-replace hcc with cc
 
 Make Tachyon.
 ```bash
@@ -233,10 +234,10 @@ Edit the VMD ``configure`` file as shown below
 ```bash
 ...
 # Directory where VMD startup script is installed, should be in users' paths.
-$install_bin_dir="$ENV{'VMD_NAME'}/bin";
+$install_bin_dir="$ENV{'VMDINSTALLBINDIR'}/bin";
 
 # Directory where VMD files and executables are installed
-$install_library_dir="$ENV{'VMD_NAME'}/lib";
+$install_library_dir="$ENV{'VMDINSTALLBINDIR'}/lib";
 ...
 
 ################ FLTK GUI
@@ -258,11 +259,10 @@ if ($config_tk) { $tcl_libs = "-ltk8.6 -lX11 " . $tcl_libs; }
 #   Choose one of the template MPI configs below and edit paths as needed
 #######################
 ...
-$mpi_dir         = $ENV{"CRAY_MPICH_DIR"};
+$mpi_dir         = $ENV{"MPICH_DIR"};
 $mpi_include     = "-I$mpi_dir/include";
 $mpi_library     = "-L$mpi_dir/lib";
 $mpi_libs        = "-lmpich";
-
 ...
 
 #######################
@@ -273,7 +273,6 @@ $netcdf_dir         = $ENV{"NETCDF_DIR"};
 $netcdf_include     = "-I$netcdf_dir/include";
 $netcdf_library     = "-L$netcdf_dir/lib";
 $netcdf_libs        = "-lnetcdf";
-
 ...
 
 if ($config_arch eq "LINUXAMD64") {
@@ -286,10 +285,10 @@ if ($config_arch eq "LINUXAMD64") {
     $xlibs = "-lX11 -lXft -lXext -lXrender -lXinerama -lXcursor -lXfixes -lfontconfig";
     if (!$config_opengl_dispatch) {
       $opengl_dep_libs  = "-L/usr/lib64 -lGL $xlibs";
-      $mesa_libs        = "-lMesaGL -L/usr/lib64 $xlibs";
+      $mesa_libs        = "-lGL -L/usr/lib64 $xlibs";
     }
     ...
-    #      $arch_lopts       .= "-static-intel ";
+    #      $arch_lopts      .= "-static-intel ";
     ...
 }
 
@@ -306,6 +305,7 @@ rm ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
 ln -s ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.serial ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
 ./configure LINUXAMD64 OPENGL FLTK TK NETCDF TCL ICC
 cd src
+make clean
 make -j
 make install
 cd ..
@@ -316,19 +316,24 @@ Change the isnstall location
 ----------------------------
 
 ```bash
-export VMDINSTALLBINDIR=${VMD_ROOT}/$VMD_VERSION-mpi-cpe${CPE_VERSION_MAJOR}/bin
-export VMDINSTALLLIBRARYDIR=${VMD_ROOT}/$VMD_VERSION-mpi-cpe${CPE_VERSION_MAJOR}/lib
+export VMDINSTALLBINDIR=${PRFX}/${VMD_VERSION}-mpi-cpe${CPE_VERSION_MAJOR}/bin
+export VMDINSTALLLIBRARYDIR=${PRFX}/${VMD_VERSION}-mpi-cpe${CPE_VERSION_MAJOR}/lib
 ```
 
 
 Build VMD parallel
 ------------------
 ```bash
-rm ${VMD_NAME}/lib/tachyon
-ln -s ${VMD_NAME}/lib/tachyon.parallel ${VMD_NAME}/lib/tachyon
+rm ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
+ln -s ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.parallel ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
 ./configure LINUXAMD64 OPENGL FLTK TK MPI NETCDF TCL ICC
 cd src
 make clean
 make -j
 make install
 ```
+
+Clean-up
+--------
+
+You can now delete `${VMD_ROOT}`

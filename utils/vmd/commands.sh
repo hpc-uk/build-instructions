@@ -1,4 +1,4 @@
-PRFX=/work/y07/shared/apps/core/
+PRFX=/work/y07/shared/utils/core/
 VMD_LABEL=vmd
 VMD_VERSION=1.9.3
 VMD_ROOT=${PRFX}/${VMD_LABEL}
