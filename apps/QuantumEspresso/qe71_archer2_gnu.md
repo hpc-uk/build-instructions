@@ -1,7 +1,7 @@
 Build Instructions for QE 7.1 on ARCHER2
 -----------------------------------------
 
-For version 7.1 on ARCHER2 using the GCC compilers and the 22.04 CPE. 
+For version 7.1 on ARCHER2 using the GCC compilers and the 22.04 CPE.
 
 ```bash
 wget https://gitlab.com/QEF/q-e/-/archive/qe-7.1/q-e-qe-7.1.tar.gz
@@ -9,7 +9,7 @@ tar -zxvf q-e-qe-7.1.tar.gz
 cd q-e-qe-7.1
 
 module load PrgEnv-gnu
-module load cpe/22.04
+# module load cpe/22.04
 module load cray-fftw cray-hdf5-parallel
 
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
@@ -23,22 +23,31 @@ export BLAS_LIBS=" "
 export LAPACK_LIBS=" "
 export SCALAPACK_LIBS=" "
 export FFT_LIBS=" "
+```
 
+Remember to change the prefix location:
+```bash
 ./configure --enable-parallel --enable-openmp --with-scalapack=yes --prefix=/path/to/desired/install/location
 ```
 
-In `make.inc` change `DFLAGS` to:
+In `make.inc` change `DFLAGS` in Line 43 to:
 
 ```bash
 DFLAGS         =  -D__MPI -D__SCALAPACK -D__FFTW3 -D__HDF5
 ```
+
+Replace explicit compilers with the compiler wrapper in lines 88, 89, 133 to:
+```bash
+ftn
+```
+
+In wannier90-3.1.0/make.inc change the `mpif90` compiler to the ftn wrapper on line 7.
 
 Build:
 ```bash
 make all
 make install
 ```
-
 
 Some simple testing using the QE benchmark's repo:
 
