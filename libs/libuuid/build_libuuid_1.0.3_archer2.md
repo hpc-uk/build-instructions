@@ -39,10 +39,8 @@ Build libuuid
 cd ${LIBUUID_NAME}
 
 module -q restore
-module -q load cpe/21.09
+module -q load cpe/22.12
 module -q load PrgEnv-gnu
-
-export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 
 ./configure CC=cc --prefix=${LIBUUID_INSTALL}
 
