@@ -36,15 +36,13 @@ Build the GMP library for all three ARCHER2 programming environments
 --------------------------------------------------------------------
 
 ```bash
-PE_RELEASE=21.09
+PE_RELEASE=22.12
 declare -a PE_LABEL=("cray" "gnu" "aocc")
 
 for pel in "${PE_LABEL[@]}"; do
   module -q restore
   module -q load cpe/${PE_RELEASE}
   module -q load PrgEnv-${pel}
-
-  export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 
   PE_NAME=${PE_MPICH_FIXED_PRGENV}
   PE_VERSION=$(eval echo "\${PE_MPICH_GENCOMPILERS_${PE_NAME}}")
