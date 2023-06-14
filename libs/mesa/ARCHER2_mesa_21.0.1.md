@@ -1,3 +1,15 @@
+Building MESA 21.0.1 on ARCHER2 with GCC
+========================================
+
+Mesa depends on LLVM, so that needs to be compiled first.
+
+Installing LLVM
+---------------
+
+Loading modules and exporting environment variables.
+This appears to be version 12 because that was the version when first attempted.
+I haven't tried v13 or later... and I haven't confirmed the above statement, which is historical.
+
 ```bash
 module load PrgEnv-gnu/8.3.3
 module load cray-python/3.9.13.1
@@ -8,12 +20,7 @@ export MESA_INSTALL=/work/y07/shared/libs/core/mesa/${MESA_VERSION}
 export LLVM_VERSION=12.0.1
 ```
 
-# LLVM is required to build mesa.
-# This appears to be version 12 because that was the version when first
-# attempted. I haven't tried v13 or later... and I haven't confirmed
-# the above statement, which is historical.
-# tried v16, didn't compile -- new requirements/dependencies?
-
+Download and install LLVMD:
 
 ```bash
 wget https://github.com/llvm/llvm-project/releases/download/llvmorg-${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz
@@ -35,23 +42,39 @@ cmake                                         \
 make -j 8 install
 ```
 
+Installing Mesa
+---------------
+
+Set python paths and install dependencies
+
 ```bash
-# For build ...
 export PYTHONUSERBASE="$(pwd)/.local"
 export PATH=${PYTHONUSERBASE}/bin:$PATH
 pip install --user meson
 pip install --user ninja
 pip install --user mako
+```
 
+Download and extract mesa
+
+```bash
 wget https://archive.mesa3d.org//mesa-${MESA_VERSION}.tar.xz
 rm -rf mesa-${MESA_VERSION}
 tar xf mesa-${MESA_VERSION}.tar.xz
+```
 
+Set environment variables
+
+```bash
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${MESA_INSTALL}/llvm/lib
 export PATH=$PATH:${MESA_INSTALL}/llvm/bin
 
 cd mesa-${MESA_VERSION}
+```
 
+and compile
+
+```bash
 CC=cc CXX=CC meson build -Dprefix="${MESA_INSTALL}/mesa" \
   -Degl=disabled -Dopengl=true -Dgles1=disabled -Dgles2=disabled \
   -Dgallium-va=disabled -Dgallium-xvmc=disabled -Dgallium-vdpau=disabled \
