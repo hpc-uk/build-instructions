@@ -20,10 +20,10 @@ Setup correct modules and build environment
 Setup the GCC programming environment:
 
 ```bash
+module load cpe/22.12
 module load PrgEnv-gnu
 module load cray-python
 module load cmake
-module load cpe/21.09
 export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 ```
 
