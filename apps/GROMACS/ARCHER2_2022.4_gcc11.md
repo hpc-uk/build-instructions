@@ -20,7 +20,7 @@ Setup correct modules and build environment
 Setup the GCC programming environment:
 
 ```bash
-module load cpe
+module load cpe/22.12
 module load PrgEnv-gnu
 module load cray-python
 module load cmake
