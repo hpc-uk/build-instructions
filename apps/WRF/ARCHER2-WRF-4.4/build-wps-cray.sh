@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Check the WPS version is consistent with the WRF version;
+# see "git checkout" below.
+
+# From the default envoronment
+# invoke as "bash ./build-wps-cray.sh"
+
 set -e
 
 export MY_INSTALL=$(pwd)
@@ -8,15 +14,15 @@ export MY_INSTALL=$(pwd)
 # by sed later on...
 # The main WRF directory is...
 
-export WRF_DIR=${MY_INSTALL}/WRFV4.4
+export WRF_DIR=${MY_INSTALL}/WRF
 export JASPER_ROOT=${MY_INSTALL}/grib2
 
-# Install [as required]
+# Install [comment out "git clone" if not required]
+git clone https://github.com/wrf-model/WPS.git
+cd WPS
+git checkout release-v4.4
 
-wget -O wps-v4.4.tar.gz https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz
-tar xf wps-v4.4.tar.gz
-cd WPS-4.4
-
+# Relevant if there is an existing copy:
 ./clean
 
 module load cray-hdf5
@@ -43,7 +49,5 @@ EOF
 
 ./compile
 
-# The make looks like a make -k, so check we have really got three executables
-# at the end:
-
+# Check the make has really generated three executables
 ls -l *exe

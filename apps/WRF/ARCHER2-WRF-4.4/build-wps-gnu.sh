@@ -1,21 +1,29 @@
 #!/usr/bin/env bash
 
+# Make sure the version is consistent with WRF.
+# See "git checkout" below.
+
+# From the default environment
+# invoke as "bash ./wps-build-gnu.sh"
+
 set -e
 
 export MY_INSTALL=$(pwd)
 
+# Watch out: don't have something with "gcc" here; it will get nuked
+# by sed later on...
 # The main WRF directory is...
 
-export WRF_DIR=${MY_INSTALL}/WRFV4.4
+export WRF_DIR=${MY_INSTALL}/WRF
 export JASPER_ROOT=${MY_INSTALL}/grib2
 
-# Download
+# Install [as required]
 
-wget -O wps-v4.4.tar.gz https://github.com/wrf-model/WPS/archive/refs/tags/v4.4.tar.gz
-tar xf wps-v4.4.tar.gz
-cd WPS-4.4
+git clone https://github.com/wrf-model/WPS.git
+cd WPS
+git checkout release-v4.4
 
-
+# Relevant if there is an existing copy.
 ./clean
 
 module load PrgEnv-gnu

@@ -6,6 +6,21 @@ https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compilation_tutorial.php
 
 ## Install
 
+### Note
+
+The scripts described below use
+```
+module load cray-hdf5
+module load cray-netcdf
+```
+to provide (serial) HDF5 and NetCDF, respectively. It should be possible
+to make a uniform replacement by
+```
+module load cray-hdf5-parallel
+module load cray-netcdf-hdf5parallel
+```
+to provide parallel version, if this is wanted.
+
 ### `PrgEnv-cray`
 
 Two prerequisites are installed to a subdirectory `grib2` of the current
@@ -28,14 +43,14 @@ Allow 2-3 hours for this build.
 The module environment at the time of writing was:
 ```
 Currently Loaded Modules:
-  1) cce/11.0.4                                  9) cray-libsci/21.04.1.1
-  2) craype/2.7.6                               10) PrgEnv-cray/8.0.0
-  3) craype-x86-rome                            11) bolt/0.7
-  4) libfabric/1.11.0.4.71                      12) epcc-setup-env
-  5) craype-network-ofi                         13) load-epcc-module
-  6) perftools-base/21.02.0                     14) cray-hdf5/1.12.0.3
-  7) xpmem/2.2.40-7.0.1.0_2.7__g1d7a24d.shasta  15) cray-netcdf/4.7.4.3
-  8) cray-mpich/8.1.4
+  1) craype-x86-rome                         9) cce/15.0.0
+  2) libfabric/1.12.1.2.2.0.0               10) craype/2.7.19
+  3) craype-network-ofi                     11) cray-dsmml/0.2.2
+  4) perftools-base/22.12.0                 12) cray-mpich/8.1.23
+  5) xpmem/2.5.2-2.4_3.30__gd0f7936.shasta  13) cray-libsci/22.12.1.1
+  6) bolt/0.8                               14) PrgEnv-cray/8.3.3
+  7) epcc-setup-env                         15) cray-hdf5/1.12.2.1
+  8) load-epcc-module                       16) cray-netcdf/4.9.0.1
 ```
 
 
@@ -61,14 +76,14 @@ Allow 15-20 minutes for this build.
 The module environment at the time of writing was:
 ```
 Currently Loaded Modules:
-  1) gcc/10.2.0                                  9) cray-libsci/21.04.1.1
-  2) craype/2.7.6                               10) bolt/0.7
-  3) craype-x86-rome                            11) epcc-setup-env
-  4) libfabric/1.11.0.4.71                      12) load-epcc-module
-  5) craype-network-ofi                         13) PrgEnv-gnu/8.0.0
-  6) perftools-base/21.02.0                     14) cray-hdf5/1.12.0.3
-  7) xpmem/2.2.40-7.0.1.0_2.7__g1d7a24d.shasta  15) cray-netcdf/4.7.4.3
-  8) cray-mpich/8.1.4
+  1) craype-x86-rome                         9) gcc/11.2.0
+  2) libfabric/1.12.1.2.2.0.0               10) craype/2.7.19
+  3) craype-network-ofi                     11) cray-dsmml/0.2.2
+  4) perftools-base/22.12.0                 12) cray-mpich/8.1.23
+  5) xpmem/2.5.2-2.4_3.30__gd0f7936.shasta  13) cray-libsci/22.12.1.1
+  6) bolt/0.8                               14) PrgEnv-gnu/8.3.3
+  7) epcc-setup-env                         15) cray-hdf5/1.12.2.1
+  8) load-epcc-module                       16) cray-netcdf/4.9.0.1
 ```
 
 
