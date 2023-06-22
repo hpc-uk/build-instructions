@@ -56,14 +56,10 @@ CP2K | Name         | Optional | Build?    | Comment
 
 ## Set GNU programming environment
 
-First of all, we need to load the GNU compiler suite and version
-21.09 of the programming environment
-
+First of all, we need to load the GNU compiler suite.
 ```
 module load PrgEnv-gnu
-module load cpe/21.09
 module load mkl
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CRAY_LD_LIBRARY_PATH
 export FCFLAGS="-fallow-argument-mismatch"
 ```
 which is relevant to all of what follows. In an attempt to make clear
@@ -246,10 +242,8 @@ General
 
 ```
 module load PrgEnv-gnu
-module load cpe/21.09
 module load mkl
 module load cray-fftw
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CRAY_LD_LIBRARY_PATH
 ```
 
 
@@ -298,7 +292,7 @@ This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 
 # Slurm job options (name, compute nodes, job time)
 #SBATCH --job-name=regtest
-#SBATCH --time=2:00:0
+#SBATCH --time=4:00:0
 #SBATCH --exclusive
 #SBATCH --nodes=1
 #SBATCH --ntasks=2
@@ -311,13 +305,11 @@ This can be exectuted in the queue system via a script in `${CP2K_ROOT}`
 #SBATCH --account=z19
 
 module load PrgEnv-gnu
-module load cpe/21.09
 module load mkl
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CRAY_LD_LIBRARY_PATH
-
-
 
 export OMP_NUM_THREADS=2
+
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
 ./tools/regtesting/do_regtest -nobuild -c arch/ARCHER2-regtest.psmp.conf
 ```
