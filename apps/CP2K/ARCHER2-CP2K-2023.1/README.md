@@ -36,23 +36,19 @@ PLUMED_VERSION=2.8.2
 ## Load modules
 
 ```
-module restore
 module load PrgEnv-gnu
 module load cray-fftw
 module load cray-python
-module load cpe/21.09
 module load mkl
 ```
 
-The above commands load the Cray Programming Environment (CPE) 21.09 and the GNU compiler suite.
+The above commands load the GNU compiler suite, `cray-fftw` and `cray-python`.
 Then, the Intel Maths Kernel Library (MKL) module is loaded, replacing the `cray-libsci` module.
 
 
 ## Prepare CP2K build environment
 
 ```
-CP2K_CRAY_LD_LIBRARY_PATH=`echo ${CRAY_LD_LIBRARY_PATH} | sed 's:\:/opt/cray/pe/libsci/.*/.*/.*/x86_64/lib::g'`
-export LD_LIBRARY_PATH=${CP2K_CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 export FCFLAGS="-fallow-argument-mismatch"
 
 PRFX=/path/to/work/dir # e.g., /work/y07/shared/apps/core 
@@ -232,7 +228,7 @@ The test can be executed in the queue system by submitting script from `${CP2K_R
 #!/bin/bash
 
 #SBATCH --job-name=regtest
-#SBATCH --time=02:00:00
+#SBATCH --time=04:00:00
 #SBATCH --exclusive
 #SBATCH --partition=standard
 #SBATCH --qos=standard
@@ -245,18 +241,16 @@ The test can be executed in the queue system by submitting script from `${CP2K_R
 module load PrgEnv-gnu
 module load cray-fftw
 module load cray-python
-module load cpe/21.09
 module load mkl
 
-CP2K_CRAY_LD_LIBRARY_PATH=`echo ${CRAY_LD_LIBRARY_PATH} | sed 's:\:/opt/cray/pe/libsci/.*/.*/.*/x86_64/lib::g'`
-export LD_LIBRARY_PATH=${CP2K_CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
-
 export OMP_NUM_THREADS=2
+
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
 ./tools/regtesting/do_regtest -nobuild -c ./ARCHER2-regtest.psmp.conf
 ```
 
-The regression tests should take around 3 hrs to complete (assuming CPU frequency of 2.0 GHz)
+The regression tests should take around 3-4 hrs to complete (assuming CPU frequency of 2.0 GHz)
 and the summarized results should be as shown below.
 
 ```

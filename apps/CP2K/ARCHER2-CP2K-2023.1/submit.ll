@@ -32,11 +32,9 @@ PLUMED_VERSION=2.8.2
 
 echo -e "\n\nLoading modules..."
 ################################################################################################################
-module -q restore
 module -q load PrgEnv-gnu
 module -q load cray-fftw
 module -q load cray-python
-module -q load cpe/21.09
 module -q load mkl
 
 module list
@@ -47,8 +45,6 @@ echo -e "\n\nPreparing CP2K build environment..."
 ################################################################################################################
 export OMP_NUM_THREADS=1
 
-CP2K_CRAY_LD_LIBRARY_PATH=`echo ${CRAY_LD_LIBRARY_PATH} | sed 's:\:/opt/cray/pe/libsci/.*/.*/.*/x86_64/lib::g'`
-export LD_LIBRARY_PATH=${CP2K_CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 export FCFLAGS="-fallow-argument-mismatch"
 
 PRFX=${HOME/home/work}/apps
