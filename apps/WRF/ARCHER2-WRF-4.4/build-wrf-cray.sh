@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 
+# You may wish to adjust the WRF version; see "git checkout" below.
+
+# From the default module environemnt
+# invoke as "bash ./build-wrf-cray.sh"
 
 set -e
 
-# Install [uncomment as required]
-wget -O wrf-v4.4.tar.gz https://github.com/wrf-model/WRF/releases/download/v4.4/v4.4.tar.gz 
-tar xf wrf-v4.4.tar.gz
-cd WRFV4.4
+# Install
+
+git clone https://github.com/wrf-model/WRF.git
+cd WRF
+git checkout release-v4.4.3
+
 
 module load cray-hdf5
 module load cray-netcdf
@@ -14,11 +20,8 @@ module list
 
 # Module cray-netcdf is associated with ${NETCDF_DIR}
 # which must be set for the configure stage...
-# NETCDF4 support not available, use classic...
 
 export NETCDF=${NETCDF_DIR}
-export NETCDF_classic=1
-
 
 # Cray (dmpar) is "46"; "1" is for basic nesting.
 
