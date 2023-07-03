@@ -54,16 +54,12 @@ pip install --user tensorflow
 pip install --user tensorflow-gpu
 pip install --user tensorboard_plugin_profile
 
-pip install --user torch
-pip install --user torchvision
+pip install --user torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install --user pytorch-lightning
 pip install --user pytorch-lightning-bolts
 pip install --user pytorch-lightning-bolts["extra"]
 pip install --user lightning-flash
 pip install --user 'lightning-flash[all]'
-
-pip install --user mxnet
-pip install --user mxnet-cu112
 
 pip install --user fastai
 pip install --user opencv-python
