@@ -129,6 +129,21 @@ cd ${MAKE_DIR}
 ./make_xios --full --arch ${HOST_ARCH}
 ```
 
+Unfortunately, the AOCC build fails with a linker error involving a Fortran interface file called `iduration.f90`.
+
+```bash
+fcm_internal compile:F xios__interface__fortran /work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/ppsrc/xios/interface/fortran/iduration.f90 iduration.o
+ftn -o iduration.o -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/inc -D__NONE__ -O3 -lmpichf90 -I/opt/cray/pe/netcdf-hdf5parallel/4.9.0.1/aocc/3.0/include   -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/extern/boost -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/extern/blitz -c /work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/ppsrc/xios/interface/fortran/iduration.f90
+clang-13: warning: -lmpichf90: 'linker' input unused [-Wunused-command-line-argument]
+/tmp/iduration-4b4c5a.ll:1398:63: error: expected '('
+declare void @cxios_duration_neg(%struct.xios_duration.5* sret, %struct.xios_duration.5* noalias byval (%struct.xios_duration.5 ))
+                                                              ^
+1 error generated.
+fcm_internal compile failed (256)
+```
+
+This may be due to a fault with the AOCC compiler.
+
 
 Install XIOS
 ------------
