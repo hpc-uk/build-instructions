@@ -1,0 +1,62 @@
+# compiler options for Archer CRAY EX (using gfortran compiler)
+#
+# NCDF_HOME   root directory containing lib and include subdirectories for netcdf4
+# HDF5_HOME   root directory containing lib and include subdirectories for HDF5
+# XIOS_HOME   root directory containing lib for XIOS
+# OASIS_HOME  root directory containing lib for OASIS
+#
+# NCDF_INC    netcdf4 include file
+# NCDF_LIB    netcdf4 library
+# XIOS_INC    xios include file    (taken into accound only if key_xios is activated)
+# XIOS_LIB    xios library         (taken into accound only if key_xios is activated)
+# OASIS_INC   oasis include file   (taken into accound only if key_oasis3 is activated)
+# OASIS_LIB   oasis library        (taken into accound only if key_oasis3 is activated)
+#
+# FC          Fortran compiler command
+# FCFLAGS     Fortran compiler flags
+# FFLAGS      Fortran 77 compiler flags
+# LD          linker
+# LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries
+# FPPFLAGS    pre-processing flags
+# AR          assembler
+# ARFLAGS     assembler flags
+# MK          make
+# USER_INC    complete list of include files
+# USER_LIB    complete list of libraries to pass to the linker
+# CC          C compiler used to compile conv for AGRIF
+# CFLAGS      compiler flags used with CC
+#
+# Note that:
+#  - unix variables "$..." are accpeted and will be evaluated before calling fcm.
+#  - fcm variables are starting with a % (and not a $)
+#
+%NCDF_HOME           $NETCDF_DIR
+%HDF5_HOME           $HDF5_DIR
+%XIOS_HOME           </path/to/XIOS>
+#OASIS_HOME          
+
+%NCDF_INC            -I%NCDF_HOME/include -I%HDF5_HOME/include
+%NCDF_LIB            -L%HDF5_HOME/lib -L%NCDF_HOME/lib -lnetcdff -lnetcdf -lhdf5_hl -lhdf5 -lz
+%XIOS_INC            -I%XIOS_HOME/inc
+%XIOS_LIB            -L%XIOS_HOME/lib -lxios
+#OASIS_INC           -I%OASIS_HOME/build/lib/mct -I%OASIS_HOME/build/lib/psmile.MPI1
+#OASIS_LIB           -L%OASIS_HOME/lib -lpsmile.MPI1 -lmct -lmpeu -lscrip
+
+%CPP                 cpp -Dkey_nosignedzero
+%FC                  ftn
+%FCFLAGS             -O2 -cpp -fallow-argument-mismatch -fdefault-real-8 -fcray-pointer -ffree-line-length-none
+%FFLAGS              -O2 -cpp -fallow-argument-mismatch -fdefault-real-8 -fcray-pointer -ffree-line-length-none
+%LD                  CC
+%FPPFLAGS            -P -traditional
+%LDFLAGS             -lmpichf90
+%AR                  ar
+%ARFLAGS             -r
+%MK                  gmake
+%USER_INC            %XIOS_INC %NCDF_INC
+%USER_LIB            %XIOS_LIB %NCDF_LIB
+#USER_INC            %XIOS_INC %OASIS_INC %NCDF_INC
+#USER_LIB            %XIOS_LIB %OASIS_LIB %NCDF_LIB
+
+%CC                  cc -Wl,"--allow-multiple-definition"
+%CFLAGS              -O2 -Wl,"--allow-multiple-definition"
+bld::tool::fc_modsearch -J
