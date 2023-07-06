@@ -1,7 +1,7 @@
-Instructions for building XIOS 2.5 on ARCHER2
-=============================================
+Instructions for building XIOS r2528 on ARCHER2
+===============================================
 
-These instructions are for building XIOS 2.5 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using CCE 12.
+These instructions are for building XIOS trunk revision 2528 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using CCE 15.
 
 
 Setup initial environment
@@ -10,8 +10,8 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work
 XIOS_LABEL=xios
-XIOS_VERSION=2.5
-XIOS_NAME=${XIOS_LABEL}-${XIOS_VERSION}
+XIOS_REVISION=2528
+XIOS_NAME=${XIOS_LABEL}-trunk-r${XIOS_REVISION}
 XIOS_ROOT=${PRFX}/${XIOS_LABEL}
 XIOS_MAKE=${XIOS_ROOT}/${XIOS_NAME}
 ```
@@ -27,7 +27,8 @@ mkdir -p ${XIOS_ROOT}
 cd ${XIOS_ROOT}
 
 if [[ ! -d "${XIOS_NAME}" ]]; then
-  svn co https://forge.ipsl.jussieu.fr/ioserver/svn/XIOS/branchs/${XIOS_NAME}
+  svn co -r ${XIOS_REVISION} https://forge.ipsl.jussieu.fr/ioserver/svn/XIOS2/trunk
+  mv trunk ${XIOS_NAME}
 fi
 ```
 
@@ -36,13 +37,10 @@ Load modules
 ------------
 
 ```bash
-module -q load cpe/21.09
+module -q load PrgEnv-cray
 module -q load cray-hdf5-parallel
 module -q load cray-netcdf-hdf5parallel
 module -q load xpmem
-module -q load perftools-base
-
-export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 ```
 
 
@@ -57,7 +55,7 @@ MPI_LABEL=cmpich8
 MPI_PATH=cmpich/8
 
 MAKE_DIR=${XIOS_MAKE}
-INSTALL_DIR=${XIOS_ROOT}/${XIOS_VERSION}/${COMPILER_PATH}/${MPI_PATH}
+INSTALL_DIR=${XIOS_ROOT}/r${XIOS_REVISION}/${COMPILER_PATH}/${MPI_PATH}
 HOST_ARCH=X86_ARCHER2-${COMPILER_LABEL}-${MPI_LABEL}
 
 ARCH_PRFX=${MAKE_DIR}/arch
@@ -100,23 +98,21 @@ echo -e "# Cray EX build instructions for XIOS/${XIOS_NAME}" > ${ARCH_FCM}
 echo -e "# These files have been tested on Archer2 (HPE Cray EX, AMD Zen2 7742) using" >> ${ARCH_FCM}
 echo -e "# the Cray programming environment." >> ${ARCH_FCM}
 echo -e "# The following modules must be loaded." >> ${ARCH_FCM}
-echo -e "#    module -q load cpe/21.09" >> ${ARCH_FCM}
+echo -e "#    module -q load PrgEnv-cray" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-hdf5-parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-netcdf-hdf5parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load xpmem" >> ${ARCH_FCM}
-echo -e "#    module -q load perftools-base" >> ${ARCH_FCM}
-echo -e "#    export LD_LIBRARY_PATH=\${CRAY_LD_LIBRARY_PATH}:\${LD_LIBRARY_PATH}" >> ${ARCH_FCM}
 echo -e "%CCOMPILER      CC" >> ${ARCH_FCM}
 echo -e "%FCOMPILER      ftn" >> ${ARCH_FCM}
 echo -e "%LINKER         ftn\n" >> ${ARCH_FCM}
-echo -e "%BASE_CFLAGS    " >> ${ARCH_FCM}
-echo -e "%PROD_CFLAGS    -O2 -D BOOST_DISABLE_ASSERTS -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEV_CFLAGS     -g -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEBUG_CFLAGS   -DBZ_DEBUG -g -traceback -fno-inline -std=c++98\n" >> ${ARCH_FCM}
+echo -e "%BASE_CFLAGS    -D__NONE__" >> ${ARCH_FCM}
+echo -e "%PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS -std=c++11" >> ${ARCH_FCM}
+echo -e "%DEV_CFLAGS     -g -O2 -std=c++11" >> ${ARCH_FCM}
+echo -e "%DEBUG_CFLAGS   -DBZ_DEBUG -g -O0 -traceback -fno-inline -std=c++11\n" >> ${ARCH_FCM}
 echo -e "%BASE_FFLAGS    -D__NONE__" >> ${ARCH_FCM}
-echo -e "%PROD_FFLAGS    -O2 -hflex_mp=intolerant -s integer32 -s real64 -lmpifort_cray" >> ${ARCH_FCM}
-echo -e "%DEV_FFLAGS     -g" >> ${ARCH_FCM}
-echo -e "%DEBUG_FFLAGS   -g -traceback\n" >> ${ARCH_FCM}
+echo -e "%PROD_FFLAGS    -O3 -hflex_mp=intolerant -s integer32 -s real64 -lmpifort_cray" >> ${ARCH_FCM}
+echo -e "%DEV_FFLAGS     -g -O2 -lmpifort_cray" >> ${ARCH_FCM}
+echo -e "%DEBUG_FFLAGS   -g -O0 -traceback -lmpifort_cray\n" >> ${ARCH_FCM}
 echo -e "%BASE_INC       -D__NONE__" >> ${ARCH_FCM}
 echo -e "%BASE_LD        -lstdc++\n" >> ${ARCH_FCM}
 echo -e "%CPP            cpp -EP" >> ${ARCH_FCM}

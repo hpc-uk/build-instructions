@@ -36,14 +36,10 @@ Load modules
 ------------
 
 ```bash
-module -q load cpe/21.09
 module -q load PrgEnv-aocc
 module -q load cray-hdf5-parallel
 module -q load cray-netcdf-hdf5parallel
 module -q load xpmem
-module -q load perftools-base
-
-export LD_LIBRARY_PATH=${CRAY_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
 ```
 
 
@@ -101,13 +97,10 @@ echo -e "# Cray EX build instructions for XIOS/${XIOS_NAME}" > ${ARCH_FCM}
 echo -e "# These files have been tested on Archer2 (HPE Cray EX, AMD Zen2 7742) using" >> ${ARCH_FCM}
 echo -e "# the AOCC programming environment." >> ${ARCH_FCM}
 echo -e "# The following modules must be loaded." >> ${ARCH_FCM}
-echo -e "#    module -q load cpe/21.09" >> ${ARCH_FCM}
-echo -e "#    module -q swap PrgEnv-cray PrgEnv-aocc" >> ${ARCH_FCM}
+echo -e "#    module -q load PrgEnv-aocc" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-hdf5-parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-netcdf-hdf5parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load xpmem" >> ${ARCH_FCM}
-echo -e "#    module -q load perftools-base" >> ${ARCH_FCM}
-echo -e "#    export LD_LIBRARY_PATH=\${CRAY_LD_LIBRARY_PATH}:\${LD_LIBRARY_PATH}" >> ${ARCH_FCM}
 echo -e "%CCOMPILER      CC" >> ${ARCH_FCM}
 echo -e "%FCOMPILER      ftn" >> ${ARCH_FCM}
 echo -e "%LINKER         ftn\n" >> ${ARCH_FCM}
