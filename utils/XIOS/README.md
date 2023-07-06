@@ -10,7 +10,6 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
-
  2023-07-06 | Michael Bareford | ARCHER2 Full System | r2528 (trunk) | CCE 15
  2023-07-06 | Michael Bareford | ARCHER2 Full System | r2528 (trunk) | GCC 11
  2023-07-06 | Michael Bareford | ARCHER2 Full System | r2528 (trunk) | AOCC 3
