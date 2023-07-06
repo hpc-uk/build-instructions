@@ -1,7 +1,7 @@
 Instructions for building XIOS 2.5 on ARCHER2
 =============================================
 
-These instructions are for building XIOS 2.5 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
+These instructions are for building XIOS 2.5 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using CCE 15.
 
 
 Setup initial environment
@@ -36,7 +36,7 @@ Load modules
 ------------
 
 ```bash
-module -q load PrgEnv-gnu
+module -q load PrgEnv-cray
 module -q load cray-hdf5-parallel
 module -q load cray-netcdf-hdf5parallel
 module -q load xpmem
@@ -47,9 +47,9 @@ Further environment setup
 -------------------------
 
 ```bash
-GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-COMPILER_LABEL=gcc${GNU_VERSION_MAJOR}
-COMPILER_PATH=gcc/${GNU_VERSION_MAJOR}
+CRAY_VERSION_MAJOR=`echo ${CRAY_CC_VERSION} | cut -d'.' -f1`
+COMPILER_LABEL=cce${CRAY_VERSION_MAJOR}
+COMPILER_PATH=cce/${CRAY_VERSION_MAJOR}
 MPI_LABEL=cmpich8
 MPI_PATH=cmpich/8
 
@@ -95,26 +95,26 @@ echo -e "#ADDR2LINE_LIB=\"-laddr2line\"" >> ${ARCH_PATH}
 ARCH_FCM=${ARCH_PRFX}/arch-${ARCH_NAME}.fcm
 echo -e "# Cray EX build instructions for XIOS/${XIOS_NAME}" > ${ARCH_FCM}
 echo -e "# These files have been tested on Archer2 (HPE Cray EX, AMD Zen2 7742) using" >> ${ARCH_FCM}
-echo -e "# the GNU programming environment." >> ${ARCH_FCM}
+echo -e "# the Cray programming environment." >> ${ARCH_FCM}
 echo -e "# The following modules must be loaded." >> ${ARCH_FCM}
-echo -e "#    module -q load PrgEnv-gnu" >> ${ARCH_FCM}
+echo -e "#    module -q load PrgEnv-cray" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-hdf5-parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-netcdf-hdf5parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load xpmem" >> ${ARCH_FCM}
 echo -e "%CCOMPILER      CC" >> ${ARCH_FCM}
 echo -e "%FCOMPILER      ftn" >> ${ARCH_FCM}
 echo -e "%LINKER         ftn\n" >> ${ARCH_FCM}
-echo -e "%BASE_CFLAGS    -D__NONE__" >> ${ARCH_FCM}
-echo -e "%PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEV_CFLAGS     -g -O2 -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEBUG_CFLAGS   -g -std=c++98\n" >> ${ARCH_FCM}
+echo -e "%BASE_CFLAGS    " >> ${ARCH_FCM}
+echo -e "%PROD_CFLAGS    -O2 -D BOOST_DISABLE_ASSERTS -std=c++98" >> ${ARCH_FCM}
+echo -e "%DEV_CFLAGS     -g -std=c++98" >> ${ARCH_FCM}
+echo -e "%DEBUG_CFLAGS   -DBZ_DEBUG -g -traceback -fno-inline -std=c++98\n" >> ${ARCH_FCM}
 echo -e "%BASE_FFLAGS    -D__NONE__" >> ${ARCH_FCM}
-echo -e "%PROD_FFLAGS    -O3 -lmpichf90" >> ${ARCH_FCM}
-echo -e "%DEV_FFLAGS     -g -O2 -lmpichf90" >> ${ARCH_FCM}
-echo -e "%DEBUG_FFLAGS   -g\n" >> ${ARCH_FCM}
+echo -e "%PROD_FFLAGS    -O2 -hflex_mp=intolerant -s integer32 -s real64 -lmpifort_cray" >> ${ARCH_FCM}
+echo -e "%DEV_FFLAGS     -g" >> ${ARCH_FCM}
+echo -e "%DEBUG_FFLAGS   -g -traceback\n" >> ${ARCH_FCM}
 echo -e "%BASE_INC       -D__NONE__" >> ${ARCH_FCM}
 echo -e "%BASE_LD        -lstdc++\n" >> ${ARCH_FCM}
-echo -e "%CPP            cpp" >> ${ARCH_FCM}
+echo -e "%CPP            cpp -EP" >> ${ARCH_FCM}
 echo -e "%FPP            cpp -P" >> ${ARCH_FCM}
 echo -e "%MAKE           gmake" >> ${ARCH_FCM}
 ```

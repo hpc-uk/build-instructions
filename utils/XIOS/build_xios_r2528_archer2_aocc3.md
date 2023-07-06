@@ -1,7 +1,7 @@
-Instructions for building XIOS 2.5 on ARCHER2
-=============================================
+Instructions for building XIOS r2528 on ARCHER2
+===============================================
 
-These instructions are for building XIOS 2.5 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
+These instructions are for building XIOS trunk revision 2528 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using AOCC 3.
 
 
 Setup initial environment
@@ -10,8 +10,8 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work
 XIOS_LABEL=xios
-XIOS_VERSION=2.5
-XIOS_NAME=${XIOS_LABEL}-${XIOS_VERSION}
+XIOS_REVISION=2528
+XIOS_NAME=${XIOS_LABEL}-trunk-r${XIOS_REVISION}
 XIOS_ROOT=${PRFX}/${XIOS_LABEL}
 XIOS_MAKE=${XIOS_ROOT}/${XIOS_NAME}
 ```
@@ -27,7 +27,8 @@ mkdir -p ${XIOS_ROOT}
 cd ${XIOS_ROOT}
 
 if [[ ! -d "${XIOS_NAME}" ]]; then
-  svn co https://forge.ipsl.jussieu.fr/ioserver/svn/XIOS/branchs/${XIOS_NAME}
+  svn co -r ${XIOS_REVISION} https://forge.ipsl.jussieu.fr/ioserver/svn/XIOS2/trunk
+  mv trunk ${XIOS_NAME}
 fi
 ```
 
@@ -36,7 +37,7 @@ Load modules
 ------------
 
 ```bash
-module -q load PrgEnv-gnu
+module -q load PrgEnv-aocc
 module -q load cray-hdf5-parallel
 module -q load cray-netcdf-hdf5parallel
 module -q load xpmem
@@ -47,14 +48,14 @@ Further environment setup
 -------------------------
 
 ```bash
-GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-COMPILER_LABEL=gcc${GNU_VERSION_MAJOR}
-COMPILER_PATH=gcc/${GNU_VERSION_MAJOR}
+AOCC_VERSION_MAJOR=`echo ${AOCC_VERSION} | cut -d'.' -f1`
+COMPILER_LABEL=aocc${AOCC_VERSION_MAJOR}
+COMPILER_PATH=aocc/${AOCC_VERSION_MAJOR}
 MPI_LABEL=cmpich8
 MPI_PATH=cmpich/8
 
 MAKE_DIR=${XIOS_MAKE}
-INSTALL_DIR=${XIOS_ROOT}/${XIOS_VERSION}/${COMPILER_PATH}/${MPI_PATH}
+INSTALL_DIR=${XIOS_ROOT}/r${XIOS_REVISION}/${COMPILER_PATH}/${MPI_PATH}
 HOST_ARCH=X86_ARCHER2-${COMPILER_LABEL}-${MPI_LABEL}
 
 ARCH_PRFX=${MAKE_DIR}/arch
@@ -95,9 +96,9 @@ echo -e "#ADDR2LINE_LIB=\"-laddr2line\"" >> ${ARCH_PATH}
 ARCH_FCM=${ARCH_PRFX}/arch-${ARCH_NAME}.fcm
 echo -e "# Cray EX build instructions for XIOS/${XIOS_NAME}" > ${ARCH_FCM}
 echo -e "# These files have been tested on Archer2 (HPE Cray EX, AMD Zen2 7742) using" >> ${ARCH_FCM}
-echo -e "# the GNU programming environment." >> ${ARCH_FCM}
+echo -e "# the AOCC programming environment." >> ${ARCH_FCM}
 echo -e "# The following modules must be loaded." >> ${ARCH_FCM}
-echo -e "#    module -q load PrgEnv-gnu" >> ${ARCH_FCM}
+echo -e "#    module -q load PrgEnv-aocc" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-hdf5-parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load cray-netcdf-hdf5parallel" >> ${ARCH_FCM}
 echo -e "#    module -q load xpmem" >> ${ARCH_FCM}
@@ -105,13 +106,13 @@ echo -e "%CCOMPILER      CC" >> ${ARCH_FCM}
 echo -e "%FCOMPILER      ftn" >> ${ARCH_FCM}
 echo -e "%LINKER         ftn\n" >> ${ARCH_FCM}
 echo -e "%BASE_CFLAGS    -D__NONE__" >> ${ARCH_FCM}
-echo -e "%PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEV_CFLAGS     -g -O2 -std=c++98" >> ${ARCH_FCM}
-echo -e "%DEBUG_CFLAGS   -g -std=c++98\n" >> ${ARCH_FCM}
+echo -e "%PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS -std=c++11" >> ${ARCH_FCM}
+echo -e "%DEV_CFLAGS     -g -O2 -std=c++11" >> ${ARCH_FCM}
+echo -e "%DEBUG_CFLAGS   -g -O0 -std=c++11\n" >> ${ARCH_FCM}
 echo -e "%BASE_FFLAGS    -D__NONE__" >> ${ARCH_FCM}
 echo -e "%PROD_FFLAGS    -O3 -lmpichf90" >> ${ARCH_FCM}
 echo -e "%DEV_FFLAGS     -g -O2 -lmpichf90" >> ${ARCH_FCM}
-echo -e "%DEBUG_FFLAGS   -g\n" >> ${ARCH_FCM}
+echo -e "%DEBUG_FFLAGS   -g -O0 -lmpichf90\n" >> ${ARCH_FCM}
 echo -e "%BASE_INC       -D__NONE__" >> ${ARCH_FCM}
 echo -e "%BASE_LD        -lstdc++\n" >> ${ARCH_FCM}
 echo -e "%CPP            cpp" >> ${ARCH_FCM}
@@ -127,6 +128,21 @@ Build XIOS
 cd ${MAKE_DIR}
 ./make_xios --full --arch ${HOST_ARCH}
 ```
+
+Unfortunately, the AOCC build fails with a linker error involving a Fortran interface file called `iduration.f90`.
+
+```bash
+fcm_internal compile:F xios__interface__fortran /work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/ppsrc/xios/interface/fortran/iduration.f90 iduration.o
+ftn -o iduration.o -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/inc -D__NONE__ -O3 -lmpichf90 -I/opt/cray/pe/netcdf-hdf5parallel/4.9.0.1/aocc/3.0/include   -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/extern/boost -I/work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/extern/blitz -c /work/z19/z19/mrb23cab/utils/xios/xios-trunk-r2528/ppsrc/xios/interface/fortran/iduration.f90
+clang-13: warning: -lmpichf90: 'linker' input unused [-Wunused-command-line-argument]
+/tmp/iduration-4b4c5a.ll:1398:63: error: expected '('
+declare void @cxios_duration_neg(%struct.xios_duration.5* sret, %struct.xios_duration.5* noalias byval (%struct.xios_duration.5 ))
+                                                              ^
+1 error generated.
+fcm_internal compile failed (256)
+```
+
+This may be due to a fault with the AOCC compiler.
 
 
 Install XIOS
