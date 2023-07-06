@@ -69,7 +69,7 @@ module -q load cray-netcdf-hdf5parallel
 Build a NEMO configuration
 --------------------------
 
-Various NEMO configurations can be found in the `./cfgs` folder.` The example below,
+Various NEMO configurations can be found in the `./cfgs` folder. The example below,
 builds the `GYRE_PISCES` config.
 
 ```bash
@@ -94,7 +94,7 @@ ln -s </path/to/xios_server.exe> xios_server.exe
 
 See the following links for example submission scripts.
 
-[./submit-nemo-cce-ofi.ll](./submit-nemo-cce-ofi.ll)
+[./submit-nemo-cce-ofi.ll](./submit-nemo-cce-ofi.ll)\
 [./submit-nemo-cce-ucx.ll](./submit-nemo-cce-ucx.ll)
 
 Please copy one of these to the `EXPOO` folder, edit as necessary and then submit
