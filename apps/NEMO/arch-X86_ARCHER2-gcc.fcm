@@ -32,7 +32,7 @@
 #
 %NCDF_HOME           $NETCDF_DIR
 %HDF5_HOME           $HDF5_DIR
-%XIOS_HOME           </path/to/XIOS>
+%XIOS_HOME           $XIOS_DIR
 #OASIS_HOME          
 
 %NCDF_INC            -I%NCDF_HOME/include -I%HDF5_HOME/include
