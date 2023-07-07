@@ -101,6 +101,12 @@ See the following links for example submission scripts.
 Please copy one of these to the `EXPOO` folder, edit as necessary and then submit
 your job from that location using `sbatch`.
 
+The submission scripts linked above will launch NEMO in detached mode, i.e., XIOS
+is run as a separate executable. The scripts request two nodes with 2 XIOS servers
+and 48 ocean processes per node. The XIOS servers each run within their own NUMA
+region and the ocean processes are distributed over the remaining six NUMA
+regions such that there is a free CPU between each process.  
+
 
 Adjusting NEMO parameters
 -------------------------
@@ -115,3 +121,8 @@ The latter is the time step size in seconds - set to `7200 s` if `nn_GYRE=1`.
 Another parameter of interest is `nn_stock`, which controls how frequently restart
 files are written during the simulation. You can set this parameter to `-1` to turn
 off completely the writing of restart files.
+
+Lastly, you must ensure that the `jpni` and `jpnj` parameters are set in the `nammpp`
+section of `namelist_cfg`. Those two parameters specify the domain decomposition.
+Their product must equal the number of ocean processes, e.g., if you're running NEMO
+over two nodes with 48 ocean processes per node, `jpni` $\times$ `jpnj` should equal `96`.
