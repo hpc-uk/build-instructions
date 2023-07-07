@@ -17,7 +17,7 @@ NEMO_NAME=${NEMO_LABEL}-${NEMO_VERSION}
 NEMO_ROOT=${PRFX}/${NEMO_LABEL}
 NEMO_MAKE=${NEMO_ROOT}/${NEMO_NAME}
 
-XIOS_DIR-/path/to/xios
+export XIOS_DIR-/path/to/xios
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
