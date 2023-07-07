@@ -3,7 +3,7 @@ Building CPL-OpenFOAM-LAMMPS on ARCHER2 (GCC 10.2.0)
 
 These instructions are for building CPL-OpenFOAM LAMMPS on ARCHER2 using the GNU compilers.
 
-At present, as a stepping stone to the full installation of the coupling a OpenFOAM simulation with a LAMMPS simulatino using the CPL coupler library, we first install the CPL library.  Secondly, we install a related OpenFOAM simulation with a dummy LAMMPS simulation, namely CPL_APP_OPENFOAM.  This is follows by the installatoin of a LAMMPS simulation with a dummy OpenFOAM simulation, namely CPL_APP_LAMMPS-DEV.
+First install the CPL library.  Secondly, we install a related OpenFOAM simulation with a dummy MD simulation, namely CPL_APP_OPENFOAM.  This is follows by the installatoin of a LAMMPS simulation with a dummy CFD simulation, namely CPL_APP_LAMMPS-DEV. Finally, we install an example of a LAMMPS simultion coupled with an OpenFOAM simulation, namely LAMMPS-OPENFOAM.
 
 Download CPL
 ---------------
@@ -20,8 +20,10 @@ Load the correct modules:
    ```bash
    module restore
    module load openfoam/com/v2106
-   module load lammps/13_Jun_2022
+   module load gcc/10.3.0
+   module load cray-fftw
    module load cray-python
+   module load matplotlib
    ```
 
 Compile and enable CPL library with make
@@ -110,7 +112,8 @@ Configure environment
 
    ```bash
    cd CPL_APP_LAMMPS-DEV
-   echo "/work/project/project/username/mylammps" > CODE_INST_DIR
+   # change y23 to your project and gavincpl to your username
+   echo "/work/y23/y23/gavincpl/mylammps" > CODE_INST_DIR
    # the following SOURCEME.sh is different from the previous two SOURCEME.sh files above
    source SOURCEME.sh
    cd config; ./enable-packages.sh make; cd ..
