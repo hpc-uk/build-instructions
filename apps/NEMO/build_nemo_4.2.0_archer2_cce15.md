@@ -113,14 +113,15 @@ Adjusting NEMO parameters
 
 The NEMO input parameters can be found in the `namelist_cfg` file. Parameters such
 as `nn_itend` control how many time steps will be covered by the simulation.
-
-There are two key parameters that need to be adjusted together, namely, `nn_GYRE`
-and `rn_Dt`. The former is the resolution - its default value is `1 degree`.
-The latter is the time step size in seconds - set to `7200 s` if `nn_GYRE=1`.
-
 Another parameter of interest is `nn_stock`, which controls how frequently restart
 files are written during the simulation. You can set this parameter to `-1` to turn
 off completely the writing of restart files.
+
+For the `GYRE_PISCES` config, there are two key parameters that need to be adjusted
+together, namely, `nn_GYRE` and `rn_Dt`. The former is the resolution - its default
+value is `1 degree`. The latter is the time step size in seconds - set to `7200`
+if `nn_GYRE=1`. Other NEMO configs may have a fixed resolution and so will not offer
+a parameter similar to `nn_GYRE`.
 
 Lastly, you must ensure that the `jpni` and `jpnj` parameters are set in the `nammpp`
 section of `namelist_cfg`. Those two parameters specify the domain decomposition.
