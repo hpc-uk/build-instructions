@@ -58,4 +58,4 @@ UCX   | on    | 3   | 267,294 | 313,267 | 290,870
 We can see that `OFI` beats `UCX` whether or not turbo mode (`srun --cpu-freq=2250000 ...`) is on or off.
 This is possibly due to the fact that the benchmark is being run on just two nodes.
 
-In any case, for the `OFI` results the turbo boost performance ratio is (368/299)/(225454/192190) = 1.049. 
+In any case, for the `OFI` results, the turbo boost performance ratio is (368/299) $\div$ (225454/192190) = 1.049. 
