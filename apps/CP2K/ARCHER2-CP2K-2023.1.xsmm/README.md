@@ -299,3 +299,65 @@ GREPME 0 0 3797 0 3797 X
 Summary: correct: 3797 / 3797; 160min
 Status: OK
 ```
+
+
+## Performance
+
+### H2O
+
+The CP2K H2O benchmark, `QS_DM_LS/H2O-dft-ls.NREP4.inp`, was run over four nodes with
+16 MPI tasks per node and 8 OpenMP threads per task.
+
+The runtime and energy results, dated 2023-07-06, were obtained via the `sacct` command.
+
+```bash
+sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEnergyRaw
+```
+
+The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
+
+Runtime (s)
+-----------
+
+Comms | Turbo | Cnt | Min | Max | Avg
+----- | ----- | --- | --- | --- | ---
+  OFI |   off |   3 | 266 | 272 | 270 
+  OFI |    on |   3 | 223 | 228 | 226 
+
+Energy [J]
+----------
+
+Comms | Turbo | Cnt |     Min |     Max |     Avg
+----- | ----- | --- | ------- | ------- | -------
+  OFI |   off |   3 | 392,627 | 397,917 | 392,473
+  OFI |    on |   3 | 417,549 | 421,330 | 419,765
+
+
+### Lithium Hydride crystal
+
+The `QS_LiH_HFX/input_bulk_HFX_3.inpz` benchmark was run over 96 nodes with 16 MPI tasks
+per node and 8 OpenMP threads per task.
+
+The runtime and energy results, dated 2023-07-07, were obtained via the `sacct` command.
+
+```bash
+sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEnergyRaw
+```
+
+The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
+
+Runtime (s)
+-----------
+
+Comms | Turbo | Cnt | Min | Max | Avg
+----- | ----- | --- | --- | --- | ---
+  OFI |     &#x2611; |   3 | 144 | 147 | 145
+  OFI |     &#x2612; |   3 | 119 | 122 | 121 
+
+Energy [J]
+----------
+
+Comms | Turbo | Cnt |       Min |       Max |       Avg
+----- | ----- | --- | --------- | --------- | ---------
+  OFI |   off |   3 | 4,389,456 | 4,396,607 | 4,374,493
+  OFI |    on |   3 | 4,604,368 | 4,680,678 | 4,643,515 
