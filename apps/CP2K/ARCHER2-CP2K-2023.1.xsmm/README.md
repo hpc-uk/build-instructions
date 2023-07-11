@@ -316,21 +316,19 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 
 The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
 
-Runtime (s)
------------
+#### Runtime (s)
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI |   off |   3 | 266 | 272 | 270 
-  OFI |    on |   3 | 223 | 228 | 226 
+  OFI | &cross; |   3 | 266 | 272 | 270 
+  OFI | &check; |   3 | 223 | 228 | 226 
 
-Energy [J]
-----------
+#### Energy [J]
 
 Comms | Turbo | Cnt |     Min |     Max |     Avg
 ----- | ----- | --- | ------- | ------- | -------
-  OFI |   off |   3 | 392,627 | 397,917 | 392,473
-  OFI |    on |   3 | 417,549 | 421,330 | 419,765
+  OFI | &cross; |   3 | 392,627 | 397,917 | 392,473
+  OFI | &check; |   3 | 417,549 | 421,330 | 419,765
 
 
 ### Lithium Hydride crystal
@@ -346,18 +344,16 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 
 The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
 
-Runtime (s)
------------
+#### Runtime (s)
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI |     &#x2611; |   3 | 144 | 147 | 145
-  OFI |     &#x2612; |   3 | 119 | 122 | 121 
+  OFI | &cross; |   3 | 144 | 147 | 145
+  OFI | &check; |   3 | 119 | 122 | 121 
 
-Energy [J]
-----------
+#### Energy [J]
 
 Comms | Turbo | Cnt |       Min |       Max |       Avg
 ----- | ----- | --- | --------- | --------- | ---------
-  OFI |   off |   3 | 4,389,456 | 4,396,607 | 4,374,493
-  OFI |    on |   3 | 4,604,368 | 4,680,678 | 4,643,515 
+  OFI | &cross; |   3 | 4,389,456 | 4,396,607 | 4,374,493
+  OFI | &check; |   3 | 4,604,368 | 4,680,678 | 4,643,515 
