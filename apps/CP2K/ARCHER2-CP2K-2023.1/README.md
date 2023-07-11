@@ -281,16 +281,14 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 
 The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
 
-### Runtime (s)
------------
+#### Runtime (s)
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
   OFI | &cross; |   3 | 470 | 496 | 479
   OFI | &check; |   3 | 360 | 377 | 366
 
-### Energy [J]
-----------
+#### Energy [J]
 
 Comms | Turbo | Cnt |     Min |     Max |     Avg
 ----- | ----- | --- | ------- | ------- | -------
@@ -311,16 +309,14 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 
 The actual numbers used were the highest runtimes and energies indicated in the `sacct` output.
 
-### Runtime (s)
------------
+#### Runtime (s)
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
   OFI | &cross; |   3 | 146 | 152 | 150
   OFI | &check; |   3 | 119 | 124 | 121 
 
-### Energy [J]
-----------
+#### Energy [J]
 
 Comms | Turbo | Cnt |       Min |       Max  |       Avg
 ----- | ----- | --- | --------- | ---------  | ---------
