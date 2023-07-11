@@ -33,26 +33,24 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 The actual numbers were taken from the `myscript_wrapper.sh` task indicated in the `sacct` output.
 
 
-Runtime (s)
------------
+### Runtime (s)
 
-Comms | Turbo | Cnt | Min | Max | Avg
------ | ----- | --- | --- | --- | ---
-OFI   | off   | 3   | 352 | 385 | 368
-OFI   | on    | 3   | 282 | 317 | 299
-UCX   | off   | 3   | 346 | 413 | 381
-UCX   | on    | 3   | 357 | 411 | 384
+Comms | Turbo   | Cnt | Min | Max | Avg
+----- | -----   | --- | --- | --- | ---
+OFI   | &cross; |   3 | 352 | 385 | 368
+OFI   | &check; |   3 | 282 | 317 | 299
+UCX   | &cross; |   3 | 346 | 413 | 381
+UCX   | &check; |   3 | 357 | 411 | 384
 
 
-Energy [J]
-----------
+### Energy [J]
 
-Comms | Turbo | Cnt | Min     | Max     | Avg
------ | ----- | --- | ---     | ---     | ---
-OFI   | off   | 3   | 189,301 | 194,964 | 192,190
-OFI   | on    | 3   | 218,387 | 238,674 | 225,454
-UCX   | off   | 3   | 185,834 | 227,725 | 211,940
-UCX   | on    | 3   | 267,294 | 313,267 | 290,870
+Comms | Turbo   | Cnt |     Min |     Max |     Avg
+----- | -----   | --- | ------- | ------- | -------
+OFI   | &cross; |   3 | 189,301 | 194,964 | 192,190
+OFI   | &check; |   3 | 218,387 | 238,674 | 225,454
+UCX   | &cross; |   3 | 185,834 | 227,725 | 211,940
+UCX   | &check; |   3 | 267,294 | 313,267 | 290,870
 
 
 We can see that `OFI` beats `UCX` whether or not turbo mode (`srun --cpu-freq=2250000 ...`) is on or off.
