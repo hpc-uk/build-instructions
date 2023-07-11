@@ -33,23 +33,21 @@ sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEn
 The actual numbers were taken from the `myscript_wrapper.sh` task indicated in the `sacct` output.
 
 
-Runtime (s)
------------
+### Runtime (s)
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-OFI   | off   | 3   | 377 | 421 | 397
-OFI   | on    | 3   | 301 | 310 | 305
-UCX   | off   | 3   | 362 | 394 | 380
-UCX   | on    | 3   | 333 | 405 | 373
+  OFI | &cross; | 3 | 377 | 421 | 397
+  OFI | &check; | 3 | 301 | 310 | 305
+  UCX | &cross; | 3 | 362 | 394 | 380
+  UCX | &check; | 3 | 333 | 405 | 373
 
 
-Energy [J]
-----------
+### Energy [J]
 
-Comms | Turbo | Cnt | Min     | Max     | Avg
------ | ----- | --- | ---     | ---     | ---
-OFI   | off   | 3   | 207,146 | 224,044 | 216,217
-OFI   | on    | 3   | 212,531 | 233,470 | 225,253
-UCX   | off   | 3   | 199,209 | 214,667 | 204,754
-UCX   | on    | 3   | 230,991 | 296,633 | 271,715 
+Comms | Turbo | Cnt |     Min |     Max |     Avg
+----- | ----- | --- | ------- | ------- | -------
+OFI   | &cross; | 3 | 207,146 | 224,044 | 216,217
+OFI   | &check; | 3 | 212,531 | 233,470 | 225,253
+UCX   | &cross; | 3 | 199,209 | 214,667 | 204,754
+UCX   | &check; | 3 | 230,991 | 296,633 | 271,715 
