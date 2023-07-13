@@ -29,4 +29,7 @@ Run Instructions
 
 Notes
 -----
-These examples see both applications share the same MPI_Comm_world communicator. Example of where each application uses their own MPI_Comm_world communicators is available from the authors.
+These examples see both applications share the same MPI_Comm_world communicator. The alternative is where each application uses their own MPI_Comm_world communicators.  Basic examples of both these modes (shared and distinct heterogenous jobs) ca can be found in the cpl-library/examples/minimal_send_recv_mocks folder, with Archer2 batch scripts shared.bat and distinct.bat within cpl-library/examples/minimal_send_recv_mocks/archer2_examples/.  
+
+NB all examples in cpl-library, CPL_APP_OPENFOAM and CPL_APP_LAMMPS-DEV can run in either mode on Arhcer2 where only the batch script requires changing.
+
