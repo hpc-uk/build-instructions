@@ -1,6 +1,5 @@
 CPL-OpenFOAM-LAMMPS
 ===================
-
 This folder contains files and documentation for building and maintaining CPL-OpenFOAM-LAMMPS on Archer2
 
 History
