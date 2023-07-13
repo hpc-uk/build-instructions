@@ -12,6 +12,11 @@ Clone the latest version of CPL from the GitHub repository:
 
    `git clone git@github.com:Crompulence/cpl-library.git`
 
+Alternatively, if your ssh public key has not been uploaded:
+
+   `git clone https://github.com/Crompulence/cpl-library.git`
+
+
 Setup your environment
 ----------------------
 
@@ -23,7 +28,6 @@ Load the correct modules:
    module load gcc/10.3.0
    module load cray-fftw
    module load cray-python
-   module load matplotlib
    ```
 
 Compile and enable CPL library with make
@@ -63,6 +67,10 @@ Clone the latest version of CPL_APP_OPENFOAM from the GitHub repository:
 
    `git clone git@github.com:Crompulence/CPL_APP_OPENFOAM.git`
 
+Alternatively, if your ssh public key has not been uploaded:
+
+   `git clone https://github.com/Crompulence/CPL_APP_OPENFOAM.git`
+
 Setup your environment further
 ------------------------------
 
@@ -95,6 +103,7 @@ Run make:
   make cpltestfoam
   make cpltestsocketfoam
   make cplinterfoam
+  make cplinterfoamhardtphasechange
   ```
   
 Download Download CPL_APP_LAMMPS-DEV
@@ -103,6 +112,13 @@ Download Download CPL_APP_LAMMPS-DEV
 Clone the latest version of CPL_APP_LAMMPS-DEV from the GitHub repository. This includes the latest LAMMPS version.
 
    `git clone git@github.com:Crompulence/CPL_APP_LAMMPS-DEV.git`
+
+Alternatively, if your ssh public key has not been uploaded:
+
+   `git clone https://github.com/Crompulence/CPL_APP_OPENFOAM.git`
+
+Then clone the latest stable version of LAMMPS:
+
    `git clone -b stable https://github.com/lammps/lammps.git mylammps`
 
 Setup your environment further
