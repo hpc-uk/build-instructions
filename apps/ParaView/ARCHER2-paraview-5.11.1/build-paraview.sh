@@ -162,7 +162,8 @@ export_variables () {
 "
 }
 
-if [ "$1" == "export" ] then
+if [ "$1" == "export" ]
+then
     export_variables
 else
     install_meson_ninja_mako
