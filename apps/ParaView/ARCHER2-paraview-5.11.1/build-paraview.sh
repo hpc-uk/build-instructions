@@ -8,6 +8,7 @@ set -e
 module load PrgEnv-gnu
 module load cray-python
 module load cmake
+module list
 
 export PARAVIEW_VERSION=5.11.1
 
@@ -158,7 +159,7 @@ export_variables () {
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LLVM_INSTALL_PREFIX/lib
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MESA_INSTALL_PREFIX/lib64
     export PATH=$PATH:$PARAVIEW_INSTALL_PREFIX/bin
-    export PYTHONPATH=$PYTHONPATH:$PARAVIEW_INSTALL_PREFIX/lib64/python3.8/site-packages
+    export PYTHONPATH=$PYTHONPATH:$PARAVIEW_INSTALL_PREFIX/lib64/python3.9/site-packages
 "
 }
 
