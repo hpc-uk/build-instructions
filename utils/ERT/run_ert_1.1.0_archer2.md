@@ -2,7 +2,7 @@ Instructions for running ERT 1.1.0 on ARCHER2
 =============================================
 
 These instructions are for running the Empirical Roofline Tool 1.1.0 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742).
-You must of first installed ERT, see [./build_ert_1.1.0_archer2.md](./build_ert_1.1.0_archer2.md).
+You must of first installed ERT, see [./install_ert_1.1.0_archer2.md](./install_ert_1.1.0_archer2.md).
 
 You should have already cloned the [Berkeley Lab CS Roofline Toolkit](https://bitbucket.org/berkeleylab/cs-roofline-toolkit/src/master/) to a location on `/work`.
 Having done so, please move to the `Empirical_Roofline_Tool-1.1.0` folder.
