@@ -57,7 +57,7 @@ make -j 8 install
 make distclean
 ```
 
-The following link explains the most important configure options.
+The following link explains the most important `configure` options.
 
 [https://github.com/hpc/Spindle/blob/devel/INSTALL](https://github.com/hpc/Spindle/blob/devel/INSTALL)
 
@@ -66,7 +66,7 @@ the compute nodes and is thus running within a secure environment (i.e., the Slu
 on a compute node).
 
 ARCHER2 is setup such that a password is required when running ‘rsh <nodename>’ or ‘ssh <nodename>’ to access the nodes
-assigned to a job, otherwise the Spindle build could be configured with the ‘--with-rsh-launch’ option, which configures
+assigned to a job, otherwise the Spindle build could be configured with the ‘--with-rsh-launch’ option, which instructs
 Spindle to start its daemons by rsh/ssh’ing to each node.
 
 The workaround is to instead use the `--with-slurm-launch` option &mdash; that causes Spindle to launch daemons by running

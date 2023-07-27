@@ -4,7 +4,7 @@ Instructions for running Spindle 0.13 on ARCHER2
 These instructions present a basic submission script that shows how to launch a Python code
 such that the library loads (and package imports) are handled by Spindle.
 
-You must of first installed Spindle, see [./build_spindle_.0.13_archer2.md](./build_spindle_0.13_archer2.md).
+You must of first installed Spindle, see [./build_spindle_0.13_archer2_gcc11.md](./build_spindle_0.13_archer2_gcc11.md).
 
 
 Create submission script
