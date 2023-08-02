@@ -1,7 +1,7 @@
 Pynamic
 =======
 
-This folder contains instructions for building and running Pynamic, a benchmark designed
+This folder contains instructions for building and running Pynamic, a benchmark generator designed
 to test a system's ability to handle the dynamic linking and loading requirements of Python-based
 scientific applications.
 

@@ -2,9 +2,9 @@ Instructions for running Pynamic 1.3.3 on ARCHER2
 =================================================
 
 These instructions present two submission scripts for launching a Pynamic benchmark,
-one that uses [Spindle](../Spindle/README.md) and one that does not.
+one that uses [Spindle](../spindle/README.md) and one that does not.
 
-Please note, you must of first built a Pynamic benchmark, see [./build_pynamic_1.3.3_archer2_gcc11.md](./build_pynamic_1.3.3_archer2_gcc11.md).
+Please note, you must first build a Pynamic benchmark, see [./build_pynamic_1.3.3_archer2_gcc11.md](./build_pynamic_1.3.3_archer2_gcc11.md).
 
 
 Setup initial environment
@@ -59,7 +59,7 @@ Launch a Pynamic benchmark with Spindle
 ---------------------------------------
 
 Run same Pynamic benchmark, but this time the library loads and module imports
-are handled by [Spindle](../Spindle/README.md). Two options are critical here, `spindle --slurm` and
+are handled by [Spindle](../spindle/README.md). Two options are critical here, `spindle --slurm` and
 `srun --overlap`.
 
 ```slurm
@@ -95,7 +95,7 @@ spindle --slurm \
 Pynamic benchmark results
 ------------------------
 
-Running the benchmark produces three timings.
+Running the benchmark produces three timings that are written to the Slurm output file.
 
 1. The time taken to import all modules &mdash; `module import time`.
 2. The time taken to call a call a function from each module &mdash; `module visit time`.

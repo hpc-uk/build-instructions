@@ -32,8 +32,8 @@ rm ${PYNAMIC_VERSION}.tar.gz
 ```
 
 
-Build Pynamic benchmark
------------------------
+Build a Pynamic benchmark
+-------------------------
 
 We will now build a Pynamic benchmark.
 The first step is to move in to the `pyMPI` folder.
@@ -83,7 +83,7 @@ PYNAMIC_FUNC_NAME_LEN=150
 It will take some time to build all the objects and modules that make up the benchmark, therefore,
 the `config_pynamic.py` script is executed from within a serial node job.
 
-When the build has completed you should see the following text in the Slurm output file.
+When the build has completed you should see something like the following text in the Slurm output file.
 
 ```bash
 ************************************************
