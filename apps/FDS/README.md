@@ -6,7 +6,7 @@ with an emphasis on smoke and heat transport from fires.
 
 This folder contains files and documents for building FDS on UK HPC systems.
 
-For further info on FDS see [NEMO home page](https://github.com/firemodels/fds).
+For further info on FDS see [https://github.com/firemodels/fds](https://github.com/firemodels/fds) .
 
 History
 -------
