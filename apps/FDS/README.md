@@ -14,10 +14,10 @@ History
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
  2023-08-07 | Michael Bareford | ARCHER2 | 6.8.0 | Build (GCC 11)
- 2023-08-07 | Michael Bareford | ARCHER2 | 6.7.0 | Build (GCC 11)
+ 2023-08-07 | Michael Bareford | ARCHER2 | 6.7.0 | Build (GCC 10)
 
 Build Instructions
 ------------------
 
 * [FDS 6.8.0 ARCHER2 Build Instructions (GCC 11)](build_fds_6.8.0_archer2_gcc11.md)
-* [FDS 6.7.0 ARCHER2 Build Instructions (GCC 11)](build_fds_6.7.0_archer2_gcc11.md)
+* [FDS 6.7.0 ARCHER2 Build Instructions (GCC 10)](build_fds_6.7.0_archer2_gcc10.md)

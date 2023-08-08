@@ -1,7 +1,7 @@
 Instructions for building FDS 6.7.0 on ARCHER2
 ==============================================
 
-These instructions are for building FDS 6.7.0 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
+These instructions are for building FDS 6.7.0 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 10.
 
 
 Setup initial environment
