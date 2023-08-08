@@ -1,7 +1,7 @@
-Instructions for building FDS 6.8.0 on ARCHER2
+Instructions for building FDS 6.7.0 on ARCHER2
 ==============================================
 
-These instructions are for building FDS 6.8.0 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
+These instructions are for building FDS 6.7.0 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742) using GCC 11.
 
 
 Setup initial environment
@@ -11,13 +11,13 @@ Setup initial environment
 PRFX=/path/to/work
 
 FDS_LABEL=fds
-FDS_VERSION=6.8.0
+FDS_VERSION=6.7.0
 FDS_NAME=${FDS_LABEL}-${FDS_VERSION}
-FDS_TAG=${FDS_LABEL^^}-${FDS_VERSION}
+FDS_TAG=${FDS_LABEL^^}${FDS_VERSION}
 FDS_ROOT=${PRFX}/${FDS_LABEL}
-FDS_BUILD_CFG=ompi_gnu_linux
+FDS_BUILD_CFG=mpi_gnu_linux_64
 FDS_BUILD=${FDS_ROOT}/${FDS_NAME}/Build/${FDS_BUILD_CFG}
-FDS_INSTALL=${FDS_ROOT}/${FDS_VERSION}-ompi4-gcc11
+FDS_INSTALL=${FDS_ROOT}/${FDS_VERSION}-ompi4-gcc10
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
@@ -44,11 +44,14 @@ Setup the module environment
 
 ```bash
 module -q restore
+
 module -q load PrgEnv-gnu
+module -q swap gcc gcc/10.3.0
+
 module -q load mkl/2023.0.0
 
 module use /work/y07/shared/archer2-lmod/libs/dev/openmpi
-module load openmpi/4.1.5-ofi-gcc11
+module load openmpi/4.1.5-ofi-gcc10
 ```
 
 
@@ -57,6 +60,8 @@ Build FDS
 
 ```bash
 cd ${FDS_BUILD}
+
+sed -i 's:mpi_gnu_linux_64 \: FFLAGS = -m64:mpi_gnu_linux_64 \: FFLAGS = -fallow-argument-mismatch -m64:g' ../makefile
 
 ./make_fds.sh
 
@@ -93,18 +98,21 @@ To run FDS, submit the Slurm submission script below using the `sbatch` command.
 
 
 module -q restore
+
 module -q load PrgEnv-gnu
+module -q swap gcc gcc/10.3.0
+
 module -q load mkl/2023.0.0
 
 module use /work/y07/shared/archer2-lmod/libs/dev/openmpi
-module load openmpi/4.1.5-ofi-gcc11
+module load openmpi/4.1.5-ofi-gcc10
 
 
 PRFX=</path/to/work>
 FDS_LABEL=fds
-FDS_VERSION=6.8.0
+FDS_VERSION=6.7.0
 FDS_ROOT=${PRFX}/${FDS_LABEL}
-FDS_EXE=${FDS_ROOT}/${FDS_VERSION}-ompi4-gcc11/bin/fds
+FDS_EXE=${FDS_ROOT}/${FDS_VERSION}-ompi4-gcc10/bin/fds
 
 export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 export OMP_NUM_THREADS=1
