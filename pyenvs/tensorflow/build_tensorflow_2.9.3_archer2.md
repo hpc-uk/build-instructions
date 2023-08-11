@@ -1,9 +1,12 @@
-Instructions for installing TensorFlow 2.12.0 on ARCHER2
-========================================================
+Instructions for installing TensorFlow 2.9.3 on ARCHER2
+=======================================================
 
-These instructions show how to install TensorFlow 2.12.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install TensorFlow 2.9.3 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
-Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package is required
+This version of TensorFlow is compatible with the Cray PE DL Plugin 22.12.1. The plugin provides a highly tuned communication layer
+that can be easily added to any deep learning framework.
+
+Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package provides an alternative method
 for running TensorFlow across multiple compute nodes.
 
 
@@ -13,7 +16,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work
 TENSORFLOW_LABEL=tensorflow
-TENSORFLOW_VERSION=2.12.0
+TENSORFLOW_VERSION=2.9.3
 TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
 
 module load PrgEnv-gnu

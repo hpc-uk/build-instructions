@@ -60,6 +60,6 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 pip install --user ${TENSORFLOW_LABEL}==${TENSORFLOW_VERSION}
-pip install --user tensorflow-cpu
+pip install --user tensorflow-cpu==${TENSORFLOW_VERSION}
 pip install --user tensorboard_plugin_profile
 ```

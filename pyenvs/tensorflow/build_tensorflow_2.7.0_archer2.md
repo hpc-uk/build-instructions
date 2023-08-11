@@ -58,4 +58,5 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 pip install --user ${TENSORFLOW_LABEL}==${TENSORFLOW_VERSION}
+pip install --user ${TENSORFLOW_LABEL}-cpu==${TENSORFLOW_VERSION}
 ```
