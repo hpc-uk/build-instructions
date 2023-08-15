@@ -51,7 +51,7 @@ module -q swap gcc gcc/10.3.0
 module -q load mkl/2023.0.0
 
 module use /work/y07/shared/archer2-lmod/libs/dev/openmpi
-module load openmpi/4.1.5-ofi-gcc10
+module -q load openmpi/4.1.5-ofi-gcc10
 ```
 
 
@@ -61,7 +61,14 @@ Build FDS
 ```bash
 cd ${FDS_BUILD}
 
-sed -i 's:mpi_gnu_linux_64 \: FFLAGS = -m64:mpi_gnu_linux_64 \: FFLAGS = -fallow-argument-mismatch -m64:g' ../makefile
+sed -i 's:.*FFLAGSMKL_OPENMPI = .*:& -I\${OPENMPI_DIR}/include:g' ../makefile
+sed -i 's:.*LFLAGSMKL_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi:g' ../makefile
+
+sed -i 's:.*FFLAGSMKL_GNU_OPENMPI = .*:& -I\${OPENMPI_DIR}/include:g' ../makefile
+sed -i 's:.*LFLAGSMKL_GNU_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi:g' ../makefile
+
+sed -i "s:${FDS_BUILD_CFG} \: FFLAGS = -m64:${FDS_BUILD_CFG} \: FFLAGS = -fallow-argument-mismatch -m64:g" ../makefile
+sed -i "s:${FDS_BUILD_CFG} \: FCOMPL = mpifort:${FDS_BUILD_CFG} \: FCOMPL = ftn:g" ../makefile
 
 ./make_fds.sh
 
@@ -105,7 +112,7 @@ module -q swap gcc gcc/10.3.0
 module -q load mkl/2023.0.0
 
 module use /work/y07/shared/archer2-lmod/libs/dev/openmpi
-module load openmpi/4.1.5-ofi-gcc10
+module -q load openmpi/4.1.5-ofi-gcc10
 
 
 PRFX=</path/to/work>
