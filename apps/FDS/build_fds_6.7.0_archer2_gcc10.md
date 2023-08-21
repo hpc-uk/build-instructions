@@ -61,11 +61,11 @@ Build FDS
 ```bash
 cd ${FDS_BUILD}
 
-sed -i 's:.*FFLAGSMKL_OPENMPI = .*:& -I\${OPENMPI_DIR}/include:g' ../makefile
-sed -i 's:.*LFLAGSMKL_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi:g' ../makefile
+sed -i 's:.*FFLAGSMKL_OPENMPI = .*:& -I\${OPENMPI_DIR}/include -I\${OPENMPI_DIR}/lib:g' ../makefile
+sed -i 's:.*LFLAGSMKL_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi -lmpi_mpifh:g' ../makefile
 
-sed -i 's:.*FFLAGSMKL_GNU_OPENMPI = .*:& -I\${OPENMPI_DIR}/include:g' ../makefile
-sed -i 's:.*LFLAGSMKL_GNU_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi:g' ../makefile
+sed -i 's:.*FFLAGSMKL_GNU_OPENMPI = .*:& -I\${OPENMPI_DIR}/include -I\${OPENMPI_DIR}/lib:g' ../makefile
+sed -i 's:.*LFLAGSMKL_GNU_OPENMPI = .*:& -L\${OPENMPI_DIR}/lib -lmpi -lmpi_mpifh:g' ../makefile
 
 sed -i "s:${FDS_BUILD_CFG} \: FFLAGS = -m64:${FDS_BUILD_CFG} \: FFLAGS = -fallow-argument-mismatch -m64:g" ../makefile
 sed -i "s:${FDS_BUILD_CFG} \: FCOMPL = mpifort:${FDS_BUILD_CFG} \: FCOMPL = ftn:g" ../makefile
