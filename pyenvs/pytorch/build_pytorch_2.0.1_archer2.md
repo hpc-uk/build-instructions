@@ -39,7 +39,7 @@ export PIP_CACHE_DIR=${PYTHON_DIR}/.cache/pip
 
 export PYTHONUSERBASE=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}
 export PATH=${PYTHONUSERBASE}/bin:${PATH}
-export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHONVER}/site-packages:${PYTHONPATH}
+export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:${PYTHONPATH}
 
 pip install --user --upgrade pip
 ```
@@ -92,7 +92,7 @@ When building horovod for PyTorch it is necessary to have `/opt/cray/pe/python/3
 in order for the `packaging` module to be found.
 
 ```bash
-export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHONVER}/site-packages:/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages:/work/y07/shared/utils/core/bolt/0.8/modules
+export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages:/work/y07/shared/utils/core/bolt/0.8/modules
 
 CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir horovod[pytorch]==0.28.1
 ```
