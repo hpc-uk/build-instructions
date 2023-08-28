@@ -1,10 +1,10 @@
-Instructions for installing TensorFlow 2.12.0 on ARCHER2
-========================================================
+Instructions for installing PyTorch 2.0.1 on ARCHER2
+====================================================
 
-These instructions show how to install TensorFlow 2.12.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install PyTorch 2.0.1 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package is required
-for running TensorFlow across multiple compute nodes.
+for running PyTorch across multiple compute nodes.
 
 
 Setup initial environment
@@ -12,24 +12,25 @@ Setup initial environment
 
 ```bash
 PRFX=/path/to/work
-TENSORFLOW_LABEL=tensorflow
-TENSORFLOW_VERSION=2.12.0
-TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
+PYTORCH_PACKAGE_LABEL=torch
+PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
+PYTORCH_VERSION=2.0.1
+PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
 
 module load PrgEnv-gnu
 module load cray-python
 module load cmake/3.21.3
 
 PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
-PYTHON_DIR=${PRFX}/${TENSORFLOW_LABEL}/${TENSORFLOW_VERSION}/python
+PYTHON_DIR=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}/python
 PYTHON_BIN=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}/bin
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
 
 
-Create and setup the TensorFlow virtual python environment
-----------------------------------------------------------
+Create and setup the PyTorch virtual python environment
+-------------------------------------------------------
 
 ```bash
 mkdir -p ${PYTHON_BIN}
@@ -48,8 +49,6 @@ Install supporting packages
 ---------------------------
 
 ```bash
-pip install --user iniconfig
-pip install --user toml
 pip install --user memory_profiler
 pip install --user matplotlib
 pip install --user pyqt5
@@ -65,13 +64,14 @@ pip install --user scikit-image
 ```
 
 
-Install the TensorFlow packages
--------------------------------
+Install the PyTorch packages
+----------------------------
 
 ```bash
-pip install --user tensorflow==${TENSORFLOW_VERSION}
-pip install --user tensorflow-cpu==${TENSORFLOW_VERSION}
-pip install --user tensorboard_plugin_profile
+pip install --user ${PYTORCH_PACKAGE_LABEL}==${PYTORCH_VERSION}+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchvision==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchtext==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchaudio==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 ```
 
 
@@ -88,8 +88,13 @@ pip install --user numba
 Install Horovod
 ---------------
 
+When building horovod for PyTorch it is necessary to have `/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages` in the `PYTHONPATH`
+in order for the `packaging` module to be found.
+
 ```bash
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir horovod[tensorflow]==0.28.1
+export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages:/work/y07/shared/utils/core/bolt/0.8/modules
+
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir horovod[pytorch]==0.28.1
 ```
 
 Now run `horovodrun --check-build` to confirm that Horovod has been installed correctly. That command should return something like the following output.
@@ -98,8 +103,8 @@ Now run `horovodrun --check-build` to confirm that Horovod has been installed co
 Horovod v0.28.1:
 
 Available Frameworks:
-    [X] TensorFlow
-    [ ] PyTorch
+    [ ] TensorFlow
+    [X] PyTorch
     [ ] MXNet
 
 Available Controllers:
@@ -111,5 +116,5 @@ Available Tensor Operations:
     [ ] DDL
     [ ] CCL
     [X] MPI
-    [X] Gloo 
+    [X] Gloo
 ```
