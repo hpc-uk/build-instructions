@@ -43,13 +43,11 @@ cd ${SPINDLE_ROOT}/${SPINDLE_NAME}
 
 module -q restore
 module -q load PrgEnv-gnu
-module -q load cray-python
 
 ./configure CC=gcc CXX=g++ \
     --enable-sec-none \
     --with-slurm-launch \
     --with-localstorage=/dev/shm \
-    --with-python-prefix=/opt/cray/pe/python/${CRAY_PYTHON_LEVEL} \
     --prefix=${SPINDLE_ROOT}/${SPINDLE_VERSION}
 
 make -j 8
