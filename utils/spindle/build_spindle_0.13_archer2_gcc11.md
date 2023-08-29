@@ -112,7 +112,7 @@ Test the Spindle install by submitting the following script.
 ```bash
 #!/bin/bash --login
 
-#SBATCH --job-name=tmimport
+#SBATCH --job-name=spindle
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
 #SBATCH --cpus-per-task=1
