@@ -31,7 +31,7 @@ module load cray-python
 
 export SRUN_CPUS_PER_TASK=${SLURM_CPUS_PER_TASK}
 
-spindle --slurm \
+spindle --slurm --python-prefix=/opt/cray/pe/python/${CRAY_PYTHON_LEVEL} \
     srun --overlap --distribution=block:block --hint=nomultithread --unbuffered \
         python ${SLURM_SUBMIT_DIR}/test.py
 ```
