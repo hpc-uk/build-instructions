@@ -111,7 +111,7 @@ Test the Spindle install by submitting the following script.
 ```bash
 #!/bin/bash --login
 
-#SBATCH --job-name=cosmoflow
+#SBATCH --job-name=spindle
 #SBATCH --time=00:20:00
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=1
