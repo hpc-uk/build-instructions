@@ -1,7 +1,7 @@
-Instructions for building Pynamic 1.3.3 on ARCHER2
-==================================================
+Instructions for building Pynamic on ARCHER2
+============================================
 
-These instructions are for building Pynamic 1.3.3 on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742).
+These instructions are for building Pynamic on the ARCHER2 full system (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
@@ -11,8 +11,6 @@ Setup initial environment
 PRFX=${HOME/home/work}/tools
 
 PYNAMIC_LABEL=pynamic
-PYNAMIC_VERSION=1.3.3
-PYNAMIC_NAME=${PYNAMIC_LABEL}-${PYNAMIC_VERSION}
 PYNAMIC_ROOT=${PRFX}/${PYNAMIC_LABEL}
 ```
 
@@ -25,10 +23,7 @@ Download source code
 ```bash
 cd ${PRFX}
 
-wget https://github.com/LLNL/${PYNAMIC_LABEL}/archive/refs/tags/${PYNAMIC_VERSION}.tar.gz
-
-tar -xvzf ${PYNAMIC_VERSION}.tar.gz
-rm ${PYNAMIC_VERSION}.tar.gz
+git clone https://github.com/LLNL/${PYNAMIC_LABEL}
 ```
 
 
@@ -39,7 +34,7 @@ We will now build a Pynamic benchmark.
 The first step is to move in to the `pyMPI` folder.
 
 ```bash
-cd ${PYNAMIC_ROOT}/${PYNAMIC_NAME}/pynamic-pyMPI-2.6a1
+cd ${PYNAMIC_ROOT}/pynamic-pyMPI-2.6a1
 ```
 
 Next, we build a Pynamic benchmark for a particular library/module load, as indicated by
@@ -98,4 +93,4 @@ Size of aggregate string table size of shared libraries: 310.4MB
 ```
 
 You can find further details on how to build Pynamic benchmarks in the 
-`${PYNAMIC_ROOT}/${PYNAMIC_NAME}/pynamic.README` file.
+`${PYNAMIC_ROOT}/pynamic.README` file.

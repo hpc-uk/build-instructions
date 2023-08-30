@@ -1,10 +1,10 @@
-Instructions for running Pynamic 1.3.3 on ARCHER2
+Instructions for running Pynamic on ARCHER2
 =================================================
 
 These instructions present two submission scripts for launching a Pynamic benchmark,
 one that uses [Spindle](../spindle/README.md) and one that does not.
 
-Please note, you must first build a Pynamic benchmark, see [./build_pynamic_1.3.3_archer2_gcc11.md](./build_pynamic_1.3.3_archer2_gcc11.md).
+Please note, you must first build a Pynamic benchmark, see [./build_pynamic_archer2_gcc11.md](./build_pynamic_archer2_gcc11.md).
 
 
 Setup initial environment
@@ -14,11 +14,9 @@ Setup initial environment
 PRFX=${HOME/home/work}/tools
 
 PYNAMIC_LABEL=pynamic
-PYNAMIC_VERSION=1.3.3
-PYNAMIC_NAME=${PYNAMIC_LABEL}-${PYNAMIC_VERSION}
 PYNAMIC_ROOT=${PRFX}/${PYNAMIC_LABEL}
 
-cd ${PYNAMIC_ROOT}/${PYNAMIC_NAME}/pynamic-pyMPI-2.6a1
+cd ${PYNAMIC_ROOT}/pynamic-pyMPI-2.6a1
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
