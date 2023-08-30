@@ -46,7 +46,7 @@ module -s load gcc/10.2.0
 ./configure CC=gcc CXX=g++ \
     --enable-sec-none \
     --with-slurm-launch \
-    --with-localstorage=/dev/shm \
+    --with-localstorage=/tmp \
     --prefix=${SPINDLE_ROOT}/${SPINDLE_VERSION}
 
 make -j 8
@@ -57,6 +57,8 @@ make distclean
 The following link explains the most important `configure` options.
 
 [https://github.com/hpc/Spindle/blob/devel/INSTALL](https://github.com/hpc/Spindle/blob/devel/INSTALL)
+
+The `--with-localstorage` option is set to `/tmp` because on Cirrus `/dev/shm` has the `noexec` attribute set.
 
 Note, the security model is set to none (`--enable-sec-none`) because, at runtime, Spindle will be confined to
 the compute nodes and is thus running within a secure environment (i.e., the Slurm job submission itself runs
