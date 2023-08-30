@@ -37,6 +37,19 @@ The first step is to move in to the `pyMPI` folder.
 cd ${PYNAMIC_ROOT}/pynamic-pyMPI-2.6a1
 ```
 
+Second, we need to amend the `mpi4py` makefile.
+
+```bash
+module -q restore
+module -q load PrgEnv-gnu
+module -q load cray-python
+
+CRAY_PYTHON_VER=`echo $CRAY_PYTHON_LEVEL | cut -d'.' -f1-2`
+
+sed -i "s:python-config:python${CRAY_PYTHON_VER}-config:g" Makefile.mpi4py
+sed -i "s:CC = mpicc:CC = cc:g" Makefile.mpi4py
+```
+
 Next, we build a Pynamic benchmark for a particular library/module load, as indicated by
 the `PYNAMIC` environment variables initialised in the Slurm submission script shown below.
 
