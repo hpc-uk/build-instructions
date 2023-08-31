@@ -58,10 +58,12 @@ the `PYNAMIC` environment variables initialised in the Slurm submission script s
 
 #SBATCH --job-name=pynamic
 #SBATCH --time=02:00:00
-#SBATCH --ntasks=8
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=8
 #SBATCH --account=<budget code>
-#SBATCH --partition=serial
-#SBATCH --qos=serial
+#SBATCH --partition=standard
+#SBATCH --qos=standard
 
 module -q restore
 module -q load PrgEnv-gnu
@@ -81,7 +83,7 @@ PYNAMIC_FUNC_NAME_LEN=150
 
 ./config_pynamic.py ${PYNAMIC_SHARED_OBJS} ${PYNAMIC_FUNCS_PER_SHARED_OBJ} \
     -e -i ${CRAY_PYTHON_PREFIX}/include/python${CRAY_PYTHON_VER} \
-    -j ${SLURM_NTASKS} -n ${PYNAMIC_FUNC_NAME_LEN} \
+    -j ${SLURM_CPUS_PER_TASK} -n ${PYNAMIC_FUNC_NAME_LEN} \
     -u ${PYNAMIC_MATH_MODS} ${PYNAMIC_FUNCS_PER_MATH_MOD} \
     --with-cc=cc \
     --with-python=${CRAY_PYTHON_PREFIX}/bin/python \
@@ -89,7 +91,7 @@ PYNAMIC_FUNC_NAME_LEN=150
 ```
 
 It will take some time to build all the objects and modules that make up the benchmark, therefore,
-the `config_pynamic.py` script is executed from within a serial node job.
+the `config_pynamic.py` script is executed from within a batch job running on a compute node.
 
 When the build has completed you should see something like the following text in the Slurm output file.
 
