@@ -112,8 +112,7 @@ build_OSPRay () {
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=$OSPRAY_INSTALL_PREFIX \
         -DEMBREE_VERSION=$EMBREE_VERSION ../scripts/superbuild
-    make -j 8
-    make -j 8 install
+    cmake --build .
 }
 
 build_paraview () {
