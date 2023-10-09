@@ -101,7 +101,7 @@ Install patchelf
 ----------------
 
 PatchELF is a simple utility for modifying existing ELF executables and libraries.
-This tool is requierd for the building of the TensorFlow package.
+This tool is required for the building of the TensorFlow package.
 
 ```bash
 PATCHELF_LABEL=patchelf
@@ -172,7 +172,7 @@ Just hit return here as we'll specify the options by directly editing the `.tf_c
 Append the following options to the `.tf_configure.bazelrc` file
 ----------------------------------------------------------------
 
-The `.tf_configure.bazelrc`` file should exist in `${TF_PRFX}/${TENSORFLOW_LABEL}/${TENSORFLOW_NAME}`.
+The `.tf_configure.bazelrc` file should exist in `${TF_PRFX}/${TENSORFLOW_LABEL}/${TENSORFLOW_NAME}`.
 It contains two `build:opt` lines.
 
 ```bash
@@ -180,7 +180,7 @@ build:opt --copt=-Wno-sign-compare
 build:opt --host_copt=-Wno-sign-compare
 ```
 
-Those lines must be replaced with six new `build:opt` lines, see below.`
+Those lines must be replaced with six new `build:opt` lines, see below.
 
 ```bash
 build:opt --cxxopt=-msse3 --copt=-msse3 --host_cxxopt=-march=native --host_copt=-march=native
