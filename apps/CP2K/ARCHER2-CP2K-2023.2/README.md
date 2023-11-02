@@ -157,8 +157,8 @@ cd ${LIBXSMM_LABEL}
 
 rm -rf ${LIBXSMM_NAME}
 wget -q https://github.com/${LIBXSMM_LABEL}/${LIBXSMM_LABEL}/archive/refs/tags/${LIBXSMM_VERSION}.tar.gz
-tar zxf ${LIBXSMM_NAME}.tar.gz
-rm ${LIBXSMM_NAME}.tar.gz
+tar zxf ${LIBXSMM_VERSION}.tar.gz
+rm ${LIBXSMM_VERSION}.tar.gz
 cd ${LIBXSMM_NAME}
 
 make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${LIBXSMM_INSTALL} install
