@@ -83,7 +83,7 @@ mkdir ${CP2K_ROOT}/libs
 
 ## Prepare CP2K arch file
 
-Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1.xsmm](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1.xsmm)
 and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
 
 ```
