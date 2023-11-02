@@ -54,12 +54,12 @@ PRFX=/path/to/work/dir # e.g., /work/y07/shared/apps/core
 CP2K_LABEL=cp2k
 CP2K_NAME=${CP2K_LABEL}-${CP2K_VERSION}
 CP2K_BASE=${PRFX}/${CP2K_LABEL}
-CP2K_ROOT=${CP2K_BASE}/${CP2K_NAME}.xsmm
+CP2K_ROOT=${CP2K_BASE}/${CP2K_NAME}
 
 mkdir -p ${CP2K_BASE}
 cd ${CP2K_BASE}
 
-rm -rf ${CP2K_NAME}.xsmm
+rm -rf ${CP2K_NAME}
 
 mkdir tmp
 cd tmp
@@ -68,7 +68,7 @@ wget -q https://github.com/${CP2K_LABEL}/${CP2K_LABEL}/releases/download/v${CP2K
 bunzip2 ${CP2K_NAME}.tar.bz2
 tar xf ${CP2K_NAME}.tar
 rm ${CP2K_NAME}.tar
-mv ${CP2K_NAME} ../${CP2K_NAME}.xsmm
+mv ${CP2K_NAME} ../${CP2K_NAME}
 
 cd ..
 rmdir tmp
