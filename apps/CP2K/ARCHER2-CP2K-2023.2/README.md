@@ -1,6 +1,6 @@
 # Introduction
 
-This document provides instructions on how to build CP2K 2023.1 and its dependencies on ARCHER2 full system.
+This document provides instructions on how to build CP2K 2023.2 and its dependencies on ARCHER2 full system.
 
 Further information on CP2K can be found at [the CP2K website](https://www.cp2k.org) and on the
 [ARCHER2 CP2K documentation page](https://docs.archer2.ac.uk/research-software/cp2k/).
@@ -8,7 +8,7 @@ Further information on CP2K can be found at [the CP2K website](https://www.cp2k.
 The official build instructions for CP2K are at [https://github.com/cp2k/cp2k/blob/master/INSTALL.md](https://github.com/cp2k/cp2k/blob/master/INSTALL.md).
 The ARCHER2 build instructions however use the "manual" route, building each relevant prerequisite independently.
 
-These instructions are also provided as a Slurm batch script, see the `submit.ll` file at [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1).
+These instructions are also provided as a Slurm batch script, see the `submit.ll` file at [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2).
 
 ## General
 
@@ -16,8 +16,6 @@ These instructions are also provided as a Slurm batch script, see the `submit.ll
 * We will only consider psmp build for CP2K.
 * The autotuned version of libgrid was not built as there were some
   residual problems with the automatic code generation on ARCHER2.
-* The libxsmm library is not built as this component causes OpenMP-related
-  memory faults on the ARCHER2 system.
 
 
 # Preliminaries
@@ -25,12 +23,13 @@ These instructions are also provided as a Slurm batch script, see the `submit.ll
 ## Specify versions of CP2K and supporting libraries
 
 ```
-CP2K_VERSION=2023.1
+CP2K_VERSION=2023.2
 LIBINT_VERSION=2.6.0
 LIBINT_VERSION_SUFFIX=cp2k-lmax-4
-LIBXC_VERSION=6.1.0
-ELPA_VERSION=2022.11.001
-PLUMED_VERSION=2.8.2
+LIBXC_VERSION=6.2.2
+LIBXSMM_VERSION=1.17
+ELPA_VERSION=2023.05.001
+PLUMED_VERSION=2.9.0
 ```
 
 ## Load modules
@@ -61,17 +60,25 @@ mkdir -p ${CP2K_BASE}
 cd ${CP2K_BASE}
 
 rm -rf ${CP2K_NAME}
+
+mkdir tmp
+cd tmp
+
 wget -q https://github.com/${CP2K_LABEL}/${CP2K_LABEL}/releases/download/v${CP2K_VERSION}/${CP2K_NAME}.tar.bz2
 bunzip2 ${CP2K_NAME}.tar.bz2
 tar xf ${CP2K_NAME}.tar
 rm ${CP2K_NAME}.tar
+mv ${CP2K_NAME} ../${CP2K_NAME}
+
+cd ..
+rmdir tmp
 
 mkdir ${CP2K_ROOT}/libs
 ```
 
 ## Prepare CP2K arch file
 
-Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2)
 and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
 
 ```
@@ -79,6 +86,7 @@ sed -i "s:<CP2K_ROOT>:${CP2K_ROOT}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBINT_VERSION>:${LIBINT_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBINT_VERSION_SUFFIX>:${LIBINT_VERSION_SUFFIX}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<LIBXC_VERSION>:${LIBXC_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
+sed -i "s:<LIBXSMM_VERSION>:${LIBXSMM_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<ELPA_VERSION>:${ELPA_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 sed -i "s:<PLUMED_VERSION>:${PLUMED_VERSION}:" ${CP2K_ROOT}/arch/ARCHER2.psmp
 ```
@@ -145,6 +153,28 @@ CC=cc CXX=CC FC=ftn ./configure --prefix=${LIBXC_ROOT}/${LIBXC_VERSION}
 make -j 8
 make -j 8 install
 make -j 8 clean
+```
+
+
+# Build libxsmm
+
+```
+cd ${CP2K_ROOT}/libs
+
+LIBXSMM_LABEL=libxsmm
+LIBXSMM_NAME=${LIBXSMM_LABEL}-${LIBXSMM_VERSION}
+LIBXSMM_ROOT=${CP2K_ROOT}/libs/${LIBXSMM_LABEL}
+
+rm -rf ${LIBXSMM_ROOT}
+mkdir -p ${LIBXSMM_ROOT}
+cd ${LIBXSMM_ROOT}
+
+wget -q https://github.com/${LIBXSMM_LABEL}/${LIBXSMM_LABEL}/archive/refs/tags/${LIBXSMM_VERSION}.tar.gz
+tar zxf ${LIBXSMM_VERSION}.tar.gz
+rm ${LIBXSMM_VERSION}.tar.gz
+cd ${LIBXSMM_NAME}
+
+make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${LIBXSMM_ROOT}/${LIBXSMM_VERSION} install
 ```
 
 
@@ -240,7 +270,7 @@ make -j 8 clean ARCH=ARCHER2 VERSION=psmp
 
 ### Regression tests
 
-Download the `ARCHER2-regtest.psmp.conf` configuration file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+Download the `ARCHER2-regtest.psmp.conf` configuration file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2)
 and copy to `${CP2K_ROOT}`.
 
 The test can be executed in the queue system by submitting script from `${CP2K_ROOT}`.
@@ -294,7 +324,7 @@ Status: OK
 The CP2K H2O benchmark, `QS_DM_LS/H2O-dft-ls.NREP4.inp`, was run over four nodes with
 16 MPI tasks per node and 8 OpenMP threads per task.
 
-The runtime and energy results, dated 2023-07-07, were obtained via the `sacct` command.
+The runtime and energy results, dated 2023-07-06, were obtained via the `sacct` command.
 
 ```bash
 sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEnergyRaw
@@ -306,15 +336,15 @@ The actual numbers used were the highest runtimes and energies indicated in the 
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI | &cross; |   3 | 470 | 496 | 479
-  OFI | &check; |   3 | 360 | 377 | 366
+  OFI | &cross; |   3 | 266 | 272 | 270 
+  OFI | &check; |   3 | 223 | 228 | 226 
 
 #### Energy [J]
 
 Comms | Turbo | Cnt |     Min |     Max |     Avg
 ----- | ----- | --- | ------- | ------- | -------
-  OFI | &cross; |   3 | 674,487 | 700,107 | 685,767
-  OFI | &check; |   3 | 687,381 | 713,080 | 699,228 
+  OFI | &cross; |   3 | 392,627 | 397,917 | 392,473
+  OFI | &check; |   3 | 417,549 | 421,330 | 419,765
 
 
 ### Lithium Hydride crystal
@@ -334,12 +364,12 @@ The actual numbers used were the highest runtimes and energies indicated in the 
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI | &cross; |   3 | 146 | 152 | 150
-  OFI | &check; |   3 | 119 | 124 | 121 
+  OFI | &cross; |   3 | 144 | 147 | 145
+  OFI | &check; |   3 | 119 | 122 | 121 
 
 #### Energy [J]
 
-Comms | Turbo | Cnt |       Min |       Max  |       Avg
------ | ----- | --- | --------- | ---------  | ---------
-  OFI | &cross; |   3 | 4,371,455 | 4,492,626  | 4,438,390 
-  OFI | &check; |   3 | 4,620,992 | 4,709,379  | 4,656,776 
+Comms | Turbo | Cnt |       Min |       Max |       Avg
+----- | ----- | --- | --------- | --------- | ---------
+  OFI | &cross; |   3 | 4,389,456 | 4,396,607 | 4,374,493
+  OFI | &check; |   3 | 4,604,368 | 4,680,678 | 4,643,515 

@@ -13,23 +13,23 @@
 echo -e "\n\nSpecify versions of CP2K and supporting libraries..."
 ################################################################################################################
 # https://github.com/cp2k/cp2k/tags
-CP2K_VERSION=2023.1
+CP2K_VERSION=2023.2
 
 # https://github.com/cp2k/libint-cp2k/tags
 LIBINT_VERSION=2.6.0
 LIBINT_VERSION_SUFFIX=cp2k-lmax-4
 
 # https://gitlab.com/libxc/libxc/-/tags
-LIBXC_VERSION=6.1.0
+LIBXC_VERSION=6.2.2
 
 # https://github.com/libxsmm/libxsmm/tags
 LIBXSMM_VERSION=1.17
 
 # https://gitlab.mpcdf.mpg.de/elpa/elpa/-/tags
-ELPA_VERSION=2022.11.001
+ELPA_VERSION=2023.05.001
 
 # https://github.com/plumed/plumed2/tags
-PLUMED_VERSION=2.8.2
+PLUMED_VERSION=2.9.0
 ################################################################################################################
 
 
