@@ -210,7 +210,7 @@ make -j ${SLURM_NTASKS}
 make -j ${SLURM_NTASKS} install
 make -j ${SLURM_NTASKS} clean
 
-cd ${ELPA_ROOT}/${ELPA_NAME}}
+cd ${ELPA_ROOT}/${ELPA_NAME}
 mkdir build-openmp
 cd build-openmp
 
