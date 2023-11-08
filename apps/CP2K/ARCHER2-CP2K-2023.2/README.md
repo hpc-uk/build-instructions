@@ -324,7 +324,7 @@ Status: OK
 The CP2K H2O benchmark, `QS_DM_LS/H2O-dft-ls.NREP4.inp`, was run over four nodes with
 16 MPI tasks per node and 8 OpenMP threads per task.
 
-The runtime and energy results, dated 2023-07-06, were obtained via the `sacct` command.
+The runtime and energy results, dated 2023-11-08, were obtained via the `sacct` command.
 
 ```bash
 sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEnergyRaw
@@ -336,15 +336,15 @@ The actual numbers used were the highest runtimes and energies indicated in the 
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI | &cross; |   3 | 266 | 272 | 270 
-  OFI | &check; |   3 | 223 | 228 | 226 
+  OFI | &cross; |   3 | 267 | 273 | 271 
+  OFI | &check; |   3 | 226 | 231 | 228 
 
 #### Energy [J]
 
 Comms | Turbo | Cnt |     Min |     Max |     Avg
 ----- | ----- | --- | ------- | ------- | -------
-  OFI | &cross; |   3 | 392,627 | 397,917 | 392,473
-  OFI | &check; |   3 | 417,549 | 421,330 | 419,765
+  OFI | &cross; |   3 | 394,448 | 439,621 | 415,153
+  OFI | &check; |   3 | 414,572 | 457,384 | 437,810
 
 
 ### Lithium Hydride crystal
@@ -352,7 +352,7 @@ Comms | Turbo | Cnt |     Min |     Max |     Avg
 The `QS_LiH_HFX/input_bulk_HFX_3.inpz` benchmark was run over 96 nodes with 16 MPI tasks
 per node and 8 OpenMP threads per task.
 
-The runtime and energy results, dated 2023-07-07, were obtained via the `sacct` command.
+The runtime and energy results, dated 2023-11-08, were obtained via the `sacct` command.
 
 ```bash
 sacct -j <job id> --format=JobID,JobName%20,NNodes,ReqCPUFreq,Elapsed,ConsumedEnergyRaw
@@ -364,12 +364,12 @@ The actual numbers used were the highest runtimes and energies indicated in the 
 
 Comms | Turbo | Cnt | Min | Max | Avg
 ----- | ----- | --- | --- | --- | ---
-  OFI | &cross; |   3 | 144 | 147 | 145
-  OFI | &check; |   3 | 119 | 122 | 121 
+  OFI | &cross; |   3 | 148 | 150 | 149
+  OFI | &check; |   3 | 122 | 123 | 122 
 
 #### Energy [J]
 
 Comms | Turbo | Cnt |       Min |       Max |       Avg
 ----- | ----- | --- | --------- | --------- | ---------
-  OFI | &cross; |   3 | 4,389,456 | 4,396,607 | 4,374,493
-  OFI | &check; |   3 | 4,604,368 | 4,680,678 | 4,643,515 
+  OFI | &cross; |   3 | 4,509,858 | 4,555,180 | 4,536,940
+  OFI | &check; |   3 | 4,687,263 | 4,744,258 | 4,707,611 
