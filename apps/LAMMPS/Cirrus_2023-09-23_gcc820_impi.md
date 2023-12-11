@@ -1,4 +1,5 @@
 Building LAMMPS 23Sep2023 on Cirrus (GCC 8.2.0, FFTW 3.3.10)
+
 ============================================================
 
 
@@ -41,7 +42,7 @@ cmake -C ../cmake/presets/most.cmake \
       -D CMAKE_CXX_FLAGS="-O3"       \
       -D BUILD_MPI=on                \
       -D FFT=FFTW3                   \
-      -D BUILD_SHARED=yes            \
+      -D BUILD_SHARED_LIBS=yes       \
       -D PKG_MPIIO=yes               \
       -D CMAKE_INSTALL_PREFIX=/mnt/lustre/indy2lfs/sw/LAMMPS/23Sep2023-gcc8-impi20 \
       ../cmake/
