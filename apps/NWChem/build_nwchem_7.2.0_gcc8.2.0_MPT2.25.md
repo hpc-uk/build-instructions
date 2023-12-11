@@ -1,43 +1,43 @@
-Instructions for compiling NWChem 7.0.2 on Cirrus
+Instructions for compiling NWChem 7.2.0 on Cirrus
 =================================================
 
 These instructions are for building NWChem 7.2.0 on Cirrus CPU (SGI ICE XA, Intel Xeon Broadwell) using the GCC 8.2.0 compilers
 and the HPE MPT MPI library.
 
 
-Specify build location
-----------------------
-```bash
-PRFX=/work/z04/shared/
-cd $PRFX
-```
-
-
-Download and unpack NWChem
---------------------------
+Specify initial environment
+---------------------------
 
 ```bash
-wget https://github.com/nwchemgit/nwchem/releases/download/v7.0.2-release/nwchem-7.0.2-release.revision-b9985dfa-srconly.2020-10-12.tar.bz2
+PRFX=/path/to/work # e.g., /mnt/lustre/indy2lfs/sw
+NWCHEM_LABEL=openmpi
+NWCHEM_VERSION=7.2.0
+NWCHEM_NAME=${NWCHEM_LABEL}-${NWCHEM_VERSION}
+NWCHEM_ROOT=${PRFX}/${NWCHEM_LABEL}
 
-tar -xvf nwchem-7.0.2-release.revision-b9985dfa-srconly.2020-10-12.tar.bz2
-cd nwchem-7.0.2
-```
-
-
-Setup the environment
----------------------
-
-Switch to the Gnu programming environment:
-
-```bash
-module load mpt/2.25
 module load gcc/8.2.0
+module load mpt/2.25
 ```
 
-Set the build environment variables for NWChem:
+
+Clone source repo
+-----------------
 
 ```bash
-export NWCHEM_TOP=$PRFX/nwchem-7.0.2
+mkdir -p ${NWCHEM_ROOT}
+cd ${NWCHEM_ROOT}
+
+git clone https://github.com/nwchemgit/${NWCHEM_LABEL} ${NWCHEM_NAME}
+cd ${NWCHEM_NAME}
+git checkout v${NWCHEM_VERSION}-release
+```
+
+
+Specify build environment
+-------------------------
+
+```bash
+export NWCHEM_TOP=${NWCHEM_ROOT}/${NWCHEM_NAME}
 export NWCHEM_TARGET=LINUX64
 export ARMCI_NETWORK=MPI-PR
 
@@ -54,23 +54,24 @@ export FC=gfortran
 export CC=gcc
 ```
 
+
 Build
----------
+-----
 
 ```bash
-cd $NWCHEM_TOP/src  
-
+cd ${NWCHEM_TOP}/src  
 make nwchem_config
 make
 ```
 
-The binary is can be found at: `$NWCHEM_TOP/bin/LINUX64/nwchem`
+The binary is can be found at: `${NWCHEM_TOP}/bin/LINUX64/nwchem`
+
 
 
 Testing
 ===========
 
-Test the NWChem installation using the simple test case, saved as 'n2.nw'
+Test the NWChem installation using the simple test case, saved as 'n2.nw'.
 
 ```bash
 start h2o
@@ -96,18 +97,17 @@ task scf
 
 ```
 
-With submission script:
+The necessary submission script is given below.
 
 ``` bash
 #!/bin/bash
 
-#SBATCH --job-name=NWChem_Example
+#SBATCH --job-name=nwchem
 #SBATCH --time=00:10:00
-
 #SBATCH --nodes=1
 #SBATCH --tasks-per-node=36
 #SBATCH --cpus-per-task=1
-#SBATCH --account=z04
+#SBATCH --account=<budget code>
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 
@@ -115,5 +115,5 @@ With submission script:
 module load mpt
 module load gcc
 
-srun /work/z04/shared/nwchem-7.0.2/bin/LINUX64/nwchem n2.nw
+srun /path/to/nwchem n2.nw
 ```
