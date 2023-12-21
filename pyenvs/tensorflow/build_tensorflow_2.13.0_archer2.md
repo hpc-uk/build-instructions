@@ -57,6 +57,7 @@ pip install --user graphviz
 pip install --user nltk
 pip install --user jupyter
 pip install --user jupyterlab
+pip install --user wheel
 pip install --user wandb
 pip install --user gym
 pip install --user pyspark
