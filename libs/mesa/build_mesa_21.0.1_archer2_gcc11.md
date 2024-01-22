@@ -1,5 +1,5 @@
-Building MESA 21.0.1 on ARCHER2 with GCC
-========================================
+Building MESA 21.0.1 on ARCHER2 with GCC11
+==========================================
 
 Mesa depends on LLVM, so that needs to be compiled first.
 
