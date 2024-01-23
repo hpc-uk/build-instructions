@@ -69,13 +69,40 @@ make -j 8 install
 ```
 
 
+Install glproto
+---------------
+
+```bash
+GLPROTO_LABEL=glproto
+GLPROTO_VERSION=1.4.17
+GLPROTO_NAME=${GLPROTO_LABEL}-${GLPROTO_VERSION}
+GLPROTO_ROOT=${MESA_ROOT}/${GLPROTO_LABEL}
+GLPROTO_INSTALL=${GLPROTO_ROOT}/${GLPROTO_VERSION}
+
+cd ${MESA_ROOT}
+mkdir -p ${GLPROTO_LABEL}
+cd ${GLPROTO_LABEL}
+
+wget https://www.x.org/releases/individual/proto/${GLPROTO_NAME}.tar.gz
+tar -xvzf ${GLPROTO_NAME}.tar.gz
+rm ${GLPROTO_NAME}.tar.gz
+cd ${GLPROTO_NAME}
+
+CC=cc CXX=CC ./configure --prefix=${GLPROTO_INSTALL}
+make
+make install
+
+export PKG_CONFIG_PATH=${GLPROTO_INSTALL}/lib/pkgconfig:${PKG_CONFIG_PATH}
+```
+
+
 Setup Python environment for Mesa build
 ---------------------------------------
 
 ```bash
 cd ${MESA_ROOT}
 
-export PYTHONUSERBASE="$(MESA_ROOT)/.local"
+export PYTHONUSERBASE="${MESA_ROOT}/.local"
 export PATH=${PYTHONUSERBASE}/bin:${PATH}
 
 pip install --user meson
@@ -99,7 +126,7 @@ export PATH=${PATH}:${MESA_INSTALL}/llvm/bin
 
 cd ${MESA_NAME}
 
-CC=cc CXX=CC meson build -Dprefix="${MESA_INSTALL}" \
+CC=cc CXX=CC meson setup build -Dprefix="${MESA_INSTALL}" \
         -Degl=disabled \
         -Dopengl=true \
         -Dgles1=disabled \
@@ -112,11 +139,12 @@ CC=cc CXX=CC meson build -Dprefix="${MESA_INSTALL}" \
         -Dgallium-drivers=swrast \
         -Ddri3=disabled \
         -Dgbm=disabled \
-        -Dglx=disabled \
+        -Dglx=xlib \
         -Dosmesa=true \
         -Dvulkan-drivers='' \
         -Dplatforms=x11
 
 ninja -j 8 -C build
 ninja -C build install
+ninja -C build clean
 ```

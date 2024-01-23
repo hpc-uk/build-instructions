@@ -50,10 +50,8 @@ GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 
 module -q load cray-hdf5/1.12.2.1
 module -q load cray-netcdf/4.9.0.1
-module -q load cray-python/3.9.13.1
 module -q load tcl/8.6.13
 module -q load tk/8.6.13
-module -q load mesa/23.3.3
 ```
 
 
@@ -96,12 +94,16 @@ Build the Fast Light Tool Kit (FLTK)
 cd ${VMD_ROOT}
 mkdir fltk
 cd fltk
+
 wget https://www.fltk.org/pub/fltk/1.3.9/fltk-1.3.9-source.tar.gz
 tar -xvzf fltk-1.3.9-source.tar.gz
+rm fltk-1.3.9-source.tar.gz
 cd fltk-1.3.9
+
 ./configure --prefix=${VMD_ROOT}/fltk/1.3.9-gcc${GNU_VERSION_MAJOR}
 make
 make install
+make clean
 ```
 
 
@@ -109,12 +111,14 @@ Build Stride
 ------------
 
 ```bash
-cd ${VMD_ROOT}/${VMD_NAME}
-cd lib
-cd stride
+cd ${VMD_ROOT}/${VMD_NAME}/lib/stride
+
 wget http://webclu.bio.wzw.tum.de/stride/stride.tar.gz
 tar -xvzf stride.tar.gz
+rm stride.tar.gz
+
 make
+
 ln -s stride stride_LINUXAMD64
 ```
 
@@ -123,10 +127,13 @@ Build Surf
 ----------
 
 ```bash
-cd ../surf
+cd ${VMD_ROOT}/${VMD_NAME}/lib/surf
+
 tar -xvzf surf.tar.Z
+
 make depend
 make surf
+
 ln -s surf surf_LINUXAMD64
 ```
 
@@ -135,17 +142,20 @@ Build Tachyon
 -------------
 
 ```bash
-cd ..
+cd ${VMD_ROOT}/${VMD_NAME}/lib
+
 mv tachyon tachyon.arc
 git clone https://github.com/thesketh/Tachyon.git tachyon.serial
 cp -r tachyon.serial tachyon.parallel
 
 cd tachyon.serial/unix
+
 make linux-64
-cd ..
+
+cd ${VMD_ROOT}/${VMD_NAME}/tachyon.serial
 ln -s ./compile/linux-64/tachyon tachyon_LINUXAMD64
 
-cd ../tachyon.parallel/unix
+cd ${VMD_ROOT}/${VMD_NAME}/tachyon.parallel/unix
 ```
 
 Amend the following lines in the linux-lam-64 section of the `Make-arch` file.
@@ -161,11 +171,12 @@ linux-lam-64:
 ...
 ```
 
-Make Tachyon.
+Make Tachyon (parallel).
 
 ```bash
 make linux-lam-64
-cd ..
+
+cd ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.parallel
 ln -s ./compile/linux-lam-64/tachyon tachyon_LINUXAMD64
 ```
 
@@ -187,18 +198,27 @@ Edit the VMD `configure` file as shown below
 $install_bin_dir="/work/y07/shared/utils/core/vmd/1.9.3-gcc11/bin";
 
 # Directory where VMD files and executables are installed
-$install_library_dir=""/work/y07/shared/utils/core/vmd/1.9.3-gcc11/lib";
+$install_library_dir="/work/y07/shared/utils/core/vmd/1.9.3-gcc11/lib";
 
 ...
 
-################ Mesa location
-# location of Mesa library and include files; basically does the same
-# as OpenGL.  This is based on the default instructions from the Mesa
-# README; the include files should by default be in /usr/local/include/GL.
-$mesa_dir         = "/work/y07/shared/libs/core/mesa/23.3.3";
-$mesa_include     = "-I$mesa_dir/include";
-$mesa_library     = "-L$mesa_dir/lib64";
-$mesa_libs        = "-lOSMesa";
+################ OpenGL location
+# location of OpenGL library and include files; if OPENGL is not being used,
+# the next two options will be ignored.  If left blank, standard system
+# directories will be searched.  This also specifies the names of the
+# OpenGL libraries. Note that these options require -I and -L in front of
+# the include and library directory names
+$opengl_dep_dir         = "/usr/lib64";
+$opengl_dep_include     = "-I/usr/include";
+$opengl_dep_library     = "-L/usr/lib64";
+if ($config_opengl_dispatch) {
+  # version of OpenGL libs that can do dispatch, allowing use of 
+  # EGL for window management, but full GL or GLES etc for drawing
+  # as appropriate
+  $opengl_dep_libs        = "-lOpenGL";
+} else {
+  $opengl_dep_libs        = "-lGL -lGLU";
+}
 
 ...
 
@@ -253,67 +273,23 @@ $netcdf_libs        = "-lnetcdf";
 
 ...
 
-###################
-# OPTIONAL COMPONENT: Python support
-###################
-$stock_python_include_dir=$ENV{"PYTHON_INCLUDE_DIR"} || "/opt/cray/pe/python/3.9.13.1/include/python3.9";
-$stock_python_library_dir=$ENV{"PYTHON_LIBRARY_DIR"} || "/opt/cray/pe/python/3.9.13.1/include/lib/python3.9";
-
-$stock_numpy_include_dir=$ENV{"NUMPY_INCLUDE_DIR"} || "/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages/numpy/core/include";
-$stock_numpy_library_dir=$ENV{"NUMPY_LIBRARY_DIR"} || "/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages/numpy/core/lib";
-
-...
-
 if ($config_arch eq "LINUXAMD64") {
     ...
+
+    # added a test so that EGL support works for now, but these bits of
+    # override code probably date back to RHEL4.x or earlier, and
+    # they likely serve no useful purpose going forward.
     $xlibs = "-lX11 -lXft -lXext -lXrender -lXinerama -lXcursor -lXfixes -lfontconfig";
     if (!$config_opengl_dispatch) {
       $opengl_dep_libs  = "-L/usr/lib64 -lGL $xlibs";
-      $mesa_libs        = "-L/usr/lib64 $xlibs -L/work/y07/shared/libs/core/mesa/23.3.3/lib64 -lglapi -lOSMesa";
+      $mesa_libs        = "-L/usr/lib64 -lGLX_mesa $xlibs";
     }
+
     ...
 }
 
 ...
 
-```
-
-
-Prepare to build VMD serial
----------------------------
-
-```bash
-cd ${VMD_ROOT}/${VMD_NAME}
-rm -f ${VMD_ROOT}/${VMD_NAME}/LINUXAMD64/foobar
-rm -f ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
-ln -s ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.serial ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
-cd src
-```
-
-
-Edit the VMD `Makefile` file as shown below
--------------------------------------------
-
-```
-...
-
-INCDIRS     =   -I/work/y07/shared/utils/core/tcl/8.6.13/include -I/work/y07/shared/utils/core/tk/8.6.13/include -I../plugins/include -I../plugins/LINUXAMD64/molfile -I/opt/cray/pe/netcdf/4.9.0.1/GNU/9.1/include -I/work/y07/shared/utils/core/vmd/fltk/1.3.9-gcc11/include -I.
-
-...
-
-LIBDIRS     =   -L/work/y07/shared/utils/core/tcl/8.6.13/lib -L/work/y07/shared/utils/core/tk/8.6.13/lib  -L../plugins/LINUXAMD64/molfile -L/opt/cray/pe/netcdf/4.9.0.1/GNU/9.1/lib -L/work/y07/shared/utils/core/vmd/fltk/1.3.9-gcc11/lib
-
-...
-
-```
-
-
-Backup VMD `Makefile`
---------------------
-
-```bash
-cd ${VMD_ROOT}/${VMD_NAME}/src
-cp Makefile Makefile.sav
 ```
 
 
@@ -323,7 +299,11 @@ Build VMD serial
 ```bash
 cd ${VMD_ROOT}/${VMD_NAME}
 
-./configure LINUXAMD64 OPENGL FLTK TK NETCDF TCL
+rm -f ${VMD_ROOT}/${VMD_NAME}/LINUXAMD64/foobar
+rm -f ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
+ln -s ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.serial ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
+
+./configure LINUXAMD64 OPENGL FLTK TK TCL NETCDF
 
 cd src
 
@@ -340,6 +320,7 @@ Edit the VMD `configure` file once more
 
 ```bash
 ...
+
 # Directory where VMD startup script is installed, should be in users' paths.
 $install_bin_dir="/work/y07/shared/utils/core/vmd/1.9.3-mpi-gcc11/bin";
 
@@ -354,14 +335,15 @@ $install_library_dir="/work/y07/shared/utils/core/vmd/1.9.3-mpi-gcc11/lib";
 Build VMD parallel
 ------------------
 ```bash
+cd ${VMD_ROOT}/${VMD_NAME}
+
 rm -f ${VMD_ROOT}/${VMD_NAME}/LINUXAMD64/foobar
 rm -f ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
 ln -s ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.parallel ${VMD_ROOT}/${VMD_NAME}/lib/tachyon
 
-./configure LINUXAMD64 OPENGL FLTK TK MPI NETCDF TCL
+./configure LINUXAMD64 OPENGL FLTK TK TCL NETCDF MPI
 
 cd src
-cp Makefile.sav Makefile
 
 make
 make install
