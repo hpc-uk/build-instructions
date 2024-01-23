@@ -11,12 +11,12 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
-2024-01-22 | Michael Bareford | ARCHER2 | 1.9.3 | Build instructions for ARCHER2 4cab using GCC 11 compilers and Cray MPICH 8
+2024-01-22 | Michael Bareford | ARCHER2 | 1.9.3 | Build instructions for ARCHER2 using GCC 11 compilers and Cray MPICH 8
 
 Build Instructions
 ------------------
 
-* [VMD 1.9.3 ARCHER2 4cab Build Instructions (GCC 11, CMPICH 8)](build_vmd_1.9.3_archer2_gcc11.md)
+* [VMD 1.9.3 ARCHER2 Build Instructions (GCC 11, CMPICH 8)](build_vmd_1.9.3_archer2_gcc11.md)
 
 Notes
 -----
