@@ -50,7 +50,6 @@ GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
 
 module -q load cray-hdf5/1.12.2.1
 module -q load cray-netcdf/4.9.0.1
-module -q load cray-python/3.9.13.1
 module -q load tcl/8.6.13
 module -q load tk/8.6.13
 ```
@@ -112,9 +111,7 @@ Build Stride
 ------------
 
 ```bash
-cd ${VMD_ROOT}/${VMD_NAME}
-cd lib
-cd stride
+cd ${VMD_ROOT}/${VMD_NAME}/lib/stride
 
 wget http://webclu.bio.wzw.tum.de/stride/stride.tar.gz
 tar -xvzf stride.tar.gz
@@ -130,7 +127,7 @@ Build Surf
 ----------
 
 ```bash
-cd ../surf
+cd ${VMD_ROOT}/${VMD_NAME}/lib/surf
 
 tar -xvzf surf.tar.Z
 
@@ -145,7 +142,7 @@ Build Tachyon
 -------------
 
 ```bash
-cd ..
+cd ${VMD_ROOT}/${VMD_NAME}/lib
 
 mv tachyon tachyon.arc
 git clone https://github.com/thesketh/Tachyon.git tachyon.serial
@@ -155,10 +152,10 @@ cd tachyon.serial/unix
 
 make linux-64
 
-cd ..
+cd ${VMD_ROOT}/${VMD_NAME}/tachyon.serial
 ln -s ./compile/linux-64/tachyon tachyon_LINUXAMD64
 
-cd ../tachyon.parallel/unix
+cd ${VMD_ROOT}/${VMD_NAME}/tachyon.parallel/unix
 ```
 
 Amend the following lines in the linux-lam-64 section of the `Make-arch` file.
@@ -179,7 +176,7 @@ Make Tachyon (parallel).
 ```bash
 make linux-lam-64
 
-cd ..
+cd ${VMD_ROOT}/${VMD_NAME}/lib/tachyon.parallel
 ln -s ./compile/linux-lam-64/tachyon tachyon_LINUXAMD64
 ```
 
@@ -323,6 +320,7 @@ Edit the VMD `configure` file once more
 
 ```bash
 ...
+
 # Directory where VMD startup script is installed, should be in users' paths.
 $install_bin_dir="/work/y07/shared/utils/core/vmd/1.9.3-mpi-gcc11/bin";
 
