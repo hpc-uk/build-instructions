@@ -300,9 +300,7 @@ export SRUN_CPUS_PER_TASK=${SLURM_CPUS_PER_TASK}
 ```
 
 The regression tests should take around 6-8 hrs to complete (assuming CPU frequency of 2.0 GHz)
-and all tests should complete successfully. Note, the fact that CP2K 2023.2 is linked with the
-single-threaded MKL library requires that `ompthreads=1`, reducing the number of regression tests
-to 333 (for CP2K 2023.1 the number of regression tests is 3797).
+and all 3934 tests should complete successfully. 
 
 
 ## Performance
