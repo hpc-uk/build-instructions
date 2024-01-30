@@ -270,16 +270,13 @@ make -j 8 clean ARCH=ARCHER2 VERSION=psmp
 
 ### Regression tests
 
-Download the `ARCHER2-regtest.psmp.conf` configuration file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.2)
-and copy to `${CP2K_ROOT}`.
-
-The test can be executed in the queue system by submitting script from `${CP2K_ROOT}`.
+The regression tests can be executed in the queue system by submitting from `${CP2K_ROOT}` the script below.
 
 ```
 #!/bin/bash
 
 #SBATCH --job-name=regtest
-#SBATCH --time=06:00:00
+#SBATCH --time=08:00:00
 #SBATCH --exclusive
 #SBATCH --partition=standard
 #SBATCH --qos=standard
@@ -296,16 +293,16 @@ module load mkl
 
 export OMP_NUM_THREADS=1
 
-export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
+export SRUN_CPUS_PER_TASK=${SLURM_CPUS_PER_TASK}
 
-./tools/regtesting/do_regtest -nobuild -c ./ARCHER2-regtest.psmp.conf
+./tools/regtesting/do_regtest.py --mpiranks=2 --ompthreads=1 --maxtasks=2 --mpiexec=srun \
+                                 --workbasedir=${PWD} ARCHER2 psmp
 ```
 
-The regression tests should take around 5-6 hrs to complete (assuming CPU frequency of 2.0 GHz)
-and all 334 tests should complete successfully. Note, the fact that CP2K 2023.2 is linked with
-the single-threaded MKL library requires that `numthreads=1` is set in the `ARCHER2-regtest.psmp.conf` file.
-This setting reduces the number of regression tests to 334 (for CP2K 2023.1 the number of
-regression tests is 3797).
+The regression tests should take around 6-8 hrs to complete (assuming CPU frequency of 2.0 GHz)
+and all tests should complete successfully. Note, the fact that CP2K 2023.2 is linked with the
+single-threaded MKL library requires that `ompthreads=1`, reducing the number of regression tests
+to 333 (for CP2K 2023.1 the number of regression tests is 3797).
 
 
 ## Performance
