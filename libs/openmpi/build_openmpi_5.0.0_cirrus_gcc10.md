@@ -10,7 +10,7 @@ Setup initial environment
 First you need to setup the environment. 
 The environment variables `HWLOC_ROOT`,`PMIX_ROOT`, `OPENMPI_ROOT` point to the directories where respectively `hwloc`, `pmix` and `openmpi` will be installed.
 Below we specify them as subdirectories of `${BASE_PREFIX}`.
-Remember to change the setting for `BASE_PREFIX` to a path appropriate for your project.
+Remember to change the setting `BASE_PREFIX` to a path appropriate for your project.
 
 ```bash
 module load gcc/10.2.0
