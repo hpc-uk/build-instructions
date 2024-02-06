@@ -18,6 +18,7 @@ History
  2023-08-22 | Michael Bareford | Cirrus | 4.1.5 | GCC 8.2.0
  2022-07-14 | Michael Bareford | Cirrus | 4.1.4 | GCC 8.2.0
  2022-03-16 | Michael Bareford | Cirrus | 4.1.2 | GCC 8.2.0
+ 2024-06-02 | Luca Parisi | Cirrus | 5.0.0 | GCC 10.2.0
 
 Build Instructions
 ------------------
