@@ -27,6 +27,8 @@ Build Instructions
 * [OpenMPI 4.1.5 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.5_cirrus_gcc8.md)
 * [OpenMPI 4.1.4 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.4_cirrus_gcc8.md)
 * [OpenMPI 4.1.2 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.2_cirrus_gcc8.md)
+* [OpenMPI 5.0.0 Cirrus Build Instructions (GCC 10)](build_openmpi_5.0.0_cirrus_gcc10.md)
+
 
 Notes
 -----
