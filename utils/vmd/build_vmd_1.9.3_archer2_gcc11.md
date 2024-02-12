@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/utils/core
+PRFX=/work/y07/shared/utils/core   # or somewhere in /work on your user-space
 VMD_LABEL=vmd
 VMD_VERSION=1.9.3
 VMD_ROOT=${PRFX}/${VMD_LABEL}
@@ -348,4 +348,14 @@ cd src
 make
 make install
 make clean
+```
+
+Create a link to LLVM11
+-----------------------
+
+If not otherwise available, [compile LLVM11](../../libs/llvm/build_llvm_11.1.0_archer2_gcc11.md).
+
+```bash
+cd /work/y07/shared/utils/core/vmd/1.9.3-mpi-gcc11/lib
+ln -s libLLVM.so.11 /work/y07/shared/libs/core/llvm/11.1.0/llvm/lib/libLLVM-11.so
 ```
