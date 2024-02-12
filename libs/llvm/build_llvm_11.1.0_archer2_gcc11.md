@@ -44,7 +44,6 @@ cmake -DCMAKE_BUILD_TYPE=Release                    \
       -DLLVM_BUILD_LLVM_DYLIB=ON                    \
       -DLLVM_ENABLE_RTTI=ON                         \
       -DLLVM_INSTALL_UTILS=ON                       \
-      -DLLVM_TARGETS_TO_BUILD=X86                   \
       -DLLVM_INCLUDE_BENCHMARKS=OFF \      
       ../
 
