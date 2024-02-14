@@ -1,5 +1,5 @@
 
-# Build fftw-3.3.10 Intel 20.4
+# Build fftw-3.3.10 Cirrus Intel 20.4
 
 Set PRFX to current directory
 ```
