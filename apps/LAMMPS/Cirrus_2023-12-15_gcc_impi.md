@@ -1,5 +1,5 @@
 Building LAMMPS 15Dec2023 on Cirrus (GCC 12.2.0, FFTW 3.3.10)
-============================================================
+=============================================================
 
 These instructions are for building LAMMPS version 15Dec2023, also known as 2Aug2023 update 2, on Cirrus (SGI/HPE ICE XA, Intel Broadwell) using the GCC 12.2.0 compilers, MPI from Intel, and FFTW 3.3.10.
 
