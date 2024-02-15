@@ -11,11 +11,11 @@ Download and unpack the source and regression tests
 ```bash
 wget http://ftp.gromacs.org/pub/gromacs/gromacs-2023.4.tar.gz
 tar -xf gromacs-2023.4.tar.gz
-cd gromacs-2023.4
-export SRC=$(pwd)
 wget https://ftp.gromacs.org/regressiontests/regressiontests-2023.4.tar.gz
 tar xf regressiontests-2023.4.tar.gz
 export REG_DIR="$(pwd)/regressiontests-2023.4"
+cd gromacs-2023.4
+export SRC=$(pwd)
 ```
 
 Setup correct modules and build environment
@@ -45,7 +45,7 @@ cd build_mpi
 Use CMake to configure the build and then build and install.
 
 ```bash
-cmake ../ 
+cmake ../ \
       -D CMAKE_CXX_COMPILER=mpicxx        \
       -D CMAKE_C_COMPILER=mpicc           \
       -D GMX_BUILD_OWN_FFTW=ON            \
@@ -84,7 +84,7 @@ cd build_double
 Use CMake to configure the build and then build and install.
 
 ```bash
-cmake ../ 
+cmake ../ \
       -D CMAKE_CXX_COMPILER=mpicxx        \
       -D CMAKE_C_COMPILER=mpicc           \
       -D GMX_BUILD_OWN_FFTW=ON            \
@@ -131,7 +131,7 @@ export CXX=g++
 Use CMake to configure the build and then build and install.
 
 ```bash
-cmake ../ 
+cmake ../ \
       -D CMAKE_CXX_COMPILER=g++           \
       -D CMAKE_C_COMPILER=gcc             \
       -D GMX_BUILD_OWN_FFTW=ON            \
