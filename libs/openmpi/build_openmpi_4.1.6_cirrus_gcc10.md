@@ -106,8 +106,8 @@ CUDA_VERSION=11.6
 
 ./configure CC=gcc CXX=g++ FC=nvfortran \
   CFLAGS="-I${PRFX}/pmi2/include" \
-  FFLAGS="-fPIC" \
-  LDFLAGS="-L${PRFX}/pmi2/lib" \
+  FCFLAGS="-fPIC" \
+  LDFLAGS="-L${PRFX}/pmi2/lib -fPIC" \
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
@@ -169,8 +169,8 @@ CUDA_VERSION=11.8
 
 ./configure CC=gcc CXX=g++ FC=nvfortran \
   CFLAGS="-I${PRFX}/pmi2/include" \
-  FFLAGS="-fPIC" \
-  LDFLAGS="-L${PRFX}/pmi2/lib" \
+  FCFLAGS="-fPIC" \
+  LDFLAGS="-L${PRFX}/pmi2/lib -fPIC" \
   --enable-mpi1-compatibility --enable-mpi-fortran \
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \      
