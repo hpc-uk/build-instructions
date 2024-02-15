@@ -1,7 +1,7 @@
-Instructions for installing TensorFlow 2.13.0 for Cirrus CPU nodes
+Instructions for installing TensorFlow 2.15.0 for Cirrus CPU nodes
 ==================================================================
 
-These instructions show how to install TensorFlow 2.13.0 for use on the Cirrus CPU nodes (Intel Xeon E5-2695, Broadwell).
+These instructions show how to install TensorFlow 2.15.0 for use on the Cirrus CPU nodes (Intel Xeon E5-2695, Broadwell).
 
 Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package is required
 for running TensorFlow across multiple compute nodes.
@@ -11,12 +11,12 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
-TENSORFLOW_LABEL=tensorflow
-TENSORFLOW_VERSION=2.13.0
-TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
+cd ${PRFX}
 
-HOROVOD_VERSION=0.28.1
+TENSORFLOW_LABEL=tensorflow
+TENSORFLOW_VERSION=2.15.0
+TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
 
 module load python/3.9.13
 
@@ -44,17 +44,6 @@ pip install --user --upgrade pip
 ```
 
 
-Install supporting packages
----------------------------
-
-```bash
-pip install --user pyspark
-pip install --user scikit-learn
-pip install --user scikit-image
-pip install --user opencv-python
-```
-
-
 Install the TensorFlow packages
 -------------------------------
 
@@ -69,9 +58,9 @@ Install Horovod
 ---------------
 
 ```bash
-module load cmake
+module load cmake/3.25.2
 
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir -v horovod[tensorflow]==${HOROVOD_VERSION}
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir -v horovod[tensorflow]==0.28.1
 ```
 
 Now run `horovodrun --check-build` to confirm that Horovod has been installed correctly. That command should return something like the following output.
