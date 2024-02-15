@@ -42,9 +42,5 @@ cmake -C ../cmake/presets/most.cmake \
       -D CMAKE_CXX_FLAGS="-O3"       \
       -D FFT=FFTW3                   \
       -D PKG_MPIIO=yes               \
-      -D CMAKE_INSTALL_PREFIX=/mnt/?? \
+      -D CMAKE_INSTALL_PREFIX=/work/y07/shared/cirrus-software/lammps/15Dec2023 /
       ../cmake/
-
-make -j 8
-make install
-```
