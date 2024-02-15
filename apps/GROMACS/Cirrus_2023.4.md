@@ -55,7 +55,6 @@ cmake ../ \
       -D GMX_MPI=ON                       \
       -D GMX_OPENMP=ON                    \
       -D GMX_OPENMP_MAX_THREADS=32        \
-      -D GMX_X11=OFF                      \
       -D MPIEXEC=$(which srun)            \
       -D MPIEXEC_EXECUTABLE=$(which srun) \
       -D MPIEXEC_MAX_NUMPROCS=1           \
@@ -94,7 +93,6 @@ cmake ../ \
       -D GMX_MPI=ON                       \
       -D GMX_OPENMP=ON                    \
       -D GMX_OPENMP_MAX_THREADS=32        \
-      -D GMX_X11=OFF                      \
       -D MPIEXEC=$(which srun)            \
       -D MPIEXEC_EXECUTABLE=$(which srun) \
       -D MPIEXEC_MAX_NUMPROCS=1           \
@@ -140,7 +138,6 @@ cmake ../ \
       -D GMX_GPU=OFF                      \
       -D GMX_MPI=OFF                      \
       -D GMX_OPENMP=OFF                   \
-      -D GMX_X11=OFF                      \
       -D REGRESSIONTEST_PATH=${REG_DIR}   \
       -D CMAKE_INSTALL_PREFIX=${INSTALL}  \
       ../
