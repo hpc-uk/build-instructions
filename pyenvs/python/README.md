@@ -32,12 +32,12 @@ Notes
 -----
 
 The various sets of build instructions listed above all build a Python environment on Cirrus
-containing an `mpi4py` linked to OpenMPI 4.1.4. The instructions have to be amended slightly
+containing an `mpi4py` linked to OpenMPI 4.1.6. The instructions have to be amended slightly
 if you wish to link to one of the other MPI libraries available on Cirrus.
 
 If you wish to link mpi4py with either HPE MPT or Intel MPI for example, you must, instead of
 loading the OpenMPI module, load either `mpt/2.25` or `intel-mpi-19`, depending on preference.
-Following this you must explicitly load a `gcc` module, e.g., `gcc/8.2.0`. The only other
+Following this you must explicitly load a `gcc` module, e.g., `gcc/10.2.0`. The only other
 instruction that differs is the one that builds the `mpi4py` package: the compiler environment
 variables must be set to the appropriate MPI wrappers.
 
