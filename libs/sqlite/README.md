@@ -11,12 +11,12 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2023-04-12 | Michael Bareford | Cirrus | 3.40.1 | GCC 8.2.0
+ 2023-04-12 | Michael Bareford | Cirrus | 3.40.1 | GCC 10.2.0
 
 Build Instructions
 ------------------
 
-* [SQLite 3.40.1 Cirrus Build Instructions (GCC8)](build_sqlite_3.40.1_cirrus_gcc8.md)
+* [SQLite 3.40.1 Cirrus Build Instructions (GCC10)](build_sqlite_3.40.1_cirrus_gcc10.md)
 
 Notes
 -----
