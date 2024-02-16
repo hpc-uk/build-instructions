@@ -13,12 +13,12 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2023-04-12 | Michael Bareford | Cirrus | 9.1.1 | GCC 8.2.0
+ 2024-02-16 | Michael Bareford | Cirrus | 9.1.1 | GCC 10.2.0
 
 Build Instructions
 ------------------
 
-* [PROJ 9.1.1 Cirrus Build Instructions (GCC8)](build_proj_9.1.1_cirrus_gcc8.md)
+* [PROJ 9.1.1 Cirrus Build Instructions (GCC10)](build_proj_9.1.1_cirrus_gcc10.md)
 
 Notes
 -----

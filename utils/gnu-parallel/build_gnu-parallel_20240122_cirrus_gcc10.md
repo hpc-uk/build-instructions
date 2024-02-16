@@ -1,23 +1,23 @@
-Instructions for building GNU Parallel 20200522 on Cirrus
+Instructions for building GNU Parallel 20240122 on Cirrus
 =========================================================
 
-These instructions are for building GNU Parallel 20200522 on Cirrus (Intel Xeon E5-2695, Broadwell) using GCC 6.
+These instructions are for building GNU Parallel 20240122 on Cirrus (Intel Xeon E5-2695, Broadwell) using GCC 10.
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., /lustre/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 
 GNUPAR_LABEL=gnu-parallel
-GNUPAR_VERSION=20200522
+GNUPAR_VERSION=20240122
 GNUPAR_NAME=${GNUPAR_LABEL}-${GNUPAR_VERSION}
 
 mkdir -p ${PRFX}/${GNUPAR_LABEL}
 cd ${PRFX}/${GNUPAR_LABEL}
 
-module load gcc/6.3.0
+module load gcc/10.2.0
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.

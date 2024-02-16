@@ -2,14 +2,14 @@ Instructions for installing SQLite 3.40.1 on Cirrus
 ===================================================
 
 These instructions show how to build SQLite 3.40.1 for use on Cirrus (SGI ICE XA, Intel Xeon E5-2695)
-using GCC 8.2.0.
+using GCC 10.2.0.
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 
 SQLITE_LABEL=sqlite
 SQLITE_VERSION=3.40.1
@@ -42,7 +42,7 @@ Setup build environment
 ```bash
 cd ${SQLITE_ROOT}/${SQLITE_NAME}
 
-module load gcc/8.2.0
+module load gcc/10.2.0
 ```
 
 
