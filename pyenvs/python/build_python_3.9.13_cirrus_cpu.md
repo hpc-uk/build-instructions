@@ -1,10 +1,10 @@
-Instructions for building a Miniconda3 environment  suitable for Cirrus CPU nodes
-=================================================================================
+Instructions for building a Miniconda3 environment suitable for Cirrus CPU nodes
+================================================================================
 
 These instructions show how to build Miniconda3 environment (based on Python 3.9.13) for the Cirrus CPU nodes
 (Intel Xeon E5-2695, Broadwell), one that supports parallel computation.
 
-The build instructions show how to install mpi4py 3.1.3 such that it is linked with OpenMPI 4.1.4.
+The build instructions show how to install mpi4py 3.1.5 such that it is linked with OpenMPI 4.1.6.
 
 The Miniconda3 environment also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
@@ -14,17 +14,17 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
-OPENMPI_VERSION=4.1.4
+OPENMPI_VERSION=4.1.6
 
 module load openmpi/${OPENMPI_VERSION}
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/lib64
 
 MPI4PY_LABEL=mpi4py
-MPI4PY_VERSION=3.1.3
+MPI4PY_VERSION=3.1.5
 
 PYTHON_LABEL=py39
 MINICONDA_TAG=miniconda
@@ -70,7 +70,7 @@ export PS1="(python) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.4
+Build and install mpi4py using OpenMPI 4.1.6
 --------------------------------------------
 
 ```bash
@@ -81,13 +81,11 @@ MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
 mkdir -p ${MPI4PY_LABEL}
 cd ${MPI4PY_LABEL}
 
-wget https://github.com/${MPI4PY_LABEL}/${MPI4PY_LABEL}/archive/${MPI4PY_VERSION}.tar.gz
-tar -xvzf ${MPI4PY_VERSION}.tar.gz
-rm ${MPI4PY_VERSION}.tar.gz
-
+git clone https://github.com/${MPI4PY_LABEL}/${MPI4PY_LABEL}.git ${MPI4PY_NAME}
 cd ${MPI4PY_NAME}
+git checkout ${MPI4PY_VERSION}
 
-python setup.py build
+CC=mpicc CXX=mpicxx FC=mpifort python setup.py build
 python setup.py install --prefix=${MINICONDA_ROOT}
 python setup.py clean --all
 ```
