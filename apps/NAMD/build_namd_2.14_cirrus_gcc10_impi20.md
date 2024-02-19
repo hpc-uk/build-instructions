@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 NAMD_LABEL=namd
 NAMD_LABEL_CAPS=`echo ${NAMD_LABEL} | tr [a-z] [A-Z]`
 NAMD_VERSION=2.14
@@ -41,16 +41,15 @@ Load the GCC, MPI and FFTW modules
 ----------------------------------
 
 ```bash
-GNU_VERSION=8.2.0
-IMPI_VERSION=19.0.0.117
-FFTW_VERSION=3.3.9
+GNU_VERSION=10.2.0
+GNU_VER=`echo ${GNU_VERSION} | cut -d'.' -f1-2`
 
-GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-IMPI_VERSION_MAJOR=`echo ${IMPI_VERSION} | cut -d'.' -f1`
+IMPI_VERSION=20.4
+FFTW_VERSION=3.3.10
 
 module load gcc/${GNU_VERSION}
-module load intel-mpi-${IMPI_VERSION_MAJOR}/${IMPI_VERSION}
-module load fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}
+module load intel-${IMPI_VERSION}/mpi
+module load fftw/${FFTW_VERSION}-gcc${GNU_VER}-impi${IMPI_VERSION}
 
 export FC=gfortran CC=gcc CXX=g++
 ```
@@ -105,14 +104,7 @@ Build and install NAMD for each Charm++ flavour
 -----------------------------------------------
 
 ```bash
-NV_CUDA_VERSION=11.6
-NV_SDK_VERSION_MAJOR=22
-NV_SDK_VERSION_MINOR=2
-NV_SDK_VERSION=${NV_SDK_VERSION_MAJOR}.${NV_SDK_VERSION_MINOR}
-NV_SDK_NAME=hpcsdk-${NV_SDK_VERSION_MAJOR}${NV_SDK_VERSION_MINOR}
-NV_SDK_ROOT=${PRFX}/nvidia/${NV_SDK_NAME}/Linux_x86_64/${NV_SDK_VERSION}
-
-FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix ${PRFX}/fftw/${FFTW_VERSION}-impi${IMPI_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}"
+FFTW_CPU_OPTIONS="--with-fftw3 --fftw-prefix ${PRFX}/fftw/${FFTW_VERSION}-gcc${GNU_VER}-impi${IMPI_VERSION}"
 
 declare -a NAMD_VERSION_LABEL=("${NAMD_VERSION}" "${NAMD_VERSION}-nosmp")
 
@@ -123,7 +115,8 @@ for (( i=0; i<${NUM_CHARM_FLAVOURS}; i++ )); do
   cd ${NAMD_ROOT}/${NAMD_NAME}
 
   ./config Linux-x86_64-g++ --charm-arch ${CHARM_FLAVOUR[$i]} \
-      --with-tcl --tcl-prefix ${TCL_BASEDIR} ${FFTW_CPU_OPTIONS}
+      --with-tcl --tcl-prefix ${TCL_BASEDIR} ${FFTW_CPU_OPTIONS} \
+      --cxx-opts "-L${I_MPI_ROOT}/intel64/libfabric/lib"
 
   cd ${NAMD_ROOT}/${NAMD_NAME}/Linux-x86_64-g++
   gmake
