@@ -129,4 +129,5 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
 
 See the link below for an example of how the `extend-venv-activate` script is called.
+
 [https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
