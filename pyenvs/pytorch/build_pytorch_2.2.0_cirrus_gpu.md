@@ -97,9 +97,9 @@ Available Tensor Operations:
 Create `extend-venv-activate` script
 ------------------------------------
 
-The PyTorch Python environment described here is encapsulated as a TCL module file on Cirrus
-A user may build a local Python environment based on this module, `pytorch/2.2.0-gpu`. And so
-that module must be loaded whenever the local environment is activated.
+The PyTorch Python environment described here is encapsulated as a TCL module file on Cirrus.
+A user may build a local Python environment based on this module, `pytorch/2.2.0-gpu`, which
+means that module must be loaded whenever the local environment is activated.
 
 The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
 activate script such that the `pytorch/2.2.0-gpu` module is loaded during activation and unloaded
@@ -129,5 +129,4 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
 
 See the link below for an example of how the `extend-venv-activate` script is called.
-
 [https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
