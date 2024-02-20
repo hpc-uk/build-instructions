@@ -15,7 +15,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
 PYTORCH_PACKAGE_LABEL=torch
@@ -23,7 +23,6 @@ PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
 PYTORCH_VERSION=2.2.0
 PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
 
-module use /work/y07/shared/cirrus-modulefiles-development
 module load python/3.11.5-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
@@ -64,7 +63,7 @@ Please note, in preparation for the Horovod install, you must check that `libcud
 exists as soft link to `libcuda.so` in `${NVHPC_ROOT}/cuda/lib64/stubs`.
 
 ```bash
-module load cmake
+module load cmake/3.25.2
 
 export LD_LIBRARY_PATH=${NVHPC_ROOT}/cuda/lib64/stubs:${LD_LIBRARY_PATH}
 
@@ -93,3 +92,42 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The PyTorch Python environment described here is encapsulated as a TCL module file on Cirrus
+A user may build a local Python environment based on this module, `pytorch/2.2.0-gpu`. And so
+that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `pytorch/2.2.0-gpu` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${PYTHON_BIN}` directory.
+
+```bash
+#!/bin/bash
+  
+# add extra activate commands  
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -s load pytorch/2.2.0-gpu\n"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}module -s unload pytorch/2.2.0-gpu"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
