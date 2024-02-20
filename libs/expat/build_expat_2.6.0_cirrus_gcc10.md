@@ -29,7 +29,7 @@ cd ${EXPAT_ROOT}
 
 git clone https://github.com/libexpat/libexpat.git ${EXPAT_NAME}
 cd ${EXPAT_NAME}
-git checkout R_${EXPAT_VERSION/./_}
+git checkout R_${EXPAT_VERSION//./_}
 ```
 
 

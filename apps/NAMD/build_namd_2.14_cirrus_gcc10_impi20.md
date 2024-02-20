@@ -80,6 +80,7 @@ cd ${TCL_NAME}/unix
 make
 make test
 make install
+make clean
 ```
 
 
