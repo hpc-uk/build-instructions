@@ -2,14 +2,14 @@ Instructions for installing PROJ 9.1.1 on Cirrus
 ================================================
 
 These instructions show how to build PROJ 9.1.1 for use on Cirrus (SGI ICE XA, Intel Xeon E5-2695)
-using GCC 8.2.0. PROJ 9.1.1 requires [SQLite 3.40.1](https://github.com/hpc-uk/build-instructions/tree/main/libs/sqlite).
+using GCC 10.2.0. PROJ 9.1.1 requires [SQLite 3.40.1](https://github.com/hpc-uk/build-instructions/tree/main/libs/sqlite).
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 
 PROJ_LABEL=proj
 PROJ_VERSION=9.1.1
@@ -18,7 +18,7 @@ PROJ_ROOT=${PRFX}/${PROJ_LABEL}
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
-The following instructions assume that an installation of [SQLite 3.40.1](https://github.com/hpc-uk/build-instructions/blob/main/libs/sqlite/build_sqlite_3.40.1_cirrus_gcc8.md) exists directly
+The following instructions assume that an installation of [SQLite 3.40.1](https://github.com/hpc-uk/build-instructions/blob/main/libs/sqlite/build_sqlite_3.40.1_cirrus_gcc10.md) exists directly
 off the path indicated by `PRFX`.
 
 
@@ -41,8 +41,8 @@ Setup build environment
 ```bash
 cd ${PROJ_ROOT}/${PROJ_NAME}
 
-module load gcc/8.2.0
-module load cmake/3.17.3
+module load gcc/10.2.0
+module load cmake/3.25.2
 
 rm -rf build
 mkdir build

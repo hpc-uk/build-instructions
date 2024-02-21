@@ -1,7 +1,7 @@
-Instructions for building PyFR 1.14.0 on Cirrus (GPU)
+Instructions for building PyFR 1.15.0 on Cirrus (GPU)
 =====================================================
 
-These instructions show how to build PyFR 1.14.0 for use on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB),
+These instructions show how to build PyFR 1.15.0 for use on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB),
 see http://www.pyfr.org for further details. 
 
 The venv is an extension of the Miniconda3 (Python 3.9.13) environment provided by the `python/3.9.13-gpu` module.
@@ -11,11 +11,11 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
 PYFR_LABEL=pyfr
-PYFR_VERSION=1.14.0
+PYFR_VERSION=1.15.0
 PYFR_ROOT=${PRFX}/${PYFR_LABEL}
 
 module load metis/5.1.0
@@ -42,7 +42,7 @@ Install PyFR and supporting packages
 ------------------------------------
 
 ```bash
-pip install --user gimmik==2.3
+pip install --user gimmik==3.2.1
 pip install --user h5py
 pip install --user metis
 

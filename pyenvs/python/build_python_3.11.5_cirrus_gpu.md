@@ -1,11 +1,11 @@
 Instructions for building a Miniconda3 environment suitable for Cirrus GPU nodes
 ================================================================================
 
-These instructions show how to build Miniconda3 environment (based on Python 3.8.16) for the Cirrus GPU nodes
+These instructions show how to build Miniconda3 environment (based on Python 3.11.5) for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.5 (OpenMPI 4.1.6 with ucx 1.15.0 and CUDA 11.6) with pycuda 2022.1
-and cupy 10.6.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
+The environment features mpi4py 3.1.5 (OpenMPI 4.1.6 with ucx 1.15.0 and CUDA 11.8) with pycuda 2024.1
+and cupy-cuda11x 13.0.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
 
@@ -16,8 +16,8 @@ Setup initial environment
 PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
-NVHPC_VERSION=22.2
-CUDA_VERSION=11.6
+NVHPC_VERSION=22.11
+CUDA_VERSION=11.8
 OPENMPI_VERSION=4.1.6
 
 module load nvidia/nvhpc-nompi/${NVHPC_VERSION}
@@ -26,10 +26,10 @@ module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 MPI4PY_LABEL=mpi4py
 MPI4PY_VERSION=3.1.5
 
-PYTHON_LABEL=py38
+PYTHON_LABEL=py311
 MINICONDA_TAG=miniconda
 MINICONDA_LABEL=${MINICONDA_TAG}3
-MINICONDA_VERSION=23.3.1-0
+MINICONDA_VERSION=23.11.0-2
 MINICONDA_ROOT=${PRFX}/${MINICONDA_LABEL}/${MINICONDA_VERSION}-${PYTHON_LABEL}-gpu
 ```
 
@@ -105,53 +105,11 @@ exit()
 ```
 
 
-Download pycuda source
-----------------------
-
-```bash
-cd ${MINICONDA_ROOT}
-
-PYCUDA_LABEL=pycuda
-PYCUDA_VERSION=2022.1
-PYCUDA_NAME=${PYCUDA_LABEL}-${PYCUDA_VERSION}
-
-mkdir -p ${PYCUDA_LABEL}
-cd ${PYCUDA_LABEL}
-
-wget https://files.pythonhosted.org/packages/2d/1f/48a3a5b2c715345e7af1e09361100bd98c3d72b4025371692ab233f523d3/${PYCUDA_NAME}.tar.gz
-tar -xvzf ${PYCUDA_NAME}.tar.gz
-rm ${PYCUDA_NAME}.tar.gz
-
-cd ${PYCUDA_NAME}
-```
-
-
-Set `default_lib_dirs` array in `setup.py`
-------------------------------------------
-
-```python
-    default_lib_dirs = [
-        "${CUDA_ROOT}/lib64",
-        "${CUDA_ROOT}/lib64/stubs",
-        "<NVHPC_ROOT>/math_libs/<CUDA_VERSION>/lib64",
-        "<NVHPC_ROOT>/math_libs/<CUDA_VERSION>/lib64/stubs",
-    ]
-```
-Note, you must replace `<NVHPC_ROOT>` in the string definitions above with the value
-of the NVHPC_ROOT environment variable that was set when the `nvidia/nvhpc-nompi` module
-was loaded. You must also replace `<CUDA_VERSION>` with the actual value held by the
-CUDA_VERSION variable defined at the top of these instructions.
-
-
 Build and install pycuda
 ------------------------
 
 ```
-python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION}
-
-CC=gcc CXX=g++ make
-make install
-make clean
+CC=mpicc CXX=mpicxx FC=mpifort CFLAGS="-I${NVHPC_ROOT}/cuda/11.8/include" LDFLAGS="-L${NVHPC_ROOT}/cuda/11.8/lib64/stubs -L${NVHPC_ROOT}/math_libs/lib64/stubs" pip install pycuda
 ```
 
 
@@ -162,7 +120,7 @@ Install general purpose python packages
 cd ${MINICONDA_ROOT}
 
 pip install scipy
-pip install cupy-cuda116==10.3.1
+pip install cupy-cuda11x
 pip install pandas
 pip install dask
 pip install memory_profiler
@@ -189,8 +147,7 @@ Install cudatoolkit
 ```bash
 cd ${MINICONDA_ROOT}
 
-conda install -c anaconda openssl==3.2.1
-conda install -c anaconda cudatoolkit-11.6.0
+conda install -c anaconda cudatoolkit
 ```
 
 
@@ -207,11 +164,11 @@ Create `extend-venv-activate` script
 ------------------------------------
 
 The Python environment described here is encapsulated as a TCL module file on Cirrus.
-A user may build a local Python environment based on this module, `python/3.8.16-gpu`, which
+A user may build a local Python environment based on this module, `python/3.11.5-gpu`, which
 means that module must be loaded whenever the local environment is activated.
 
 The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
-activate script such that the `python/3.8.16-gpu` module is loaded during activation and unloaded
+activate script such that the `python/3.11.5-gpu` module is loaded during activation and unloaded
 during deactivation.
 
 The contents of the `extend-venv-activate` script are shown below. The file itself must be added
@@ -223,7 +180,7 @@ to the `${MINICONDA_ROOT}/bin` directory.
 # add extra activate commands
 MARK="# you cannot run it directly"
 CMDS="${MARK}\n\n"
-CMDS="${CMDS}module -s load python/3.8.16-gpu\n"
+CMDS="${CMDS}module -s load python/3.11.5-gpu\n"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 
@@ -232,7 +189,7 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 INDENT="        "
 MARK="unset -f deactivate"
 CMDS="${MARK}\n\n" 
-CMDS="${CMDS}${INDENT}module -s unload python/3.8.16-gpu"
+CMDS="${CMDS}${INDENT}module -s unload python/3.11.5-gpu"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
