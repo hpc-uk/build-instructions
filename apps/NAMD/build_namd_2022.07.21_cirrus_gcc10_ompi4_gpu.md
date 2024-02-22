@@ -8,13 +8,13 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work # e.g., PRFX=/work/y07/shared/cirrus-software
 NAMD_LABEL=namd
 NAMD_LABEL_CAPS=`echo ${NAMD_LABEL} | tr [a-z] [A-Z]`
 NAMD_VERSION=2022.07.21
 NAMD_ROOT=${PRFX}/${NAMD_LABEL}
 NAMD_NAME=${NAMD_LABEL}-${NAMD_VERSION}
-NAMD_ARCHIVE=${NAMD_LABEL_CAPS}_${NAMD_VERSION}_Source
+NAMD_ARCHIVE=${NAMD_LABEL_CAPS}_Git-${NAMD_VERSION//./-}_Source
 ```
 
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
@@ -41,18 +41,18 @@ Load the GCC, MPI and FFTW modules
 ----------------------------------
 
 ```bash
-GNU_VERSION=8.2.0
+GNU_VERSION=10.2.0
 CUDA_VERSION=11.8
-OMPI_VERSION=4.1.4
-FFTW_VERSION=3.3.9
+OMPI_VERSION=4.1.6
+FFTW_VERSION=3.3.10
 
-GNU_VERSION_MAJOR=`echo ${GNU_VERSION} | cut -d'.' -f1`
-CUDA_VERSION_MAJOR=`echo ${CUDA_VERSION} | cut -d'.' -f1`
+GNU_VER=`echo ${GNU_VERSION} | cut -d'.' -f1-2`
 OMPI_VERSION_MAJOR=`echo ${OMPI_VERSION} | cut -d'.' -f1`
 
 module load gcc/${GNU_VERSION}
+module load nvidia/nvhpc-nompi/22.11
 module load openmpi/${OMPI_VERSION}-cuda-${CUDA_VERSION}
-module load fftw/${FFTW_VERSION}-ompi${OMPI_VERSION_MAJOR}-cuda${CUDA_VERSION_MAJOR}-gcc${GNU_VERSION_MAJOR}
+module load fftw/${FFTW_VERSION}-gcc${GNU_VER}-ompi${OMPI_VERSION_MAJOR}-cuda${CUDA_VERSION}
 
 export FC=gfortran CC=gcc CXX=g++
 ```
@@ -83,6 +83,7 @@ cd ${TCL_NAME}/unix
 make
 make test
 make install
+make clean
 ```
 
 
@@ -99,7 +100,7 @@ CHARM_NAME=${CHARM_LABEL}-${CHARM_VERSION}
 PMI2_ROOT=/mnt/lustre/indy2lfs/sw/pmi2
 
 wget http://charm.cs.illinois.edu/distrib/${CHARM_NAME}.tar.gz
-tar -xf ${CHARM_NAME}.tar
+tar -xzf ${CHARM_NAME}.tar.gz
 mv ${CHARM_LABEL}-v${CHARM_VERSION} ${CHARM_NAME}
 cd ${CHARM_NAME}
 
@@ -117,11 +118,11 @@ NV_CUDA_VERSION=11.8
 NV_SDK_VERSION_MAJOR=22
 NV_SDK_VERSION_MINOR=11
 NV_SDK_VERSION=${NV_SDK_VERSION_MAJOR}.${NV_SDK_VERSION_MINOR}
-NV_SDK_NAME=hpcsdk-${NV_SDK_VERSION_MAJOR}${NV_SDK_VERSION_MINOR}
+NV_SDK_NAME=hpcsdk-${NV_SDK_VERSION_MAJOR}.${NV_SDK_VERSION_MINOR}
 NV_SDK_ROOT=${PRFX}/nvidia/${NV_SDK_NAME}/Linux_x86_64/${NV_SDK_VERSION}
 
 sed -i "s:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft_static -lculibos -lcudart_static -lrt:CUDALIB=-L\$(CUDADIR)/lib64 -lcufft -lculibos -lcudart -lrt:g" ${NAMD_ROOT}/${NAMD_NAME}/arch/Linux-x86_64.cuda
-sed -i "s:CHARMBASE = /Projects/namd2/charm-v7.0.0:CHARMBASE = /mnt/lustre/indy2lfs/sw/namd/namd-2022.07.21/charm-7.0.0:g" ${NAMD_ROOT}/${NAMD_NAME}/Make.charm
+sed -i "s:CHARMBASE = /Projects/namd2/charm-v7.0.0:CHARMBASE = /work/y07/shared/cirrus-software/namd/namd-2022.07.21/charm-7.0.0:g" ${NAMD_ROOT}/${NAMD_NAME}/Make.charm
 
 cd ${NAMD_ROOT}/${NAMD_NAME}
 

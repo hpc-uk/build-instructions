@@ -93,3 +93,42 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The TensorFlow Python environment described here is encapsulated as a TCL module file on Cirrus.
+A user may build a local Python environment based on this module, `tensorflow/2.15.0-gpu`, which
+means that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `tensorflow/2.15.0-gpu` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${PYTHON_BIN}` directory.
+
+```bash
+#!/bin/bash
+  
+# add extra activate commands
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -s load tensorflow/2.15.0-gpu\n"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}module -s unload tensorflow/2.15.0-gpu"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)

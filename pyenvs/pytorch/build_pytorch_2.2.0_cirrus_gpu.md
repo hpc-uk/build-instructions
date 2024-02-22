@@ -15,7 +15,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
 PYTORCH_PACKAGE_LABEL=torch
@@ -23,7 +23,6 @@ PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
 PYTORCH_VERSION=2.2.0
 PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
 
-module use /work/y07/shared/cirrus-modulefiles-development
 module load python/3.11.5-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
@@ -64,16 +63,11 @@ Please note, in preparation for the Horovod install, you must check that `libcud
 exists as soft link to `libcuda.so` in `${NVHPC_ROOT}/cuda/lib64/stubs`.
 
 ```bash
-module load cmake
+module load cmake/3.25.2
 
 export LD_LIBRARY_PATH=${NVHPC_ROOT}/cuda/lib64/stubs:${LD_LIBRARY_PATH}
 
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CUDA_HOME=${NVHPC_ROOT}/cuda/11.8 HOROVOD_NCCL_HOME=${NVHPC_ROOT}/comm_libs/nccl HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 CUDA_PATH=${NVHPC_ROOT}/cuda/11.8 pip install --user --no-cache-dir horovod[pytorch]==0.28.1
-
-
-/mnt/lustre/indy2lfs/sw/pytorch/2.2.0-gpu/python/3.11.5/lib/python3.11/site-packages/torch/include/ATen/ATen.h:4:2: error: #error C++17 or later compatible compiler is required to use ATen.
-Need somehow to get "-std=c++17" in the C++ compile options
-"-std=c++14" is being specified instead
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CUDA_HOME=${NVHPC_ROOT}/cuda/11.8 HOROVOD_NCCL_HOME=${NVHPC_ROOT}/comm_libs/nccl HOROVOD_GPU=CUDA HOROVOD_BUILD_CUDA_CC_LIST=70 HOROVOD_CPU_OPERATIONS=MPI HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 CUDA_PATH=${NVHPC_ROOT}/cuda/11.8 pip install --user --no-cache-dir git+https://github.com/thomas-bouvier/horovod.git@compile-cpp17
 ```
 
 Now run `horovodrun --check-build` to confirm that [Horovod](https://horovod.readthedocs.io/en/stable/index.html) has been installed
@@ -98,3 +92,42 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The PyTorch Python environment described here is encapsulated as a TCL module file on Cirrus.
+A user may build a local Python environment based on this module, `pytorch/2.2.0-gpu`, which
+means that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `pytorch/2.2.0-gpu` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${PYTHON_BIN}` directory.
+
+```bash
+#!/bin/bash
+  
+# add extra activate commands  
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -s load pytorch/2.2.0-gpu\n"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}module -s unload pytorch/2.2.0-gpu"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
