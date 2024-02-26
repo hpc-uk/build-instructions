@@ -1,5 +1,5 @@
-Instructions for building PyTorch 1.13.1 for the Cirrus CPU nodes
-=================================================================
+Instructions for installing PyTorch 1.13.1 for use on the Cirrus CPU nodes
+==========================================================================
 
 These instructions show how to build a Python virtual environment (venv) that provides PyTorch 1.13.1 (https://pytorch.org/).
 Also included is Horovod 0.28.1, a distributed deep learning training framework,
@@ -124,6 +124,8 @@ CMDS="${CMDS}${INDENT}module -s unload pytorch/1.13.1"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
+
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${PYTHON_BIN}/extend-venv-activate`.
 
 See the link below for an example of how the `extend-venv-activate` script is called.
 

@@ -1,14 +1,17 @@
-Instructions for building PyTorch 2.2.0 for the Cirrus GPU nodes
-================================================================
+Instructions for installing PyTorch 2.2.0 for use on the Cirrus GPU nodes
+=========================================================================
 
 These instructions show how to build a Python virtual environment (venv) that provides PyTorch 2.2.0 (https://pytorch.org/).
 Also included is Horovod 0.28.1, a distributed deep learning training framework,
 
-The PyTorchd environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
+The PyTorch environment is intended to run on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
 This venv is an extension of the Miniconda3 (Python 3.11.5) environment provided by the `python/3.11.5-gpu` module.
 MPI comms is handled by the [Horovod](https://horovod.readthedocs.io/en/stable/index.html) 0.28.1 package (built with NCCL 2.13.4).
-Horovod is required for running PyTorch over multiple GPUs distributed across multiple compute nodes.
+Horovod can be used to run PyTorch across multiple GPU nodes.
+
+This can also be done by using the NVIDIA Collective Communications Library (NCCL) directly via the `torch.distributed` module,
+as is the case with the [DeepCAM MLPerf benchmark](https://github.com/mlcommons/hpc/tree/main/deepcam).
 
 
 Setup initial environment
@@ -128,6 +131,8 @@ CMDS="${CMDS}${INDENT}module -s unload pytorch/2.2.0-gpu"
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
 
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${PYTHON_BIN}/extend-venv-activate`.
+ 
 See the link below for an example of how the `extend-venv-activate` script is called.
 
 [https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
