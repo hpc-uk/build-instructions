@@ -1,7 +1,7 @@
-Instructions for installing PyTorch 2.0.0 on ARCHER2
-====================================================
+Instructions for installing PyTorch 2.0.0 for use on the ARCHER2 CPU nodes
+==========================================================================
 
-These instructions show how to install PyTorch 2.0.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install PyTorch 2.0.0 for use on the ARCHER2 CPU nodes (HPE Cray EX, AMD Zen2 7742).
 
 Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package is required
 for running PyTorch across multiple compute nodes.
@@ -11,7 +11,9 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
+cd ${PRFX}
+ 
 PYTORCH_PACKAGE_LABEL=torch
 PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
 PYTORCH_VERSION=2.0.0
@@ -121,3 +123,48 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The PyTorch Python environment described here is encapsulated as an Lmod module file on ARCHER2.
+A user may build a local Python environment based on this module, `pytorch/2.0.0`, which
+means that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `pytorch/2.0.0` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${PYTHON_BIN}` directory.
+
+```bash
+#!/bin/bash
+  
+# add extra activate commands  
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -q load pytorch/2.0.0\n\n"
+CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/python3.9/site-packages\n"
+CMDS="${CMDS}if [[ \${PYTHONPATH} != *\"\${PYTHONUSERSITEPKGS}\"* ]]; then\n"
+CMDS="${CMDS}  export PYTHONPATH=\${PYTHONUSERSITEPKGS}\:\${PYTHONPATH}\n"
+CMDS="${CMDS}fi\n\n"
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}export PYTHONPATH=\`echo \${PYTHONPATH} | sed \"\s\:\${PYTHONUSERSITEPKGS}\\\\\:\:\:\g\"\`\n"
+CMDS="${CMDS}${INDENT}module -q unload pytorch/2.0.0"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${PYTHON_BIN}/extend-venv-activate`.
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.archer2.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.archer2.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
