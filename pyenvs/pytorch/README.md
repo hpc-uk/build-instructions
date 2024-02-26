@@ -24,10 +24,10 @@ Date | Person | System | Version | Notes
 Installation Instructions
 -------------------------
 
-* [PyTorch 2.2.0 ARCHER2 Build Instructions](build_pytorch_2.2.0_archer2_cpu.md)
-* [PyTorch 2.0.0 ARCHER2 Build Instructions](build_pytorch_2.0.0_archer2_cpu.md)
-* [PyTorch 1.13.1 ARCHER2 Build Instructions](build_pytorch_1.13.1_archer2_gpu.md)
-* [PyTorch 1.10.2 ARCHER2 Build Instructions](build_pytorch_1.10.2_archer2_cpu.md)
+* [PyTorch 2.2.0 ARCHER2 Build Instructions (CPU)](build_pytorch_2.2.0_archer2_cpu.md)
+* [PyTorch 2.0.0 ARCHER2 Build Instructions (CPU)](build_pytorch_2.0.0_archer2_cpu.md)
+* [PyTorch 1.13.1 ARCHER2 Build Instructions (GPU)](build_pytorch_1.13.1_archer2_gpu.md)
+* [PyTorch 1.10.2 ARCHER2 Build Instructions (CPU)](build_pytorch_1.10.2_archer2_cpu.md)
 * [PyTorch 2.2.0 Cirrus Build Instructions (GPU)](build_pytorch_2.2.0_cirrus_gpu.md)
 * [PyTorch 1.13.1 Cirrus Build Instructions (GPU)](build_pytorch_1.13.1_cirrus_gpu.md)
 * [PyTorch 1.13.1 Cirrus Build Instructions (CPU)](build_pytorch_1.13.1_cirrus_cpu.md)
