@@ -1,12 +1,9 @@
-Instructions for installing TensorFlow 2.9.3 on ARCHER2
-=======================================================
+Instructions for installing TensorFlow 2.13.0 for use on the ARCHER2 CPU nodes
+==============================================================================
 
-These instructions show how to install TensorFlow 2.9.3 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install TensorFlow 2.13.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
-This version of TensorFlow is compatible with the Cray PE DL Plugin 22.12.1. The plugin provides a highly tuned communication layer
-that can be easily added to any deep learning framework.
-
-Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package provides an alternative method
+Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package is required
 for running TensorFlow across multiple compute nodes.
 
 
@@ -14,9 +11,11 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # i.e., PRFX=/work/y07/shared/python/core
+cd ${PRFX}
+
 TENSORFLOW_LABEL=tensorflow
-TENSORFLOW_VERSION=2.9.3
+TENSORFLOW_VERSION=2.13.0
 TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
 
 module load PrgEnv-gnu
@@ -115,7 +114,7 @@ Available Tensor Operations:
     [ ] DDL
     [ ] CCL
     [X] MPI
-    [X] Gloo
+    [X] Gloo 
 ```
 
 
@@ -123,11 +122,11 @@ Create `extend-venv-activate` script
 ------------------------------------
 
 The TensorFlow Python environment described here is encapsulated as an Lmod module file on Cirrus.
-A user may build a local Python environment based on this module, `tensorflow/2.9.3`, which
+A user may build a local Python environment based on this module, `tensorflow/2.13.0`, which
 means that module must be loaded whenever the local environment is activated.
 
 The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
-activate script such that the `tensorflow/2.9.3` module is loaded during activation and unloaded
+activate script such that the `tensorflow/2.13.0` module is loaded during activation and unloaded
 during deactivation.
 
 The contents of the `extend-venv-activate` script are shown below. The file itself must be added
@@ -135,11 +134,11 @@ to the `${PYTHON_BIN}` directory.
 
 ```bash
 #!/bin/bash
-  
+
 # add extra activate commands
 MARK="# you cannot run it directly"
 CMDS="${MARK}\n\n"
-CMDS="${CMDS}module -q load tensorflow/2.9.3\n"
+CMDS="${CMDS}module -q load tensorflow/2.13.0\n"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 
@@ -148,7 +147,7 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 INDENT="        "
 MARK="unset -f deactivate"
 CMDS="${MARK}\n\n"
-CMDS="${CMDS}${INDENT}module -q unload tensorflow/2.9.3"
+CMDS="${CMDS}${INDENT}module -q unload tensorflow/2.13.0"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
