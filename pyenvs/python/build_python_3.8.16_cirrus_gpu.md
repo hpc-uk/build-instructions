@@ -237,6 +237,8 @@ CMDS="${CMDS}${INDENT}module -s unload python/3.8.16-gpu"
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```
 
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${MINICONDA_ROOT}/bin/extend-venv-activate`.
+
 See the link below for an example of how the `extend-venv-activate` script is called.
 
 [https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
