@@ -123,7 +123,7 @@ cd ${PYTORCH_ROOT}/repos
 
 git clone -b release/1.0.0 https://github.com/ROCm/apex.git apex-1.0.0
 cd apex-1.0.0
-pip install --user -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
+pip install --user -v --disable-pip-version-check --no-cache-dir --no-build-isolation --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
 
