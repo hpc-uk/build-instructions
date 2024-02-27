@@ -61,7 +61,7 @@ Install mpi4py
 --------------
 
 ```bash
-mkdir ${PYTORCH_ROOT}/repos
+mkdir -p ${PYTORCH_ROOT}/repos
 cd ${PYTORCH_ROOT}/repos
 
 MPI4PY_LABEL=mpi4py
@@ -100,7 +100,7 @@ Install the PyTorch packages
 ----------------------------
 
 ```bash
-mkdir ${PYTORCH_ROOT}/wheels
+mkdir -p ${PYTORCH_ROOT}/wheels
 cd ${PYTORCH_ROOT}/wheels
 
 WHL_SFFX=cp${PYTHON_VER2}-cp${PYTHON_VER2}-linux_x86_64
@@ -170,6 +170,7 @@ Install APEX
 APEX is a tool for  enabling mixed precision within PyTorch.
 
 ```bash
+mkdir -p ${PYTORCH_ROOT}/repos
 cd ${PYTORCH_ROOT}/repos
 
 git clone -b release/1.0.0 https://github.com/ROCm/apex.git apex-1.0.0
