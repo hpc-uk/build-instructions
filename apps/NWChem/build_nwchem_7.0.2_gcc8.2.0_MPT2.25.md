@@ -1,9 +1,9 @@
-Instructions for compiling NWChem 7.0.2 on ARCHER2
-==================================================
+Instructions for compiling NWChem 7.0.2 on Cirrus
+=================================================
 
-These instructions are for compiling NWChem on [ARCHER2](https://www.archer2.ac.uk)
-(HPE Cray EX supercomputer, AMD 7742 64-core processors) using the GCC 8.2.0 compilers,
-internal NWChem BLAS libraries, and HPE Cray MPICH MPI library.
+These instructions are for building NWChem 7.2.0 on Cirrus CPU (SGI ICE XA, Intel Xeon Broadwell) using the GCC 8.2.0 compilers
+and the HPE MPT MPI library.
+
 
 Specify build location
 ----------------------

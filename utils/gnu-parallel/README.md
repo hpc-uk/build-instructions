@@ -12,10 +12,10 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2020-11-23 | Michael Bareford | Cirrus | 20200522 | GCC 6.3.0
+ 2024-02-16 | Michael Bareford | Cirrus | 20240122 | GCC 10.2.0
 
 
 Build Instructions
 ------------------
 
-* [GNU Parallel 20200522 Cirrus Build Instructions (GCC 6)](build_gnu-parallel_20200522_cirrus_gcc6.md)
+* [GNU Parallel 20240122 Cirrus Build Instructions (GCC 10)](build_gnu-parallel_20240122_cirrus_gcc10.md)
