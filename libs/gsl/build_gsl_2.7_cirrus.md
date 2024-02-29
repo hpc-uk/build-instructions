@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 GSL_LABEL=gsl
 GSL_VERSION=2.7
 GSL_NAME=${GSL_LABEL}-${GSL_VERSION}
@@ -36,9 +36,10 @@ Build the GSL library
 ---------------------
 
 ```bash
-module load gcc/8.2.0
+module load gcc/10.2.0
 
 ./configure CC=gcc --prefix=${PRFX}/${GSL_LABEL}/${GSL_VERSION}
+
 make
 make check
 make install

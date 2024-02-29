@@ -33,7 +33,7 @@ export PIP_CACHE_DIR=${PYTHON_DIR}/.cache/pip
 
 export PYTHONUSERBASE=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}
 export PATH=${PYTHONUSERBASE}/bin:${PATH}
-export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHONVER}/site-packages:${PYTHONPATH}
+export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:${PYTHONPATH}
 
 pip install --user --upgrade pip
 ```

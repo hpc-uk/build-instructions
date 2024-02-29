@@ -26,6 +26,7 @@ set(CMAKE_Fortran_FLAGS "-O3 -ip -fp-model precise" CACHE STRING "")
 set(Fortran_MIN_FLAGS "-O0 -ip -fp-model precise" CACHE STRING "")
 set(CMAKE_C_COMPILER mpiicc CACHE STRING "")
 set(CMAKE_C_FLAGS "-O3 -ip -fp-model precise" CACHE STRING "")
+set(CMAKE_CXX_COMPILER mpiicpc CACHE STRING "")
 set(USE_SCALAPACK true CACHE BOOL "Use SCALAPACK")
 set(CMAKE_EXE_LINKER_FLAGS "-L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lmkl_blacs_intelmpi_lp64 -lpthread -lm -ldl" CACHE STRING "")
 EOF

@@ -83,7 +83,7 @@ mkdir ${CP2K_ROOT}/libs
 
 ## Prepare CP2K arch file
 
-Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1)
+Download the `ARCHER2.psmp` file from [https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1.xsmm](https://github.com/hpc-uk/build-instructions/tree/main/apps/CP2K/ARCHER2-CP2K-2023.1.xsmm)
 and copy to `${PRFX}/${CP2K_LABEL}/${CP2K_NAME}/arch/`.
 
 ```
@@ -106,17 +106,26 @@ A choice is required on the highest `lmax` supported: we choose `lmax = 4` to li
 cd ${CP2K_ROOT}/libs
 
 LIBINT_LABEL=libint
-LIBINT_NAME=${LIBINT_LABEL}-v${LIBINT_VERSION}-${LIBINT_VERSION_SUFFIX}
+LIBINT_NAME=${LIBINT_LABEL}-${LIBINT_VERSION}
+LIBINT_ARCHIVE=${LIBINT_LABEL}-v${LIBINT_VERSION}-${LIBINT_VERSION_SUFFIX}
+LIBINT_ROOT=${CP2K_ROOT}/libs/${LIBINT_LABEL}
 
-rm -rf ${LIBINT_NAME}
-wget -q https://github.com/${CP2K_LABEL}/${LIBINT_LABEL}-${CP2K_LABEL}/releases/download/v${LIBINT_VERSION}/${LIBINT_NAME}.tgz
-tar zxf ${LIBINT_NAME}.tgz
-rm ${LIBINT_NAME}.tgz
+rm -rf ${LIBINT_ROOT}
+mkdir -p ${LIBINT_ROOT}
+cd ${LIBINT_ROOT}
+
+mkdir ${LIBINT_NAME}
 cd ${LIBINT_NAME}
+
+wget -q https://github.com/${CP2K_LABEL}/${LIBINT_LABEL}-${CP2K_LABEL}/releases/download/v${LIBINT_VERSION}/${LIBINT_ARCHIVE}.tgz
+tar zxf ${LIBINT_ARCHIVE}.tgz
+rm ${LIBINT_ARCHIVE}.tgz
+mv ${LIBINT_ARCHIVE} ${LIBINT_VERSION_SUFFIX}
+cd ${LIBINT_VERSION_SUFFIX}
 
 CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ./configure \
     --enable-fortran --with-cxx-optflags=-O \
-    --prefix=${CP2K_ROOT}/libs/libint
+    --prefix=${LIBINT_ROOT}/${LIBINT_VERSION}/${LIBINT_VERSION_SUFFIX}
 
 make -j 8
 make -j 8 install
@@ -131,8 +140,12 @@ cd ${CP2K_ROOT}/libs
 
 LIBXC_LABEL=libxc
 LIBXC_NAME=${LIBXC_LABEL}-${LIBXC_VERSION}
+LIBXC_ROOT=${CP2K_ROOT}/libs/${LIBXC_LABEL}
 
-rm -rf ${LIBXC_NAME}
+rm -rf ${LIBXC_ROOT}
+mkdir -p ${LIBXC_ROOT}
+cd ${LIBXC_ROOT}
+
 wget -q https://gitlab.com/${LIBXC_LABEL}/${LIBXC_LABEL}/-/archive/${LIBXC_VERSION}/${LIBXC_NAME}.tar.gz
 tar zxf ${LIBXC_NAME}.tar.gz
 rm ${LIBXC_NAME}.tar.gz
@@ -140,7 +153,7 @@ cd ${LIBXC_NAME}
 
 autoreconf -i
 
-CC=cc CXX=CC FC=ftn ./configure --prefix=${CP2K_ROOT}/libs/libxc
+CC=cc CXX=CC FC=ftn ./configure --prefix=${LIBXC_ROOT}/${LIBXC_VERSION}
 
 make -j 8
 make -j 8 install
@@ -155,18 +168,18 @@ cd ${CP2K_ROOT}/libs
 
 LIBXSMM_LABEL=libxsmm
 LIBXSMM_NAME=${LIBXSMM_LABEL}-${LIBXSMM_VERSION}
-LIBXSMM_INSTALL=${CP2K_ROOT}/libs/${LIBXSMM_LABEL}/${LIBXSMM_VERSION}
+LIBXSMM_ROOT=${CP2K_ROOT}/libs/${LIBXSMM_LABEL}
 
-mkdir -p ${LIBXSMM_LABEL}
-cd ${LIBXSMM_LABEL}
+rm -rf ${LIBXSMM_ROOT}
+mkdir -p ${LIBXSMM_ROOT}
+cd ${LIBXSMM_ROOT}
 
-rm -rf ${LIBXSMM_NAME}
 wget -q https://github.com/${LIBXSMM_LABEL}/${LIBXSMM_LABEL}/archive/refs/tags/${LIBXSMM_VERSION}.tar.gz
-tar zxf ${LIBXSMM_NAME}.tar.gz
-rm ${LIBXSMM_NAME}.tar.gz
+tar zxf ${LIBXSMM_VERSION}.tar.gz
+rm ${LIBXSMM_VERSION}.tar.gz
 cd ${LIBXSMM_NAME}
 
-make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${LIBXSMM_INSTALL} install
+make CC=cc CXX=CC FC=ftn INTRINSICS=1 PREFIX=${LIBXSMM_ROOT}/${LIBXSMM_VERSION} install
 ```
 
 
@@ -177,13 +190,17 @@ cd ${CP2K_ROOT}/libs
 
 ELPA_LABEL=elpa
 ELPA_NAME=${ELPA_LABEL}-${ELPA_VERSION}
+ELPA_ROOT=${CP2K_ROOT}/libs/${ELPA_LABEL}
 
-rm -rf ${ELPA_NAME}
+rm -rf ${ELPA_ROOT}
+mkdir -p ${ELPA_ROOT}
+cd ${ELPA_ROOT}
+
 wget -q https://elpa.mpcdf.mpg.de/software/tarball-archive/Releases/${ELPA_VERSION}/${ELPA_NAME}.tar.gz
 tar zxf ${ELPA_NAME}.tar.gz
 rm ${ELPA_NAME}.tar.gz
 
-cd ${ELPA_NAME}
+cd ${ELPA_ROOT}/${ELPA_NAME}
 mkdir build-serial
 cd build-serial
 
@@ -193,13 +210,13 @@ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure       \
   --enable-openmp=no --enable-shared=no \
   --disable-avx512 --disable-detect-mpi-launcher \
   --without-threading-support-check-during-build \
-  --prefix=${CP2K_ROOT}/libs/elpa-serial
+  --prefix=${ELPA_ROOT}/${ELPA_VERSION}/serial
 
 make -j 8
 make -j 8 install
 make -j 8 clean
 
-cd ${CP2K_ROOT}/libs/${ELPA_NAME}
+cd ${ELPA_ROOT}/${ELPA_NAME}
 mkdir build-openmp
 cd build-openmp
 
@@ -209,7 +226,7 @@ CC=cc CXX=CC FC=ftn LDFLAGS=-dynamic ../configure \
   --enable-openmp=yes --enable-shared=no --enable-allow-thread-limiting \
   --disable-avx512 --disable-detect-mpi-launcher \
   --without-threading-support-check-during-build \
-  --prefix=${CP2K_ROOT}/libs/elpa-openmp
+  --prefix=${ELPA_ROOT}/${ELPA_VERSION}/openmp
 
 make -j 8
 make -j 8 install
@@ -224,8 +241,12 @@ cd ${CP2K_ROOT}/libs
 
 PLUMED_LABEL=plumed
 PLUMED_NAME=${PLUMED_LABEL}-${PLUMED_VERSION}
+PLUMED_ROOT=${CP2K_ROOT}/libs/${PLUMED_LABEL}
 
-rm -rf ${PLUMED_NAME}
+rm -rf ${PLUMED_ROOT}
+mkdir -p ${PLUMED_ROOT}
+cd ${PLUMED_ROOT}
+
 wget -q https://github.com/${PLUMED_LABEL}/${PLUMED_LABEL}2/archive/refs/tags/v${PLUMED_VERSION}.tar.gz
 tar zxf v${PLUMED_VERSION}.tar.gz
 rm v${PLUMED_VERSION}.tar.gz
@@ -234,7 +255,7 @@ cd ${PLUMED_NAME}
 
 CC=cc CXX=CC FC=ftn MPIEXEC=srun ./configure \
   --disable-openmp --disable-shared --disable-dlopen \
-  --prefix=${CP2K_ROOT}/libs/plumed
+  --prefix=${PLUMED_ROOT}/${PLUMED_VERSION}
 
 make -j 8
 make -j 8 install
