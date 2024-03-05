@@ -31,7 +31,7 @@ Build Instructions from source
 ------------------------------
 
 * [TensorFlow 2.14.0 ARCHER2 Installation Instructions (source build) (CPU)](build_tensorflow_2.14.0_from_source_archer2_cpu.md)
-* [TensorFlow 2.10.0 ARCHER2 Installation Instructions (source build) (GPU)](build_tensorflow_2.10.0_from_source_archer2_gpu.md)
+* [TensorFlow 2.12.0 ARCHER2 Installation Instructions (source build) (GPU)](build_tensorflow_2.12.0_from_source_archer2_gpu.md)
 
 Notes
 -----
