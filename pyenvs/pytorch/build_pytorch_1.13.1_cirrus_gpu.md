@@ -26,7 +26,7 @@ PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
 PYTORCH_VERSION=1.13.1
 PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}-gpu
 
-module load python/3.10.8-gpu
+module -s load python/3.10.8-gpu
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
 PYTHON_DIR=${PYTORCH_ROOT}/python
@@ -56,6 +56,17 @@ pip install --user torch==${PYTORCH_VERSION}+cu116 --extra-index-url https://dow
 pip install --user torchaudio==0.13.1+cu116 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install --user torchvision==0.14.1+cu116 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install --user torchtext==0.14.1 --extra-index-url https://download.pytorch.org/whl/cu116
+pip install --user torchmetrics==1.0.3 --extra-index-url https://download.pytorch.org/whl/cu116
+```
+
+
+Install lightning packages
+--------------------------
+
+```bash
+cd ${PYTORCH_ROOT}
+
+pip install --user lightning==2.2.1
 ```
 
 
@@ -81,7 +92,7 @@ exists as soft link to `libcuda.so` in `${NVHPC_ROOT}/cuda/lib64/stubs`.
 ```bash
 cd ${PYTORCH_ROOT}
 
-module load cmake/3.25.2
+module -s load cmake/3.25.2
 
 export LD_LIBRARY_PATH=${NVHPC_ROOT}/cuda/lib64/stubs:${LD_LIBRARY_PATH}
 

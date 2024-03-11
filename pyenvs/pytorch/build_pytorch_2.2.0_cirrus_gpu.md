@@ -44,18 +44,38 @@ export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:${PYTH
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
 
 
-Install torch and tensorboard packages
---------------------------------------
+Install torch packages
+----------------------
 
 ```bash
 pip install --user torch==${PYTORCH_VERSION}+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install --user torchaudio==2.2.0+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install --user torchvision==0.17.0+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
 pip install --user torchtext==0.17.0 --extra-index-url https://download.pytorch.org/whl/cu118
+pip install --user torchmetrics==1.0.3 --extra-index-url https://download.pytorch.org/whl/cu118
+```
+
+
+Install lightning packages
+--------------------------
+
+```bash
+cd ${PYTORCH_ROOT}
+
+pip install --user lightning==2.2.1
+```
+
+
+Install tensorboard packages
+----------------------------
+
+```bash
+cd ${PYTORCH_ROOT}
 
 pip install --user tensorboard
-pip install --user tensorboard-pytorch
 pip install --user tensorboard_plugin_profile
+pip install --user tensorboard-plugin-wit
+pip install --user tensorboard-pytorch
 ```
 
 
@@ -66,7 +86,9 @@ Please note, in preparation for the Horovod install, you must check that `libcud
 exists as soft link to `libcuda.so` in `${NVHPC_ROOT}/cuda/lib64/stubs`.
 
 ```bash
-module load cmake/3.25.2
+cd ${PYTORCH_ROOT}
+
+module -s load cmake/3.25.2
 
 export LD_LIBRARY_PATH=${NVHPC_ROOT}/cuda/lib64/stubs:${LD_LIBRARY_PATH}
 
