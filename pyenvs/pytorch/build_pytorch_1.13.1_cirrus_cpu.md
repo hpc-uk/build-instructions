@@ -23,7 +23,7 @@ PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
 PYTORCH_VERSION=1.13.1
 PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
 
-module load python/3.9.13
+module -s load python/3.9.13
 
 PYTHON_VER=`echo ${MINICONDA3_PYTHON_VERSION} | cut -d'.' -f1-2`
 PYTHON_DIR=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}/python
@@ -43,18 +43,40 @@ pip install --user --upgrade pip
 Remember to change the setting for `PRFX` to a path appropriate for your Cirrus project.
 
 
-Install torch and tensorboard packages
---------------------------------------
+Install torch packages
+----------------------
 
 ```bash
+cd ${PYTORCH_ROOT}
+
 pip install --user torch==${PYTORCH_VERSION} --extra-index-url https://download.pytorch.org/whl/cpu
 pip install --user torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cpu
 pip install --user torchvision==0.14.1 --extra-index-url https://download.pytorch.org/whl/cpu
 pip install --user torchtext==0.14.1 --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchmetrics==1.0.3 --extra-index-url https://download.pytorch.org/whl/cpu
+```
+
+
+Install lightning packages
+--------------------------
+
+```bash
+cd ${PYTORCH_ROOT}
+
+pip install --user lightning==2.2.1
+```
+
+
+Install tensorboard packages
+----------------------------
+
+```bash
+cd ${PYTORCH_ROOT}
 
 pip install --user tensorboard
-pip install --user tensorboard-pytorch
 pip install --user tensorboard_plugin_profile
+pip install --user tensorboard-plugin-wit
+pip install --user tensorboard-pytorch
 ```
 
 
@@ -62,7 +84,9 @@ Install Horovod
 ---------------
 
 ```bash
-module load cmake/3.25.2
+cd ${PYTORCH_ROOT}
+
+module -s load cmake/3.25.2
 
 CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir horovod[pytorch]==0.28.1
 ```
