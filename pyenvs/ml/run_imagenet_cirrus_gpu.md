@@ -2,7 +2,7 @@ Instructions for running the ImageNet benchmark on Cirrus (GPU)
 ===============================================================
 
 The submission scripts below show how to run TensorFlow/PyTorch over multiple GPU nodes.
-The jobs run benchmark scripts located within `/home/z04/shared/ml`.
+The jobs run benchmark scripts located within `/work/z04/shared/ml`.
 
 
 Launch a TensorFlow ImageNet benchmark
@@ -24,8 +24,7 @@ export SLURM_NTASKS=16
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-# tensorflow module is an alias for horovod/0.25.0-gpu
-module load tensorflow/2.9.1-gpu
+module load tensorflow/2.15.0-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
@@ -68,8 +67,7 @@ export SLURM_NTASKS=16
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-# pytorch module is an alias for horovod/0.25.0-gpu
-module load pytorch/1.12.1-gpu
+module load pytorch/1.13.1-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
