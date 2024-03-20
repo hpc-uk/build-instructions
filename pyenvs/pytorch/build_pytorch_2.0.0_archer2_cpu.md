@@ -66,6 +66,7 @@ pip install --user gym
 pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
+pip install --user h5py
 ```
 
 
