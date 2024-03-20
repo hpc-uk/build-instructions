@@ -1,13 +1,12 @@
-Instructions for installing PyTorch 1.10.2 for use on the ARCHER2 CPU nodes
-===========================================================================
+Instructions for building PyTorch 1.13.1 from source for use on the ARCHER2 CPU nodes
+=====================================================================================
 
-These instructions show how to install PyTorch 1.10.2 for use on the ARCHER2 CPU nodes (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to build PyTorch 1.13.1 for use on the ARCHER2 CPU nodes (HPE Cray EX, AMD Zen2 7742).
 
-This version of PyTorch is compatible with the Cray PE DL Plugin 22.12.1. The plugin provides a highly tuned communication layer
-that can be easily added to any deep learning framework.
-
-Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package provides an alternative method
-for running PyTorch across multiple compute nodes.
+Horovod 0.28.1, a distributed deep learning training framework, is also installed. This package can be used to
+run PyTorch across multiple compute nodes. However, some PyTorch scripts may instead use the "torch.distributed"
+module to handle communications, in which case PyTorch must be built from source to ensure that "torch.distributed"
+is hooked up to the appropriate MPI libraries. 
 
 
 Setup initial environment
@@ -16,18 +15,22 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
 cd ${PRFX}
-
+ 
 PYTORCH_PACKAGE_LABEL=torch
 PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
-PYTORCH_VERSION=1.10.2
-PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}
+PYTORCH_VERSION=1.13.1
+PYTORCH_ARCHIVE=${PYTORCH_LABEL}-v${PYTORCH_VERSION}.tar.gz
+PYTORCH_NAME=${PYTORCH_LABEL}-${PYTORCH_VERSION}
+PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}
 
 module load PrgEnv-gnu
 module load cray-python
+module load cray-fftw
+module load mkl/2023.0.0
 module load cmake/3.21.3
 
 PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
-PYTHON_DIR=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}/python
+PYTHON_DIR=${PYTORCH_ROOT}/python
 PYTHON_BIN=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}/bin
 ```
 
@@ -70,27 +73,101 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 pip install --user h5py
+pip install --user numba
 ```
 
 
-Install the PyTorch packages
+Download PyTorch source code
 ----------------------------
 
 ```bash
-pip install --user ${PYTORCH_PACKAGE_LABEL}==${PYTORCH_VERSION}+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-pip install --user torchvision==0.11.3+cpu --extra-index-url https://download.pytorch.org/whl/cpu
-pip install --user torchtext==0.11.2 --extra-index-url https://download.pytorch.org/whl/cpu
-pip install --user torchaudio==0.10.2+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+mkdir -p ${PYTORCH_ROOT}/repos
+cd ${PYTORCH_ROOT}/repos
+
+wget https://github.com/pytorch/pytorch/releases/download/v${PYTORCH_VERSION}/${PYTORCH_ARCHIVE}
+tar -xf ${PYTORCH_ARCHIVE}
+rm ${PYTORCH_ARCHIVE}
+
+mv pytorch-v${PYTORCH_VERSION} ${PYTORCH_NAME}
 ```
 
 
-Install Numba
--------------
-
-Numba is an open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.
+Install various packages in preparation for PyTorch build
+---------------------------------------------------------
 
 ```bash
-pip install --user numba
+cd ${PYTORCH_ROOT}/repos/${PYTORCH_NAME}
+
+pip install --user -r requirements.txt
+```
+
+
+Build PyTorch
+-------------
+
+Building PyTorch takes over an hour to complete. For this reason, the build is launched
+from a submission script that runs on a serial node, see below.
+
+```bash
+#!/bin/bash
+
+#SBATCH --job-name=pt-build
+#SBATCH --time=02:00:00
+#SBATCH --ntasks=4
+#SBATCH --mem=32G
+#SBATCH --account=<account code>
+#SBATCH --partition=serial
+#SBATCH --qos=serial
+#SBATCH --export=none
+
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
+cd ${PRFX}
+
+PYTORCH_PACKAGE_LABEL=torch
+PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
+PYTORCH_VERSION=1.13.1
+PYTORCH_NAME=${PYTORCH_LABEL}-${PYTORCH_VERSION}
+PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}
+
+module -q load PrgEnv-gnu
+module -q load cray-python
+module -q load cray-fftw
+module -q load mkl/2023.0.0
+module -q load cmake/3.21.3
+
+PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
+PYTHON_DIR=${PYTORCH_ROOT}/python
+PYTHON_BIN=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}/bin
+
+export PIP_CACHE_DIR=${PYTHON_DIR}/.cache/pip
+
+export PYTHONUSERBASE=${PYTHON_DIR}/${CRAY_PYTHON_LEVEL}
+export PATH=${PYTHONUSERBASE}/bin:${PATH}
+export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:${PYTHONPATH}
+
+
+export CMAKE_PREFIX_PATH=${PYTORCH_ROOT}/python/${CRAY_PYTHON_LEVEL}
+export USE_DISTRIBUTED=1
+export USE_CUDA=0
+export USE_ROCM=0
+export USE_MKL=1
+export INTEL_MKL_DIR=${MKLROOT}
+export MKL_THREADING=SEQ  # gnu progenv means threading must be sequential
+export BUILD_CAFFE2=0
+
+cd ${PYTORCH_ROOT}/repos/${PYTORCH_NAME}
+
+CC=cc CXX=CC FC=ftn python setup.py develop
+```
+
+
+Install the popular PyTorch datasets/models
+------------------------------------------
+
+```bash
+pip install --user torchvision==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchtext==0.15.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --user torchaudio==2.0.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
 ```
 
 
@@ -101,6 +178,10 @@ When building horovod for PyTorch it is necessary to have `/opt/cray/pe/python/3
 and to set `--no-build-isolation` in order for the `packaging` module to be found.
 
 ```bash
+cd ${PYTORCH_ROOT}
+
+module load cmake/3.21.3
+
 export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:/opt/cray/pe/python/3.9.13.1/lib/python3.9/site-packages:/work/y07/shared/utils/core/bolt/0.8/modules
 
 CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir --no-build-isolation horovod[pytorch]==0.28.1
@@ -133,11 +214,11 @@ Create `extend-venv-activate` script
 ------------------------------------
 
 The PyTorch Python environment described here is encapsulated as an Lmod module file on ARCHER2.
-A user may build a local Python environment based on this module, `pytorch/1.10.2`, which
+A user may build a local Python environment based on this module, `pytorch/1.13.1`, which
 means that module must be loaded whenever the local environment is activated.
 
 The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
-activate script such that the `pytorch/1.10.2` module is loaded during activation and unloaded
+activate script such that the `pytorch/1.13.1` module is loaded during activation and unloaded
 during deactivation.
 
 The contents of the `extend-venv-activate` script are shown below. The file itself must be added
@@ -145,11 +226,11 @@ to the `${PYTHON_BIN}` directory.
 
 ```bash
 #!/bin/bash
-
-# add extra activate commands
+  
+# add extra activate commands  
 MARK="# you cannot run it directly"
 CMDS="${MARK}\n\n"
-CMDS="${CMDS}module -q load pytorch/1.10.2\n\n"
+CMDS="${CMDS}module -q load pytorch/1.13.1\n\n"
 CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/python3.9/site-packages\n"
 CMDS="${CMDS}if [[ \${PYTHONPATH} != *\"\${PYTHONUSERSITEPKGS}\"* ]]; then\n"
 CMDS="${CMDS}  export PYTHONPATH=\${PYTHONUSERSITEPKGS}\:\${PYTHONPATH}\n"
@@ -160,9 +241,9 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 # add extra deactivation commands
 INDENT="        "
 MARK="unset -f deactivate"
-CMDS="${MARK}\n\n" 
+CMDS="${MARK}\n\n"
 CMDS="${CMDS}${INDENT}export PYTHONPATH=\`echo \${PYTHONPATH} | sed \"\s\:\${PYTHONUSERSITEPKGS}\\\\\:\:\:\g\"\`\n"
-CMDS="${CMDS}${INDENT}module -q unload pytorch/1.10.2"
+CMDS="${CMDS}${INDENT}module -q unload pytorch/1.13.1"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 ```

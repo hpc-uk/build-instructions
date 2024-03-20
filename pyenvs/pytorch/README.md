@@ -32,5 +32,10 @@ Installation Instructions
 * [PyTorch 1.13.1 Cirrus Build Instructions (GPU)](build_pytorch_1.13.1_cirrus_gpu.md)
 * [PyTorch 1.13.1 Cirrus Build Instructions (CPU)](build_pytorch_1.13.1_cirrus_cpu.md)
 
+Build Instructions from source
+------------------------------
+
+* [PyTorch 1.13.1 ARCHER2 Installation Instructions (source build) (CPU)](build_pytorch_1.13.1_from_source_archer2_cpu.md)
+
 Notes
 -----
