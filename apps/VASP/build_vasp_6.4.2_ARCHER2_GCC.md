@@ -63,7 +63,7 @@ This build uses:
 * HDF5
 
 You should copy this file to the root directory of the VASP source distribution
-and then rename it to "makefile.include", e.g.,:
+and then rename it to `makefile.include`, e.g.,:
 
 ```bash
 cp 6.4.2_makefile.include.ARCHER2_GCC_omp makefile.include
