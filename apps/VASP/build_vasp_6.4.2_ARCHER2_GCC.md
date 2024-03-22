@@ -61,6 +61,7 @@ This build uses:
 * HPE Cray LibSci for linear algebra
 * FFTW 3 for FFT
 * HDF5
+* [libbeef](../../libs/libbeef/)
 
 You should copy this file to the root directory of the VASP source distribution
 and then rename it to `makefile.include`, e.g.,:

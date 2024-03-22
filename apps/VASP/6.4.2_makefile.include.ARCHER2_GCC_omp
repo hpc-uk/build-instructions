@@ -69,7 +69,7 @@ INCS       += -I$(HDF5_ROOT)/include
 
 # Add BEEF functional support
 CPP_OPTIONS  += -Dlibbeef
-LIBBEEF_ROOT ?= /work/y07/shared/libs/compiler/gnu/8.0/libbeef/1.0
+LIBBEEF_ROOT ?= /work/y07/shared/libs/compiler/gnu/8.0/libbeef/0.1.3
 LLIBS        += -L$(LIBBEEF_ROOT)/lib -lbeef
 
 # For the VASP-2-Wannier90 interface (optional)
