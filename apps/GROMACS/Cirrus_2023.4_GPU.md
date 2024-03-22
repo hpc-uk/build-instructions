@@ -58,7 +58,7 @@ cmake                                                                 \
       -D CUDA_TOOLKIT_INCLUDE=${NVHPC_ROOT}/cuda/include              \
       -D CUDA_cufft_LIBRARY=${NVHPC_ROOT}/math_libs/lib64/libcufft.so \
       -D GMX_BUILD_OWN_FFTW=OFF                                       \
-      -D GMX_CUDA_TARGET_SM=80                                        \
+      -D GMX_CUDA_TARGET_SM=70                                        \
       -D GMX_DEFAULT_SUFFIX=ON                                        \
       -D GMX_DOUBLE=OFF                                               \
       -D GMX_FFT_LIBRARY=fftw3                                        \
@@ -103,7 +103,7 @@ cmake                                                                 \
       -D CUDA_TOOLKIT_INCLUDE=${NVHPC_ROOT}/cuda/include              \
       -D CUDA_cufft_LIBRARY=${NVHPC_ROOT}/math_libs/lib64/libcufft.so \
       -D GMX_BUILD_OWN_FFTW=OFF                                       \
-      -D GMX_CUDA_TARGET_SM=80                                        \
+      -D GMX_CUDA_TARGET_SM=70                                        \
       -D GMX_DEFAULT_SUFFIX=ON                                        \
       -D GMX_DOUBLE=OFF                                               \
       -D GMX_FFT_LIBRARY=fftw3                                        \
