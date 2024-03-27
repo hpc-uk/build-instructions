@@ -181,6 +181,7 @@ pip install wandb
 pip install gym
 pip install termcolor
 pip install h5py
+pip install pyarrow
 ```
 
 
