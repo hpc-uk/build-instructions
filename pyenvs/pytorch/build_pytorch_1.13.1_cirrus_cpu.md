@@ -73,8 +73,8 @@ Install tensorboard packages
 ```bash
 cd ${PYTORCH_ROOT}
 
-pip install --user tensorboard
-pip install --user tensorboard_plugin_profile
+pip install --user tensorboard==2.11.2
+pip install --user tensorboard_plugin_profile==2.11.2
 pip install --user tensorboard-plugin-wit
 pip install --user tensorboard-pytorch
 ```
