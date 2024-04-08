@@ -3,10 +3,10 @@ Instructions for installing TensorFlow 2.10.1 for use on the ARCHER2 GPU nodes
 
 These instructions show how to install TensorFlow 2.10.1 for use on the ARCHER2 GPU nodes (HPE Cray EX, AMD EPYC 7534P, AMD Instinct MI210).
 
-Unfortunately, this information is for reference only as currently TensforFlow cannot be installed/built for use on the ARCHER2 GPU nodes.
+Unfortunately, this information is for reference only as currently TensorFlow cannot be installed/built for use on the ARCHER2 GPU nodes.
 This is because of a fundamental version incompatibility between TensorFlow, ROCm and AMD MI210 GFX.
 
-TensorFlow 2.10.x is apparently compatible with ROCm 5.2.x but not with GFX 9.0.a, And those versions of TensorFlow that are compatible with GFX 9.0.a
+TensorFlow 2.10.x is apparently compatible with ROCm 5.2.x but not with GFX 9.0.a, and those versions of TensorFlow that are compatible with GFX 9.0.a
 are not compatible with ROCm 5.2.x.
 
 The information on this page are based on [LUMI TensorFlow-ROCM Docker file](https://lumi-supercomputer.github.io/LUMI-EasyBuild-docs/t/TensorFlow/TensorFlow-2.11.1-rocm-5.5.1-python-3.10-horovod-0.28.1-singularity-20231110-docker).
