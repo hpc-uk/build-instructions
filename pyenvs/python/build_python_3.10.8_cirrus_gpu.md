@@ -4,7 +4,7 @@ Instructions for building a Miniconda3 environment suitable for Cirrus GPU nodes
 These instructions show how to build Miniconda3 environment (based on Python 3.10.8) for the Cirrus GPU nodes
 (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB), one that supports parallel computation.
 
-The environment features mpi4py 3.1.4 (OpenMPI 4.1.4 with ucx 1.9.0 and CUDA 11.6) with pycuda 2022.1
+The environment features mpi4py 3.1.5 (OpenMPI 4.1.6 with ucx 1.15.0 and CUDA 11.6) with pycuda 2022.1
 and cupy 10.6.0. It also provides a suite of packages pertinent to parallel processing and numerical analysis,
 e.g., dask, ipyparallel, jupyter, matplotlib, numpy, pandas and scipy.
 
@@ -13,20 +13,18 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 cd ${PRFX}
 
 NVHPC_VERSION=22.2
 CUDA_VERSION=11.6
-OPENMPI_VERSION=4.1.4
-BOOST_VERSION=1.73.0
+OPENMPI_VERSION=4.1.6
 
-module load boost/${BOOST_VERSION}
 module load nvidia/nvhpc-nompi/${NVHPC_VERSION}
 module load openmpi/${OPENMPI_VERSION}-cuda-${CUDA_VERSION}
 
 MPI4PY_LABEL=mpi4py
-MPI4PY_VERSION=3.1.4
+MPI4PY_VERSION=3.1.5
 
 PYTHON_LABEL=py310
 MINICONDA_TAG=miniconda
@@ -72,7 +70,7 @@ export PS1="(python-gpu) [\u@\h \W]\$ "
 ```
 
 
-Build and install mpi4py using OpenMPI 4.1.4-cuda-11.6
+Build and install mpi4py using OpenMPI 4.1.6-cuda-11.6
 ------------------------------------------------------
 
 ```bash
@@ -83,13 +81,11 @@ MPI4PY_NAME=${MPI4PY_LABEL}-${MPI4PY_VERSION}
 mkdir -p ${MPI4PY_LABEL}
 cd ${MPI4PY_LABEL}
 
-wget https://github.com/${MPI4PY_LABEL}/${MPI4PY_LABEL}/archive/${MPI4PY_VERSION}.tar.gz
-tar -xvzf ${MPI4PY_VERSION}.tar.gz
-rm ${MPI4PY_VERSION}.tar.gz
-
+git clone https://github.com/${MPI4PY_LABEL}/${MPI4PY_LABEL}.git ${MPI4PY_NAME}
 cd ${MPI4PY_NAME}
+git checkout ${MPI4PY_VERSION}
 
-python setup.py build
+CC=mpicc CXX=mpicxx FC=mpifort python setup.py build
 python setup.py install --prefix=${MINICONDA_ROOT}
 python setup.py clean --all
 ```
@@ -151,16 +147,12 @@ Build and install pycuda
 ------------------------
 
 ```
-python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
-                    --no-use-shipped-boost --boost-python-libname=boost_python-py36
+python configure.py --cuda-root=${NVHPC_ROOT}/cuda/${CUDA_VERSION}
 
 CC=gcc CXX=g++ make
 make install
 make clean
 ```
-
-Note that the python configure command for pycuda has one anomalous setting, the `py36` suffix used for the boost python library name.
-This is not a mistake; it is merely a workaround required to get pycuda to build.
 
 
 Install general purpose python packages
@@ -188,6 +180,8 @@ pip install sympy
 pip install wandb
 pip install gym
 pip install termcolor
+pip install h5py
+pip install pyarrow
 ```
 
 
@@ -208,3 +202,44 @@ Finish by deactivating the virtual environment
 conda deactivate
 export PS1="[\u@\h \W]\$ "
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The Python environment described here is encapsulated as a TCL module file on Cirrus.
+A user may build a local Python environment based on this module, `python/3.10.8-gpu`, which
+means that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `python/3.10.8-gpu` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${MINICONDA_ROOT}/bin` directory.
+
+```bash
+#!/bin/bash
+
+# add extra activate commands
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -s load python/3.10.8-gpu\n"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}module -s unload python/3.10.8-gpu"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${MINICONDA_ROOT}/bin/extend-venv-activate`.
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)

@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```
-PRFX=/path/to/work # e.g., /mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work # e.g., PRFX=/work/y07/shared/cirrus-software
 
 MPFR_LABEL=mpfr
 MPFR_VERSION=4.2.1
@@ -38,7 +38,7 @@ Build the GMP library using GNU compiler
 ----------------------------------------
 
 ```
-module load gcc/8.2.0
+module load gcc/10.2.0
 module load gmp/6.3.0-gcc
 
 CC=gcc CXX=g++ FC=gfortran ./configure --prefix=${MPFR_ROOT}/${MPFR_VERSION}-gcc
@@ -48,7 +48,7 @@ make -j 8 install
 make -j 8 clean
 
 module unload gmp/6.3.0-gcc
-module unload gcc/8.2.0
+module unload gcc/10.2.0
 ```
 
 

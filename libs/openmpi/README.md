@@ -15,9 +15,7 @@ History
  ---- | ------ | ------ | ------- | -----
  2023-06-12 | Michael Bareford | ARCHER2 | 4.1.5 | GCC 11.2.0
  2022-09-28 | Michael Bareford | ARCHER2 | 4.1.4 | GCC 11.2.0
- 2023-08-22 | Michael Bareford | Cirrus | 4.1.5 | GCC 8.2.0
- 2022-07-14 | Michael Bareford | Cirrus | 4.1.4 | GCC 8.2.0
- 2022-03-16 | Michael Bareford | Cirrus | 4.1.2 | GCC 8.2.0
+ 2024-02-14 | Michael Bareford | Cirrus | 4.1.6 | GCC 10.2.0
  2024-06-02 | Luca Parisi | Cirrus | 5.0.0 | GCC 10.2.0
 
 Build Instructions
@@ -25,9 +23,7 @@ Build Instructions
 
 * [OpenMPI 4.1.5 ARCHER2 Build Instructions (GCC 11)](build_openmpi_4.1.5_archer2_gcc11.md)
 * [OpenMPI 4.1.4 ARCHER2 Build Instructions (GCC 11)](build_openmpi_4.1.4_archer2_gcc11.md)
-* [OpenMPI 4.1.5 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.5_cirrus_gcc8.md)
-* [OpenMPI 4.1.4 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.4_cirrus_gcc8.md)
-* [OpenMPI 4.1.2 Cirrus Build Instructions (GCC 8)](build_openmpi_4.1.2_cirrus_gcc8.md)
+* [OpenMPI 4.1.6 Cirrus Build Instructions (GCC 10)](build_openmpi_4.1.6_cirrus_gcc10.md)
 * [OpenMPI 5.0.0 Cirrus Build Instructions (GCC 10)](build_openmpi_5.0.0_cirrus_gcc10.md)
 
 

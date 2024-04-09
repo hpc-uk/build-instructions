@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```
-PRFX=/path/to/work # e.g., /mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., /work/y07/shared/cirrus-software
 
 EIGEN_LABEL=eigrn
 EIGEN_VERSION=3.4.0

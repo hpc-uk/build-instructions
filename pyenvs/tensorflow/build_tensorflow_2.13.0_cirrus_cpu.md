@@ -11,12 +11,12 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
+cd ${PRFX}
+
 TENSORFLOW_LABEL=tensorflow
 TENSORFLOW_VERSION=2.13.0
 TENSORFLOW_ROOT=${PRFX}/${TENSORFLOW_LABEL}
-
-HOROVOD_VERSION=0.28.1
 
 module load python/3.9.13
 
@@ -44,17 +44,6 @@ pip install --user --upgrade pip
 ```
 
 
-Install supporting packages
----------------------------
-
-```bash
-pip install --user pyspark
-pip install --user scikit-learn
-pip install --user scikit-image
-pip install --user opencv-python
-```
-
-
 Install the TensorFlow packages
 -------------------------------
 
@@ -69,9 +58,9 @@ Install Horovod
 ---------------
 
 ```bash
-module load cmake
+module load cmake/3.25.2
 
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir -v horovod[tensorflow]==${HOROVOD_VERSION}
+CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=0 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir -v horovod[tensorflow]==0.28.1
 ```
 
 Now run `horovodrun --check-build` to confirm that Horovod has been installed correctly. That command should return something like the following output.
@@ -95,3 +84,44 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo 
 ```
+
+
+Create `extend-venv-activate` script
+------------------------------------
+
+The TensorFlow Python environment described here is encapsulated as a TCL module file on Cirrus.
+A user may build a local Python environment based on this module, `tensorflow/2.13.0`, which
+means that module must be loaded whenever the local environment is activated.
+
+The `extend-venv-activate` script ensures that this happens: it modifies the local environment's
+activate script such that the `tensorflow/2.13.0` module is loaded during activation and unloaded
+during deactivation.
+
+The contents of the `extend-venv-activate` script are shown below. The file itself must be added
+to the `${PYTHON_BIN}` directory.
+
+```bash
+#!/bin/bash
+
+# add extra activate commands
+MARK="# you cannot run it directly"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}module -s load tensorflow/2.13.0\n"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+
+
+# add extra deactivation commands
+INDENT="        "
+MARK="unset -f deactivate"
+CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}module -s unload tensorflow/2.13.0"
+
+sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
+```
+
+Lastly, remember to set read and execute permission for all users, i.e., `chmod a+rx ${PYTHON_BIN}/extend-venv-activate`.
+
+See the link below for an example of how the `extend-venv-activate` script is called.
+
+[https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip](https://docs.cirrus.ac.uk/user-guide/python/#installing-your-own-python-packages-with-pip)
