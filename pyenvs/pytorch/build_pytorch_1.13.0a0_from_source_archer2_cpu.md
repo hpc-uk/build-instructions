@@ -198,6 +198,8 @@ PYTORCH_ROOT=${PRFX}/${PYTORCH_LABEL}/${PYTORCH_VERSION}
 
 module load PrgEnv-gnu
 module load cray-python
+module load cray-fftw
+module load mkl/2023.0.0
 module load cmake/3.21.3
 
 PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2`
@@ -304,7 +306,7 @@ cd ${PYTORCH_ROOT}
 
 export PYTHONPATH=${PYTHONUSERBASE}/lib/python${PYTHON_VER}/site-packages:${CRAY_PYTHON_PREFIX}/lib/python${PYTHON_VER}/site-packages:/work/y07/shared/utils/core/bolt/0.8/modules
 
-CC=mpicc CXX=mpicxx FC=mpifort HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir --no-build-isolation horovod[pytorch]==0.28.1
+CC=cc CXX=CC FC=ftn HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir --no-build-isolation horovod[pytorch]==0.28.1
 ```
 
 Now run `horovodrun --check-build` to confirm that Horovod has been installed correctly. That command should return something like the following output.
