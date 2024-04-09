@@ -31,6 +31,7 @@ History
 | 2023-02-22 | Julien Sindt   | Cirrus   | 17Feb2023 | [GCC 8.2.0 compilers and intel MPI](Cirrus_2023-02-17_gcc820_impi.md)                     |
 | 2023-02-23 | Rui Apóstolo   | Cirrus   | 17Feb2023 | [GCC 8.2.0 compilers, intel MPI, and CUDA 11.8](Cirrus_2023-02-17_gcc820_impi_cuda118.md) |
 | 2023-03-09 | Rui Apóstolo   | ARCHER2  | 17Feb2023 | [GCC 10.3.0 compilers](ARCHER2_2023-02-17_gcc1030.md)                                     |
+| 2023-03-09 | Eleanor Broadway  | ARCHER2  | 17Feb2023 | [HIP compilers, CPE, ROCM 5.2.3](ARCHER2_2023_09_23_cce15_rocm5.2.3.md)                |
 
 Contributing
 ------------
