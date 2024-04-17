@@ -3,7 +3,7 @@ Instructions for running machine learning (ML) workload on Cirrus (GPU)
 
 These instructions are for running ML workloads on the Cirrus GPU nodes (Cascade Lake, NVIDIA Tesla V100-SXM2-16GB).
 
-Horovod 0.28.1 is made available by loading ML modules such as `pytorch/1.13.1-gpu` or `tensorflow/2.15.0-gpu`.
+Horovod 0.28.1 is made available by loading ML modules such as `pytorch/1.13.1-gpu` or `tensorflow/2.13.0-gpu`.
 Loading either of those modules starts a Miniconda3 environment containing Horovod 0.28.1 and mpi4py 3.1.5
 (built against Open MPI 4.1.6 and CUDA 11.6).
 

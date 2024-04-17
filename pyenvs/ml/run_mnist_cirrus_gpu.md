@@ -26,7 +26,7 @@ export SLURM_NTASKS=16
 export SLURM_NTASKS_PER_NODE=`expr ${SLURM_NTASKS} \/ ${SLURM_NNODES}`
 export SLURM_TASKS_PER_NODE="${SLURM_NTASKS_PER_NODE}(x${SLURM_NNODES})"
 
-module load tensorflow/2.15.0-gpu
+module load tensorflow/2.13.0-gpu
 
 scontrol show hostnames > ${SLURM_SUBMIT_DIR}/hosts
 
