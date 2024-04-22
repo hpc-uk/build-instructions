@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```
-PRFX=/path/to/work # e.g., /mnt/lustre/indy2lfs/sw
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 
 GMP_LABEL=gmp
 GMP_VERSION=6.3.0
@@ -26,9 +26,9 @@ Download the GMP library source code
 mkdir -p ${GMP_ROOT}
 cd ${GMP_ROOT}
 
-wget http://mirror.koddos.net/gnu/${GMP_LABEL}/${GMP_NAME}.tar.gz
-tar -xvzf ${GMP_NAME}.tar.gz
-rm ${GMP_NAME}.tar.gz
+wget http://mirror.koddos.net/gnu/${GMP_LABEL}/${GMP_NAME}.tar.bz2
+tar -xf ${GMP_NAME}.tar.bz2
+rm ${GMP_NAME}.tar.bz2
 
 cd ${GMP_NAME}
 ```
