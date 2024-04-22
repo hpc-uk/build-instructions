@@ -138,7 +138,12 @@ to the `${PYTHON_BIN}` directory.
 # add extra activate commands
 MARK="# you cannot run it directly"
 CMDS="${MARK}\n\n"
-CMDS="${CMDS}module -q load tensorflow/2.13.0\n"
+CMDS="${CMDS}module -q load tensorflow/2.13.0\n\n"
+CMDS="${CMDS}CRAY_PYTHON_VER=\`echo \${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2\`\n"
+CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/python\${CRAY_PYTHON_VER}/site-packages\n"
+CMDS="${CMDS}if [[ \${PYTHONPATH} != *\"\${PYTHONUSERSITEPKGS}\"* ]]; then\n"
+CMDS="${CMDS}  export PYTHONPATH=\${PYTHONUSERSITEPKGS}\:\${PYTHONPATH}\n"
+CMDS="${CMDS}fi\n\n"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 
@@ -147,6 +152,7 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 INDENT="        "
 MARK="unset -f deactivate"
 CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}export PYTHONPATH=\`echo \${PYTHONPATH} | sed \"\s\:\${PYTHONUSERSITEPKGS}\\\\\:\:\:\g\"\`\n"
 CMDS="${CMDS}${INDENT}module -q unload tensorflow/2.13.0"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate

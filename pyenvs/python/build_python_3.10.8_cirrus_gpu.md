@@ -223,8 +223,12 @@ to the `${MINICONDA_ROOT}/bin` directory.
 
 # add extra activate commands
 MARK="# you cannot run it directly"
-CMDS="${MARK}\n\n"
-CMDS="${CMDS}module -s load python/3.10.8-gpu\n"
+CMDS="${MARK}\n\n"  
+CMDS="${CMDS}module -s load python/3.10.8-gpu\n\n"
+CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/\${MINICONDA3_PYTHON_LABEL}/site-packages\n"
+CMDS="${CMDS}if [[ \${PYTHONPATH} != *\"\${PYTHONUSERSITEPKGS}\"* ]]; then\n"
+CMDS="${CMDS}  export PYTHONPATH=\${PYTHONUSERSITEPKGS}\:\${PYTHONPATH}\n"
+CMDS="${CMDS}fi\n\n"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 
@@ -233,6 +237,7 @@ sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 INDENT="        "
 MARK="unset -f deactivate"
 CMDS="${MARK}\n\n"
+CMDS="${CMDS}${INDENT}export PYTHONPATH=\`echo \${PYTHONPATH} | sed \"\s\:\${PYTHONUSERSITEPKGS}\\\\\:\:\:\g\"\`\n"
 CMDS="${CMDS}${INDENT}module -s unload python/3.10.8-gpu"
 
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
