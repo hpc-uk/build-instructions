@@ -204,10 +204,12 @@ to the `${PYTHON_BIN}` directory.
 MARK="# you cannot run it directly"
 CMDS="${MARK}\n\n"
 CMDS="${CMDS}module -q load pytorch/1.13.1-gpu\n\n"
-CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/python3.9/site-packages\n"
+CMDS="${CMDS}CRAY_PYTHON_VER=\`echo \${CRAY_PYTHON_LEVEL} | cut -d'.' -f1-2\`\n"
+CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/python\${CRAY_PYTHON_VER}/site-packages\n"
 CMDS="${CMDS}if [[ \${PYTHONPATH} != *\"\${PYTHONUSERSITEPKGS}\"* ]]; then\n"
 CMDS="${CMDS}  export PYTHONPATH=\${PYTHONUSERSITEPKGS}\:\${PYTHONPATH}\n"
 CMDS="${CMDS}fi\n\n"
+
 sed -ri "s:${MARK}:${CMDS}:g" ${1}/bin/activate
 
 
