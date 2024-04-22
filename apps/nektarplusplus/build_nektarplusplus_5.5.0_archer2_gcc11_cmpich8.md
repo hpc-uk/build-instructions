@@ -1,7 +1,7 @@
-Instructions for compiling Nektar++ 5.2.0 for ARCHER2
+Instructions for compiling Nektar++ 5.5.0 for ARCHER2
 =====================================================
 
-These instructions are for compiling Nektar++ 5.2.0 on the ARCHER2 (HPE Cray EX, AMD Zen2 7742) full system
+These instructions are for compiling Nektar++ 5.5.0 on the ARCHER2 (HPE Cray EX, AMD Zen2 7742) full system
 using the GCC 11 compilers and Cray MPICH 8.
 
 
@@ -10,7 +10,7 @@ Setup initial environment
 
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/apps/core
-NEKTAR_VERSION=5.2.0
+NEKTAR_VERSION=5.5.0
 NEKTAR_LABEL=nektar
 NEKTAR_ARCHIVE=${NEKTAR_LABEL}-v${NEKTAR_VERSION}.tar.gz
 NEKTAR_NAME=${NEKTAR_LABEL}-${NEKTAR_VERSION}
