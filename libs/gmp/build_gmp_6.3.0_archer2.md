@@ -1,16 +1,16 @@
-Instructions for installing GMP 6.2.1 on ARCHER2
+Instructions for installing GMP 6.3.0 on ARCHER2
 ================================================
 
-These instructions show how to install GMP 6.2.1 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install GMP 6.3.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/libs/core
 GMP_LABEL=gmp
-GMP_VERSION=6.2.1
+GMP_VERSION=6.3.0
 GMP_NAME=${GMP_LABEL}-${GMP_VERSION}
 ```
 
@@ -27,7 +27,7 @@ cd ${PRFX}/${GMP_LABEL}
 rm -rf ${GMP_NAME}
 wget http://mirror.koddos.net/gnu/${GMP_LABEL}/${GMP_NAME}.tar.bz2
 tar -xf ${GMP_NAME}.tar.bz2
-rm ${GMP_NAME}.tar.gz
+rm ${GMP_NAME}.tar.bz2
 cd ${GMP_NAME}
 ```
 
