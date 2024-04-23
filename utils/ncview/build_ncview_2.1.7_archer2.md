@@ -37,6 +37,7 @@ cd libpng
 # ncview configure insists on "libpng.so"
 ln -s /usr/lib64/libpng16.so libpng.so
 cd ..
+```
 
 
 Download the Ncview source code
