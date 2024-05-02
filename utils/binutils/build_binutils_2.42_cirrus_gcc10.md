@@ -56,3 +56,6 @@ CIRRUS_SW_ROOT=/work/y07/shared/cirrus-software
 make -j 8
 make -j 8 install
 ```
+
+Do not run `make clean` as this will delete library files such as `libiberty.a`, which may be needed
+to build other software packages, e.g., [Score-P](../../utils/scorep).
