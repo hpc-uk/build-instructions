@@ -4,7 +4,7 @@ GNU Binutils
 This folder contains instructions for building GNU Binutils on UK HPC systems.
 
 GNU Binutils module is a collection of binary tools.
-The main ones being ld (GNU linker), as (GNU assembler) and gold (ELF only linker).
+The main ones being `ld` (GNU linker), `as` (GNU assembler) and `gold` (ELF only linker).
 
 [https://www.gnu.org/software/binutils](https://www.gnu.org/software/binutils)
 
