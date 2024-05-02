@@ -12,7 +12,7 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
- 2024-05-02 | Michael Bareford | Cirrus | 2.42 | OpenMPI 4.1.6, GCC10
+ 2024-05-02 | Michael Bareford | Cirrus | 8.4 | OpenMPI 4.1.6, GCC10
 
 Build Instructions
 --------------------
