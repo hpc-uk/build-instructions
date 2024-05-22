@@ -54,7 +54,7 @@ cmake                                       \
       -DGMX_OPENMP=ON                       \
       -DGMX_GPU=OFF                         \
       -DGMX_DOUBLE=OFF                      \
-      -DGMX_BUILD_OWN_FFTW=ON               \
+      -DGMX_BUILD_OWN_FFTW=OFF              \
       -DCMAKE_INSTALL_PREFIX=${GMX_INSTALL} \
       ../
 
@@ -86,7 +86,7 @@ cmake                                       \
       -DGMX_OPENMP=ON                       \
       -DGMX_GPU=OFF                         \
       -DGMX_DOUBLE=ON                       \
-      -DGMX_BUILD_OWN_FFTW=ON               \
+      -DGMX_BUILD_OWN_FFTW=OFF              \
       -DCMAKE_INSTALL_PREFIX=${GMX_INSTALL} \
       ../
 
@@ -117,10 +117,10 @@ export GMX_INSTALL=/work/y07/shared/apps/core/gromacs/2024.2
 
 cmake                                       \
       -DGMX_MPI=OFF                         \
-      -DGMX_OPENMP=OFF                      \
+      -DGMX_OPENMP=ON                       \
       -DGMX_GPU=OFF                         \
       -DGMX_DOUBLE=OFF                      \
-      -DGMX_BUILD_OWN_FFTW=ON               \
+      -DGMX_BUILD_OWN_FFTW=OFF              \
       -DCMAKE_INSTALL_PREFIX=${GMX_INSTALL} \
       ../
 
@@ -244,7 +244,7 @@ cmake -D GMX_MPI=ON                       \
       -D GMX_OPENMP=ON                    \
       -D GMX_GPU=OFF                      \
       -D GMX_DOUBLE=OFF                   \
-      -D GMX_BUILD_OWN_FFTW=ON            \
+      -D GMX_BUILD_OWN_FFTW=OFF           \
       -D CMAKE_INSTALL_PREFIX=${BASE_DIR} \
       ../
 make -j 8
@@ -270,7 +270,7 @@ cmake -D GMX_MPI=ON                       \
       -D GMX_OPENMP=ON                    \
       -D GMX_GPU=OFF                      \
       -D GMX_DOUBLE=ON                    \
-      -D GMX_BUILD_OWN_FFTW=ON            \
+      -D GMX_BUILD_OWN_FFTW=OFF           \
       -D CMAKE_INSTALL_PREFIX=${BASE_DIR} \
       ../
 make -j 8
@@ -295,10 +295,10 @@ prefix to somewhere you have permission to write to.
 
 ```bash
 cmake -D GMX_MPI=OFF                      \
-      -D GMX_OPENMP=OFF                   \
+      -D GMX_OPENMP=ON                    \
       -D GMX_GPU=OFF                      \
       -D GMX_DOUBLE=OFF                   \
-      -D GMX_BUILD_OWN_FFTW=ON            \
+      -D GMX_BUILD_OWN_FFTW=OFF           \
       -D CMAKE_INSTALL_PREFIX=${BASE_DIR} \
 make -j 8
 make install
