@@ -75,4 +75,15 @@ where checkInstall.sh will generate the message
 
 The make process can be quite verbose: all warnings can be safely ignored.
 
+Create local module-related bashrc
+----------------------------------
+Lastly, create a file named $GCFOAM_DIR/etc/bashrc_archer2 with the following contents
+
+   ```bash
+   # .bashrc
+   source $FOAM_INSTALL_DIR/etc/bashrc
+   source $GCFOAM_DIR/ThirdParty/bashrc
+   ```
+
+which is required by batch scripts that employ this central installation.
 
