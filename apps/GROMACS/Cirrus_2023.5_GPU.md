@@ -1,8 +1,8 @@
-Instructions for compiling GROMACS 2024.2 for Cirrus using GCC 10.2, Intel MPI 20.4, and CUDA 11.8
+Instructions for compiling GROMACS 2023.5 for Cirrus using GCC 10.2, Intel MPI 20.4, and CUDA 12.4
 ======================================================================================================
 
-These instructions are for compiling GROMACS 2024.2 on [Cirrus](https://www.cirrus.ac.uk)
-using the GCC 10.2 compilers, intel 20.4 MPI, FFTW3.3.10 and CUDA 11.8.
+These instructions are for compiling GROMACS 2023.5 on [Cirrus](https://www.cirrus.ac.uk)
+using the GCC 10.2 compilers, intel 20.4 MPI, FFTW3.3.10 and CUDA 12.4.
 
 
 Workaround to known issue -- 
@@ -17,13 +17,13 @@ Download and unpack the source and regression tests
 (if done after the CPU version, the same can be reused, just set `$SRC` and `$REG_DIR`)
 
 ```bash
-wget http://ftp.gromacs.org/pub/gromacs/gromacs-2024.2.tar.gz
-tar -xf gromacs-2024.2.tar.gz
-wget https://ftp.gromacs.org/regressiontests/regressiontests-2024.2.tar.gz
-tar xf regressiontests-2024.2.tar.gz
+wget http://ftp.gromacs.org/pub/gromacs/gromacs-2023.5.tar.gz
+tar -xf gromacs-2023.5.tar.gz
+wget https://ftp.gromacs.org/regressiontests/regressiontests-2023.5.tar.gz
+tar xf regressiontests-2023.5.tar.gz
 
-export REG_DIR="$(pwd)/regressiontests-2024.2"
-cd gromacs-2024.2
+export REG_DIR="$(pwd)/regressiontests-2023.5"
+cd gromacs-2023.5
 export SRC=$(pwd)
 ```
 
@@ -56,7 +56,7 @@ Use CMake to configure the build and then build and install.
 ```bash
 export CC=gcc
 export CXX=g++
-export GMX_INSTALL=/work/y07/shared/cirrus-software/gromacs/2024.2-gpu
+export GMX_INSTALL=/work/y07/shared/cirrus-software/gromacs/2023.5-gpu
 
 cmake                                                                 \
       -D CMAKE_CXX_COMPILER=g++                                       \
@@ -64,7 +64,6 @@ cmake                                                                 \
       -D CUDA_CUDART_LIBRARY=${NVHPC_ROOT}/cuda/lib64/libcudart.so    \
       -D CUDA_TOOLKIT_INCLUDE=${NVHPC_ROOT}/cuda/include              \
       -D CUDA_cufft_LIBRARY=${NVHPC_ROOT}/math_libs/lib64/libcufft.so \
-      -D CUDA_rt_LIBRARY=${NVHPC_ROOT}/cuda/lib64/libcudart.so        \
       -D GMX_BUILD_OWN_FFTW=OFF                                       \
       -D GMX_CUDA_TARGET_SM=70                                        \
       -D GMX_DEFAULT_SUFFIX=ON                                        \
@@ -101,7 +100,7 @@ Use CMake to configure the build and then build and install.
 ```bash
 export CC=gcc
 export CXX=g++
-export GMX_INSTALL=/work/y07/shared/cirrus-software/gromacs/2024.2-gpu
+export GMX_INSTALL=/work/y07/shared/cirrus-software/gromacs/2023.5-gpu
 export SRUN_FLAGS=  # add srun info needed for test runs
 
 cmake                                                                 \
