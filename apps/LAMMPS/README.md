@@ -36,6 +36,8 @@ History
 | 2024-02-20 | Rui Apóstolo     | Cirrus   | 15Dec2023 | [GCC 10.2.0 compilers, intel MPI 20.4, CUDA 11.8](Cirrus_2023-12-15_gcc10.2_impi20.4_cuda118.md) |
 | 2023-03-09 | Eleanor Broadway | ARCHER2  | 17Feb2023 | [HIP compilers, CPE, ROCM 5.2.3](ARCHER2_2023_09_23_cce15_rocm5.2.3.md)                          |
 | 2024-05-17 | Rui Apóstolo     | ARCHER2  | 13Feb2024 | [CPE 22.12 compilers](ARCHER2_2024-02-13_cpe2212.md)                                             |
+| 2024-05-29 | Rui Apóstolo     | Cirrus   | 02Mar2024 | [GCC 10.2.0 compilers, intel MPI 20.4](Cirrus_2024-03-02_gcc10.2_impi20.4.md)                    |
+| 2024-05-29 | Rui Apóstolo     | Cirrus   | 02Mar2024 | [GCC 10.2.0 compilers, intel MPI 20.4, CUDA 12.4](Cirrus_2024-03-02_gcc10.2_impi20.4_cuda124.md) |
 
 
 Contributing
