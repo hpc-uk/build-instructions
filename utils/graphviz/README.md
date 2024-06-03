@@ -14,11 +14,13 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
+ 2024-05-03 | Michael Bareford | ARCHER2 | 10.0.1 | GCC11
  2024-05-23 | Michael Bareford | Cirrus | 10.0.1 | GCC10
 
 Build Instructions
 --------------------
 
+* [Graphviz 10.0.1 ARCHER2 Build Instructions (GCC11)](build_graphviz_10.0.1_archer2_gcc11.md)
 * [Graphviz 10.0.1 Cirrus Build Instructions (GCC10)](build_graphviz_10.0.1_cirrus_gcc10.md)
 
 Notes
