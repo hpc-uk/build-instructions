@@ -15,11 +15,13 @@ History
 
  Date | Person | System | Version | Notes
  ---- | ------ | ------ | ------- | -----
+ 2024-05-28 | Michael Bareford | Cirrus | 1.16.0 | GCC 10.2.0
  2024-02-14 | Michael Bareford | Cirrus | 1.15.0 | GCC 10.2.0
 
 Build Instructions
 ------------------
 
+* [UCX 1.16.0 Cirrus Build Instructions (GCC 10)](build_ucx_1.16.0_cirrus_gcc10.md)
 * [UCX 1.15.0 Cirrus Build Instructions (GCC 10)](build_ucx_1.15.0_cirrus_gcc10.md)
 
 Notes
