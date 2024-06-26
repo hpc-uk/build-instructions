@@ -6,6 +6,7 @@ This folder contains files and documentation for building GROMACS on UK HPC syst
 Build Instructions
 ------------------
 
+* [GROMACS 2022.4 ARCHER2 (EPCC) GCC 11, AMD MI210 (GPU) Build Instructions](ARCHER2_2022.4_gcc11_MI200.md)
 * [GROMACS 2023.5 Cirrus (EPCC) GCC 10, IMPI 20.4, CUDA 12.4 Build Instructions](Cirrus_2023.5_GPU.md)
 * [GROMACS 2024.2 ARCHER2 (EPCC) CPE 15 Build Instructions](ARCHER2_2024.2_cpe15.md)
 * [GROMACS 2023.4 ARCHER2 (EPCC) CPE 15 Build Instructions](ARCHER2_2023.4_cpe15.md)
