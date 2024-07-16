@@ -104,7 +104,7 @@ to the `${PYTHON_BIN}` directory.
 #!/bin/bash
 
 # add extra activate commands
-MARK="# you cannot run it directly"
+MARK="# You cannot run it directly"
 CMDS="${MARK}\n\n"  
 CMDS="${CMDS}module -s load tensorflow/2.16.1\n\n"
 CMDS="${CMDS}PYTHONUSERSITEPKGS=${1}/lib/\${MINICONDA3_PYTHON_LABEL}/site-packages\n"
