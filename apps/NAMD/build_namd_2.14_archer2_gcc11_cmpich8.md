@@ -38,7 +38,7 @@ mv ${NAMD_ARCHIVE} ${NAMD_NAME}
 ```
 
 
-Switch to the GNU Programming Environment and load the approptiate FFTW module
+Switch to the GNU Programming Environment and load the appropriate FFTW module
 ------------------------------------------------------------------------------
 
 ```bash
@@ -63,6 +63,7 @@ TCL_VERSION=8.5.9
 TCL_ROOT=${NAMD_ROOT}/${TCL_LABEL}
 TCL_NAME=${TCL_LABEL}-${TCL_VERSION}
 TCL_ARCHIVE=${TCL_LABEL}${TCL_VERSION}-src
+TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 mkdir -p ${TCL_ROOT}
 cd ${TCL_ROOT}
@@ -90,8 +91,6 @@ cd ${NAMD_ROOT}/${NAMD_NAME}
 
 NAMD_CHARM_NAME=charm-6.10.2
 tar -xf ${NAMD_CHARM_NAME}.tar
-
-TCL_BASEDIR=${TCL_ROOT}/${TCL_VERSION}
 
 cd ${NAMD_CHARM_NAME}
 
