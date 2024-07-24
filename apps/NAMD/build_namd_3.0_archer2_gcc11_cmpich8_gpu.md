@@ -43,9 +43,13 @@ Switch to the GNU Programming Environment and load the appropriate modules
 ```bash
 module -q load cpe/22.12
 module -q load PrgEnv-gnu
+module -q load rocm
+module -q load craype-accel-amd-gfx90a
+module -q load craype-x86-milan
+
 module -q load cray-pmi
 module -q load cray-fftw
-module -q load rocm
+module -q load cray-python
 ```
 
 
