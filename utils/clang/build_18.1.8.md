@@ -46,7 +46,7 @@ make install
 
 Configuration ( optional )
 --------------------------------
-Optionally, you can set a configuration file in the `$INSTALL_DIR/etc` directory named `clang++.cfg` and `clang.cfg` , respectively for the C++/C compiler. The configuration file contains a list of default flags to be passed to the compiler.
+Optionally, you can set a configuration file in the `$INSTALL_DIR/etc` directory named `clang++.cfg` and `clang.cfg` , respectively for the C++ and C compiler. The configuration file contains a list of default flags to be passed to the compiler.
 We provide two configuration files:
 
 - [clang-gcc10.cfg](clang-gcc10.cfg): configuration for this build with gcc 10
