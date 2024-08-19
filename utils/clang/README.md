@@ -8,7 +8,7 @@ History
 
 Date | System | Person | Version | Notes
 ---- | ------ |-------|---------|------
-2016-11-07 | Cirrus (EPCC) | Luca Parisi| 18.1.8 | Contains instructions for cuda support
+2024-08-19 | Cirrus (EPCC) | Luca Parisi| 18.1.8 | Contains instructions for cuda support
 
 Build Instructions
 ------------------
