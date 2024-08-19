@@ -1,4 +1,4 @@
-Instructions for compiling GCC 6.*
+Instructions for compiling clang 18.1.8
 ==================================
 
 These instructions are for compiling clang 18.1.8 on Cirrus.
