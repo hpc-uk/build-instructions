@@ -40,7 +40,7 @@ cd ${OPENMPI_ROOT}/${OPENMPI_NAME}
 module load zlib/1.3.1
 module load gcc/10.2.0
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 
@@ -72,7 +72,7 @@ module load zlib/1.3.1
 module load gcc/10.2.0
 module load nvidia/nvhpc-nompi/22.2
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 CUDA_VERSION=11.6
@@ -106,7 +106,7 @@ module load zlib/1.3.1
 module load gcc/10.2.0
 module load nvidia/nvhpc-nompi/22.2
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 CUDA_VERSION=11.6
@@ -119,7 +119,7 @@ CUDA_VERSION=11.6
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
   --with-knem=${KNEM_ROOT} \
-  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION} \
+  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran \
   --with-pmi=${PRFX}/pmi2 --with-pmi-libdir=${PRFX}/pmi2/lib \
   --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
   --with-libevent=${PRFX}/libevent/${LIBEVENT_VERSION} \
@@ -141,7 +141,7 @@ module load zlib/1.3.1
 module load gcc/10.2.0
 module load nvidia/nvhpc-nompi/22.11
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 CUDA_VERSION=11.8
@@ -175,7 +175,7 @@ module load zlib/1.3.1
 module load gcc/10.2.0
 module load nvidia/nvhpc-nompi/22.11
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 CUDA_VERSION=11.8
@@ -188,7 +188,7 @@ CUDA_VERSION=11.8
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \      
   --with-knem=${KNEM_ROOT} \
-  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION} \
+  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran \
   --with-pmi=${PRFX}/pmi2 --with-pmi-libdir=${PRFX}/pmi2/lib \
   --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
   --with-libevent=${PRFX}/libevent/${LIBEVENT_VERSION} \
@@ -257,7 +257,7 @@ CUDA_VERSION=12.4
   --enable-mpi-interface-warning --enable-mpirun-prefix-by-default \
   --with-slurm \
   --with-knem=${KNEM_ROOT} \
-  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION} \
+  --with-ucx=${PRFX}/ucx/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran \
   --with-pmi=${PRFX}/pmi2 --with-pmi-libdir=${PRFX}/pmi2/lib \
   --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
   --with-libevent=${PRFX}/libevent/${LIBEVENT_VERSION} \

@@ -116,7 +116,7 @@ Install OpenMPI for CPU
 ```bash 
 cd ${OPENMPI_ROOT}/${OMPI}
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 
@@ -159,7 +159,7 @@ cd ${OPENMPI_ROOT}/${OMPI}
 module load gcc/10.2.0
 module load nvidia/nvhpc-nompi/22.2
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 UCX_VERSION=1.15.0
 CUDA_VERSION=11.6
