@@ -4,7 +4,7 @@ Instructions for building UCX 1.15.0 on Cirrus
 These instructions are for building UCX 1.15.0 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 10.2.0.
 
 The instructions cover builds for both the CPU and GPU nodes.
-The GPU build instructions cover CUDA 11.6 and 11.8.
+The GPU build instructions cover CUDA 11.6 and 11.8 with and without nvfortran.
 
 
 Setup initial environment
@@ -17,7 +17,7 @@ UCX_VERSION=1.15.0
 UCX_NAME=${UCX_LABEL}-${UCX_VERSION}
 UCX_ROOT=${PRFX}/${UCX_LABEL}
 
-KNEM_ROOT=/opt/knem-1.1.4.90mlnx1
+KNEM_ROOT=/opt/knem-1.1.4.90mlnx2
 
 mkdir -p ${UCX_ROOT}
 cd ${UCX_ROOT}
@@ -77,6 +77,29 @@ make -j 8 clean
 ```
 
 
+Build and install UCX for GPU (CUDA 11.6) with nvfortran
+--------------------------------------------------------
+
+```bash
+cd ${UCX_ROOT}/${UCX_NAME}
+
+module load gcc/10.2.0
+module load nvidia/nvhpc-nompi/22.2
+
+CUDA_VERSION=11.6
+
+./configure CC=gcc CXX=g++ FC=nvfortran \
+  --with-knem=${KNEM_ROOT} \
+  --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
+  --with-mlx5-dv --enable-mt \
+  --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran
+
+make -j 8
+make -j 8 install
+make -j 8 clean
+```
+
+
 Build and install UCX for GPU (CUDA 11.8)
 -----------------------------------------
 
@@ -93,6 +116,29 @@ CUDA_VERSION=11.8
   --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
   --with-mlx5-dv --enable-mt \
   --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-${CUDA_VERSION}
+
+make -j 8
+make -j 8 install
+make -j 8 clean
+```
+
+
+Build and install UCX for GPU (CUDA 11.8) with nvfortran
+--------------------------------------------------------
+
+```bash
+cd ${UCX_ROOT}/${UCX_NAME}
+
+module load gcc/10.2.0
+module load nvidia/nvhpc-nompi/22.11
+
+CUDA_VERSION=11.8
+
+./configure CC=gcc CXX=g++ FC=nvfortran \
+  --with-knem=${KNEM_ROOT} \
+  --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
+  --with-mlx5-dv --enable-mt \
+  --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran
 
 make -j 8
 make -j 8 install
