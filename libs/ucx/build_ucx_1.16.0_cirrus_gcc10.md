@@ -4,7 +4,7 @@ Instructions for building UCX 1.16.0 on Cirrus
 These instructions are for building UCX 1.16.0 on Cirrus (SGI ICE XA, Intel Xeon Broadwell (CPU) and Cascade Lake (GPU)) using gcc 10.2.0.
 
 The instructions cover builds for both the CPU and GPU nodes.
-The GPU build instructions cover CUDA 12.4.
+The GPU build instructions cover CUDA 12.4 with and without nvfortran.
 
 
 Setup initial environment
@@ -70,6 +70,29 @@ CUDA_VERSION=12.4
   --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
   --with-mlx5-dv --enable-mt \
   --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-${CUDA_VERSION}
+
+make -j 8
+make -j 8 install
+make -j 8 clean
+```
+
+
+Build and install UCX for GPU (CUDA 12.4) with nvfortran
+--------------------------------------------------------
+
+```bash
+cd ${UCX_ROOT}/${UCX_NAME}
+
+module load gcc/10.2.0
+module load nvidia/nvhpc-nompi/24.5
+
+CUDA_VERSION=12.4
+
+./configure CC=gcc CXX=g++ FC=nvfortran \
+  --with-knem=${KNEM_ROOT} \
+  --with-cuda=${NVHPC_ROOT}/cuda/${CUDA_VERSION} \
+  --with-mlx5-dv --enable-mt \
+  --prefix=${PRFX}/${UCX_LABEL}/${UCX_VERSION}-cuda-${CUDA_VERSION}-nvfortran
 
 make -j 8
 make -j 8 install
