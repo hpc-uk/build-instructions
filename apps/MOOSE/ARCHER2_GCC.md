@@ -53,7 +53,7 @@ export MOOSE_JOBS=6 METHODS=opt
 ./update_and_rebuild_wasp.sh
 ```
 
-## Build MOOSE
+## Build MOOSE
 
 From the base `moose` source directory
 
