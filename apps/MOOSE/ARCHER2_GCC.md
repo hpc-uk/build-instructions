@@ -19,7 +19,7 @@ export CC=cc CXX=CC FC=ftn
 
 ```
 
-## Obtain the source code
+## Obtain the source code
 
 ```
 git clone https://github.com/idaholab/moose.git
