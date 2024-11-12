@@ -62,6 +62,18 @@ cd test
 make -j 6
 ```
 
+## Fix incorrect "build.mk" file
+
+A Fortran flag needs to be added to the compiler configuration.
+
+Edit line 316 in the file `framework/build.mk` to change it to:
+
+```
+PLUGIN_FLAGS := -shared -fPIC -Wl,-undefined,dynamic_lookup -fallow-argument-mismatch
+```
+
+(i.e. add the "-fallow-argument-mismatch" flag)
+
 ## Test MOOSE
 
 From the `moose/test` source directory after building the software.
