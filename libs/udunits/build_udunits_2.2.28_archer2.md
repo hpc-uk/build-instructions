@@ -8,7 +8,7 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work   # e.g., PRFX=/mnt/lustre/a2fs-work4/work/y07/shared/libs/core
 UDUNITS_LABEL=udunits
 UDUNITS_VERSION=2.2.28
 UDUNITS_NAME=${UDUNITS_LABEL}-${UDUNITS_VERSION}
@@ -26,7 +26,7 @@ Download the UDUNITS source code
 --------------------------------
 
 ```bash
-wget https://artifacts.unidata.ucar.edu/repository/downloads-${UDUNITS_LABEL}/${UDUNITS_ARCHIVE}
+wget https://artifacts.unidata.ucar.edu/repository/downloads-${UDUNITS_LABEL}/${UDUNITS_VERSION}/${UDUNITS_ARCHIVE}
 tar -xvzf ${UDUNITS_ARCHIVE}
 rm ${UDUNITS_ARCHIVE}
 ```
