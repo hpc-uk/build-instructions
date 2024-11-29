@@ -1,7 +1,7 @@
-Instructions for installing Ncview 2.1.10 on ARCHER2
+Instructions for installing Ncview 2.1.11 on ARCHER2
 ====================================================
 
-These instructions show how to install Ncview 2.1.10 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install Ncview 2.1.11 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
@@ -10,7 +10,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/a2fs-work4/work/y07/shared/utils/core
 NCVIEW_LABEL=ncview
-NCVIEW_VERSION=2.1.10
+NCVIEW_VERSION=2.1.11
 NCVIEW_NAME=${NCVIEW_LABEL}-${NCVIEW_VERSION}
 NCVIEW_ARCHIVE=${NCVIEW_NAME}.tar.gz
 NCVIEW_BUILD=${PRFX}/${NCVIEW_LABEL}/${NCVIEW_NAME}

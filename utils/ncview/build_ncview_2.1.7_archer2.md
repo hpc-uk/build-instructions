@@ -8,14 +8,14 @@ Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work
+PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/a2fs-work4/work/y07/shared/utils/core
 NCVIEW_LABEL=ncview
 NCVIEW_VERSION=2.1.7
 NCVIEW_NAME=${NCVIEW_LABEL}-${NCVIEW_VERSION}
 NCVIEW_ARCHIVE=${NCVIEW_NAME}.tar.gz
 NCVIEW_BUILD=${PRFX}/${NCVIEW_LABEL}/${NCVIEW_NAME}
 NCVIEW_INSTALL=${PRFX}/${NCVIEW_LABEL}/${NCVIEW_VERSION}
-UDUNITS_INSTALL=/work/y07/shared/libs/core/udunits/2.2.28
+UDUNITS_INSTALL=/mnt/lustre/a2fs-work4/work/y07/shared/libs/core/udunits/2.2.28
 
 mkdir -p ${PRFX}/${NCVIEW_LABEL}
 cd ${PRFX}/${NCVIEW_LABEL}
