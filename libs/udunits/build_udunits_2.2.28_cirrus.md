@@ -1,7 +1,7 @@
-Instructions for installing UDUNITS 2.2.26 on Cirrus
+Instructions for installing UDUNITS 2.2.28 on Cirrus
 ====================================================
 
-These instructions show how to install UDUNITS 2.2.26 for use on Cirrus (SGI ICE XA, Intel Xeon E5-2695).
+These instructions show how to install UDUNITS 2.2.28 for use on Cirrus (SGI ICE XA, Intel Xeon E5-2695).
 
 
 Setup initial environment
@@ -10,7 +10,7 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/cirrus-software
 UDUNITS_LABEL=udunits
-UDUNITS_VERSION=2.2.26
+UDUNITS_VERSION=2.2.28
 UDUNITS_NAME=${UDUNITS_LABEL}-${UDUNITS_VERSION}
 UDUNITS_ARCHIVE=${UDUNITS_NAME}.tar.gz
 UDUNITS_INSTALL=${PRFX}/${UDUNITS_LABEL}/${UDUNITS_VERSION}
@@ -26,7 +26,7 @@ Download the UDUNITS source code
 --------------------------------
 
 ```bash
-wget https://artifacts.unidata.ucar.edu/repository/downloads-${UDUNITS_LABEL}/${UDUNITS_ARCHIVE}
+wget https://artifacts.unidata.ucar.edu/repository/downloads-${UDUNITS_LABEL}/${UDUNITS_VERSION}/${UDUNITS_ARCHIVE}
 tar -xvzf ${UDUNITS_ARCHIVE}
 rm ${UDUNITS_ARCHIVE}
 ```
