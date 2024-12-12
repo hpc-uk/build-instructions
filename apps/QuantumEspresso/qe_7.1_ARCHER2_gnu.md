@@ -1,24 +1,26 @@
 Build Instructions for QE 7.1 on ARCHER2
------------------------------------------
+=========================================
 
-Using the GNU 8.3.3 Programming Environment, GCC 11.2.0 compilers. 
+Building Quantum Espresso 7.1 on ARCHER2. Instructions use the GNU Programming Environment, at time of writing (December 2024) this corresponds to `gcc/11.2.0` and `PrgEnv-gnu/8.3.3`.
 
-Set-up environment: 
+Set-up paths: 
 -------------------
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/work/<project-code>/<project-code>/<username>/software
 cd ${PRFX}
 
-PACKAGE_LABEL=quantum-espresso
-PACKAGE_LABEL_SHORT=qe
+PACKAGE=quantum_espresso
 PACKAGE_VERSION=7.1
-PROGRAMMING_ENV=gnu
-PACKAGE_ROOT=${PRFX}/${PACKAGE_LABEL}
-PACKAGE_INSTALL=${PACKAGE_ROOT}/${PACKAGE_LABEL_SHORT}-${PACKAGE_VERSION}-${PROGRAMMING_ENV}
+PACKAGE_INSTALL=${PRFX}/${PACKAGE}/${PACKAGE_VERSION}
 
 mkdir -p ${PACKAGE_ROOT}
 cd ${PACKAGE_ROOT}
+```
 
+Set-up environment:
+-------------------
+
+```bash 
 module load PrgEnv-gnu
 module load cray-fftw cray-hdf5-parallel
 
@@ -37,9 +39,9 @@ The Quantum-Espresso source code can be found on the website: [https://www.quant
 
 Unpack: 
 ```bash 
-tar -xvf ${PACKAGE_LABEL_SHORT}-${PACKAGE_VERSION}-ReleasePack.tar.gz
-mv ${PACKAGE_LABEL_SHORT}-${PACKAGE_VERSION} ${PACKAGE_INSTALL}
-cd ${PACKAGE_INSTALL}
+cd ${PACKAGE_ROOT}
+tar -xvf qe-7.1-ReleasePack.tar.gz
+cd qe-7.1
 ```
 
 Build:
@@ -48,7 +50,7 @@ Build:
 MPIF90=ftn F90=ftn ./configure --prefix=${PACKAGE_INSTALL} --enable-parallel --enable-openmp --with-scalapack=yes
 ```
 
-In `make.inc` change `DFLAGS` to:
+In `make.inc` change `DFLAGS` and `FFLAGS` to:
 ```bash
 DFLAGS         =  -D__MPI -D__SCALAPACK -D__FFTW3 -D__HDF5
 
@@ -60,6 +62,7 @@ FFLAGS         = -O3 -g -fallow-argument-mismatch -fopenmp -ffpe-summary=none
 Build:
 ```bash
 make all
+make install
 ```
 
 Find the Quantum Espresso installation in: `${PACKAGE_INSTALL}/bin`
@@ -79,7 +82,7 @@ Available tests and execution times:
 * `AUSURF112` - 2 minutes on 2 x 128-core ARCHER2 nodes.
 * `PSIWAT` - 4 minutes on 4 x 128-core ARCHER2 nodes.
 * `other-inputs/CuO` - 2 minutes on 2 x 128-core ARCHER2 node.
-* `other-inputs/water` - 59 minutes on 8 x 123-core ARCHER2 nodes.
+* `other-inputs/water` - 59 minutes on 8 x 128-core ARCHER2 nodes.
 
 
 Example submission script for PSIWAT: 
@@ -100,12 +103,9 @@ Example submission script for PSIWAT:
 # Update this: 
 PRFX=/path/to/work  # e.g., PRFX=/work/<project-code>/<project-code>/<username>/software
 
-PACKAGE_LABEL=quantum-espresso
-PACKAGE_LABEL_SHORT=qe
+PACKAGE_LABEL=quantum_espresso
 PACKAGE_VERSION=7.1
-PROGRAMMING_ENV=gnu
-PACKAGE_ROOT=${PRFX}/${PACKAGE_LABEL}
-PACKAGE_INSTALL=${PACKAGE_ROOT}/${PACKAGE_LABEL_SHORT}-${PACKAGE_VERSION}-${PROGRAMMING_ENV}
+PACKAGE_INSTALL=${PRFX}/${PACKAGE}/${PACKAGE_VERSION}
 
 export OMP_NUM_THREADS=1
 export PATH=$PATH:${PACKAGE_INSTALL}/bin
@@ -113,3 +113,5 @@ export ESPRESSO_PSEUDO=${PACKAGE_INSTALL}/benchmarks/PSIWAT
 
 time srun --cpu-freq=2250000 pw.x -i psiwat.in
 ```
+
+To use this for other tests, change the input after `-i` and the path to the psuedo-potentials in `export ESPRESSO_PSEUDO`. 
