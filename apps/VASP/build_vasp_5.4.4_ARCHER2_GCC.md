@@ -32,6 +32,13 @@ module load cray-fftw
 Modules loaded at build time:
 
 ```
+Currently Loaded Modules:
+  1) craype-x86-rome                         6) bolt/0.8          11) cray-libsci/22.12.1.1
+  2) libfabric/1.12.1.2.2.0.0                7) epcc-setup-env    12) PrgEnv-gnu/8.3.3
+  3) craype-network-ofi                      8) load-epcc-module  13) gcc/10.3.0
+  4) perftools-base/22.12.0                  9) craype/2.7.19     14) cray-mpich/8.1.23
+  5) xpmem/2.5.2-2.4_3.30__gd0f7936.shasta  10) cray-dsmml/0.2.2  15) cray-fftw/3.3.10.3
+
 ```
 
 Create makefile.include
