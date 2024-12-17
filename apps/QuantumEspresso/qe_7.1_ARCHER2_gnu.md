@@ -13,8 +13,8 @@ PACKAGE=quantum_espresso
 PACKAGE_VERSION=7.1
 PACKAGE_INSTALL=${PRFX}/${PACKAGE}/${PACKAGE_VERSION}
 
-mkdir -p ${PACKAGE_ROOT}
-cd ${PACKAGE_ROOT}
+mkdir -p ${PRFX}/${PACKAGE}
+cd ${PRFX}/${PACKAGE}
 ```
 
 Set-up environment:
@@ -39,7 +39,7 @@ The Quantum-Espresso source code can be found on the website: [https://www.quant
 
 Unpack: 
 ```bash 
-cd ${PACKAGE_ROOT}
+cd ${PRFX}/${PACKAGE}
 tar -xvf qe-7.1-ReleasePack.tar.gz
 cd qe-7.1
 ```
