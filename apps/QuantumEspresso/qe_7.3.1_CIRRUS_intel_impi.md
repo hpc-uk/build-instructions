@@ -1,7 +1,7 @@
 Build Instructions for QE 7.3.1 on Cirrus
 -----------------------------------------
 
-Building Quantum Espresso 7.3.1 on Cirrus. Instructions use the GNU Programming Environment, at time of writing (December 2024) this corresponds to `gcc/10.2.0` and `MPT/2.25`.
+Building Quantum Espresso 7.3.1 on Cirrus. Instructions use the Intel Programming Environment, at time of writing (December 2024) this corresponds to `intel-20.4` compilers.
 
 Set-up paths: 
 -------------------
@@ -11,8 +11,8 @@ cd ${PRFX}
 
 PACKAGE=quantum-espresso
 PACKAGE_VERSION=7.3.1
-PE_VERSION=gcc10.2
-MPI_VERSION=mpt2.25
+PE_VERSION=intel20.4
+MPI_VERSION=impi
 PACKAGE_INSTALL=${PRFX}/${PACKAGE}/qe-${PACKAGE_VERSION}-${PE_VERSION}-${MPI_VERSION}
 
 mkdir -p ${PRFX}/${PACKAGE}
@@ -23,12 +23,13 @@ Set-up environment:
 -------------------
 
 ```bash 
-module load mpt
-module load gcc
+module load intel-20.4
+module load intel-20.4/compilers 
+module load intel-20.4/mpi 
 module load cmake
 module load intel-20.4/cmkl
-module load fftw/3.3.10-gcc10.2-mpt2.25
-module load hdf5parallel/1.14.3-gcc10-mpt225
+module load fftw/3.3.10-intel20.4-impi20.4
+module load hdf5parallel/1.14.3-intel20-impi20 
 ```
 
 The Quantum-Espresso source code can be found on the website: [https://www.quantum-espresso.org/](https://www.quantum-espresso.org/). Download locally and transfer to `${PACKAGE_ROOT}` on ARCHER2. 
@@ -43,15 +44,14 @@ cd qe-7.3.1
 Build:
 -------
 ```bash 
-mkdir build && cd build
-cmake -DCMAKE_C_COMPILER=mpicc -DCMAKE_Fortran_COMPILER=mpif90 -DCMAKE_INSTALL_PREFIX=${PACKAGE_INSTALL} -DCMAKE_Fortran_FLAGS="-ffpe-summary=none" ..
+mkdir intel-build && cd intel-build
+cmake -DCMAKE_C_COMPILER=mpicc -DCMAKE_Fortran_COMPILER=mpiifort -DCMAKE_INSTALL_PREFIX=${PACKAGE_INSTALL} ..
 
 make -j 8 
 make install
 ```
 
 Find the Quantum Espresso installation in: `${PACKAGE_INSTALL}/bin`
-
 
 
 Testing:
@@ -81,14 +81,15 @@ Example submission script for `AUSURF112` - Execution time is ~ 3 minutes on 2 x
 
 PRFX=/path/to/work
 
-module load mpt
-module load gcc
+module load intel-20.4
+module load intel-20.4/compilers 
+module load intel-20.4/mpi 
 module load intel-20.4/cmkl
 
 PACKAGE=quantum-espresso
 PACKAGE_VERSION=7.3.1
-PE_VERSION=gcc10.2
-MPI_VERSION=mpt2.25
+PE_VERSION=intel20.4
+MPI_VERSION=impi
 PACKAGE_INSTALL=${PRFX}/${PACKAGE}/qe-${PACKAGE_VERSION}-${PE_VERSION}-${MPI_VERSION}
 
 export OMP_NUM_THREADS=1
