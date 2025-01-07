@@ -25,6 +25,7 @@ export FOAM_INSTALL_DIR=$(pwd)/OpenFOAM-${version_major}
 
 source ${FOAM_INSTALL_DIR}/etc/bashrc || printf ".etc/bashrc returns $?\n"
 
+rm -rf test
 source ./site/test.sh
 
 printf "Finish: %s\n" "`date`"
