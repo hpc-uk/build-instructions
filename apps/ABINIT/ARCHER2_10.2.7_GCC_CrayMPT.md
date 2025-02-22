@@ -103,7 +103,7 @@ cd $builddir
 make -j8
 ```
 
-The `abinit` binary will be at `abinit-10.2.7/_build_gcc_mpi/src/98-main/abinit`.
+The `abinit` binary will be at `abinit-10.2.7/_build_gcc_mpi/src/98_main/abinit`.
 
 If you want the binaries in a specific install location specify the `prefix` option at 
 configure step to point to a directory where you have write permissions.
