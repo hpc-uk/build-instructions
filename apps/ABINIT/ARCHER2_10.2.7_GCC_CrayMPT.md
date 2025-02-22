@@ -6,8 +6,8 @@ Instructions for compiling ABINIT 10.2.7 on ARCHER2 (HPE Cray EX, AMD 7742).
 ## Download and unpack software
 
 ```
-wget 
-tar -xvf abinit-10.2.7.tar.gz
+wget https://forge.abinit.org/abinit-10.2.7.tar.gz
+tar -xvf 10.2.7.tar.gz
 ```
 
 ## Setup the config description file
