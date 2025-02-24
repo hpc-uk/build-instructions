@@ -1,5 +1,4 @@
-
-# ABINIT 10.2.7, ARCHER2, GCC
+# ABINIT 10.2.7, ARCHER2, GCC
 
 Instructions for compiling ABINIT 10.2.7 on ARCHER2 (HPE Cray EX, AMD 7742).
 
