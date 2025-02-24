@@ -1,0 +1,94 @@
+# Precompiler options
+CPP_OPTIONS= -DHOST=\"HPECrayEX_GCC\" \
+             -DMPI -DMPI_BLOCK=32000 -Duse_collective \
+             -DscaLAPACK \
+             -DCACHE_SIZE=2000 \
+             -Davoidalloc \
+             -DMPI_INPLACE \
+             -Dvasp6 \
+             -Duse_bse_te \
+             -Dtbdyn \
+             -Dfock_dblbuf \
+             -D_OPENMP
+
+CPP        = gcc -E -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
+
+FC         = ftn -fopenmp
+FCL        = ftn -fopenmp
+
+FREE       = -ffree-form -ffree-line-length-none
+
+MKL_PATH   =
+
+FFLAGS     = -w -ffpe-summary=none -fallow-argument-mismatch
+OFLAG      = -O3
+OFLAG_IN   = $(OFLAG)
+DEBUG      = -O0
+
+# For what used to be vasp.5.lib
+CPP_LIB    = $(CPP)
+FC_LIB     = $(FC)
+CC_LIB     = cc
+CFLAGS_LIB = -O
+FFLAGS_LIB = -O1
+FREE_LIB   = $(FREE)
+
+OBJECTS_LIB= linpack_double.o
+
+# For the parser library
+CXX_PARS   = CC
+LLIBS      += -lstdc++
+
+# BLAS and LAPACK (mandatory)
+BLASPACK    = 
+
+# scaLAPACK (mandatory)
+SCALAPACK   = 
+
+LLIBS      += $(SCALAPACK) $(BLASPACK)
+
+# FFTW (mandatory)
+LLIBS      += -lfftw3 -lfftw3_omp
+INCS       += -I$(FFTW_ROOT)/include
+
+
+# HDF5-support (optional but strongly recommended)
+CPP_OPTIONS+= -DVASP_HDF5
+# HDF5_ROOT  ?= /path/to/your/hdf5/installation
+LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
+INCS       += -I$(HDF5_ROOT)/include
+
+# Add BEEF functional support
+CPP_OPTIONS  += -Dlibbeef
+LIBBEEF_ROOT ?= /work/y07/shared/libs/compiler/gnu/8.0/libbeef/0.1.3
+LLIBS        += -L$(LIBBEEF_ROOT)/lib -lbeef
+
+# For the VASP-2-Wannier90 interface (optional)
+CPP_OPTIONS    += -DVASP2WANNIER90
+WANNIER90_ROOT ?= /work/y07/shared/apps/core/wannier90/3.1.0
+LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+
+# LibXC
+CPP_OPTIONS += -DUSELIBXC
+LIBXC_ROOT  ?= /mnt/lustre/a2fs-work4/work/y07/shared/libs/compiler/gnu/8.0/libxc/7.0.0
+LLIBS       += -L$(LIBXC_ROOT)/lib -lxcf03 -lxc
+INCS        += -I$(LIBXC_ROOT)/include
+
+# For the fftlib library (hardly any benefit in combination with MKL's FFTs)
+CPP_OPTIONS+= -Dsysv
+FCL        += fftlib.o
+CXX_FFTLIB  = g++ -fopenmp -std=c++11 -DFFTLIB_THREADSAFE
+INCS_FFTLIB = -I./include -I$(FFTW_INC)
+LIBS       += fftlib
+LLIBS      += -ldl
+
+# For machine learning library vaspml (experimental)
+CPP_OPTIONS += -Dlibvaspml
+CPP_OPTIONS += -DVASPML_USE_CBLAS
+CPP_OPTIONS += -DVASPML_DEBUG_LEVEL=3
+CXX_ML      = CC -fopenmp
+CXXFLAGS_ML = -O3 -std=c++17 -pedantic-errors -Wall -Wextra
+INCLUDE_ML  = -I$(CRAY_LIBSCI_PREFIX_DIR)/include
+
+
+

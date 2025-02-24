@@ -6,7 +6,8 @@ This folder contains files and documentation for building VASP on a variety of H
 Build Instructions
 ------------------
 
-* [VASP 6.4.2 ARCHER2 GCC with LibSci Build Instructions](build_vasp_6.4.2_ARCHER2_GCC.md) (recommended build on ARCHER2)
+* [VASP 6.5.0 ARCHER2 GCC with LibSci Build Instructions](build_vasp_6.5.0_ARCHER2_GCC.md) (recommended build on ARCHER2)
+* [VASP 6.4.2 ARCHER2 GCC with LibSci Build Instructions](build_vasp_6.4.2_ARCHER2_GCC.md)
 * [VASP 6.3.2 Cirrus GPU NVHPC Build Instructions](build_vasp_6.3.2_Cirrus-GPU_NVHPC.md) (recommended build on Cirrus GPU)
 * [VASP 6.3.2 Cirrus Intel Build Instructions](build_vasp_6.3.2_Cirrus_Intel.md)
 * [VASP 6.3.2 ARCHER2 GCC with LibSci Build Instructions](build_vasp_6.3.2_ARCHER2_GCC.md)
