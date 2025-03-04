@@ -24,8 +24,6 @@ module load PrgEnv-gnu
 module load cray-libsci/21.08.1.2
 module load cray-fftw/3.3.8.13
 module load cray-hdf5-parallel/1.12.1.1
-module load craype-network-ucx
-module load cray-mpich-ucx
 ```
 
 The loaded module list when these instructions were written was:
