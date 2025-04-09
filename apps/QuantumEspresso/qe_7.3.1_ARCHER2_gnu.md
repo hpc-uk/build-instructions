@@ -34,13 +34,15 @@ export SCALAPACK_LIBS=" "
 export FFT_LIBS=" "
 ```
 
-The Quantum-Espresso source code can be found on the website: [https://www.quantum-espresso.org/](https://www.quantum-espresso.org/). Download locally and transfer to `${PACKAGE_ROOT}` on ARCHER2. 
+The Quantum-Espresso source code can be found on the website: [https://www.quantum-espresso.org/](https://www.quantum-espresso.org/). Or via github:
 
-Unpack: 
 ```bash 
 cd ${PRFX}/${PACKAGE}
-tar -xvf qe-7.3.1-ReleasePack.tar.gz
-cd qe-7.3.1
+
+git clone https://github.com/QEF/q-e
+mv q-e q-e-${PACKAGE_VERSION}
+cd q-e-${PACKAGE_VERSION}
+git checkout qe-${PACKAGE_VERSION}
 ```
 
 Build: 
@@ -68,9 +70,8 @@ git clone https://github.com/QEF/benchmarks.git
 ```
 
 Available tests and execution times:  
-* `AUSURF112` - 2 minutes on 2 x 128-core ARCHER2 nodes.
-* `PSIWAT` - 4 minutes on 4 x 128-core ARCHER2 nodes.
-* `other-inputs/CuO` - 2 minutes on 2 x 128-core ARCHER2 node.
+* `AUSURF112` - 1 min 40s 1 x 128-core ARCHER2 node.
+* `PSIWAT` - 4 mins 22s 4 x 128-core ARCHER2 nodes.
 * `other-inputs/water` - 59 minutes on 8 x 128-core ARCHER2 nodes.
 
 
@@ -91,13 +92,17 @@ Example submission script for PSIWAT:
 
 # Update this: 
 PRFX=/path/to/work  # e.g., PRFX=/work/<project-code>/<project-code>/<username>/software
-
-PACKAGE_LABEL=quantum_espresso
+PACKAGE=quantum_espresso
 PACKAGE_VERSION=7.3.1
 PACKAGE_INSTALL=${PRFX}/${PACKAGE}/${PACKAGE_VERSION}
 
-export OMP_NUM_THREADS=1
+# Use source build: 
 export PATH=$PATH:${PACKAGE_INSTALL}/bin
+
+# Uncomment to use centralised module
+# module load ${PACKAGE}/${PACKAGE_VERSION}
+
+export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export ESPRESSO_PSEUDO=${PACKAGE_INSTALL}/benchmarks/PSIWAT
 
 time srun --cpu-freq=2250000 pw.x -i psiwat.in
