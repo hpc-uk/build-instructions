@@ -3,7 +3,7 @@
 This is OpenFOAM version 12 (patch version released 2nd September 2024).
 See https://openfoam.org/news/v12-patch/
 
-This directory contains a subdirectory `site` with the
+This page contains a subdirectory [site](./site) with the
 following scripts which allow one to install and compile OpenFOAM
 using the Gnu compiler collection on Archer2.
 ```
