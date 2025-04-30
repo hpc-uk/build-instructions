@@ -62,7 +62,7 @@ cd test
 make -j 6
 ```
 
-## Fix incorrect "build.mk" file
+## Fix incorrect "build.mk" file
 
 A Fortran flag needs to be added to the compiler configuration.
 
