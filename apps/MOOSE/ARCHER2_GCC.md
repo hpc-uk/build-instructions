@@ -24,8 +24,12 @@ export CC=cc CXX=CC FC=ftn
 ```
 git clone https://github.com/idaholab/moose.git
 cd moose
-git checkout master
+git checkout 2025-09-05-release
 ```
+
+The instructions below have been tested with the release indicated,
+but please feel free to choose a later release if one is available.
+
 
 ## Modify the configuration options for libmesh
 
@@ -100,9 +104,11 @@ module load cmake
 module load cray-python
 
 # Setup the correct path for MOOSE required libraries
-export LD_LIBRARY_PATH=/path/to/moose/petsc/arch-moose/$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/path/to/moose/petsc/arch-moose:${LD_LIBRARY_PATH}
 
 export OMP_NUM_THREADS=1
+
+export SRUN_CPUS_PER_TASK=${SLURM_CPUS_PER_TASK}
 
 export MOOSE_MPI_COMMAND="srun --unbuffered --hint=nomultithread --distribution=block:block"
 
