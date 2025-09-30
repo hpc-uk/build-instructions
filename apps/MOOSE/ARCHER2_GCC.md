@@ -104,7 +104,7 @@ module load cmake
 module load cray-python
 
 # Setup the correct path for MOOSE required libraries
-export LD_LIBRARY_PATH=/path/to/moose/petsc/arch-moose:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=/path/to/moose/petsc/arch-moose/lib:${LD_LIBRARY_PATH}
 
 export OMP_NUM_THREADS=1
 
