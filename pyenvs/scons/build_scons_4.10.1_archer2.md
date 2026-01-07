@@ -1,16 +1,16 @@
-Instructions for installing SCons 4.7.0 on ARCHER2
-==================================================
+Instructions for installing SCons 4.10.1 on ARCHER2
+===================================================
 
-These instructions show how to install Scons 4.7.0 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
+These instructions show how to install Scons 4.10.1 for use on ARCHER2 (HPE Cray EX, AMD Zen2 7742).
 
 
 Setup initial environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
+PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/a2fs-work4/work/y07/shared/python/core
 SCONS_LABEL=scons
-SCONS_VERSION=4.7.0
+SCONS_VERSION=4.10.1
 SCONS_ROOT=${PRFX}/${SCONS_LABEL}
 
 module load PrgEnv-gnu
