@@ -186,7 +186,7 @@ Setup install environment
 -------------------------
 
 ```bash
-PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
+PRFX=/path/to/work  # e.g., PRFX=/mnt/lustre/a2fs-work4/work/y07/shared/python/core
 cd ${PRFX}
  
 PYTORCH_PACKAGE_LABEL=torch
@@ -253,7 +253,7 @@ Install PyTorch from previously built wheel distribution
 ```bash
 cd ${PYTORCH_ROOT}
 
-pip install --user ${PYTORCH_BUILD_ROOT}/dist/torch-2.9.1a0+git49444c3-cp310-cp310-linux_x86_64.whl 
+pip install --user ${PYTORCH_BUILD_ROOT}/dist/torch-2.9.1a0+gitd38164a-cp310-cp310-linux_x86_64.whl 
 ```
 
 
