@@ -167,10 +167,10 @@ if [ "$1" == "export" ]
 then
     export_variables
 else
-#    install_meson_ninja_mako
-#    build_llvm
-#    build_mesa
-#    build_OSPRay
+    install_meson_ninja_mako
+    build_llvm
+    build_mesa
+    build_OSPRay
 
     build_paraview
 fi
