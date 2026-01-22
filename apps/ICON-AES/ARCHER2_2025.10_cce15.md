@@ -49,7 +49,7 @@ mkdir ${LIBFYAML_ROOT}/build
 autoreconf -f -i
 
 ${LIBFYAML_ROOT}/configure \
-  cc=cc CC=cc FC=ftn \
+  CC=cc CXX=CC FC=ftn \
   --prefix=${LIBFYAML_ROOT}/build
 
 make -j8
@@ -100,7 +100,7 @@ Configure step
 
 ```bash
 ${ICON_MODEL_ROOT}/configure \
-  cc=cc CC=cc FC=ftn F77=ftn \
+  CC=cc CXX=CC FC=ftn F77=ftn \
   LDFLAGS="-L${HDF5_DIR}/lib/ \
     -L${NETCDF_DIR}/lib/ \
     -L${CRAY_MPICH_DIR}/lib/ \
