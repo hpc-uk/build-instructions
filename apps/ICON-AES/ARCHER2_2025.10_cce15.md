@@ -14,6 +14,7 @@ These instructions assume a standard ARCHER2 environment.
 ```bash
 module load PrgEnv-cray
 module load cce/15.0.0
+module load cray-python
 module load cray-hdf5 cray-netcdf libxml2
 ```
 
@@ -24,6 +25,17 @@ cd ${HOME/home/work}
 ```
 
 All software will be built in this directory tree.
+
+### 1.3 Python environment
+
+Creating a python virtual environment for bundled packages with ICON model to be
+available during runtime.
+
+```bash
+python -m venv --system-site-packages venv
+source venv/bin/activate
+pip install cython==3.2.4
+```
 
 ---
 
@@ -114,6 +126,7 @@ ${ICON_MODEL_ROOT}/configure \
   CPPFLAGS="${ICON_INCLUDES}" \
   MPI_LAUNCH="srun" \
   MPIROOT="${CRAY_MPICH_DIR}" \
+  --enable-bundled-python \
   --enable-openmp \
   --disable-mpi-checks \
   --prefix="${ICON_MODEL_ROOT}/build"
