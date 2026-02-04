@@ -28,13 +28,12 @@ All software will be built in this directory tree.
 
 ### 1.3 Python environment
 
-Creating a python virtual environment for bundled packages with ICON model to be
-available during runtime.
+Creating a python virtual environment for helpful packages.
 
 ```bash
 python -m venv --system-site-packages venv
 source venv/bin/activate
-pip install cython==3.2.4 jinja2
+pip install cython==3.2.4 jinja2 netCDF4 wheel
 ```
 
 ---
