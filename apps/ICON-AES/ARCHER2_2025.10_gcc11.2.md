@@ -1,7 +1,7 @@
 # ICON Model Build Instructions on ARCHER2
 
-These instructions describe how to build `libfyaml` and the `ICON model (release-2025.10-public)` on ARCHER2 using the Cray Programming Environment and
-CCE 15.0.0.
+These instructions describe how to build `libfyaml` and the `ICON model (release-2025.10-public)` on ARCHER2 using the GNU Programming Environment and
+GCC 11.2.0.
 
 ---
 
@@ -12,8 +12,8 @@ These instructions assume a standard ARCHER2 environment.
 ### 1.1 Modules
 
 ```bash
-module load PrgEnv-cray
-module load cce/15.0.0
+module load PrgEnv-gnu
+module load gcc/11.2.0
 module load cray-python
 module load cray-hdf5 cray-netcdf libxml2
 ```
@@ -34,7 +34,7 @@ available during runtime.
 ```bash
 python -m venv --system-site-packages venv
 source venv/bin/activate
-pip install cython==3.2.4
+pip install cython==3.2.4 jinja2
 ```
 
 ---
@@ -120,9 +120,9 @@ ${ICON_MODEL_ROOT}/configure \
     -L${LIBFYAML_ROOT}/build/lib/ \
     -Wl,-rpath,${LIBFYAML_ROOT}/build/lib" \
   LIBS='-lnetcdff -lnetcdf -lhdf5 -lmpifort -lmpi -lxml2 -lfyaml' \
-  FCFLAGS="${ICON_INCLUDES} -O2" \
-  CFLAGS="${ICON_INCLUDES} -O2 -funroll-loops \
-    -Df2cFortran -DHAVE_LIBNETCDF -DHAVE_NETCDF2 -DHAVE_NETCDF4" \
+  FCFLAGS="${ICON_INCLUDES} -cpp -std=gnu -fmodule-private -fimplicit-none -fmax-identifier-length=63 \
+    -ffree-line-length-132 -O3 -ffast-math -D__LOOP_EXCHANGE -fallow-argument-mismatch" \
+  CFLAGS="${ICON_INCLUDES} -std=gnu99 -O2 -DHAVE_LIBNETCDF -DHAVE_NETCDF4 -D__XE6__ -DgFortran" \
   CPPFLAGS="${ICON_INCLUDES}" \
   MPI_LAUNCH="srun" \
   MPIROOT="${CRAY_MPICH_DIR}" \
@@ -149,5 +149,6 @@ ${ICON_MODEL_ROOT}/build
 
 ## 4. Notes
 
-- These instructions assume the Cray wrappers (`cc`, `ftn`) are used throughout.
+- These instructions assume the compiler wrappers (`cc`, `ftn` and `CC`) are
+  used throughout.
 - The build enables `OpenMP` support.
