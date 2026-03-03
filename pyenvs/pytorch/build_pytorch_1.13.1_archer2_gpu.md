@@ -5,8 +5,8 @@ These instructions show how to install PyTorch 1.13.1 for use on the ARCHER2 GPU
 
 Horovod 0.28.1, a distributed deep learning training framework, is also installed - this package can be used for running PyTorch across multiple GPU nodes.
 
-This can also be done by using the ROCm Collective Communications Library (RCCL) directly via the `torch.distributed` module,
-as is the case with the [DeepCAM MLPerf benchmark](https://github.com/mlcommons/hpc/tree/main/deepcam). 
+However, this can also be done by using the ROCm Collective Communications Library (RCCL) directly via the `torch.distributed` module,
+as is the case with the [DeepCAM MLPerf benchmark](https://github.com/mlcommons/hpc/tree/main/deepcam). This is recommended as Horovod is no longer actively maintained. 
 
 
 Setup initial environment
@@ -15,6 +15,9 @@ Setup initial environment
 ```bash
 PRFX=/path/to/work  # e.g., PRFX=/work/y07/shared/python/core
 cd ${PRFX}
+
+module load cpe/22.12
+export LD_LIBRARY_PATH=$CRAY_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
 
 PYTORCH_PACKAGE_LABEL=torch
 PYTORCH_LABEL=py${PYTORCH_PACKAGE_LABEL}
@@ -30,6 +33,8 @@ module -q load craype-accel-amd-gfx90a
 module -q load cray-python/3.9.13.1
 module -q load cray-hdf5-parallel/1.12.2.1
 module -q load rocm/${ROCM_VERSION}
+
+export PY_EXE=$(which python)
 
 PYTHON_VER=`echo ${CRAY_PYTHON_LEVEL} | cut -d. -f1-2`
 PYTHON_VER2=`echo "${PYTHON_VER//./}"`
@@ -90,8 +95,9 @@ pip install --user pyspark
 pip install --user scikit-learn
 pip install --user scikit-image
 pip install --user opencv-python
-pip install --user wheel
 pip install --user tomli
+pip install --user wheel
+pip install --user psutil
 pip install --user h5py
 ```
 
@@ -138,7 +144,7 @@ cd ${PYTORCH_ROOT}
 
 module load cmake/3.21.3
 
-CC=cc CXX=CC FC=ftn HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_ROCM_HOME=${CRAY_ROCM_DIR} HOROVOD_GPU=ROCM HOROVOD_WITH_TENSORFLOW=0 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MXNET=0 pip install --user --no-cache-dir --no-deps horovod[pytorch]==0.28.1
+CC=cc CXX=CC FC=ftn HOROVOD_CPU_OPERATIONS=MPI HOROVOD_WITH_MPI=1 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_ROCM_HOME=${CRAY_ROCM_DIR} HOROVOD_GPU=ROCM HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 pip install --user --no-cache-dir --no-deps --no-build-isolation horovod[pytorch]==0.28.1
 ```
 
 Now run `horovodrun --check-build` to confirm that Horovod has been installed correctly. That command should return something like the following output.
@@ -156,7 +162,7 @@ Available Controllers:
     [X] Gloo
 
 Available Tensor Operations:
-    [ ] NCCL
+    [X] NCCL
     [ ] DDL
     [ ] CCL
     [X] MPI
