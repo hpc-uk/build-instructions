@@ -7,8 +7,7 @@ Instructions for installing the following software on [Cirrus](https://docs.cirr
 * CalculiX v2.20 
 * CalculiX adapter for preCICE v2.20.1 
 
-
-## Environment set-up 
+## Environment set-up
 
 ```bash 
 PRFX=/path/to/your/user/work
@@ -87,7 +86,7 @@ tar -xvf v1.3.1.tar.gz
 cd openfoam-adapter-1.3.1/
 ```
 
-### Link to preCICE:
+### Link to preCICE:
 ```bash 
 export PATH=$PRFX/preCICE/precice-3.3.1:$PATH
 export LD_LIBRARY_PATH=$PRFX/preCICE/precice-3.3.1/lib64:$PRFX/preCICE/boost/lib:$LD_LIBRARY_PATH
@@ -124,7 +123,7 @@ Edit `Make.inc` to set `CC=cc -Wno-int-conversion ` (line 15) and comment out li
 make lib 
 ```
 
-### ARPACK 
+### ARPACK 
 ```bash 
 cd $PRFX/preCICE
 
@@ -152,7 +151,7 @@ make lib
 make all
 ```
 
-### yaml-cpp 
+### yaml-cpp 
 ```bash 
 cd $PRFX/preCICE
 
