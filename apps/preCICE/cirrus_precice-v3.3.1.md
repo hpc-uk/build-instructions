@@ -191,7 +191,7 @@ Copy the Makefile from this directory to `$PRFX/preCICE/calculix-adapter-master`
 ```bash 
 sed -i 's|spoolesMPI.h|../SPOOLES.2.2/MPI.h|' ccx_2.20.c
 make clean
-make -DCALCULIX_MPI
+make
 ```
 
 
