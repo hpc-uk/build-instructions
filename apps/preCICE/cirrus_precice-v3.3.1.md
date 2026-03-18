@@ -29,7 +29,6 @@ module load cray-python
 wget https://download.gnome.org/sources/libxml2/2.15/libxml2-2.15.2.tar.xz
 tar xf libxml2-2.15.2.tar.xz
 cd libxml2-2.15.2
-autoreconf -i
 CC=cc ./configure --prefix=$PRFX/preCICE/libxml2 
 make
 make install
