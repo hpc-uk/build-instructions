@@ -174,8 +174,6 @@ export PATH=$PATH:$PRFX/preCICE/yaml-cpp-yaml-cpp-0.6.2
 ```
 
 
-
-
 ## Install CalculiX 
 ```bash 
 cd $PRFX/preCICE
@@ -187,16 +185,12 @@ tar -xzf master.tar.gz
 cd $PRFX/preCICE/calculix-adapter-master
 ```
 
-Copy the Makefile from this directory to `$PRFX/preCICE/calculix-adapter-master`, changing the $PRFX in line 6 of Makefile to match your own set-up. 
+Copy the Makefile from `/work/z19/shared/preCICE/Makefile` and change the $PRFX in line 6 of Makefile to match your own set-up. 
 
 ```bash 
-sed -i 's|spoolesMPI.h|../SPOOLES.2.2/MPI.h|' ccx_2.20.c
-make clean
-make -DCALCULIX_MPI
+make clean 
+make 
 ```
-
-
-
 
 
 ## Example run script: 
@@ -205,57 +199,42 @@ make -DCALCULIX_MPI
 
 #SBATCH --job-name=test_job
 #SBATCH --nodes=2
+#SBATCH --exclusive
 #SBATCH --time=1:00:00
 #SBATCH --hint=nomultithread
 #SBATCH --distribution=block:block
 
 # Replace [budget code] below with your project code (e.g. t01)
-#SBATCH --account=[budget code]
+#SBATCH --account=z19
 #SBATCH --partition=standard
 #SBATCH --qos=standard
 
-module load PrgEnv-gnu
-
 # Set the prefix
-PRFX=/path/to/your/user/work
+PRFX=/work/z19/z19/eleanorb/queries/
 
 # OpenFOAM
-module load openfoam/com/v2212
+module load PrgEnv-gnu
+module load openfoam/2412
 source ${FOAM_INSTALL_DIR}/etc/bashrc
 
 # Paths to preCICE
-export PATH=$PRFX/precice-2.5.0/bin:$PATH:$PRFX/adapter-install
-export LD_LIBRARY_PATH=$PRFX/precice-2.5.0/lib64:/work/y07/shared/libs/core/boost/1.72.0/GNU/9.3/lib/:$LD_LIBRARY_PATH:$PRFX/adapter-install
-export CPATH=$PRFX/precice/include:$CPATH
-export PKG_CONFIG_PATH=$PRFX/precice-2.5.0/lib64/pkgconfig:$PKG_CONFIG_PATH
+export PATH=$PRFX/preCICE/precice-3.3.1:$PATH
+export LD_LIBRARY_PATH=$PRFX/preCICE/precice-3.3.1/lib64:$PRFX/preCICE/boost/lib:$LD_LIBRARY_PATH
+export CPATH=$PRFX/preCICE/precice-3.3.1/include:$CPATH
+export PKG_CONFIG_PATH=$PRFX/preCICE/precice-3.3.1/lib64/pkgconfig:$PKG_CONFIG_PATH
+
+export PATH=$PRFX/preCICE/precice-3.3.1/bin:$PATH:$PRFX/preCICE/adapter-install
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PRFX/preCICE/adapter-install
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PRFX/preCICE/yaml-cpp-yaml-cpp-0.6.2
+export PATH=$PATH:$PRFX/preCICE/yaml-cpp-yaml-cpp-0.6.2
 
 # Paths to CalculiX
-export PATH=$PRFX/CalculiX/ccx_2.20/src/:$PATH
-export PATH=$PRFX/calculix-adapter-master/bin:$PATH
-
-# Paths to yaml + user boost 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/work/z19/z19/eleanorb/queries/preCICE+Calculix/yaml-cpp-yaml-cpp-0.6.2/build/:$PRFX/boost/lib
-export PATH=$PATH:/work/z19/z19/eleanorb/queries/preCICE+Calculix/yaml-cpp-yaml-cpp-0.6.2/build/:$PRFX/boost 
+export PATH=$PRFX/preCICE/CalculiX/ccx_2.20/src/:$PATH
+export PATH=$PRFX/preCICE/calculix-adapter-master/bin:$PATH
 
 export OMP_NUM_THREADS=1
 
-  cd $PRFX/test-1
-  decomposePar -force
-  srun --ntasks=248 --cpus-per-task=${OMP_NUM_THREADS} \
-     --exact --mem=25000M pimpleFoam -parallel &
-
-export OMP_NUM_THREADS=8
-   cd $PRFX/test-2
-   srun --ntasks=1 --cpus-per-task=${OMP_NUM_THREADS} \
-     --exact --mem=25000M ccx_preCICE -i flap -precice-participant Solid &
-      
-# Wait for all subjobs to finish
-wait
+which pimpleFoam
+which ccx_preCICE
 ```
-
-
-> Note: 
-> On ARCHER2 the `precice-config.xml` file will need to use the following for multi-node execution: 
-> `<m2n:sockets from="Fluid" to="Solid" network="hsn0" exchange-directory=".." /`
-> 
-> See preCICE documentation [here](https://precice.org/configuration-communication.html).

@@ -14,5 +14,5 @@ History
 
 Date | Person | System | Version | Instructions | 
 ---- | -------|--------|---------|------
-Feb 9, 2024 | Eleanor Broadway | ARCHER2 | v2.5.0 | [archer2_precice-v2.5.0.md](archer2_precice-v2.5.0.md) | 
-Mar 13, 2026 | Eleanor Broadway | Cirrus | v3.3.1 | [cirrus_precice-v3.3.3.1.md](cirrus_precice-v3.3.3.1.md) | 
+| Feb 9, 2024 | Eleanor Broadway | ARCHER2 | v2.5.0 | [archer2_precice-v2.5.0.md](archer2_precice-v2.5.0.md) | 
+| April 1, 2026 | Eleanor Broadway | Cirrus | v3.3.1 | [cirrus_precice-v3.3.3.1.md](cirrus_precice-v3.3.3.1.md) | 
