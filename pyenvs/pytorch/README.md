@@ -7,6 +7,8 @@ PyTorch is an open source machine learning framework.
 
 https://pytorch.org/
 
+Please note, the Cirrus build instructions on this page refer to the old SGI ICE XA Cirrus System.
+
 
 History
 -------
@@ -14,9 +16,7 @@ History
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
 2024-02-15 | Michael Bareford | ARCHER2 | 2.2.0 | Build instructions for ARCHER2 for CPU nodes
-2023-05-31 | Michael Bareford | ARCHER2 | 2.0.0 | Build instructions for ARCHER2 for CPU nodes
 2023-05-31 | Michael Bareford | ARCHER2 | 1.13.1 | Build instructions for ARCHER2 for GPU nodes
-2023-08-11 | Michael Bareford | ARCHER2 | 1.10.2 | Build instructions for ARCHER2 for CPU nodes
 2024-06-12 | Michael Bareford | Cirrus | 2.3.1 | Build instructions for Cirrus for GPU nodes
 2024-06-12 | Michael Bareford | Cirrus | 2.3.1 | Build instructions for Cirrus for CPU nodes
 2024-02-15 | Michael Bareford | Cirrus | 2.2.0 | Build instructions for Cirrus for GPU nodes
@@ -27,9 +27,7 @@ Installation Instructions
 -------------------------
 
 * [PyTorch 2.2.0 ARCHER2 Build Instructions (CPU)](build_pytorch_2.2.0_archer2_cpu.md)
-* [PyTorch 2.0.0 ARCHER2 Build Instructions (CPU)](build_pytorch_2.0.0_archer2_cpu.md)
 * [PyTorch 1.13.1 ARCHER2 Build Instructions (GPU)](build_pytorch_1.13.1_archer2_gpu.md)
-* [PyTorch 1.10.2 ARCHER2 Build Instructions (CPU)](build_pytorch_1.10.2_archer2_cpu.md)
 * [PyTorch 2.3.1 Cirrus Build Instructions (GPU)](build_pytorch_2.3.1_cirrus_gpu.md)
 * [PyTorch 2.3.1 Cirrus Build Instructions (CPU)](build_pytorch_2.3.1_cirrus_cpu.md)
 * [PyTorch 2.2.0 Cirrus Build Instructions (GPU)](build_pytorch_2.2.0_cirrus_gpu.md)
@@ -39,6 +37,7 @@ Installation Instructions
 Build Instructions from source
 ------------------------------
 
+* [PyTorch 2.9.1 ARCHER2 Installation Instructions (source build) (CPU)](build_pytorch_2.9.1a0_from_source_archer2_cpu.md)
 * [PyTorch 1.13.1 ARCHER2 Installation Instructions (source build) (CPU)](build_pytorch_1.13.0a0_from_source_archer2_cpu.md)
 
 Notes
