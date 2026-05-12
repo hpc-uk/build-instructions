@@ -5,9 +5,12 @@ These instructions show how to install PyTorch 2.9.1 for use on the ARCHER2 GPU 
 
 The ROCm Collective Communications Library (RCCL) can be used, via the `torch.distributed` module, to run PyTorch across multiple GPU nodes.
 
-The first step is to shell into a container, one that replicates the Python envionment present on the GPU.
+First, move to a folder appropriate for your ARCHER2 project, before shelling into a container, one that replicates the Python envionment present
+on the GPU node.
 
 ```bash
+cd /path/to/work  # e.g. /work/y07/shared/python/core/pytorch
+
 module use /work/y07/shared/archer2-lmod/others/dev
 module load ccpe/25.09-rocm-6.3.4
 
@@ -16,7 +19,7 @@ singularity shell --cleanenv --bind ${PWD} ${CCPE_IMAGE_FILE}
 
 The above commands need to be run from an ARCHER2 login node in order for the pip install commands to work.
 
-From within the container, we source a script.
+From within the container, we first source a scrspt.
 
 
 ```bash
@@ -25,7 +28,7 @@ source /etc/bash.bashrc.local
 
 This will generate an error, `The following module(s) are unknown: "xpmem" "libfabric"`, this can be ignored however.
 
-Staying inside the container, simply run the following commands to install PyTorch 2.9.1.
+Staying inside the container, simply run the following commands to install PyTorch 2.9.1 to a location on the login node.
 Remember to change the setting for `PRFX` to a path appropriate for your ARCHER2 project.
 
 ```bash
