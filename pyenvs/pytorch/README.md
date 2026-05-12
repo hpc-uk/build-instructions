@@ -15,6 +15,7 @@ History
 
 Date | Person | System | Version | Notes
 ---- | -------|--------|---------|------
+2026-05-12 | Michael Bareford | ARCHER2 | 2.9.1 | Build instructions for ARCHER2 for GPU nodes
 2024-02-15 | Michael Bareford | ARCHER2 | 2.2.0 | Build instructions for ARCHER2 for CPU nodes
 2023-05-31 | Michael Bareford | ARCHER2 | 1.13.1 | Build instructions for ARCHER2 for GPU nodes
 2024-06-12 | Michael Bareford | Cirrus | 2.3.1 | Build instructions for Cirrus for GPU nodes
@@ -26,6 +27,7 @@ Date | Person | System | Version | Notes
 Installation Instructions
 -------------------------
 
+* [PyTorch 2.9.1 ARCHER2 Build Instructions (GPU)](build_pytorch_2.9.1_archer2_gpu.md)
 * [PyTorch 2.2.0 ARCHER2 Build Instructions (CPU)](build_pytorch_2.2.0_archer2_cpu.md)
 * [PyTorch 1.13.1 ARCHER2 Build Instructions (GPU)](build_pytorch_1.13.1_archer2_gpu.md)
 * [PyTorch 2.3.1 Cirrus Build Instructions (GPU)](build_pytorch_2.3.1_cirrus_gpu.md)
